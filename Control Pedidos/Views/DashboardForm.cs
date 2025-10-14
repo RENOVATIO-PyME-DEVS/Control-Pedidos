@@ -57,5 +57,10 @@ namespace Control_Pedidos.Views
                 ordersForm.ShowDialog();
             }
         }
+
+        private void DashboardForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

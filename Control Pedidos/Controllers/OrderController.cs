@@ -18,7 +18,8 @@ namespace Control_Pedidos.Controllers
 
         public DataTable GetOrderTable()
         {
-            const string query = @"SELECT o.id AS Id, c.name AS Cliente, e.name AS Evento, o.status AS Estado, o.total_amount AS Total, o.balance AS SaldoPendiente, o.delivery_date AS FechaEntrega FROM orders o INNER JOIN customers c ON o.customer_id = c.id INNER JOIN events e ON o.event_id = e.id ORDER BY o.created_at DESC";
+            const string query = @"SELECT o.id AS Id, c.name AS Cliente, e.name AS Evento, o.status AS Estado, o.total_amount AS Total, o.balance AS SaldoPendiente, o.delivery_date AS FechaEntrega 
+                                    FROM orders o INNER JOIN customers c ON o.customer_id = c.id INNER JOIN events e ON o.event_id = e.id ORDER BY o.created_at DESC";
 
             using (var connection = _connectionFactory.Create())
             using (var adapter = new MySqlDataAdapter(query, connection))

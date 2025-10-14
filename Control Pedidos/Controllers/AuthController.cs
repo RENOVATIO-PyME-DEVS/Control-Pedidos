@@ -21,7 +21,7 @@ namespace Control_Pedidos.Controllers
                 return false;
             }
 
-            const string query = @"SELECT role FROM users WHERE username = @username AND password_hash = SHA2(@password, 256)";
+            const string query = @"SELECT rol_usuario_id FROM usuarios WHERE correo = @username AND pass = SHA2(@password, 256)";
 
             try
             {

@@ -1,0 +1,43 @@
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.csproj.AssemblyReference.cache
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Properties.Resources.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.csproj.GenerateResource.cache
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.csproj.CoreCompileInputs.cache
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\Control Pedidos.exe.config
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\Control Pedidos.exe
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\Control Pedidos.pdb
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\BouncyCastle.Cryptography.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\Google.Protobuf.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\K4os.Compression.LZ4.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\K4os.Compression.LZ4.Streams.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\K4os.Hash.xxHash.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\MySql.Data.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Buffers.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.IO.Pipelines.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Memory.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\ZstdSharp.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\BouncyCastle.Cryptography.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\Google.Protobuf.pdb
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\Google.Protobuf.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\K4os.Compression.LZ4.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\K4os.Compression.LZ4.Streams.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\K4os.Hash.xxHash.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\MySql.Data.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Buffers.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Configuration.ConfigurationManager.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.IO.Pipelines.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Memory.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control .B9C08F3E.Up2Date
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.exe
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.pdb
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.exe.config
