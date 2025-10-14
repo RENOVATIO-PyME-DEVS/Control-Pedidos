@@ -13,7 +13,7 @@ namespace Control_Pedidos.Models
         public DateTime FechaEntrega { get; set; }
         public TimeSpan? HoraEntrega { get; set; }
         public bool RequiereFactura { get; set; }
-        public string? Notas { get; set; }
+        public string Notas { get; set; }
         public DateTime FechaCreacion { get; set; }
         public string Estatus { get; set; } = string.Empty;
         public decimal Total { get; set; }

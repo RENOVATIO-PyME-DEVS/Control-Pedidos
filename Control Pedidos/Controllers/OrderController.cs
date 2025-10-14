@@ -176,12 +176,12 @@ VALUES
                 command.Parameters.AddWithValue("@usuarioId", pedido.Usuario.Id);
                 command.Parameters.AddWithValue("@empresaId", pedido.Empresa.Id);
                 command.Parameters.AddWithValue("@clienteId", pedido.Cliente.Id);
-                command.Parameters.AddWithValue("@folio", (object?)pedido.Folio ?? DBNull.Value);
+                command.Parameters.AddWithValue("@folio", pedido.Folio.HasValue ? (object)pedido.Folio.Value : DBNull.Value);
                 command.Parameters.AddWithValue("@fecha", pedido.Fecha);
                 command.Parameters.AddWithValue("@fechaEntrega", pedido.FechaEntrega);
                 command.Parameters.AddWithValue("@horaEntrega", pedido.HoraEntrega.HasValue ? (object)pedido.HoraEntrega.Value : DBNull.Value);
                 command.Parameters.AddWithValue("@requiereFactura", pedido.RequiereFactura ? "S" : "N");
-                command.Parameters.AddWithValue("@notas", (object?)pedido.Notas ?? DBNull.Value);
+                command.Parameters.AddWithValue("@notas", string.IsNullOrEmpty(pedido.Notas) ? (object)DBNull.Value : pedido.Notas);
                 command.Parameters.AddWithValue("@fechaCreacion", pedido.FechaCreacion);
                 command.Parameters.AddWithValue("@estatus", pedido.Estatus);
 
@@ -211,12 +211,12 @@ WHERE pedido_id = @id";
                 command.Parameters.AddWithValue("@usuarioId", pedido.Usuario.Id);
                 command.Parameters.AddWithValue("@empresaId", pedido.Empresa.Id);
                 command.Parameters.AddWithValue("@clienteId", pedido.Cliente.Id);
-                command.Parameters.AddWithValue("@folio", (object?)pedido.Folio ?? DBNull.Value);
+                command.Parameters.AddWithValue("@folio", pedido.Folio.HasValue ? (object)pedido.Folio.Value : DBNull.Value);
                 command.Parameters.AddWithValue("@fecha", pedido.Fecha);
                 command.Parameters.AddWithValue("@fechaEntrega", pedido.FechaEntrega);
                 command.Parameters.AddWithValue("@horaEntrega", pedido.HoraEntrega.HasValue ? (object)pedido.HoraEntrega.Value : DBNull.Value);
                 command.Parameters.AddWithValue("@requiereFactura", pedido.RequiereFactura ? "S" : "N");
-                command.Parameters.AddWithValue("@notas", (object?)pedido.Notas ?? DBNull.Value);
+                command.Parameters.AddWithValue("@notas", string.IsNullOrEmpty(pedido.Notas) ? (object)DBNull.Value : pedido.Notas);
                 command.Parameters.AddWithValue("@estatus", pedido.Estatus);
                 command.Parameters.AddWithValue("@id", pedido.Id);
 
