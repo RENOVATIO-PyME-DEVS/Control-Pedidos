@@ -21,7 +21,11 @@ namespace Control_Pedidos.Controllers
                 return false;
             }
 
-            const string query = @"SELECT rol_usuario_id FROM usuarios WHERE correo = @username AND pass = SHA2(@password, 256)";
+            const string query = @"SELECT rol_usuario_id
+                                    FROM usuarios
+                                    WHERE correo = @username
+                                      AND pass = SHA2(@password, 256)
+                                      AND (estatus IS NULL OR estatus <> 'B')";
 
             try
             {

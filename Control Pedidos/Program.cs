@@ -39,10 +39,13 @@ namespace Control_Pedidos
             }
 
             var authController = new AuthController(connectionFactory);
-            using (var loginForm = new LoginForm(authController))
+            var userPreferences = UserPreferences.Load();
+            using (var loginForm = new LoginForm(authController, userPreferences.LastUsername))
             {
                 if (loginForm.ShowDialog() == DialogResult.OK)
                 {
+                    userPreferences.LastUsername = loginForm.AuthenticatedUser;
+                    userPreferences.Save();
                     config.Save();
                     Application.Run(new DashboardForm(loginForm.AuthenticatedUser, loginForm.AuthenticatedRole, connectionFactory));
                 }
