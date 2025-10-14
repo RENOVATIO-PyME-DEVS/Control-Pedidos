@@ -102,6 +102,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Data\DatabaseConfig.cs" />
+    <Compile Include="Data\UserPreferences.cs" />
     <Compile Include="Data\DatabaseConnectionFactory.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Empresa.cs" />

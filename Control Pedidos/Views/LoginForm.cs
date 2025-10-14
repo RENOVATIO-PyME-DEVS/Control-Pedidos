@@ -11,10 +11,20 @@ namespace Control_Pedidos.Views
         public string AuthenticatedRole { get; private set; }
         public string AuthenticatedUser { get; private set; }
 
-        public LoginForm(AuthController authController)
+        public LoginForm(AuthController authController, string lastUsername)
         {
             _authController = authController;
             InitializeComponent();
+            if (!string.IsNullOrEmpty(lastUsername))
+            {
+                usernameTextBox.Text = lastUsername;
+                usernameTextBox.SelectionStart = usernameTextBox.Text.Length;
+            }
+        }
+
+        public LoginForm(AuthController authController)
+            : this(authController, string.Empty)
+        {
         }
 
         private void loginButton_Click(object sender, EventArgs e)
