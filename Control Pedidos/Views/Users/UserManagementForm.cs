@@ -21,6 +21,7 @@ namespace Control_Pedidos.Views.Users
         public UserManagementForm(DatabaseConnectionFactory connectionFactory)
         {
             InitializeComponent();
+            UIStyles.ApplyTheme(this);
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
 
             statusComboBox.DataSource = new[] { "Activo", "Inactivo" };

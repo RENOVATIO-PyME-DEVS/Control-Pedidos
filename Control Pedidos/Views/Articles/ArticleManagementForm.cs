@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using Control_Pedidos.Data;
+using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
 
 namespace Control_Pedidos.Views.Articles
@@ -22,6 +23,7 @@ namespace Control_Pedidos.Views.Articles
         public ArticleManagementForm(DatabaseConnectionFactory connectionFactory)
         {
             InitializeComponent();
+            UIStyles.ApplyTheme(this);
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
 
             typeComboBox.DataSource = new[] { "normal", "kit" };

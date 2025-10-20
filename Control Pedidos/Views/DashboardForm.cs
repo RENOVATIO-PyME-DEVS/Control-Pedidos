@@ -3,6 +3,7 @@ using System.Data;
 using System.Windows.Forms;
 using Control_Pedidos.Controllers;
 using Control_Pedidos.Data;
+using Control_Pedidos.Helpers;
 using Control_Pedidos.Views.Articles;
 using Control_Pedidos.Views.Clients;
 using Control_Pedidos.Views.Users;
@@ -18,6 +19,7 @@ namespace Control_Pedidos.Views
         public DashboardForm(string username, string role, DatabaseConnectionFactory connectionFactory)
         {
             InitializeComponent();
+            UIStyles.ApplyTheme(this);
 
             _connectionFactory = connectionFactory;
             _orderController = new OrderController(connectionFactory);

@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using Control_Pedidos.Data;
+using Control_Pedidos.Helpers;
 
 namespace Control_Pedidos.Views.Settings
 {
@@ -11,6 +12,7 @@ namespace Control_Pedidos.Views.Settings
         public DatabaseSettingsForm(DatabaseConfig existingConfig = null)
         {
             InitializeComponent();
+            UIStyles.ApplyTheme(this);
             if (existingConfig != null)
             {
                 hostTextBox.Text = existingConfig.Host;
