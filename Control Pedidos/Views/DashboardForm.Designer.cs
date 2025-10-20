@@ -22,6 +22,8 @@ namespace Control_Pedidos.Views
             this.refreshButton = new System.Windows.Forms.Button();
             this.ordersButton = new System.Windows.Forms.Button();
             this.usersButton = new System.Windows.Forms.Button();
+            this.clientsButton = new System.Windows.Forms.Button();
+            this.articlesButton = new System.Windows.Forms.Button();
             this.activeOrdersGroupBox = new System.Windows.Forms.GroupBox();
             this.activeOrdersCountLabel = new System.Windows.Forms.Label();
             this.countCaptionLabel = new System.Windows.Forms.Label();
@@ -61,9 +63,9 @@ namespace Control_Pedidos.Views
             this.refreshButton.Text = "Actualizar";
             this.refreshButton.UseVisualStyleBackColor = true;
             this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
-            // 
+            //
             // ordersButton
-            // 
+            //
             this.ordersButton.Location = new System.Drawing.Point(37, 101);
             this.ordersButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ordersButton.Name = "ordersButton";
@@ -82,6 +84,29 @@ namespace Control_Pedidos.Views
             this.usersButton.TabIndex = 4;
             this.usersButton.Text = "Usuarios";
             this.usersButton.UseVisualStyleBackColor = true;
+            this.usersButton.Click += new System.EventHandler(this.usersButton_Click);
+            //
+            // clientsButton
+            //
+            this.clientsButton.Location = new System.Drawing.Point(445, 101);
+            this.clientsButton.Margin = new System.Windows.Forms.Padding(4);
+            this.clientsButton.Name = "clientsButton";
+            this.clientsButton.Size = new System.Drawing.Size(183, 42);
+            this.clientsButton.TabIndex = 5;
+            this.clientsButton.Text = "Clientes";
+            this.clientsButton.UseVisualStyleBackColor = true;
+            this.clientsButton.Click += new System.EventHandler(this.clientsButton_Click);
+            //
+            // articlesButton
+            //
+            this.articlesButton.Location = new System.Drawing.Point(649, 101);
+            this.articlesButton.Margin = new System.Windows.Forms.Padding(4);
+            this.articlesButton.Name = "articlesButton";
+            this.articlesButton.Size = new System.Drawing.Size(183, 42);
+            this.articlesButton.TabIndex = 6;
+            this.articlesButton.Text = "Artículos";
+            this.articlesButton.UseVisualStyleBackColor = true;
+            this.articlesButton.Click += new System.EventHandler(this.articlesButton_Click);
             // 
             // activeOrdersGroupBox
             // 
@@ -140,6 +165,8 @@ namespace Control_Pedidos.Views
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1025, 543);
             this.Controls.Add(this.activeOrdersGroupBox);
+            this.Controls.Add(this.articlesButton);
+            this.Controls.Add(this.clientsButton);
             this.Controls.Add(this.usersButton);
             this.Controls.Add(this.ordersButton);
             this.Controls.Add(this.refreshButton);
@@ -165,6 +192,8 @@ namespace Control_Pedidos.Views
         private System.Windows.Forms.Button refreshButton;
         private System.Windows.Forms.Button ordersButton;
         private System.Windows.Forms.Button usersButton;
+        private System.Windows.Forms.Button clientsButton;
+        private System.Windows.Forms.Button articlesButton;
         private System.Windows.Forms.GroupBox activeOrdersGroupBox;
         private System.Windows.Forms.DataGridView activeOrdersGrid;
         private System.Windows.Forms.Label activeOrdersCountLabel;
