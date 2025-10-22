@@ -19,34 +19,35 @@ namespace Control_Pedidos.Controllers
         public DataTable GetOrderTable()
         {
             const string query = @"SELECT
-    p.pedido_id AS Id,
-    p.folio AS Folio,
-    c.nombre AS Cliente,
-    e.nombre AS Empresa,
-    u.nombre AS Usuario,
-    p.estatus AS Estatus,
-    p.fecha AS Fecha,
-    p.fecha_entrega AS FechaEntrega,
-    p.hora_entrega AS HoraEntrega,
-    p.requiere_factura AS RequiereFactura,
-    p.notas AS Notas,
-    IFNULL(det.TotalPedido, 0) AS Total,
-    IFNULL(det.TotalPedido, 0) - IFNULL(cob.Cobrado, 0) AS SaldoPendiente
-FROM pedidos p
-INNER JOIN clientes c ON p.cliente_id = c.cliente_id
-INNER JOIN empresas e ON p.empresa_id = e.empresa_id
-INNER JOIN usuarios u ON p.usuario_id = u.usuario_id
-LEFT JOIN (
-    SELECT pedido_id, SUM(total) AS TotalPedido
-    FROM pedidos_detalles
-    GROUP BY pedido_id
-) det ON det.pedido_id = p.pedido_id
-LEFT JOIN (
-    SELECT pedido_id, SUM(monto) AS Cobrado
-    FROM cobros_pedidos_det
-    GROUP BY pedido_id
-) cob ON cob.pedido_id = p.pedido_id
-ORDER BY p.fecha_creacion DESC";
+                    p.pedido_id AS Id,
+                    p.folio AS Folio,
+                    c.nombre AS Cliente,
+                    e.nombre AS Empresa,
+                    u.nombre AS Usuario,
+                    p.estatus AS Estatus,
+                    p.fecha AS Fecha,
+                    p.fecha_entrega AS FechaEntrega,
+                    p.hora_entrega AS HoraEntrega,
+                    p.requiere_factura AS RequiereFactura,
+                    p.notas AS Notas,
+                    IFNULL(det.TotalPedido, 0) AS Total,
+                    IFNULL(det.TotalPedido, 0) - IFNULL(cob.Cobrado, 0) AS SaldoPendiente
+                FROM pedidos p
+                INNER JOIN clientes c ON p.cliente_id = c.cliente_id
+                INNER JOIN empresas e ON p.empresa_id = e.empresa_id
+                INNER JOIN usuarios u ON p.usuario_id = u.usuario_id
+                LEFT JOIN (
+                    SELECT pedido_id, SUM(total) AS TotalPedido
+                    FROM pedidos_detalles
+                    GROUP BY pedido_id
+                ) det ON det.pedido_id = p.pedido_id
+                LEFT JOIN (
+                    SELECT p.pedido_id, SUM(cp.monto) AS Cobrado
+                    FROM cobros_pedidos cp
+                    left join cobros_pedidos_det p on p.cobro_pedido_id = cp.cobro_pedido_id
+                    GROUP BY p.pedido_id
+                ) cob ON cob.pedido_id = p.pedido_id
+                ORDER BY p.fecha_creacion DESC";
 
             using (var connection = _connectionFactory.Create())
             using (var adapter = new MySqlDataAdapter(query, connection))
@@ -148,7 +149,7 @@ ORDER BY p.fecha_creacion DESC";
                                 Id = reader.GetInt32("usuario_id"),
                                 Nombre = reader.GetString("UsuarioNombre"),
                                 Correo = reader.GetString("UsuarioCorreo"),
-                                RolUsuarioId = reader.IsDBNull(reader.GetOrdinal("rol_usuario_id")) ? null : reader.GetInt32("rol_usuario_id"),
+                                RolUsuarioId = reader.IsDBNull(reader.GetOrdinal("rol_usuario_id")) ? 0 : reader.GetInt32("rol_usuario_id"),
                                 Estatus = reader.IsDBNull(reader.GetOrdinal("UsuarioEstatus")) ? string.Empty : reader.GetString("UsuarioEstatus"),
                                 FechaCreacion = reader.IsDBNull(reader.GetOrdinal("UsuarioFechaCreacion")) ? (DateTime?)null : reader.GetDateTime("UsuarioFechaCreacion"),
                                 FechaBaja = reader.IsDBNull(reader.GetOrdinal("UsuarioFechaBaja")) ? (DateTime?)null : reader.GetDateTime("UsuarioFechaBaja")

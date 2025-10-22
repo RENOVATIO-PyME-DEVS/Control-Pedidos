@@ -181,6 +181,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Clients\ClientManagementForm.resx">
+      <DependentUpon>ClientManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\DashboardForm.resx">
       <DependentUpon>DashboardForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -39,41 +39,46 @@ namespace Control_Pedidos.Views
             // usernameLabel
             // 
             this.usernameLabel.AutoSize = true;
-            this.usernameLabel.Location = new System.Drawing.Point(28, 24);
+            this.usernameLabel.Location = new System.Drawing.Point(37, 30);
+            this.usernameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.usernameLabel.Name = "usernameLabel";
-            this.usernameLabel.Size = new System.Drawing.Size(113, 13);
+            this.usernameLabel.Size = new System.Drawing.Size(110, 16);
             this.usernameLabel.TabIndex = 0;
             this.usernameLabel.Text = "Usuario o correo:";
             // 
             // passwordLabel
             // 
             this.passwordLabel.AutoSize = true;
-            this.passwordLabel.Location = new System.Drawing.Point(28, 79);
+            this.passwordLabel.Location = new System.Drawing.Point(37, 97);
+            this.passwordLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.passwordLabel.Name = "passwordLabel";
-            this.passwordLabel.Size = new System.Drawing.Size(64, 13);
+            this.passwordLabel.Size = new System.Drawing.Size(76, 16);
             this.passwordLabel.TabIndex = 1;
             this.passwordLabel.Text = "Contraseña";
             // 
             // usernameTextBox
             // 
-            this.usernameTextBox.Location = new System.Drawing.Point(31, 40);
+            this.usernameTextBox.Location = new System.Drawing.Point(41, 49);
+            this.usernameTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.usernameTextBox.Name = "usernameTextBox";
-            this.usernameTextBox.Size = new System.Drawing.Size(234, 20);
+            this.usernameTextBox.Size = new System.Drawing.Size(311, 22);
             this.usernameTextBox.TabIndex = 2;
             // 
             // passwordTextBox
             // 
-            this.passwordTextBox.Location = new System.Drawing.Point(31, 95);
+            this.passwordTextBox.Location = new System.Drawing.Point(41, 117);
+            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.PasswordChar = '*';
-            this.passwordTextBox.Size = new System.Drawing.Size(234, 20);
+            this.passwordTextBox.Size = new System.Drawing.Size(311, 22);
             this.passwordTextBox.TabIndex = 3;
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(31, 140);
+            this.loginButton.Location = new System.Drawing.Point(41, 172);
+            this.loginButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.loginButton.Name = "loginButton";
-            this.loginButton.Size = new System.Drawing.Size(234, 28);
+            this.loginButton.Size = new System.Drawing.Size(312, 34);
             this.loginButton.TabIndex = 4;
             this.loginButton.Text = "Iniciar sesión";
             this.loginButton.UseVisualStyleBackColor = true;
@@ -83,17 +88,18 @@ namespace Control_Pedidos.Views
             // 
             this.messageLabel.AutoSize = true;
             this.messageLabel.ForeColor = System.Drawing.Color.Maroon;
-            this.messageLabel.Location = new System.Drawing.Point(31, 182);
+            this.messageLabel.Location = new System.Drawing.Point(41, 224);
+            this.messageLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.messageLabel.Name = "messageLabel";
-            this.messageLabel.Size = new System.Drawing.Size(0, 13);
+            this.messageLabel.Size = new System.Drawing.Size(0, 16);
             this.messageLabel.TabIndex = 5;
             // 
             // LoginForm
             // 
             this.AcceptButton = this.loginButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(301, 214);
+            this.ClientSize = new System.Drawing.Size(401, 263);
             this.Controls.Add(this.messageLabel);
             this.Controls.Add(this.loginButton);
             this.Controls.Add(this.passwordTextBox);
@@ -101,11 +107,12 @@ namespace Control_Pedidos.Views
             this.Controls.Add(this.passwordLabel);
             this.Controls.Add(this.usernameLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Control de pedidos - Login";
+            this.Text = "Banquetes";
             this.ResumeLayout(false);
             this.PerformLayout();
 

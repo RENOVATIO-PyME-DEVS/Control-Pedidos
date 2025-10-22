@@ -3,28 +3,51 @@
   "WorkspaceRootPath": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\views\\dashboardform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\views\\dashboardform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|c:\\users\\guada\\music\\vs2022\\control-pedidos\\control pedidos\\views\\clients\\clientmanagementform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\views\\clients\\clientmanagementform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|c:\\users\\guada\\music\\vs2022\\control-pedidos\\control pedidos\\views\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\views\\clients\\clientmanagementform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\views\\clients\\clientmanagementform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\helpers\\uistyles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\helpers\\uistyles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\views\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\views\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\views\\settings\\databasesettingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\views\\settings\\databasesettingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\views\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\views\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|c:\\users\\guada\\music\\vs2022\\control-pedidos\\control pedidos\\views\\settings\\databasesettingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|Control Pedidos||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\views\\dashboardform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\views\\dashboardform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\views\\dashboardform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\views\\dashboardform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\views\\settings\\databasesettingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\views\\settings\\databasesettingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\views\\settings\\databasesettingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\views\\settings\\databasesettingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|solutionrelative:control pedidos\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D29B400C-A69E-49B6-8CE5-EC0C3435C2F8}|Control Pedidos\\Control Pedidos.csproj|C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\control pedidos\\views\\orders\\ordermanagementform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -38,7 +61,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 30,
+          "SelectedChildIndex": 26,
           "Children": [
             {
               "$type": "Bookmark",
@@ -143,6 +166,67 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "ClientManagementForm.cs",
+              "DocumentMoniker": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\Clients\\ClientManagementForm.cs",
+              "RelativeDocumentMoniker": "Control Pedidos\\Views\\Clients\\ClientManagementForm.cs",
+              "ToolTip": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\Clients\\ClientManagementForm.cs",
+              "RelativeToolTip": "Control Pedidos\\Views\\Clients\\ClientManagementForm.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAmwGAAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-22T14:43:12.095Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ClientManagementForm.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\Clients\\ClientManagementForm.cs",
+              "RelativeDocumentMoniker": "Control Pedidos\\Views\\Clients\\ClientManagementForm.cs",
+              "ToolTip": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\Clients\\ClientManagementForm.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Control Pedidos\\Views\\Clients\\ClientManagementForm.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-20T19:48:10.539Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UIStyles.cs",
+              "DocumentMoniker": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Helpers\\UIStyles.cs",
+              "RelativeDocumentMoniker": "Control Pedidos\\Helpers\\UIStyles.cs",
+              "ToolTip": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Helpers\\UIStyles.cs",
+              "RelativeToolTip": "Control Pedidos\\Helpers\\UIStyles.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoBAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-20T18:42:40.168Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "Control Pedidos\\Controllers\\OrderController.cs",
+              "ToolTip": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "Control Pedidos\\Controllers\\OrderController.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAADwvzYAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-14T15:53:30.119Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "DashboardForm.cs",
+              "DocumentMoniker": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\DashboardForm.cs",
+              "RelativeDocumentMoniker": "Control Pedidos\\Views\\DashboardForm.cs",
+              "ToolTip": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\DashboardForm.cs",
+              "RelativeToolTip": "Control Pedidos\\Views\\DashboardForm.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAADwvxMAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-14T15:53:12.175Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "LoginForm.cs",
               "DocumentMoniker": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\LoginForm.cs",
               "RelativeDocumentMoniker": "Control Pedidos\\Views\\LoginForm.cs",
@@ -150,12 +234,11 @@
               "RelativeToolTip": "Control Pedidos\\Views\\LoginForm.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAawCcAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T15:47:51.684Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-14T15:47:51.684Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
               "Title": "DatabaseSettingsForm.cs",
               "DocumentMoniker": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\Settings\\DatabaseSettingsForm.cs",
               "RelativeDocumentMoniker": "Control Pedidos\\Views\\Settings\\DatabaseSettingsForm.cs",
@@ -163,25 +246,23 @@
               "RelativeToolTip": "Control Pedidos\\Views\\Settings\\DatabaseSettingsForm.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-09T21:04:25.091Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-09T21:04:25.091Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 11,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Control Pedidos\\Controllers\\AuthController.cs",
               "ToolTip": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Controllers\\AuthController.cs",
               "RelativeToolTip": "Control Pedidos\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAQwDAAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAhwBoAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-09T20:39:22.808Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-09T20:39:22.808Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 12,
               "Title": "OrderManagementForm.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\Orders\\OrderManagementForm.cs",
               "RelativeDocumentMoniker": "Control Pedidos\\Views\\Orders\\OrderManagementForm.cs",
@@ -203,27 +284,36 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DashboardForm.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\DashboardForm.cs",
-              "RelativeDocumentMoniker": "Control Pedidos\\Views\\DashboardForm.cs",
-              "ToolTip": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\DashboardForm.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Control Pedidos\\Views\\DashboardForm.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-09T20:36:15.573Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "LoginForm.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\LoginForm.cs",
               "RelativeDocumentMoniker": "Control Pedidos\\Views\\LoginForm.cs",
               "ToolTip": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\LoginForm.cs [Dise\u00F1o]",
               "RelativeToolTip": "Control Pedidos\\Views\\LoginForm.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-09T20:36:13.13Z",
-              "EditorCaption": " [Dise\u00F1o]"
+              "WhenOpened": "2025-10-09T20:36:13.13Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Control Pedidos",
+              "DocumentMoniker": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Control Pedidos.csproj",
+              "RelativeDocumentMoniker": "Control Pedidos\\Control Pedidos.csproj",
+              "ToolTip": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Control Pedidos.csproj",
+              "RelativeToolTip": "Control Pedidos\\Control Pedidos.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-10-14T16:46:19.492Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "DashboardForm.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\DashboardForm.cs",
+              "RelativeDocumentMoniker": "Control Pedidos\\Views\\DashboardForm.cs",
+              "ToolTip": "C:\\Users\\guada\\Music\\VS2022\\Control-Pedidos\\Control Pedidos\\Views\\DashboardForm.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Control Pedidos\\Views\\DashboardForm.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-09T20:36:15.573Z"
             }
           ]
         }

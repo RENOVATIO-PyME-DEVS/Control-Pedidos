@@ -266,7 +266,7 @@ namespace Control_Pedidos.Helpers
             button.BackColor = normal;
             button.ForeColor = textColor;
             button.FlatAppearance.BorderSize = borderSize;
-            button.FlatAppearance.BorderColor = borderSize > 0 ? AccentColor : Color.Transparent;
+            button.FlatAppearance.BorderColor = borderSize > 0 ? AccentColor : Color.Turquoise;
 
             button.MouseEnter += (_, __) =>
             {

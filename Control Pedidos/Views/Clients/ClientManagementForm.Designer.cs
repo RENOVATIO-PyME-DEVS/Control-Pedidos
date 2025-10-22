@@ -23,7 +23,6 @@ namespace Control_Pedidos.Views.Clients
             this.rfcTextBox = new System.Windows.Forms.TextBox();
             this.telefonoTextBox = new System.Windows.Forms.TextBox();
             this.correoTextBox = new System.Windows.Forms.TextBox();
-            this.direccionTextBox = new System.Windows.Forms.TextBox();
             this.statusComboBox = new System.Windows.Forms.ComboBox();
             this.addButton = new System.Windows.Forms.Button();
             this.updateButton = new System.Windows.Forms.Button();
@@ -34,7 +33,6 @@ namespace Control_Pedidos.Views.Clients
             this.rfcLabel = new System.Windows.Forms.Label();
             this.telefonoLabel = new System.Windows.Forms.Label();
             this.correoLabel = new System.Windows.Forms.Label();
-            this.direccionLabel = new System.Windows.Forms.Label();
             this.statusLabel = new System.Windows.Forms.Label();
             this.searchLabel = new System.Windows.Forms.Label();
             this.searchTextBox = new System.Windows.Forms.TextBox();
@@ -94,14 +92,6 @@ namespace Control_Pedidos.Views.Clients
             this.correoTextBox.Size = new System.Drawing.Size(240, 22);
             this.correoTextBox.TabIndex = 5;
             // 
-            // direccionTextBox
-            // 
-            this.direccionTextBox.Location = new System.Drawing.Point(24, 160);
-            this.direccionTextBox.Multiline = true;
-            this.direccionTextBox.Name = "direccionTextBox";
-            this.direccionTextBox.Size = new System.Drawing.Size(260, 80);
-            this.direccionTextBox.TabIndex = 6;
-            // 
             // statusComboBox
             // 
             this.statusComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -156,7 +146,7 @@ namespace Control_Pedidos.Views.Clients
             this.razonSocialLabel.AutoSize = true;
             this.razonSocialLabel.Location = new System.Drawing.Point(21, 28);
             this.razonSocialLabel.Name = "razonSocialLabel";
-            this.razonSocialLabel.Size = new System.Drawing.Size(87, 16);
+            this.razonSocialLabel.Size = new System.Drawing.Size(85, 16);
             this.razonSocialLabel.TabIndex = 12;
             this.razonSocialLabel.Text = "Razón social";
             // 
@@ -165,7 +155,7 @@ namespace Control_Pedidos.Views.Clients
             this.nombreComercialLabel.AutoSize = true;
             this.nombreComercialLabel.Location = new System.Drawing.Point(21, 84);
             this.nombreComercialLabel.Name = "nombreComercialLabel";
-            this.nombreComercialLabel.Size = new System.Drawing.Size(120, 16);
+            this.nombreComercialLabel.Size = new System.Drawing.Size(118, 16);
             this.nombreComercialLabel.TabIndex = 13;
             this.nombreComercialLabel.Text = "Nombre comercial";
             // 
@@ -174,7 +164,7 @@ namespace Control_Pedidos.Views.Clients
             this.rfcLabel.AutoSize = true;
             this.rfcLabel.Location = new System.Drawing.Point(317, 28);
             this.rfcLabel.Name = "rfcLabel";
-            this.rfcLabel.Size = new System.Drawing.Size(32, 16);
+            this.rfcLabel.Size = new System.Drawing.Size(34, 16);
             this.rfcLabel.TabIndex = 14;
             this.rfcLabel.Text = "RFC";
             // 
@@ -183,7 +173,7 @@ namespace Control_Pedidos.Views.Clients
             this.telefonoLabel.AutoSize = true;
             this.telefonoLabel.Location = new System.Drawing.Point(317, 84);
             this.telefonoLabel.Name = "telefonoLabel";
-            this.telefonoLabel.Size = new System.Drawing.Size(58, 16);
+            this.telefonoLabel.Size = new System.Drawing.Size(61, 16);
             this.telefonoLabel.TabIndex = 15;
             this.telefonoLabel.Text = "Teléfono";
             // 
@@ -192,25 +182,16 @@ namespace Control_Pedidos.Views.Clients
             this.correoLabel.AutoSize = true;
             this.correoLabel.Location = new System.Drawing.Point(317, 140);
             this.correoLabel.Name = "correoLabel";
-            this.correoLabel.Size = new System.Drawing.Size(47, 16);
+            this.correoLabel.Size = new System.Drawing.Size(48, 16);
             this.correoLabel.TabIndex = 16;
             this.correoLabel.Text = "Correo";
-            // 
-            // direccionLabel
-            // 
-            this.direccionLabel.AutoSize = true;
-            this.direccionLabel.Location = new System.Drawing.Point(21, 140);
-            this.direccionLabel.Name = "direccionLabel";
-            this.direccionLabel.Size = new System.Drawing.Size(62, 16);
-            this.direccionLabel.TabIndex = 17;
-            this.direccionLabel.Text = "Dirección";
             // 
             // statusLabel
             // 
             this.statusLabel.AutoSize = true;
             this.statusLabel.Location = new System.Drawing.Point(317, 196);
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(52, 16);
+            this.statusLabel.Size = new System.Drawing.Size(51, 16);
             this.statusLabel.TabIndex = 18;
             this.statusLabel.Text = "Estatus";
             // 
@@ -219,7 +200,7 @@ namespace Control_Pedidos.Views.Clients
             this.searchLabel.AutoSize = true;
             this.searchLabel.Location = new System.Drawing.Point(21, 284);
             this.searchLabel.Name = "searchLabel";
-            this.searchLabel.Size = new System.Drawing.Size(55, 16);
+            this.searchLabel.Size = new System.Drawing.Size(52, 16);
             this.searchLabel.TabIndex = 19;
             this.searchLabel.Text = "Buscar:";
             // 
@@ -239,7 +220,6 @@ namespace Control_Pedidos.Views.Clients
             this.Controls.Add(this.searchTextBox);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.statusLabel);
-            this.Controls.Add(this.direccionLabel);
             this.Controls.Add(this.correoLabel);
             this.Controls.Add(this.telefonoLabel);
             this.Controls.Add(this.rfcLabel);
@@ -250,7 +230,6 @@ namespace Control_Pedidos.Views.Clients
             this.Controls.Add(this.updateButton);
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.statusComboBox);
-            this.Controls.Add(this.direccionTextBox);
             this.Controls.Add(this.correoTextBox);
             this.Controls.Add(this.telefonoTextBox);
             this.Controls.Add(this.rfcTextBox);
@@ -277,7 +256,6 @@ namespace Control_Pedidos.Views.Clients
         private System.Windows.Forms.TextBox rfcTextBox;
         private System.Windows.Forms.TextBox telefonoTextBox;
         private System.Windows.Forms.TextBox correoTextBox;
-        private System.Windows.Forms.TextBox direccionTextBox;
         private System.Windows.Forms.ComboBox statusComboBox;
         private System.Windows.Forms.Button addButton;
         private System.Windows.Forms.Button updateButton;
@@ -288,7 +266,6 @@ namespace Control_Pedidos.Views.Clients
         private System.Windows.Forms.Label rfcLabel;
         private System.Windows.Forms.Label telefonoLabel;
         private System.Windows.Forms.Label correoLabel;
-        private System.Windows.Forms.Label direccionLabel;
         private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.Label searchLabel;
         private System.Windows.Forms.TextBox searchTextBox;
