@@ -18,8 +18,10 @@ namespace Control_Pedidos.Views
         private readonly string _user;
         private readonly string _userId;
         private readonly string _userEmail;
+        private readonly int _empresaId;
+        private readonly string _empresaNombre;
 
-        public DashboardForm(string usernameid, string usernamename, string usernamecorreo, string role, DatabaseConnectionFactory connectionFactory)
+        public DashboardForm(string usernameid, string usernamename, string usernamecorreo, string role, DatabaseConnectionFactory connectionFactory, int empresaId, string empresaNombre)
         {
             InitializeComponent();
             //UIStyles.ApplyTheme(this);
@@ -30,9 +32,12 @@ namespace Control_Pedidos.Views
             _user = usernamename;
             _userId = usernameid;
             _userEmail = usernamecorreo;
+            _empresaId = empresaId;
+            _empresaNombre = empresaNombre;
 
             welcomeLabel.Text = $"Bienvenido, {usernamename}";
             roleLabel.Text = $"Rol: {role}";
+            companyLabel.Text = $"Empresa: {empresaNombre}";
 
             var isAdmin = string.Equals(role, "Administrador", StringComparison.OrdinalIgnoreCase);
             usersButton.Enabled = isAdmin;
@@ -46,7 +51,7 @@ namespace Control_Pedidos.Views
         {
             try
             {
-                var table = _orderController.GetOrderTable();
+                var table = _orderController.GetOrderTable(_empresaId);
                 activeOrdersGrid.DataSource = table;
                 activeOrdersCountLabel.Text = table.Rows.Count.ToString();
             }
@@ -63,7 +68,7 @@ namespace Control_Pedidos.Views
 
         private void ordersButton_Click(object sender, EventArgs e)
         {
-            using (var ordersForm = new Orders.OrderManagementForm(_orderController))
+            using (var ordersForm = new Orders.OrderManagementForm(_orderController, _empresaId, _empresaNombre))
             {
                 ordersForm.ShowDialog();
             }

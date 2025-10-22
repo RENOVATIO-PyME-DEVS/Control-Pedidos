@@ -9,12 +9,20 @@ namespace Control_Pedidos.Views.Orders
     public partial class OrderManagementForm : Form
     {
         private readonly OrderController _orderController;
+        private readonly int _empresaId;
+        private readonly string _empresaNombre;
 
-        public OrderManagementForm(OrderController orderController)
+        public OrderManagementForm(OrderController orderController, int empresaId, string empresaNombre)
         {
             InitializeComponent();
             UIStyles.ApplyTheme(this);
             _orderController = orderController;
+            _empresaId = empresaId;
+            _empresaNombre = empresaNombre;
+            if (!string.IsNullOrWhiteSpace(_empresaNombre))
+            {
+                Text = $"Gestión de pedidos - {_empresaNombre}";
+            }
         }
 
         private void OrderManagementForm_Load(object sender, EventArgs e)
@@ -26,7 +34,7 @@ namespace Control_Pedidos.Views.Orders
         {
             try
             {
-                DataTable table = _orderController.GetOrderTable();
+                DataTable table = _orderController.GetOrderTable(_empresaId);
                 ordersGrid.DataSource = table;
             }
             catch (Exception ex)
