@@ -16,9 +16,9 @@ namespace Control_Pedidos.Controllers
             _connectionFactory = connectionFactory;
         }
 
-        public DataTable GetOrderTable()
+        public DataTable GetOrderTable(int? empresaId = null)
         {
-            const string query = @"SELECT
+            var query = @"SELECT
                     p.pedido_id AS Id,
                     p.folio AS Folio,
                     c.nombre AS Cliente,
@@ -46,15 +46,29 @@ namespace Control_Pedidos.Controllers
                     FROM cobros_pedidos cp
                     left join cobros_pedidos_det p on p.cobro_pedido_id = cp.cobro_pedido_id
                     GROUP BY p.pedido_id
-                ) cob ON cob.pedido_id = p.pedido_id
-                ORDER BY p.fecha_creacion DESC";
+                ) cob ON cob.pedido_id = p.pedido_id";
+
+            if (empresaId.HasValue)
+            {
+                query += "\n                WHERE p.empresa_id = @empresaId";
+            }
+
+            query += "\n                ORDER BY p.fecha_creacion DESC";
 
             using (var connection = _connectionFactory.Create())
-            using (var adapter = new MySqlDataAdapter(query, connection))
+            using (var command = new MySqlCommand(query, connection))
             {
-                var table = new DataTable();
-                adapter.Fill(table);
-                return table;
+                if (empresaId.HasValue)
+                {
+                    command.Parameters.AddWithValue("@empresaId", empresaId.Value);
+                }
+
+                using (var adapter = new MySqlDataAdapter(command))
+                {
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
             }
         }
 

@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using Control_Pedidos.Data;
+using Control_Pedidos.Models;
 
 namespace Control_Pedidos.Controllers
 {
@@ -63,6 +65,39 @@ namespace Control_Pedidos.Controllers
             }
 
             return false;
+        }
+
+        public IList<Empresa> GetEmpresasPorUsuario(string usuarioId)
+        {
+            var empresas = new List<Empresa>();
+
+            const string query = @"SELECT e.empresa_id, e.nombre AS empresa_nombre, e.rfc AS empresa_rfc
+                                    FROM banquetes.usuarios_empresas ue
+                                    INNER JOIN banquetes.empresas e ON ue.empresa_id = e.empresa_id
+                                    WHERE ue.usuario_id = @usuarioId
+                                      AND (ue.estatus IS NULL OR ue.estatus <> 'B');";
+
+            using (var connection = _connectionFactory.Create())
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@usuarioId", usuarioId);
+
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        empresas.Add(new Empresa
+                        {
+                            Id = reader.GetInt32("empresa_id"),
+                            Nombre = reader.GetString("empresa_nombre"),
+                            Rfc = reader.IsDBNull(reader.GetOrdinal("empresa_rfc")) ? string.Empty : reader.GetString("empresa_rfc")
+                        });
+                    }
+                }
+            }
+
+            return empresas;
         }
     }
 }

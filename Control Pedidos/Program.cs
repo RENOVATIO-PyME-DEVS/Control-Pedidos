@@ -47,7 +47,14 @@ namespace Control_Pedidos
                     userPreferences.LastUsername = loginForm.AuthenticatedUser;
                     userPreferences.Save();
                     config.Save();
-                    Application.Run(new DashboardForm(loginForm.AuthenticatedUserId, loginForm.AuthenticatedUser,loginForm.AuthenticatedUserCorreo, loginForm.AuthenticatedRole, connectionFactory));
+                    Application.Run(new DashboardForm(
+                        loginForm.AuthenticatedUserId,
+                        loginForm.AuthenticatedUser,
+                        loginForm.AuthenticatedUserCorreo,
+                        loginForm.AuthenticatedRole,
+                        connectionFactory,
+                        loginForm.SelectedEmpresaId,
+                        loginForm.SelectedEmpresaNombre));
                 }
             }
         }
