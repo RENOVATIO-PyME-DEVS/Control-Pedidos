@@ -3,6 +3,9 @@ using System.Data;
 using System.Windows.Forms;
 using Control_Pedidos.Controllers;
 using Control_Pedidos.Data;
+using Control_Pedidos.Views.Articles;
+using Control_Pedidos.Views.Clients;
+using Control_Pedidos.Views.Users;
 
 namespace Control_Pedidos.Views
 {
@@ -23,10 +26,10 @@ namespace Control_Pedidos.Views
             welcomeLabel.Text = $"Bienvenido, {username}";
             roleLabel.Text = $"Rol: {role}";
 
-            if (!string.Equals(role, "administrador", StringComparison.OrdinalIgnoreCase))
-            {
-                usersButton.Enabled = false;
-            }
+            var isAdmin = string.Equals(role, "administrador", StringComparison.OrdinalIgnoreCase);
+            usersButton.Enabled = isAdmin;
+            clientsButton.Enabled = isAdmin;
+            articlesButton.Enabled = isAdmin;
 
             LoadDashboardData();
         }
@@ -55,6 +58,30 @@ namespace Control_Pedidos.Views
             using (var ordersForm = new Orders.OrderManagementForm(_orderController))
             {
                 ordersForm.ShowDialog();
+            }
+        }
+
+        private void usersButton_Click(object sender, EventArgs e)
+        {
+            using (var form = new UserManagementForm(_connectionFactory))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void clientsButton_Click(object sender, EventArgs e)
+        {
+            using (var form = new ClientManagementForm(_connectionFactory))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void articlesButton_Click(object sender, EventArgs e)
+        {
+            using (var form = new ArticleManagementForm(_connectionFactory))
+            {
+                form.ShowDialog();
             }
         }
 
