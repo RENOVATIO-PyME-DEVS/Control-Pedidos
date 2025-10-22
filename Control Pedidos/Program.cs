@@ -2,6 +2,7 @@ using System;
 using System.Windows.Forms;
 using Control_Pedidos.Controllers;
 using Control_Pedidos.Data;
+using Control_Pedidos.Models;
 using Control_Pedidos.Views;
 using Control_Pedidos.Views.Settings;
 
@@ -44,10 +45,10 @@ namespace Control_Pedidos
             {
                 if (loginForm.ShowDialog() == DialogResult.OK)
                 {
-                    userPreferences.LastUsername = loginForm.AuthenticatedUser;
+                    userPreferences.LastUsername = loginForm.AuthenticatedUserCorreo;
                     userPreferences.Save();
                     config.Save();
-                    Application.Run(new DashboardForm(loginForm.AuthenticatedUserId, loginForm.AuthenticatedUser,loginForm.AuthenticatedUserCorreo, loginForm.AuthenticatedRole, connectionFactory));
+                    Application.Run(new DashboardForm(loginForm.AuthenticatedUserId, loginForm.AuthenticatedUser, loginForm.AuthenticatedUserCorreo, loginForm.AuthenticatedRole, loginForm.SelectedEmpresa, connectionFactory));
                 }
             }
         }
