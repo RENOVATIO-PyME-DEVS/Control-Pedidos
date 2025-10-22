@@ -106,7 +106,7 @@ namespace Control_Pedidos.Views.Clients
                 Rfc = rfcTextBox.Text.Trim(),
                 Telefono = telefonoTextBox.Text.Trim(),
                 Correo = correoTextBox.Text.Trim(),
-                Direccion = direccionTextBox.Text.Trim(),
+               // Direccion = direccionTextBox.Text.Trim(),
                 Estatus = statusComboBox.SelectedItem?.ToString() ?? "Activo"
             };
 
@@ -140,7 +140,7 @@ namespace Control_Pedidos.Views.Clients
             _selectedClient.Rfc = rfcTextBox.Text.Trim();
             _selectedClient.Telefono = telefonoTextBox.Text.Trim();
             _selectedClient.Correo = correoTextBox.Text.Trim();
-            _selectedClient.Direccion = direccionTextBox.Text.Trim();
+            // _selectedClient.Direccion = direccionTextBox.Text.Trim();
             _selectedClient.Estatus = statusComboBox.SelectedItem?.ToString() ?? "Activo";
 
             if (Cliente.Actualizar(_connectionFactory, _selectedClient, out var message))
@@ -188,7 +188,7 @@ namespace Control_Pedidos.Views.Clients
                 rfcTextBox.Text = cliente.Rfc;
                 telefonoTextBox.Text = cliente.Telefono;
                 correoTextBox.Text = cliente.Correo;
-                direccionTextBox.Text = cliente.Direccion;
+               // direccionTextBox.Text = cliente.Direccion;
                 statusComboBox.SelectedItem = cliente.Estatus;
             }
         }
@@ -205,7 +205,7 @@ namespace Control_Pedidos.Views.Clients
             rfcTextBox.Clear();
             telefonoTextBox.Clear();
             correoTextBox.Clear();
-            direccionTextBox.Clear();
+           // direccionTextBox.Clear();
             statusComboBox.SelectedIndex = 0;
             clientsGrid.ClearSelection();
             _selectedClient = null;
