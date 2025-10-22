@@ -9,6 +9,7 @@ namespace Control_Pedidos.Models
     /// </summary>
     public class Articulo
     {
+        public int Id00 { get; set; }
         public int Id { get; set; }
         public string Nombre { get; set; } = string.Empty;
         public string NombreCorto { get; set; } = string.Empty;
