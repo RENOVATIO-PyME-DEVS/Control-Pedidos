@@ -15,20 +15,26 @@ namespace Control_Pedidos.Views
         private readonly DatabaseConnectionFactory _connectionFactory;
         private readonly OrderController _orderController;
         private readonly string _role;
+        private readonly string _user;
+        private readonly string _userId;
+        private readonly string _userEmail;
 
-        public DashboardForm(string username, string role, DatabaseConnectionFactory connectionFactory)
+        public DashboardForm(string usernameid, string usernamename, string usernamecorreo, string role, DatabaseConnectionFactory connectionFactory)
         {
             InitializeComponent();
-            UIStyles.ApplyTheme(this);
+            //UIStyles.ApplyTheme(this);
 
             _connectionFactory = connectionFactory;
             _orderController = new OrderController(connectionFactory);
             _role = role;
+            _user = usernamename;
+            _userId = usernameid;
+            _userEmail = usernamecorreo;
 
-            welcomeLabel.Text = $"Bienvenido, {username}";
+            welcomeLabel.Text = $"Bienvenido, {usernamename}";
             roleLabel.Text = $"Rol: {role}";
 
-            var isAdmin = string.Equals(role, "administrador", StringComparison.OrdinalIgnoreCase);
+            var isAdmin = string.Equals(role, "Administrador", StringComparison.OrdinalIgnoreCase);
             usersButton.Enabled = isAdmin;
             clientsButton.Enabled = isAdmin;
             articlesButton.Enabled = isAdmin;
@@ -87,9 +93,6 @@ namespace Control_Pedidos.Views
             }
         }
 
-        private void DashboardForm_Load(object sender, EventArgs e)
-        {
-
-        }
+       
     }
 }

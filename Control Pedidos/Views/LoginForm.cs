@@ -10,7 +10,9 @@ namespace Control_Pedidos.Views
         private readonly AuthController _authController;
 
         public string AuthenticatedRole { get; private set; }
-        public string AuthenticatedUser { get; private set; }
+        public string AuthenticatedUserId { get; private set; } //id usuario
+        public string AuthenticatedUser { get; private set; } //nombre usuario
+        public string AuthenticatedUserCorreo { get; private set; } //nombre usuario
 
         public LoginForm(AuthController authController, string lastUsername)
         {
@@ -33,10 +35,12 @@ namespace Control_Pedidos.Views
         {
             try
             {
-                if (_authController.TryLogin(usernameTextBox.Text, passwordTextBox.Text, out var role))
+                if (_authController.TryLogin(usernameTextBox.Text, passwordTextBox.Text, out var role, out var user, out var userId))
                 {
                     AuthenticatedRole = role;
-                    AuthenticatedUser = usernameTextBox.Text;
+                    AuthenticatedUser = user;
+                    AuthenticatedUserId = userId;
+                    AuthenticatedUserCorreo = usernameTextBox.Text;
                     DialogResult = DialogResult.OK;
                     Close();
                 }

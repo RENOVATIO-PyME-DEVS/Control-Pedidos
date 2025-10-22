@@ -53,7 +53,7 @@ namespace Control_Pedidos.Views.Clients
             this.clientsGrid.RowHeadersWidth = 51;
             this.clientsGrid.RowTemplate.Height = 24;
             this.clientsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.clientsGrid.Size = new System.Drawing.Size(888, 260);
+            this.clientsGrid.Size = new System.Drawing.Size(897, 260);
             this.clientsGrid.TabIndex = 0;
             this.clientsGrid.SelectionChanged += new System.EventHandler(this.clientsGrid_SelectionChanged);
             // 
@@ -216,7 +216,7 @@ namespace Control_Pedidos.Views.Clients
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(936, 604);
+            this.ClientSize = new System.Drawing.Size(945, 604);
             this.Controls.Add(this.searchTextBox);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.statusLabel);

@@ -59,7 +59,7 @@ namespace Control_Pedidos.Views
             // usernameTextBox
             // 
             this.usernameTextBox.Location = new System.Drawing.Point(41, 49);
-            this.usernameTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.usernameTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(311, 22);
             this.usernameTextBox.TabIndex = 2;
@@ -67,16 +67,17 @@ namespace Control_Pedidos.Views
             // passwordTextBox
             // 
             this.passwordTextBox.Location = new System.Drawing.Point(41, 117);
-            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.PasswordChar = '*';
             this.passwordTextBox.Size = new System.Drawing.Size(311, 22);
             this.passwordTextBox.TabIndex = 3;
+            this.passwordTextBox.Text = "R74-16C";
             // 
             // loginButton
             // 
             this.loginButton.Location = new System.Drawing.Point(41, 172);
-            this.loginButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.loginButton.Margin = new System.Windows.Forms.Padding(4);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(312, 34);
             this.loginButton.TabIndex = 4;
@@ -107,7 +108,7 @@ namespace Control_Pedidos.Views
             this.Controls.Add(this.passwordLabel);
             this.Controls.Add(this.usernameLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
