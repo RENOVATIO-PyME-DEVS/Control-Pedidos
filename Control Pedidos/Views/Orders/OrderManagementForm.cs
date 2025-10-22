@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.Windows.Forms;
 using Control_Pedidos.Controllers;
+using Control_Pedidos.Helpers;
 
 namespace Control_Pedidos.Views.Orders
 {
@@ -12,6 +13,7 @@ namespace Control_Pedidos.Views.Orders
         public OrderManagementForm(OrderController orderController)
         {
             InitializeComponent();
+            UIStyles.ApplyTheme(this);
             _orderController = orderController;
         }
 

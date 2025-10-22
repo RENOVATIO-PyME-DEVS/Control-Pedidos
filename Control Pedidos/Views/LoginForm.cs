@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using Control_Pedidos.Controllers;
+using Control_Pedidos.Helpers;
 
 namespace Control_Pedidos.Views
 {
@@ -15,6 +16,7 @@ namespace Control_Pedidos.Views
         {
             _authController = authController;
             InitializeComponent();
+            UIStyles.ApplyTheme(this);
             if (!string.IsNullOrEmpty(lastUsername))
             {
                 usernameTextBox.Text = lastUsername;

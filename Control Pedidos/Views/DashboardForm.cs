@@ -18,6 +18,7 @@ namespace Control_Pedidos.Views
         public DashboardForm(string username, string role, DatabaseConnectionFactory connectionFactory)
         {
             InitializeComponent();
+            UIStyles.ApplyTheme(this);
 
             _connectionFactory = connectionFactory;
             _orderController = new OrderController(connectionFactory);
