@@ -168,6 +168,12 @@
     <Compile Include="Views\Orders\OrderManagementForm.Designer.cs">
       <DependentUpon>OrderManagementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\SeleccionEmpresaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SeleccionEmpresaForm.Designer.cs">
+      <DependentUpon>SeleccionEmpresaForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Settings\DatabaseSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,6 +195,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SeleccionEmpresaForm.resx">
+      <DependentUpon>SeleccionEmpresaForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

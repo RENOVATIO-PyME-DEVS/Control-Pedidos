@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Control_Pedidos.Controllers;
 using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
+using Control_Pedidos.Models;
 using Control_Pedidos.Views.Articles;
 using Control_Pedidos.Views.Clients;
 using Control_Pedidos.Views.Users;
@@ -18,8 +19,9 @@ namespace Control_Pedidos.Views
         private readonly string _user;
         private readonly string _userId;
         private readonly string _userEmail;
+        private readonly Empresa _empresa;
 
-        public DashboardForm(string usernameid, string usernamename, string usernamecorreo, string role, DatabaseConnectionFactory connectionFactory)
+        public DashboardForm(string usernameid, string usernamename, string usernamecorreo, string role, Empresa empresa, DatabaseConnectionFactory connectionFactory)
         {
             InitializeComponent();
             //UIStyles.ApplyTheme(this);
@@ -30,9 +32,11 @@ namespace Control_Pedidos.Views
             _user = usernamename;
             _userId = usernameid;
             _userEmail = usernamecorreo;
+            _empresa = empresa ?? throw new ArgumentNullException(nameof(empresa));
 
             welcomeLabel.Text = $"Bienvenido, {usernamename}";
             roleLabel.Text = $"Rol: {role}";
+            empresaLabel.Text = $"Empresa: {empresa.Nombre}";
 
             var isAdmin = string.Equals(role, "Administrador", StringComparison.OrdinalIgnoreCase);
             usersButton.Enabled = isAdmin;
@@ -46,7 +50,7 @@ namespace Control_Pedidos.Views
         {
             try
             {
-                var table = _orderController.GetOrderTable();
+                var table = _orderController.GetOrderTable(_empresa.Id);
                 activeOrdersGrid.DataSource = table;
                 activeOrdersCountLabel.Text = table.Rows.Count.ToString();
             }
@@ -63,7 +67,7 @@ namespace Control_Pedidos.Views
 
         private void ordersButton_Click(object sender, EventArgs e)
         {
-            using (var ordersForm = new Orders.OrderManagementForm(_orderController))
+            using (var ordersForm = new Orders.OrderManagementForm(_orderController, _empresa.Id))
             {
                 ordersForm.ShowDialog();
             }

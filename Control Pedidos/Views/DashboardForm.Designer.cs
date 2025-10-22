@@ -28,6 +28,7 @@ namespace Control_Pedidos.Views
             this.activeOrdersCountLabel = new System.Windows.Forms.Label();
             this.countCaptionLabel = new System.Windows.Forms.Label();
             this.activeOrdersGrid = new System.Windows.Forms.DataGridView();
+            this.empresaLabel = new System.Windows.Forms.Label();
             this.activeOrdersGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.activeOrdersGrid)).BeginInit();
             this.SuspendLayout();
@@ -52,14 +53,24 @@ namespace Control_Pedidos.Views
             this.roleLabel.Size = new System.Drawing.Size(28, 16);
             this.roleLabel.TabIndex = 1;
             this.roleLabel.Text = "Rol";
-            // 
+            //
+            // empresaLabel
+            //
+            this.empresaLabel.AutoSize = true;
+            this.empresaLabel.Location = new System.Drawing.Point(33, 85);
+            this.empresaLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.empresaLabel.Name = "empresaLabel";
+            this.empresaLabel.Size = new System.Drawing.Size(61, 16);
+            this.empresaLabel.TabIndex = 2;
+            this.empresaLabel.Text = "Empresa";
+            //
             // refreshButton
-            // 
+            //
             this.refreshButton.Location = new System.Drawing.Point(792, 46);
             this.refreshButton.Margin = new System.Windows.Forms.Padding(4);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(183, 42);
-            this.refreshButton.TabIndex = 2;
+            this.refreshButton.TabIndex = 3;
             this.refreshButton.Text = "Actualizar";
             this.refreshButton.UseVisualStyleBackColor = true;
             this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
@@ -70,7 +81,7 @@ namespace Control_Pedidos.Views
             this.ordersButton.Margin = new System.Windows.Forms.Padding(4);
             this.ordersButton.Name = "ordersButton";
             this.ordersButton.Size = new System.Drawing.Size(183, 42);
-            this.ordersButton.TabIndex = 3;
+            this.ordersButton.TabIndex = 4;
             this.ordersButton.Text = "Gestión de pedidos";
             this.ordersButton.UseVisualStyleBackColor = true;
             this.ordersButton.Click += new System.EventHandler(this.ordersButton_Click);
@@ -81,7 +92,7 @@ namespace Control_Pedidos.Views
             this.usersButton.Margin = new System.Windows.Forms.Padding(4);
             this.usersButton.Name = "usersButton";
             this.usersButton.Size = new System.Drawing.Size(183, 42);
-            this.usersButton.TabIndex = 4;
+            this.usersButton.TabIndex = 5;
             this.usersButton.Text = "Usuarios";
             this.usersButton.UseVisualStyleBackColor = true;
             this.usersButton.Click += new System.EventHandler(this.usersButton_Click);
@@ -92,7 +103,7 @@ namespace Control_Pedidos.Views
             this.clientsButton.Margin = new System.Windows.Forms.Padding(4);
             this.clientsButton.Name = "clientsButton";
             this.clientsButton.Size = new System.Drawing.Size(183, 42);
-            this.clientsButton.TabIndex = 5;
+            this.clientsButton.TabIndex = 6;
             this.clientsButton.Text = "Clientes";
             this.clientsButton.UseVisualStyleBackColor = true;
             this.clientsButton.Click += new System.EventHandler(this.clientsButton_Click);
@@ -103,7 +114,7 @@ namespace Control_Pedidos.Views
             this.articlesButton.Margin = new System.Windows.Forms.Padding(4);
             this.articlesButton.Name = "articlesButton";
             this.articlesButton.Size = new System.Drawing.Size(183, 42);
-            this.articlesButton.TabIndex = 6;
+            this.articlesButton.TabIndex = 7;
             this.articlesButton.Text = "Artículos";
             this.articlesButton.UseVisualStyleBackColor = true;
             this.articlesButton.Click += new System.EventHandler(this.articlesButton_Click);
@@ -176,6 +187,7 @@ namespace Control_Pedidos.Views
             this.Controls.Add(this.usersButton);
             this.Controls.Add(this.ordersButton);
             this.Controls.Add(this.refreshButton);
+            this.Controls.Add(this.empresaLabel);
             this.Controls.Add(this.roleLabel);
             this.Controls.Add(this.welcomeLabel);
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -203,5 +215,6 @@ namespace Control_Pedidos.Views
         private System.Windows.Forms.DataGridView activeOrdersGrid;
         private System.Windows.Forms.Label activeOrdersCountLabel;
         private System.Windows.Forms.Label countCaptionLabel;
+        private System.Windows.Forms.Label empresaLabel;
     }
 }

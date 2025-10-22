@@ -9,12 +9,14 @@ namespace Control_Pedidos.Views.Orders
     public partial class OrderManagementForm : Form
     {
         private readonly OrderController _orderController;
+        private readonly int _empresaId;
 
-        public OrderManagementForm(OrderController orderController)
+        public OrderManagementForm(OrderController orderController, int empresaId)
         {
             InitializeComponent();
             UIStyles.ApplyTheme(this);
             _orderController = orderController;
+            _empresaId = empresaId;
         }
 
         private void OrderManagementForm_Load(object sender, EventArgs e)
@@ -26,7 +28,7 @@ namespace Control_Pedidos.Views.Orders
         {
             try
             {
-                DataTable table = _orderController.GetOrderTable();
+                DataTable table = _orderController.GetOrderTable(_empresaId);
                 ordersGrid.DataSource = table;
             }
             catch (Exception ex)

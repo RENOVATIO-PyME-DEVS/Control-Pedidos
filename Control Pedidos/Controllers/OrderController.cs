@@ -16,7 +16,7 @@ namespace Control_Pedidos.Controllers
             _connectionFactory = connectionFactory;
         }
 
-        public DataTable GetOrderTable()
+        public DataTable GetOrderTable(int empresaId)
         {
             const string query = @"SELECT
                     p.pedido_id AS Id,
@@ -47,11 +47,14 @@ namespace Control_Pedidos.Controllers
                     left join cobros_pedidos_det p on p.cobro_pedido_id = cp.cobro_pedido_id
                     GROUP BY p.pedido_id
                 ) cob ON cob.pedido_id = p.pedido_id
+                WHERE p.empresa_id = @empresaId
                 ORDER BY p.fecha_creacion DESC";
 
             using (var connection = _connectionFactory.Create())
-            using (var adapter = new MySqlDataAdapter(query, connection))
+            using (var command = new MySqlCommand(query, connection))
+            using (var adapter = new MySqlDataAdapter(command))
             {
+                command.Parameters.AddWithValue("@empresaId", empresaId);
                 var table = new DataTable();
                 adapter.Fill(table);
                 return table;
