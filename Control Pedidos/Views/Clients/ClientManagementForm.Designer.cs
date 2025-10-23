@@ -18,7 +18,6 @@ namespace Control_Pedidos.Views.Clients
         private void InitializeComponent()
         {
             this.clientsGrid = new System.Windows.Forms.DataGridView();
-            this.razonSocialTextBox = new System.Windows.Forms.TextBox();
             this.nombreComercialTextBox = new System.Windows.Forms.TextBox();
             this.rfcTextBox = new System.Windows.Forms.TextBox();
             this.telefonoTextBox = new System.Windows.Forms.TextBox();
@@ -28,7 +27,6 @@ namespace Control_Pedidos.Views.Clients
             this.updateButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.clearButton = new System.Windows.Forms.Button();
-            this.razonSocialLabel = new System.Windows.Forms.Label();
             this.nombreComercialLabel = new System.Windows.Forms.Label();
             this.rfcLabel = new System.Windows.Forms.Label();
             this.telefonoLabel = new System.Windows.Forms.Label();
@@ -36,6 +34,7 @@ namespace Control_Pedidos.Views.Clients
             this.statusLabel = new System.Windows.Forms.Label();
             this.searchLabel = new System.Windows.Forms.Label();
             this.searchTextBox = new System.Windows.Forms.TextBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.clientsGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,20 +52,14 @@ namespace Control_Pedidos.Views.Clients
             this.clientsGrid.RowHeadersWidth = 51;
             this.clientsGrid.RowTemplate.Height = 24;
             this.clientsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.clientsGrid.Size = new System.Drawing.Size(897, 260);
+            this.clientsGrid.Size = new System.Drawing.Size(1065, 260);
             this.clientsGrid.TabIndex = 0;
             this.clientsGrid.SelectionChanged += new System.EventHandler(this.clientsGrid_SelectionChanged);
             // 
-            // razonSocialTextBox
-            // 
-            this.razonSocialTextBox.Location = new System.Drawing.Point(24, 48);
-            this.razonSocialTextBox.Name = "razonSocialTextBox";
-            this.razonSocialTextBox.Size = new System.Drawing.Size(260, 22);
-            this.razonSocialTextBox.TabIndex = 1;
-            // 
             // nombreComercialTextBox
             // 
-            this.nombreComercialTextBox.Location = new System.Drawing.Point(24, 104);
+            this.nombreComercialTextBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.nombreComercialTextBox.Location = new System.Drawing.Point(24, 47);
             this.nombreComercialTextBox.Name = "nombreComercialTextBox";
             this.nombreComercialTextBox.Size = new System.Drawing.Size(260, 22);
             this.nombreComercialTextBox.TabIndex = 2;
@@ -141,23 +134,14 @@ namespace Control_Pedidos.Views.Clients
             this.clearButton.UseVisualStyleBackColor = true;
             this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
             // 
-            // razonSocialLabel
-            // 
-            this.razonSocialLabel.AutoSize = true;
-            this.razonSocialLabel.Location = new System.Drawing.Point(21, 28);
-            this.razonSocialLabel.Name = "razonSocialLabel";
-            this.razonSocialLabel.Size = new System.Drawing.Size(85, 16);
-            this.razonSocialLabel.TabIndex = 12;
-            this.razonSocialLabel.Text = "Razón social";
-            // 
             // nombreComercialLabel
             // 
             this.nombreComercialLabel.AutoSize = true;
-            this.nombreComercialLabel.Location = new System.Drawing.Point(21, 84);
+            this.nombreComercialLabel.Location = new System.Drawing.Point(21, 27);
             this.nombreComercialLabel.Name = "nombreComercialLabel";
-            this.nombreComercialLabel.Size = new System.Drawing.Size(118, 16);
+            this.nombreComercialLabel.Size = new System.Drawing.Size(115, 16);
             this.nombreComercialLabel.TabIndex = 13;
-            this.nombreComercialLabel.Text = "Nombre comercial";
+            this.nombreComercialLabel.Text = "Nombre completo";
             // 
             // rfcLabel
             // 
@@ -212,11 +196,24 @@ namespace Control_Pedidos.Views.Clients
             this.searchTextBox.TabIndex = 20;
             this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(468, 73);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(92, 16);
+            this.linkLabel1.TabIndex = 21;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "RFC Generico";
+            this.linkLabel1.Visible = false;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // ClientManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(945, 604);
+            this.ClientSize = new System.Drawing.Size(1113, 604);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.searchTextBox);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.statusLabel);
@@ -224,7 +221,6 @@ namespace Control_Pedidos.Views.Clients
             this.Controls.Add(this.telefonoLabel);
             this.Controls.Add(this.rfcLabel);
             this.Controls.Add(this.nombreComercialLabel);
-            this.Controls.Add(this.razonSocialLabel);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.updateButton);
@@ -234,14 +230,13 @@ namespace Control_Pedidos.Views.Clients
             this.Controls.Add(this.telefonoTextBox);
             this.Controls.Add(this.rfcTextBox);
             this.Controls.Add(this.nombreComercialTextBox);
-            this.Controls.Add(this.razonSocialTextBox);
             this.Controls.Add(this.clientsGrid);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ClientManagementForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Gestión de clientes";
+            this.Text = "Banquetes - Gestión de clientes";
             ((System.ComponentModel.ISupportInitialize)(this.clientsGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -251,7 +246,6 @@ namespace Control_Pedidos.Views.Clients
         #endregion
 
         private System.Windows.Forms.DataGridView clientsGrid;
-        private System.Windows.Forms.TextBox razonSocialTextBox;
         private System.Windows.Forms.TextBox nombreComercialTextBox;
         private System.Windows.Forms.TextBox rfcTextBox;
         private System.Windows.Forms.TextBox telefonoTextBox;
@@ -261,7 +255,6 @@ namespace Control_Pedidos.Views.Clients
         private System.Windows.Forms.Button updateButton;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button clearButton;
-        private System.Windows.Forms.Label razonSocialLabel;
         private System.Windows.Forms.Label nombreComercialLabel;
         private System.Windows.Forms.Label rfcLabel;
         private System.Windows.Forms.Label telefonoLabel;
@@ -269,5 +262,6 @@ namespace Control_Pedidos.Views.Clients
         private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.Label searchLabel;
         private System.Windows.Forms.TextBox searchTextBox;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }

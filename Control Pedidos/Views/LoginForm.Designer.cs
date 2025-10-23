@@ -72,7 +72,7 @@ namespace Control_Pedidos.Views
             this.passwordTextBox.PasswordChar = '*';
             this.passwordTextBox.Size = new System.Drawing.Size(311, 22);
             this.passwordTextBox.TabIndex = 3;
-            this.passwordTextBox.Text = "R74-16C";
+            this.passwordTextBox.Text = "123";
             // 
             // loginButton
             // 

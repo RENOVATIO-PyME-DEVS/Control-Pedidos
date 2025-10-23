@@ -44,7 +44,7 @@ namespace Control_Pedidos
             {
                 if (loginForm.ShowDialog() == DialogResult.OK)
                 {
-                    userPreferences.LastUsername = loginForm.AuthenticatedUser;
+                    userPreferences.LastUsername = loginForm.AuthenticatedUserCorreo;
                     userPreferences.Save();
                     config.Save();
                     Application.Run(new DashboardForm(

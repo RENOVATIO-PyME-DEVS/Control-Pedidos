@@ -44,3 +44,4 @@ C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pe
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.DashboardForm.resources
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Clients.ClientManagementForm.resources
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.LoginForm.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.SeleccionEmpresaForm.resources

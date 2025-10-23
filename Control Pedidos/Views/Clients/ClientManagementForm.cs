@@ -34,35 +34,39 @@ namespace Control_Pedidos.Views.Clients
             clientsGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(Cliente.Id),
-                HeaderText = "ID",
-                Width = 60
-            });
-
-            clientsGrid.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = nameof(Cliente.RazonSocial),
-                HeaderText = "Razón social",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                HeaderText = "Folio",
+                //AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                Width = 80
             });
 
             clientsGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(Cliente.NombreComercial),
-                HeaderText = "Nombre comercial",
+                HeaderText = "Nombre",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             });
+
 
             clientsGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(Cliente.Rfc),
                 HeaderText = "RFC",
-                Width = 120
+                //AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                Width = 140
+            });
+            clientsGrid.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = nameof(Cliente.Correo),
+                HeaderText = "Correo",
+                //AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                Width = 150
             });
 
             clientsGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(Cliente.Telefono),
                 HeaderText = "Teléfono",
+                //AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                 Width = 120
             });
 
@@ -70,7 +74,8 @@ namespace Control_Pedidos.Views.Clients
             {
                 DataPropertyName = nameof(Cliente.Estatus),
                 HeaderText = "Estatus",
-                Width = 90
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                //Width = 90
             });
 
             clientsGrid.DataSource = _bindingSource;
@@ -101,7 +106,7 @@ namespace Control_Pedidos.Views.Clients
 
             var cliente = new Cliente
             {
-                RazonSocial = razonSocialTextBox.Text.Trim(),
+               // RazonSocial = razonSocialTextBox.Text.Trim(),
                 NombreComercial = nombreComercialTextBox.Text.Trim(),
                 Rfc = rfcTextBox.Text.Trim(),
                 Telefono = telefonoTextBox.Text.Trim(),
@@ -135,7 +140,7 @@ namespace Control_Pedidos.Views.Clients
                 return;
             }
 
-            _selectedClient.RazonSocial = razonSocialTextBox.Text.Trim();
+            //_selectedClient.RazonSocial = razonSocialTextBox.Text.Trim();
             _selectedClient.NombreComercial = nombreComercialTextBox.Text.Trim();
             _selectedClient.Rfc = rfcTextBox.Text.Trim();
             _selectedClient.Telefono = telefonoTextBox.Text.Trim();
@@ -183,7 +188,7 @@ namespace Control_Pedidos.Views.Clients
             if (clientsGrid.CurrentRow?.DataBoundItem is Cliente cliente)
             {
                 _selectedClient = cliente;
-                razonSocialTextBox.Text = cliente.RazonSocial;
+               // razonSocialTextBox.Text = cliente.RazonSocial;
                 nombreComercialTextBox.Text = cliente.NombreComercial;
                 rfcTextBox.Text = cliente.Rfc;
                 telefonoTextBox.Text = cliente.Telefono;
@@ -200,7 +205,7 @@ namespace Control_Pedidos.Views.Clients
 
         private void ClearForm()
         {
-            razonSocialTextBox.Clear();
+            //razonSocialTextBox.Clear();
             nombreComercialTextBox.Clear();
             rfcTextBox.Clear();
             telefonoTextBox.Clear();
@@ -213,11 +218,11 @@ namespace Control_Pedidos.Views.Clients
 
         private bool ValidateForm()
         {
-            if (string.IsNullOrWhiteSpace(razonSocialTextBox.Text))
-            {
-                MessageBox.Show("Ingrese la razón social", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
+            //if (string.IsNullOrWhiteSpace(razonSocialTextBox.Text))
+            //{
+            //    MessageBox.Show("Ingrese la razón social", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return false;
+            //}
 
             if (!ValidationHelper.IsRfc(rfcTextBox.Text.Trim()))
             {
@@ -237,6 +242,11 @@ namespace Control_Pedidos.Views.Clients
         private void searchTextBox_TextChanged(object sender, EventArgs e)
         {
             LoadClientes(searchTextBox.Text.Trim());
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            rfcTextBox.Text = "XAXA010101000";
         }
     }
 }
