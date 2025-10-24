@@ -368,32 +368,26 @@ namespace Control_Pedidos.Views.Clients
                 cmbRegimenFiscal.DisplayMember = nameof(RegimenFiscalOption.Descripcion);
                 cmbRegimenFiscal.ValueMember = nameof(RegimenFiscalOption.Id);
                 cmbRegimenFiscal.DataSource = options;
-                
+
+                var hasOptions = options.Count > 0;
+                var selected = false;
 
                 if (regimenFiscalId.HasValue)
                 {
-                    var found = false;
                     foreach (var option in options)
                     {
                         if (option.Id == regimenFiscalId.Value)
                         {
-                            found = true;
+                            cmbRegimenFiscal.SelectedValue = regimenFiscalId.Value;
+                            selected = true;
                             break;
                         }
                     }
-
-                    if (found)
-                    {
-                        cmbRegimenFiscal.SelectedValue = regimenFiscalId.Value;
-                    }
-                    else
-                    {
-                        cmbRegimenFiscal.SelectedIndex = -1;
-                    }
                 }
-                else
+
+                if (!selected)
                 {
-                    cmbRegimenFiscal.SelectedIndex = -1;
+                    cmbRegimenFiscal.SelectedIndex = hasOptions ? 0 : -1;
                 }
             }
             catch (Exception ex)
@@ -469,7 +463,5 @@ WHERE rg.moral = 'S';";
 
             return null;
         }
-
-       
     }
 }
