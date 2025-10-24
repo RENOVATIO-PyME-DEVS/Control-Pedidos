@@ -66,15 +66,15 @@ namespace Control_Pedidos.Views.Clients
             this.nombreComercialTextBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.nombreComercialTextBox.Location = new System.Drawing.Point(24, 47);
             this.nombreComercialTextBox.Name = "nombreComercialTextBox";
-            this.nombreComercialTextBox.Size = new System.Drawing.Size(260, 22);
+            this.nombreComercialTextBox.Size = new System.Drawing.Size(536, 22);
             this.nombreComercialTextBox.TabIndex = 2;
             // 
             // rfcTextBox
             // 
             this.rfcTextBox.Enabled = false;
-            this.rfcTextBox.Location = new System.Drawing.Point(320, 48);
+            this.rfcTextBox.Location = new System.Drawing.Point(24, 104);
             this.rfcTextBox.Name = "rfcTextBox";
-            this.rfcTextBox.Size = new System.Drawing.Size(240, 22);
+            this.rfcTextBox.Size = new System.Drawing.Size(260, 22);
             this.rfcTextBox.TabIndex = 3;
             this.rfcTextBox.TextChanged += new System.EventHandler(this.rfcTextBox_TextChanged);
             // 
@@ -153,7 +153,7 @@ namespace Control_Pedidos.Views.Clients
             // rfcLabel
             // 
             this.rfcLabel.AutoSize = true;
-            this.rfcLabel.Location = new System.Drawing.Point(317, 28);
+            this.rfcLabel.Location = new System.Drawing.Point(21, 84);
             this.rfcLabel.Name = "rfcLabel";
             this.rfcLabel.Size = new System.Drawing.Size(34, 16);
             this.rfcLabel.TabIndex = 14;
@@ -206,7 +206,7 @@ namespace Control_Pedidos.Views.Clients
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(468, 73);
+            this.linkLabel1.Location = new System.Drawing.Point(172, 129);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(92, 16);
             this.linkLabel1.TabIndex = 21;
@@ -214,59 +214,59 @@ namespace Control_Pedidos.Views.Clients
             this.linkLabel1.Text = "RFC Generico";
             this.linkLabel1.Visible = false;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            //
+            // 
             // chkRequiereFactura
-            //
+            // 
             this.chkRequiereFactura.AutoSize = true;
-            this.chkRequiereFactura.Location = new System.Drawing.Point(24, 15);
+            this.chkRequiereFactura.Location = new System.Drawing.Point(156, 75);
             this.chkRequiereFactura.Name = "chkRequiereFactura";
-            this.chkRequiereFactura.Size = new System.Drawing.Size(130, 20);
+            this.chkRequiereFactura.Size = new System.Drawing.Size(128, 20);
             this.chkRequiereFactura.TabIndex = 1;
             this.chkRequiereFactura.Text = "Requiere factura";
             this.chkRequiereFactura.UseVisualStyleBackColor = true;
             this.chkRequiereFactura.CheckedChanged += new System.EventHandler(this.chkRequiereFactura_CheckedChanged);
-            //
+            // 
             // codigoPostalLabel
-            //
+            // 
             this.codigoPostalLabel.AutoSize = true;
-            this.codigoPostalLabel.Location = new System.Drawing.Point(21, 84);
+            this.codigoPostalLabel.Location = new System.Drawing.Point(21, 140);
             this.codigoPostalLabel.Name = "codigoPostalLabel";
-            this.codigoPostalLabel.Size = new System.Drawing.Size(93, 16);
+            this.codigoPostalLabel.Size = new System.Drawing.Size(91, 16);
             this.codigoPostalLabel.TabIndex = 22;
             this.codigoPostalLabel.Text = "Código postal";
-            //
+            // 
             // codigoPostalTextBox
-            //
+            // 
             this.codigoPostalTextBox.Enabled = false;
-            this.codigoPostalTextBox.Location = new System.Drawing.Point(24, 104);
+            this.codigoPostalTextBox.Location = new System.Drawing.Point(24, 160);
             this.codigoPostalTextBox.Name = "codigoPostalTextBox";
             this.codigoPostalTextBox.Size = new System.Drawing.Size(260, 22);
             this.codigoPostalTextBox.TabIndex = 4;
-            //
+            // 
             // regimenFiscalLabel
-            //
+            // 
             this.regimenFiscalLabel.AutoSize = true;
-            this.regimenFiscalLabel.Location = new System.Drawing.Point(21, 140);
+            this.regimenFiscalLabel.Location = new System.Drawing.Point(21, 196);
             this.regimenFiscalLabel.Name = "regimenFiscalLabel";
-            this.regimenFiscalLabel.Size = new System.Drawing.Size(99, 16);
+            this.regimenFiscalLabel.Size = new System.Drawing.Size(96, 16);
             this.regimenFiscalLabel.TabIndex = 24;
             this.regimenFiscalLabel.Text = "Régimen fiscal";
-            //
+            // 
             // cmbRegimenFiscal
-            //
+            // 
             this.cmbRegimenFiscal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbRegimenFiscal.Enabled = false;
             this.cmbRegimenFiscal.FormattingEnabled = true;
-            this.cmbRegimenFiscal.Location = new System.Drawing.Point(24, 160);
+            this.cmbRegimenFiscal.Location = new System.Drawing.Point(24, 216);
             this.cmbRegimenFiscal.Name = "cmbRegimenFiscal";
             this.cmbRegimenFiscal.Size = new System.Drawing.Size(260, 24);
             this.cmbRegimenFiscal.TabIndex = 5;
-            //
+            // 
             // ClientManagementForm
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1113, 604);
+            this.ClientSize = new System.Drawing.Size(1113, 640);
             this.Controls.Add(this.cmbRegimenFiscal);
             this.Controls.Add(this.regimenFiscalLabel);
             this.Controls.Add(this.codigoPostalTextBox);

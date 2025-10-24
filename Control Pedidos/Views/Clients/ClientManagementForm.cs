@@ -368,6 +368,7 @@ namespace Control_Pedidos.Views.Clients
                 cmbRegimenFiscal.DisplayMember = nameof(RegimenFiscalOption.Descripcion);
                 cmbRegimenFiscal.ValueMember = nameof(RegimenFiscalOption.Id);
                 cmbRegimenFiscal.DataSource = options;
+                
 
                 if (regimenFiscalId.HasValue)
                 {
@@ -468,5 +469,7 @@ WHERE rg.moral = 'S';";
 
             return null;
         }
+
+       
     }
 }
