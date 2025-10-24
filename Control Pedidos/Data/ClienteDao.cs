@@ -116,14 +116,23 @@ VALUES (@nombre, @rfc, @telefono, @correo, @estatus, @codigoPostal, @requiereFac
         public IList<Cliente> Listar(string filtro)
         {
             var clientes = new List<Cliente>();
-            const string query = @"SELECT cliente_id, nombre, rfc, telefono, correo, codigo_postal, requiere_factura, c_regimenfiscal_id,
-case
-        when estatus = 'N' THEN 'Activo'
-    when estatus = 'P' THEN 'Pendiente'
-    when estatus = 'B' THEN 'Inactivo'
- end as estatus
-FROM banquetes.clientes
-WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%') OR rfc LIKE CONCAT('%', @filtro, '%'))";
+            const string query = @"SELECT cliente_id, nombre
+    , rfc
+    , telefono
+    , correo
+    , codigo_postal
+    ,  case 
+		when c_regimenfiscal_id is null THEN 'Nn'
+        ELSE 'Si'
+	  end as requiere_factura
+    , c_regimenfiscal_id,
+        case
+            when estatus = 'N' THEN 'Activo'
+            when estatus = 'P' THEN 'Pendiente'
+            when estatus = 'B' THEN 'Inactivo'
+        end as estatus
+    FROM banquetes.clientes
+    WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%') OR rfc LIKE CONCAT('%', @filtro, '%'))";
 
             try
             {

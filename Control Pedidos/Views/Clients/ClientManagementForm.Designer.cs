@@ -66,7 +66,7 @@ namespace Control_Pedidos.Views.Clients
             this.nombreComercialTextBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.nombreComercialTextBox.Location = new System.Drawing.Point(24, 47);
             this.nombreComercialTextBox.Name = "nombreComercialTextBox";
-            this.nombreComercialTextBox.Size = new System.Drawing.Size(260, 22);
+            this.nombreComercialTextBox.Size = new System.Drawing.Size(536, 22);
             this.nombreComercialTextBox.TabIndex = 2;
             // 
             // rfcTextBox
@@ -74,7 +74,7 @@ namespace Control_Pedidos.Views.Clients
             this.rfcTextBox.Enabled = false;
             this.rfcTextBox.Location = new System.Drawing.Point(320, 48);
             this.rfcTextBox.Name = "rfcTextBox";
-            this.rfcTextBox.Size = new System.Drawing.Size(240, 22);
+            this.rfcTextBox.Size = new System.Drawing.Size(260, 22);
             this.rfcTextBox.TabIndex = 3;
             this.rfcTextBox.TextChanged += new System.EventHandler(this.rfcTextBox_TextChanged);
             // 
@@ -153,7 +153,7 @@ namespace Control_Pedidos.Views.Clients
             // rfcLabel
             // 
             this.rfcLabel.AutoSize = true;
-            this.rfcLabel.Location = new System.Drawing.Point(317, 28);
+            this.rfcLabel.Location = new System.Drawing.Point(21, 84);
             this.rfcLabel.Name = "rfcLabel";
             this.rfcLabel.Size = new System.Drawing.Size(34, 16);
             this.rfcLabel.TabIndex = 14;
@@ -206,7 +206,7 @@ namespace Control_Pedidos.Views.Clients
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(468, 73);
+            this.linkLabel1.Location = new System.Drawing.Point(172, 129);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(92, 16);
             this.linkLabel1.TabIndex = 21;
