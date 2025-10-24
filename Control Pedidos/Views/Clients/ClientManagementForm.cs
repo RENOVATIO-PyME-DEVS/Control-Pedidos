@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
+using MySql.Data.MySqlClient;
 
 namespace Control_Pedidos.Views.Clients
 {
@@ -13,6 +14,20 @@ namespace Control_Pedidos.Views.Clients
         private readonly BindingList<Cliente> _clientes = new BindingList<Cliente>();
         private readonly BindingSource _bindingSource = new BindingSource();
         private Cliente _selectedClient;
+        private bool _handlingFacturaCheck;
+        private bool _suppressRegimenReload;
+
+        private class RegimenFiscalOption
+        {
+            public int Id { get; set; }
+            public string Descripcion { get; set; } = string.Empty;
+        }
+
+        private enum RegimenFiscalTipo
+        {
+            PersonaFisica,
+            PersonaMoral
+        }
 
         public ClientManagementForm(DatabaseConnectionFactory connectionFactory)
         {
@@ -23,6 +38,7 @@ namespace Control_Pedidos.Views.Clients
             statusComboBox.DataSource = new[] { "Activo", "Inactivo" };
             ConfigureGrid();
             LoadClientes();
+            UpdateFacturaFieldsState();
         }
 
         private void ConfigureGrid()
@@ -108,9 +124,12 @@ namespace Control_Pedidos.Views.Clients
             {
                // RazonSocial = razonSocialTextBox.Text.Trim(),
                 NombreComercial = nombreComercialTextBox.Text.Trim(),
-                Rfc = rfcTextBox.Text.Trim(),
+                Rfc = chkRequiereFactura.Checked ? rfcTextBox.Text.Trim() : string.Empty,
                 Telefono = telefonoTextBox.Text.Trim(),
                 Correo = correoTextBox.Text.Trim(),
+                CodigoPostal = chkRequiereFactura.Checked ? codigoPostalTextBox.Text.Trim() : string.Empty,
+                RequiereFactura = chkRequiereFactura.Checked,
+                RegimenFiscalId = chkRequiereFactura.Checked ? GetSelectedRegimenFiscalId() : null,
                // Direccion = direccionTextBox.Text.Trim(),
                 Estatus = statusComboBox.SelectedItem?.ToString() ?? "Activo"
             };
@@ -142,9 +161,12 @@ namespace Control_Pedidos.Views.Clients
 
             //_selectedClient.RazonSocial = razonSocialTextBox.Text.Trim();
             _selectedClient.NombreComercial = nombreComercialTextBox.Text.Trim();
-            _selectedClient.Rfc = rfcTextBox.Text.Trim();
+            _selectedClient.Rfc = chkRequiereFactura.Checked ? rfcTextBox.Text.Trim() : string.Empty;
             _selectedClient.Telefono = telefonoTextBox.Text.Trim();
             _selectedClient.Correo = correoTextBox.Text.Trim();
+            _selectedClient.CodigoPostal = chkRequiereFactura.Checked ? codigoPostalTextBox.Text.Trim() : string.Empty;
+            _selectedClient.RequiereFactura = chkRequiereFactura.Checked;
+            _selectedClient.RegimenFiscalId = chkRequiereFactura.Checked ? GetSelectedRegimenFiscalId() : null;
             // _selectedClient.Direccion = direccionTextBox.Text.Trim();
             _selectedClient.Estatus = statusComboBox.SelectedItem?.ToString() ?? "Activo";
 
@@ -190,12 +212,56 @@ namespace Control_Pedidos.Views.Clients
                 _selectedClient = cliente;
                // razonSocialTextBox.Text = cliente.RazonSocial;
                 nombreComercialTextBox.Text = cliente.NombreComercial;
-                rfcTextBox.Text = cliente.Rfc;
+                _handlingFacturaCheck = true;
+                chkRequiereFactura.Checked = cliente.RequiereFactura;
+                UpdateFacturaFieldsState();
+                _handlingFacturaCheck = false;
+
+                codigoPostalTextBox.Text = cliente.CodigoPostal ?? string.Empty;
+
+                _suppressRegimenReload = true;
+                rfcTextBox.Text = cliente.Rfc ?? string.Empty;
+                _suppressRegimenReload = false;
+
                 telefonoTextBox.Text = cliente.Telefono;
                 correoTextBox.Text = cliente.Correo;
                // direccionTextBox.Text = cliente.Direccion;
                 statusComboBox.SelectedItem = cliente.Estatus;
+
+                if (cliente.RequiereFactura)
+                {
+                    LoadRegimenFiscalOptionsByRfc(cliente.Rfc, cliente.RegimenFiscalId);
+                }
+                else
+                {
+                    ClearRegimenFiscalDataSource();
+                }
             }
+        }
+
+        private void chkRequiereFactura_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_handlingFacturaCheck)
+            {
+                return;
+            }
+
+            UpdateFacturaFieldsState();
+
+            if (chkRequiereFactura.Checked)
+            {
+                LoadRegimenFiscalOptionsByRfc(rfcTextBox.Text.Trim(), _selectedClient?.RegimenFiscalId);
+            }
+        }
+
+        private void rfcTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (_suppressRegimenReload || !chkRequiereFactura.Checked)
+            {
+                return;
+            }
+
+            LoadRegimenFiscalOptionsByRfc(rfcTextBox.Text.Trim());
         }
 
         private void clearButton_Click(object sender, EventArgs e)
@@ -207,11 +273,19 @@ namespace Control_Pedidos.Views.Clients
         {
             //razonSocialTextBox.Clear();
             nombreComercialTextBox.Clear();
+            _suppressRegimenReload = true;
             rfcTextBox.Clear();
+            _suppressRegimenReload = false;
             telefonoTextBox.Clear();
             correoTextBox.Clear();
+            codigoPostalTextBox.Clear();
            // direccionTextBox.Clear();
             statusComboBox.SelectedIndex = 0;
+            _handlingFacturaCheck = true;
+            chkRequiereFactura.Checked = false;
+            UpdateFacturaFieldsState();
+            _handlingFacturaCheck = false;
+            ClearRegimenFiscalDataSource();
             clientsGrid.ClearSelection();
             _selectedClient = null;
         }
@@ -224,10 +298,25 @@ namespace Control_Pedidos.Views.Clients
             //    return false;
             //}
 
-            if (!ValidationHelper.IsRfc(rfcTextBox.Text.Trim()))
+            if (chkRequiereFactura.Checked)
             {
-                MessageBox.Show("Ingrese un RFC válido", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
+                if (!ValidationHelper.IsRfc(rfcTextBox.Text.Trim()))
+                {
+                    MessageBox.Show("Ingrese un RFC válido", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                if (string.IsNullOrWhiteSpace(codigoPostalTextBox.Text.Trim()))
+                {
+                    MessageBox.Show("Ingrese el código postal", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                if (cmbRegimenFiscal.SelectedValue == null)
+                {
+                    MessageBox.Show("Seleccione un régimen fiscal", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(correoTextBox.Text) && !ValidationHelper.IsEmail(correoTextBox.Text.Trim()))
@@ -247,6 +336,137 @@ namespace Control_Pedidos.Views.Clients
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             rfcTextBox.Text = "XAXA010101000";
+        }
+
+        private void LoadRegimenFiscalOptionsByRfc(string rfc, int? regimenFiscalId = null)
+        {
+            if (string.IsNullOrWhiteSpace(rfc))
+            {
+                ClearRegimenFiscalDataSource();
+                return;
+            }
+
+            RegimenFiscalTipo? tipo = null;
+
+            if (rfc.Length == 13)
+            {
+                tipo = RegimenFiscalTipo.PersonaFisica;
+            }
+            else if (rfc.Length == 12)
+            {
+                tipo = RegimenFiscalTipo.PersonaMoral;
+            }
+            else
+            {
+                ClearRegimenFiscalDataSource();
+                return;
+            }
+
+            try
+            {
+                var options = FetchRegimenFiscalOptions(tipo.Value);
+                cmbRegimenFiscal.DisplayMember = nameof(RegimenFiscalOption.Descripcion);
+                cmbRegimenFiscal.ValueMember = nameof(RegimenFiscalOption.Id);
+                cmbRegimenFiscal.DataSource = options;
+
+                if (regimenFiscalId.HasValue)
+                {
+                    var found = false;
+                    foreach (var option in options)
+                    {
+                        if (option.Id == regimenFiscalId.Value)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (found)
+                    {
+                        cmbRegimenFiscal.SelectedValue = regimenFiscalId.Value;
+                    }
+                    else
+                    {
+                        cmbRegimenFiscal.SelectedIndex = -1;
+                    }
+                }
+                else
+                {
+                    cmbRegimenFiscal.SelectedIndex = -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                ClearRegimenFiscalDataSource();
+                MessageBox.Show($"No se pudo cargar el catálogo de régimen fiscal: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private BindingList<RegimenFiscalOption> FetchRegimenFiscalOptions(RegimenFiscalTipo tipo)
+        {
+            var options = new BindingList<RegimenFiscalOption>();
+            var query = tipo == RegimenFiscalTipo.PersonaFisica
+                ? @"SELECT rg.c_regimenfiscal_id, CONCAT(rg.clave_fiscal, ' - ', rg.descripcion) AS descripcion
+FROM banquetes.c_regimenfiscal rg
+WHERE rg.fisica = 'S';"
+                : @"SELECT rg.c_regimenfiscal_id, CONCAT(rg.clave_fiscal, ' - ', rg.descripcion) AS descripcion
+FROM banquetes.c_regimenfiscal rg
+WHERE rg.moral = 'S';";
+
+            using (var connection = _connectionFactory.Create())
+            using (var command = new MySqlCommand(query, connection))
+            {
+                connection.Open();
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        options.Add(new RegimenFiscalOption
+                        {
+                            Id = reader.GetInt32("c_regimenfiscal_id"),
+                            Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? string.Empty : reader.GetString("descripcion")
+                        });
+                    }
+                }
+            }
+
+            return options;
+        }
+
+        private void ClearRegimenFiscalDataSource()
+        {
+            cmbRegimenFiscal.DataSource = null;
+            cmbRegimenFiscal.Items.Clear();
+            cmbRegimenFiscal.SelectedIndex = -1;
+        }
+
+        private void UpdateFacturaFieldsState()
+        {
+            var enabled = chkRequiereFactura.Checked;
+
+            codigoPostalTextBox.Enabled = enabled;
+            rfcTextBox.Enabled = enabled;
+            cmbRegimenFiscal.Enabled = enabled;
+
+            if (!enabled)
+            {
+                ClearRegimenFiscalDataSource();
+            }
+        }
+
+        private int? GetSelectedRegimenFiscalId()
+        {
+            if (cmbRegimenFiscal.SelectedValue is int id)
+            {
+                return id;
+            }
+
+            if (cmbRegimenFiscal.SelectedValue is long longId)
+            {
+                return (int)longId;
+            }
+
+            return null;
         }
     }
 }
