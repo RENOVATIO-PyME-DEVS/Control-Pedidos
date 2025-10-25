@@ -25,17 +25,19 @@ namespace Control_Pedidos.Data
             {
                 using (var connection = _connectionFactory.Create())
                 //using (var command = new MySqlCommand(@"INSERT INTO clientes (nombre, razon_social, rfc, telefono, correo, direccion, estatus) VALUES (@nombre, @razonSocial, @rfc, @telefono, @correo, @direccion, @estatus);", connection))
-                using (var command = new MySqlCommand(@"INSERT INTO clientes 
-(nombre, rfc, telefono, correo, estatus)
-VALUES (@nombre, @rfc, @telefono, @correo, @estatus);", connection))
+                using (var command = new MySqlCommand(@"INSERT INTO clientes
+(nombre, rfc, telefono, correo, estatus, codigo_postal, c_regimenfiscal_id)
+VALUES (@nombre, @rfc, @telefono, @correo, @estatus, @codigoPostal, @regimenFiscalId);", connection))
                 {
                     command.Parameters.AddWithValue("@nombre", cliente.NombreComercial);
                     //command.Parameters.AddWithValue("@razonSocial", cliente.RazonSocial);
-                    command.Parameters.AddWithValue("@rfc", cliente.Rfc);
+                    command.Parameters.AddWithValue("@rfc", string.IsNullOrWhiteSpace(cliente.Rfc) ? (object)DBNull.Value : cliente.Rfc);
                     command.Parameters.AddWithValue("@telefono", cliente.Telefono);
                     command.Parameters.AddWithValue("@correo", cliente.Correo);
                     //command.Parameters.AddWithValue("@direccion", cliente.Direccion);
-                    command.Parameters.AddWithValue("@estatus", string.Equals(cliente.Estatus, "Activo", StringComparison.OrdinalIgnoreCase)?"N" :"B");
+                    command.Parameters.AddWithValue("@estatus", string.Equals(cliente.Estatus, "Activo", StringComparison.OrdinalIgnoreCase) ? "N" : "B");
+                    command.Parameters.AddWithValue("@codigoPostal", string.IsNullOrWhiteSpace(cliente.CodigoPostal) ? (object)DBNull.Value : cliente.CodigoPostal);
+                    command.Parameters.AddWithValue("@regimenFiscalId", cliente.RegimenFiscalId.HasValue ? (object)cliente.RegimenFiscalId.Value : DBNull.Value);
 
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -59,15 +61,18 @@ VALUES (@nombre, @rfc, @telefono, @correo, @estatus);", connection))
             {
                 using (var connection = _connectionFactory.Create())
                 //using (var command = new MySqlCommand(@"UPDATE clientes SET nombre = @nombre, razon_social = @razonSocial, rfc = @rfc, telefono = @telefono, correo = @correo, direccion = @direccion, estatus = @estatus WHERE cliente_id = @clienteId;", connection))
-                using (var command = new MySqlCommand(@"UPDATE clientes SET nombre = @nombre, rfc = @rfc, telefono = @telefono, correo = @correo, estatus = @estatus WHERE cliente_id = @clienteId;", connection))
+                using (var command = new MySqlCommand(@"UPDATE clientes SET nombre = @nombre, rfc = @rfc, telefono = @telefono, correo = @correo, estatus = @estatus, codigo_postal = @codigoPostal, c_regimenfiscal_id = @regimenFiscalId WHERE cliente_id = @clienteId;", connection))
                 {
                     command.Parameters.AddWithValue("@nombre", cliente.NombreComercial);
                     //command.Parameters.AddWithValue("@razonSocial", cliente.RazonSocial);
-                    command.Parameters.AddWithValue("@rfc", cliente.Rfc);
+                    command.Parameters.AddWithValue("@rfc", string.IsNullOrWhiteSpace(cliente.Rfc) ? (object)DBNull.Value : cliente.Rfc);
                     command.Parameters.AddWithValue("@telefono", cliente.Telefono);
                     command.Parameters.AddWithValue("@correo", cliente.Correo);
                     //command.Parameters.AddWithValue("@direccion", cliente.Direccion);
                     command.Parameters.AddWithValue("@estatus", string.Equals(cliente.Estatus, "Activo", StringComparison.OrdinalIgnoreCase) ? "N" : "B");
+                    command.Parameters.AddWithValue("@codigoPostal", string.IsNullOrWhiteSpace(cliente.CodigoPostal) ? (object)DBNull.Value : cliente.CodigoPostal);
+                    //command.Parameters.AddWithValue("@requiereFactura", cliente.RequiereFactura ? "S" : "N");
+                    command.Parameters.AddWithValue("@regimenFiscalId", cliente.RegimenFiscalId.HasValue ? (object)cliente.RegimenFiscalId.Value : DBNull.Value);
                     command.Parameters.AddWithValue("@clienteId", cliente.Id);
 
                     connection.Open();
@@ -110,14 +115,26 @@ VALUES (@nombre, @rfc, @telefono, @correo, @estatus);", connection))
         public IList<Cliente> Listar(string filtro)
         {
             var clientes = new List<Cliente>();
-            const string query = @"SELECT cliente_id, nombre, rfc, telefono, correo,
-case 
-	when estatus = 'N' THEN 'Activo'
-    when estatus = 'P' THEN 'Pendiente'
-    when estatus = 'B' THEN 'Inactivo'
- end as estatus
-FROM banquetes.clientes
-WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%') OR rfc LIKE CONCAT('%', @filtro, '%'))";
+            const string query = @"SELECT c.cliente_id
+	            , c.nombre
+                , c.rfc
+                , c.telefono
+                , c.correo
+                , c.codigo_postal
+                ,  case 
+		            when c.c_regimenfiscal_id is null THEN 'No'
+                    ELSE 'Si'
+	              end as requiere_factura
+                , c.c_regimenfiscal_id,
+                    case
+                        when c.estatus = 'N' THEN 'Activo'
+                        when c.estatus = 'P' THEN 'Pendiente'
+                        when c.estatus = 'B' THEN 'Inactivo'
+                    end as estatus
+            , rf.descripcion regimen_nombre
+                FROM banquetes.clientes c
+            left join c_regimenfiscal rf on rf.c_regimenfiscal_id = c.c_regimenfiscal_id
+                WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%') OR rfc LIKE CONCAT('%', @filtro, '%'))";
 
             try
             {
@@ -138,7 +155,11 @@ WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%') OR rfc LIKE CONCAT(
                                 Rfc = reader.IsDBNull(reader.GetOrdinal("rfc")) ? string.Empty : reader.GetString("rfc"),
                                 Telefono = reader.IsDBNull(reader.GetOrdinal("telefono")) ? string.Empty : reader.GetString("telefono"),
                                 Correo = reader.IsDBNull(reader.GetOrdinal("correo")) ? string.Empty : reader.GetString("correo"),
-                                Estatus = reader.IsDBNull(reader.GetOrdinal("estatus")) ? string.Empty : reader.GetString("estatus")
+                                Estatus = reader.IsDBNull(reader.GetOrdinal("estatus")) ? string.Empty : reader.GetString("estatus"),
+                                CodigoPostal = reader.IsDBNull(reader.GetOrdinal("codigo_postal")) ? string.Empty : reader.GetString("codigo_postal"),
+                                RequiereFacturaStr = reader.IsDBNull(reader.GetOrdinal("requiere_factura")) ? string.Empty : reader.GetString("requiere_factura"),
+                                RequiereFactura = (reader.GetString("requiere_factura") == "Si") ? true : false,
+                                RegimenFiscalId = reader.IsDBNull(reader.GetOrdinal("c_regimenfiscal_id")) ? (int?)null : reader.GetInt32("c_regimenfiscal_id")
                             });
                         }
                     }
