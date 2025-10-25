@@ -16,6 +16,69 @@ namespace Control_Pedidos.Controllers
             _connectionFactory = connectionFactory;
         }
 
+        public DataTable GetTodayDeliveries(int? empresaId = null)
+        {
+            var query = @"SELECT
+                    p.pedido_id AS PedidoId,
+                    p.folio AS Folio,
+                    c.cliente_id AS ClienteId,
+                    c.nombre AS Cliente,
+                    IFNULL(DATE_FORMAT(p.hora_entrega, '%H:%i'), '') AS HoraEntrega,
+                    p.estatus AS Estatus,
+                    IFNULL(det.TotalPedido, 0) AS Total
+                FROM pedidos p
+                INNER JOIN clientes c ON p.cliente_id = c.cliente_id
+                LEFT JOIN (
+                    SELECT pedido_id, SUM(total) AS TotalPedido
+                    FROM pedidos_detalles
+                    GROUP BY pedido_id
+                ) det ON det.pedido_id = p.pedido_id
+                WHERE DATE(p.fecha_entrega) = CURDATE()";
+
+            if (empresaId.HasValue)
+            {
+                query += "\n                AND p.empresa_id = @empresaId";
+            }
+
+            query += "\n                ORDER BY p.hora_entrega IS NULL, p.hora_entrega, c.nombre";
+
+            using (var connection = _connectionFactory.Create())
+            using (var command = new MySqlCommand(query, connection))
+            {
+                if (empresaId.HasValue)
+                {
+                    command.Parameters.AddWithValue("@empresaId", empresaId.Value);
+                }
+
+                using (var adapter = new MySqlDataAdapter(command))
+                {
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
+            }
+        }
+
+        public void UpdateOrderStatus(int orderId, string newStatus)
+        {
+            if (string.IsNullOrWhiteSpace(newStatus))
+            {
+                throw new ArgumentException("El nuevo estatus no puede estar vacío.", nameof(newStatus));
+            }
+
+            const string query = "UPDATE pedidos SET estatus = @estatus WHERE pedido_id = @pedidoId";
+
+            using (var connection = _connectionFactory.Create())
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@estatus", newStatus);
+                command.Parameters.AddWithValue("@pedidoId", orderId);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
         public DataTable GetOrderTable(int? empresaId = null)
         {
             var query = @"SELECT
