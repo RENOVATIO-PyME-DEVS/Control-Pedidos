@@ -59,7 +59,8 @@ namespace Control_Pedidos.Views.Clients
             {
                 DataPropertyName = nameof(Cliente.NombreComercial),
                 HeaderText = "Nombre",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+               // AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                Width = 250
             });
 
 
@@ -75,7 +76,7 @@ namespace Control_Pedidos.Views.Clients
                 DataPropertyName = nameof(Cliente.Correo),
                 HeaderText = "Correo",
                 //AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-                Width = 150
+                Width = 185
             });
 
             clientsGrid.Columns.Add(new DataGridViewTextBoxColumn
@@ -83,15 +84,22 @@ namespace Control_Pedidos.Views.Clients
                 DataPropertyName = nameof(Cliente.Telefono),
                 HeaderText = "Teléfono",
                 //AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-                Width = 120
+                Width = 130
             });
 
             clientsGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(Cliente.Estatus),
                 HeaderText = "Estatus",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-                //Width = 90
+                //AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                Width = 120
+            });
+            clientsGrid.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = nameof(Cliente.RequiereFacturaStr),
+                HeaderText = "Requiere Factura",
+                //AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+                Width = 180
             });
 
             clientsGrid.DataSource = _bindingSource;

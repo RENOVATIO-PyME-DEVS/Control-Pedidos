@@ -14,6 +14,7 @@ namespace Control_Pedidos.Models
         public string Direccion { get; set; } = string.Empty;
         public string Estatus { get; set; } = "Activo";
         public string CodigoPostal { get; set; } = string.Empty;
+        public string RequiereFacturaStr { get; set; } = "No";
         public bool RequiereFactura { get; set; }
         public int? RegimenFiscalId { get; set; }
         public string Nombre
