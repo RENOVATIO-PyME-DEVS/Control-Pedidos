@@ -21,7 +21,7 @@ namespace Control_Pedidos.Models
         public DateTime FechaPrecio { get; set; } = DateTime.Today;
         public int? UsuarioPrecioId { get; set; }
         public string Estatus { get; set; } = "Activo";
-        public bool TieneInventario { get; set; }
+        public int? Personas { get; set; } = 0;
         public IList<KitDetalle> Componentes { get; set; } = new List<KitDetalle>();
 
         public bool EsKit => string.Equals(TipoArticulo, "kit", StringComparison.OrdinalIgnoreCase);
