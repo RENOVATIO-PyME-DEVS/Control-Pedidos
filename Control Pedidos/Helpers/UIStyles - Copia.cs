@@ -7,13 +7,17 @@ using System.Windows.Forms;
 
 namespace Control_Pedidos.Helpers
 {
-    public static class UIStyles
+    public static class UIStylesAnterior
     {
         private const string StyledTag = "__ui_styled__";
-        private const int HeaderHeight = 58;
+
+        private const int HeaderHeight = 60;
+        private const int WrapperPadding = 6;//18;
+        private const int CardPadding = 8;//14;
 
         public static readonly Color BackgroundColor = Color.FromArgb(244, 247, 252);
         public static readonly Color SurfaceColor = Color.White;
+        //public static readonly Color AccentColor = Color.FromArgb(37, 99, 235);//barra superior
         public static readonly Color AccentColor = Color.FromArgb(24, 66, 156);
         public static readonly Color AccentHoverColor = Color.FromArgb(59, 130, 246);
         public static readonly Color AccentActiveColor = Color.FromArgb(29, 78, 216);
@@ -33,10 +37,14 @@ namespace Control_Pedidos.Helpers
         public static void ApplyTheme(Form form)
         {
             if (form == null || form.IsDisposed)
+            {
                 return;
+            }
 
             if (form.Tag is string tag && tag == StyledTag)
+            {
                 return;
+            }
 
             form.SuspendLayout();
 
@@ -45,38 +53,79 @@ namespace Control_Pedidos.Helpers
             form.ForeColor = TextPrimaryColor;
             form.Font = DefaultFont;
 
-            // Dibuja encabezado visual sin modificar estructura
-            AddHeaderPanel(form);
+            var originalSize = form.ClientSize;
 
-            // Aplica estilos a los controles existentes
-            foreach (Control control in form.Controls)
+            var headerPanel = CreateHeaderPanel(form);
+            var contentWrapper = new Panel
             {
-                StyleControl(control);
+                Dock = DockStyle.Fill,
+                Padding = new Padding(WrapperPadding),
+                BackColor = Color.Transparent
+            };
+
+            var cardPanel = new Panel
+            {
+                Dock = DockStyle.Fill,
+                BackColor = SurfaceColor,
+                Padding = new Padding(CardPadding),
+                AutoScroll = true
+            };
+
+            EnableDoubleBuffering(cardPanel);
+            ApplyRoundedCorners(cardPanel, 20);
+
+            AttachShadow(contentWrapper, cardPanel);
+
+            var controls = form.Controls.Cast<Control>().ToList();
+
+            form.Controls.Clear();
+            form.Controls.Add(contentWrapper);
+            form.Controls.Add(headerPanel);
+            contentWrapper.Controls.Add(cardPanel);
+
+            foreach (var control in controls)
+            {
+                if (control is null)
+                {
+                    continue;
+                }
+
+                cardPanel.Controls.Add(control);
             }
+
+            StyleControl(cardPanel);
+
+            var newWidth = originalSize.Width + 2 * (WrapperPadding + CardPadding);
+            var newHeight = originalSize.Height + HeaderHeight + 2 * WrapperPadding + 2 * CardPadding;
+            form.ClientSize = new Size(newWidth, newHeight);
+            form.MinimumSize = form.Size;
 
             form.Tag = StyledTag;
             form.ResumeLayout();
         }
 
-        private static void AddHeaderPanel(Form form)
+        private static Panel CreateHeaderPanel(Form form)
         {
-            var header = new Panel
+            var headerPanel = new Panel
             {
                 Dock = DockStyle.Top,
                 Height = HeaderHeight,
                 BackColor = AccentColor,
+                Padding = new Padding(24, 16, 24, 16),
                 Tag = StyledTag
             };
 
-            var title = new Label
+            var titleLabel = new Label
             {
                 AutoSize = true,
                 Text = form.Text,
                 ForeColor = Color.White,
                 Font = TitleFont,
-                Location = new Point(20, 10),
+                Location = new Point(0, 6),
                 Tag = StyledTag
             };
+
+            headerPanel.Controls.Add(titleLabel);
 
             var subtitle = new Label
             {
@@ -84,66 +133,62 @@ namespace Control_Pedidos.Helpers
                 Text = "Control de Pedidos",
                 ForeColor = Color.FromArgb(226, 232, 240),
                 Font = SubtitleFont,
-                Location = new Point(22, 40),
+                Location = new Point(0, 36),
                 Tag = StyledTag
             };
 
-            header.Controls.Add(title);
-            header.Controls.Add(subtitle);
+            headerPanel.Controls.Add(subtitle);
 
-            // Insertar el header en la parte superior sin reordenar controles
-            form.Controls.Add(header);
-            header.BringToFront();
-
-            // Agregar una sombra sutil debajo
-            header.Paint += (s, e) =>
-            {
-                using (var brush = new LinearGradientBrush(
-                    new Rectangle(0, header.Height - 18, header.Width, 18),
-                    Color.FromArgb(80, Color.Black),
-                    Color.Transparent,
-                    LinearGradientMode.Vertical))
-                {
-                    e.Graphics.FillRectangle(brush, 0, header.Height - 16, header.Width, 16);
-                }
-            };
+            return headerPanel;
         }
 
         private static void StyleControl(Control control)
         {
-            if (control == null)
+            if (control is null)
+            {
                 return;
+            }
 
             if (control.Tag is string tag && tag == StyledTag)
+            {
                 return;
+            }
 
             switch (control)
             {
                 case Panel panel:
-                    panel.BackColor = SurfaceColor;
+                    if (panel.Parent is Panel)
+                    {
+                        panel.BackColor = SurfaceColor;
+                    }
                     EnableDoubleBuffering(panel);
                     break;
                 case GroupBox groupBox:
                     groupBox.BackColor = SurfaceColor;
                     groupBox.ForeColor = TextPrimaryColor;
                     groupBox.Font = SemiBoldFont;
+                    groupBox.Padding = new Padding(groupBox.Padding.Left, groupBox.Padding.Top + 8, groupBox.Padding.Right, groupBox.Padding.Bottom + 8);
                     break;
                 case Label label:
                     label.ForeColor = TextSecondaryColor;
-                    if (Math.Abs(label.Font.Size - DefaultFont.Size) > 0.1f)
+                    if (Math.Abs(label.Font.Size - DefaultFont.Size) > 0.1f || label.Font.FontFamily.Name == DefaultFont.FontFamily.Name)
+                    {
                         label.Font = new Font("Segoe UI Semibold", DefaultFont.Size - 0.5f, FontStyle.Regular, GraphicsUnit.Point);
+                    }
                     break;
                 case TextBox textBox:
                     textBox.BorderStyle = BorderStyle.FixedSingle;
                     textBox.BackColor = Color.White;
                     textBox.ForeColor = TextPrimaryColor;
                     textBox.Font = DefaultFont;
+                    textBox.Margin = new Padding(0, 0, 0, 12);
                     break;
                 case ComboBox comboBox:
                     comboBox.FlatStyle = FlatStyle.Flat;
                     comboBox.BackColor = Color.White;
                     comboBox.ForeColor = TextPrimaryColor;
                     comboBox.Font = DefaultFont;
+                    comboBox.Margin = new Padding(0, 0, 0, 12);
                     break;
                 case DateTimePicker dateTimePicker:
                     dateTimePicker.Font = DefaultFont;
@@ -201,7 +246,7 @@ namespace Control_Pedidos.Helpers
             var text = button.Text?.ToLowerInvariant() ?? string.Empty;
             if (text.Contains("eliminar") || text.Contains("inactivar") || text.Contains("baja"))
             {
-                ApplyButtonStateColors(button, DangerColor, DangerHoverColor, DangerActiveColor, Color.White);
+                ApplyButtonStateColors(button, DangerColor, DangerHoverColor, DangerActiveColor, Color.White, 0);
             }
             else if (text.Contains("limpiar") || text.Contains("cancelar"))
             {
@@ -209,41 +254,51 @@ namespace Control_Pedidos.Helpers
                 button.ForeColor = AccentColor;
                 button.FlatAppearance.BorderSize = 1;
                 button.FlatAppearance.BorderColor = AccentColor;
-                ApplyButtonStateColors(button, NeutralButtonColor, Color.FromArgb(226, 232, 240), Color.FromArgb(209, 213, 219), AccentColor);
+                ApplyButtonStateColors(button, NeutralButtonColor, Color.FromArgb(226, 232, 240), Color.FromArgb(209, 213, 219), AccentColor, 1);
             }
             else
             {
-                ApplyButtonStateColors(button, AccentColor, AccentHoverColor, AccentActiveColor, Color.White);
+                ApplyButtonStateColors(button, AccentColor, AccentHoverColor, AccentActiveColor, Color.White, 0);
             }
         }
 
-        private static void ApplyButtonStateColors(Button button, Color normal, Color hover, Color active, Color textColor)
+        private static void ApplyButtonStateColors(Button button, Color normal, Color hover, Color active, Color textColor, int borderSize)
         {
             button.BackColor = normal;
             button.ForeColor = textColor;
+            button.FlatAppearance.BorderSize = borderSize;
+            button.FlatAppearance.BorderColor = borderSize > 0 ? AccentColor : Color.Turquoise;
 
             button.MouseEnter += (_, __) =>
             {
                 if (button.Enabled)
+                {
                     button.BackColor = hover;
+                }
             };
 
             button.MouseLeave += (_, __) =>
             {
                 if (button.Enabled)
+                {
                     button.BackColor = normal;
+                }
             };
 
             button.MouseDown += (_, __) =>
             {
                 if (button.Enabled)
+                {
                     button.BackColor = active;
+                }
             };
 
             button.MouseUp += (_, __) =>
             {
                 if (button.Enabled)
+                {
                     button.BackColor = hover;
+                }
             };
         }
 
@@ -258,7 +313,6 @@ namespace Control_Pedidos.Helpers
             grid.RowHeadersVisible = false;
             grid.EnableHeadersVisualStyles = false;
             grid.GridColor = DividerColor;
-
             grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point);
             grid.ColumnHeadersDefaultCellStyle.BackColor = AccentColor;
@@ -278,6 +332,65 @@ namespace Control_Pedidos.Helpers
             grid.RowTemplate.Height = 36;
         }
 
+        private static void ApplyRoundedCorners(Control control, int radius)
+        {
+            void UpdateRegion()
+            {
+                if (control.Width <= 0 || control.Height <= 0)
+                {
+                    return;
+                }
+
+                using (var path = CreateRoundedRectangle(control.ClientRectangle, radius))
+                {
+                    control.Region = new Region(path);
+                }
+            }
+
+            control.HandleCreated += (_, __) => UpdateRegion();
+            control.Resize += (_, __) => UpdateRegion();
+
+            if (control.IsHandleCreated)
+            {
+                UpdateRegion();
+            }
+        }
+
+        private static GraphicsPath CreateRoundedRectangle(Rectangle bounds, int radius)
+        {
+            var diameter = radius * 2;
+            var path = new GraphicsPath();
+            path.StartFigure();
+            path.AddArc(bounds.X, bounds.Y, diameter, diameter, 180, 90);
+            path.AddArc(bounds.Right - diameter, bounds.Y, diameter, diameter, 270, 90);
+            path.AddArc(bounds.Right - diameter, bounds.Bottom - diameter, diameter, diameter, 0, 90);
+            path.AddArc(bounds.X, bounds.Bottom - diameter, diameter, diameter, 90, 90);
+            path.CloseFigure();
+            return path;
+        }
+
+        private static void AttachShadow(Panel wrapper, Panel card)
+        {
+            wrapper.Paint += (sender, args) =>
+            {
+                var graphics = args.Graphics;
+                graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+                var rect = card.Bounds;
+                rect.Offset(4, 6);
+                rect.Inflate(4, 4);
+
+                using (var path = CreateRoundedRectangle(rect, 22))
+                using (var brush = new SolidBrush(Color.FromArgb(60, 15, 23, 42)))
+                {
+                    graphics.FillPath(brush, path);
+                }
+            };
+
+            card.SizeChanged += (_, __) => wrapper.Invalidate();
+            card.LocationChanged += (_, __) => wrapper.Invalidate();
+        }
+
         private static void EnableDoubleBuffering(Control control)
         {
             try
@@ -287,7 +400,7 @@ namespace Control_Pedidos.Helpers
             }
             catch
             {
-                // ignorar
+                // ignored
             }
         }
     }

@@ -92,7 +92,7 @@ namespace Control_Pedidos.Views
 
         private void articlesButton_Click(object sender, EventArgs e)
         {
-            using (var form = new ArticleManagementForm(_connectionFactory))
+            using (var form = new ArticleManagementForm(_connectionFactory, _userId))
             {
                 form.ShowDialog();
             }

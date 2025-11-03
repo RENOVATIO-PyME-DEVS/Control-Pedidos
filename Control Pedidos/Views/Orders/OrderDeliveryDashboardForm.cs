@@ -373,7 +373,8 @@ namespace Control_Pedidos.Views.Orders
                 return;
             }
 
-            if (sender is not ToolStripMenuItem menuItem)
+            var menuItem = sender as ToolStripMenuItem;
+            if (menuItem == null)
             {
                 return;
             }

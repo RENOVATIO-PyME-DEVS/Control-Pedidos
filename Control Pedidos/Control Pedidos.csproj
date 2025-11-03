@@ -109,6 +109,7 @@
     <Compile Include="Data\RolDao.cs" />
     <Compile Include="Data\UsuarioDao.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="Helpers\UIStyles - Copia.cs" />
     <Compile Include="Helpers\UIStyles.cs" />
     <Compile Include="Helpers\ValidationHelper.cs" />
     <Compile Include="Models\Articulo.cs" />
@@ -192,6 +193,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Articles\ArticleManagementForm.resx">
+      <DependentUpon>ArticleManagementForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Clients\ClientManagementForm.resx">
       <DependentUpon>ClientManagementForm.cs</DependentUpon>

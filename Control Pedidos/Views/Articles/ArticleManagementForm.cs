@@ -20,14 +20,20 @@ namespace Control_Pedidos.Views.Articles
         private IList<Articulo> _catalogoComponentes = new List<Articulo>();
         private Articulo _selectedArticulo;
 
-        public ArticleManagementForm(DatabaseConnectionFactory connectionFactory)
+        private readonly string _userId;
+
+        public ArticleManagementForm(DatabaseConnectionFactory connectionFactory, string usernameid)
         {
             InitializeComponent();
             UIStyles.ApplyTheme(this);
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
 
-            typeComboBox.DataSource = new[] { "normal", "kit" };
+            _userId = usernameid;
+
+            typeComboBox.DataSource = new[] { "normal", "produccion", "kit" };
             statusComboBox.DataSource = new[] { "Activo", "Inactivo" };
+
+            priceDatePicker.Value = DateTime.Today;
 
             ConfigureGrids();
             LoadArticulos();
@@ -228,9 +234,9 @@ namespace Control_Pedidos.Views.Articles
                 ContenidoControl = ParseDecimal(contentControlTextBox.Text.Trim()),
                 Precio = ParseDecimal(priceTextBox.Text.Trim()),
                 FechaPrecio = priceDatePicker.Value.Date,
-                UsuarioPrecioId = int.TryParse(usuarioPrecioTextBox.Text.Trim(), out var usuarioId) ? usuarioId : (int?)null,
+                UsuarioPrecioId = int.TryParse(_userId, out var usuarioId) ? usuarioId : (int?)null,
                 Estatus = statusComboBox.SelectedItem?.ToString() ?? "Activo",
-                TieneInventario = inventoryCheckBox.Checked
+                //TieneInventario = inventoryCheckBox.Checked
             };
 
             if (articulo.EsKit)
@@ -298,9 +304,9 @@ namespace Control_Pedidos.Views.Articles
                 contentControlTextBox.Text = articulo.ContenidoControl.ToString(CultureInfo.CurrentCulture);
                 priceTextBox.Text = articulo.Precio.ToString(CultureInfo.CurrentCulture);
                 priceDatePicker.Value = articulo.FechaPrecio;
-                usuarioPrecioTextBox.Text = articulo.UsuarioPrecioId?.ToString() ?? string.Empty;
+                //usuarioPrecioTextBox.Text = articulo.UsuarioPrecioId?.ToString() ?? string.Empty;
                 statusComboBox.SelectedItem = articulo.Estatus;
-                inventoryCheckBox.Checked = articulo.TieneInventario;
+                //inventoryCheckBox.Checked = articulo.Personas;
 
                 _componentes.Clear();
                 if (articulo.EsKit && articulo.Componentes != null)
@@ -337,7 +343,7 @@ namespace Control_Pedidos.Views.Articles
             contentControlTextBox.Clear();
             priceTextBox.Clear();
             priceDatePicker.Value = DateTime.Today;
-            usuarioPrecioTextBox.Clear();
+           // usuarioPrecioTextBox.Clear();
             statusComboBox.SelectedIndex = 0;
             inventoryCheckBox.Checked = false;
             _componentes.Clear();
@@ -415,6 +421,11 @@ namespace Control_Pedidos.Views.Articles
         private void searchTextBox_TextChanged(object sender, EventArgs e)
         {
             LoadArticulos(searchTextBox.Text.Trim());
+        }
+
+        private void ArticleManagementForm_Load(object sender, EventArgs e)
+        {
+            
         }
     }
 }

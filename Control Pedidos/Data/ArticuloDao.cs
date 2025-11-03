@@ -30,8 +30,8 @@ namespace Control_Pedidos.Data
                     connection.Open();
                     using (var transaction = connection.BeginTransaction())
                     {
-                        const string insertQuery = @"INSERT INTO articulos (nombre, nombre_corto, tipo_articulo, unidad_medida, unidad_control, contenido_control, precio, fecha_precio, usuario_precio_id, estatus, tiene)
-VALUES (@nombre, @nombreCorto, @tipoArticulo, @unidadMedida, @unidadControl, @contenidoControl, @precio, @fechaPrecio, @usuarioPrecioId, @estatus, @tiene);";
+                        const string insertQuery = @"INSERT INTO articulos (nombre, nombre_corto, tipo_articulo, unidad_medida, unidad_control, contenido_control, precio, fecha_precio, usuario_precio_id, estatus, personas)
+VALUES (@nombre, @nombreCorto, @tipoArticulo, @unidadMedida, @unidadControl, @contenidoControl, @precio, @fechaPrecio, @usuarioPrecioId, @estatus, @personas);";
 
                         using (var command = new MySqlCommand(insertQuery, connection, transaction))
                         {
@@ -45,7 +45,7 @@ VALUES (@nombre, @nombreCorto, @tipoArticulo, @unidadMedida, @unidadControl, @co
                             command.Parameters.AddWithValue("@fechaPrecio", articulo.FechaPrecio);
                             command.Parameters.AddWithValue("@usuarioPrecioId", articulo.UsuarioPrecioId.HasValue ? (object)articulo.UsuarioPrecioId.Value : DBNull.Value);
                             command.Parameters.AddWithValue("@estatus", articulo.Estatus);
-                            command.Parameters.AddWithValue("@tiene", articulo.TieneInventario ? 1 : 0);
+                            command.Parameters.AddWithValue("@personas", articulo.Personas);
 
                             command.ExecuteNonQuery();
                             articulo.Id = Convert.ToInt32(command.LastInsertedId);
@@ -91,7 +91,7 @@ SET nombre = @nombre,
     fecha_precio = @fechaPrecio,
     usuario_precio_id = @usuarioPrecioId,
     estatus = @estatus,
-    tiene = @tiene
+    personas = @personas
 WHERE articulo_id = @articuloId;";
 
                         using (var command = new MySqlCommand(updateQuery, connection, transaction))
@@ -106,7 +106,7 @@ WHERE articulo_id = @articuloId;";
                             command.Parameters.AddWithValue("@fechaPrecio", articulo.FechaPrecio);
                             command.Parameters.AddWithValue("@usuarioPrecioId", articulo.UsuarioPrecioId.HasValue ? (object)articulo.UsuarioPrecioId.Value : DBNull.Value);
                             command.Parameters.AddWithValue("@estatus", articulo.Estatus);
-                            command.Parameters.AddWithValue("@tiene", articulo.TieneInventario ? 1 : 0);
+                            command.Parameters.AddWithValue("@tiene", articulo.Personas);
                             command.Parameters.AddWithValue("@articuloId", articulo.Id);
 
                             command.ExecuteNonQuery();
@@ -164,8 +164,8 @@ WHERE articulo_id = @articuloId;";
         public IList<Articulo> Listar(string filtro)
         {
             var articulos = new List<Articulo>();
-            const string query = @"SELECT articulo_id, nombre, nombre_corto, tipo_articulo, unidad_medida, unidad_control, contenido_control, precio, fecha_precio, usuario_precio_id, estatus, tiene
-FROM articulos
+            const string query = @"SELECT articulo_id, nombre, nombre_corto, tipo_articulo, unidad_medida, unidad_control, contenido_control, precio, fecha_precio, usuario_precio_id, estatus, coalesce(personas, 0) personas
+FROM banquetes.articulos
 WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
 
             try
@@ -193,7 +193,7 @@ WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
                                 FechaPrecio = reader.IsDBNull(reader.GetOrdinal("fecha_precio")) ? DateTime.Today : reader.GetDateTime("fecha_precio"),
                                 UsuarioPrecioId = reader.IsDBNull(reader.GetOrdinal("usuario_precio_id")) ? (int?)null : reader.GetInt32("usuario_precio_id"),
                                 Estatus = reader.GetString("estatus"),
-                                TieneInventario = !reader.IsDBNull(reader.GetOrdinal("tiene")) && reader.GetBoolean("tiene")
+                                Personas = reader.GetInt32("personas")
                             };
 
                             articulos.Add(articulo);
