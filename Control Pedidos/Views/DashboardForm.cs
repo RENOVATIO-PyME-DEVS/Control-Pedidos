@@ -35,10 +35,12 @@ namespace Control_Pedidos.Views
             _empresaId = empresaId;
             _empresaNombre = empresaNombre;
 
+            // Personalizamos la cabecera con la info del usuario autenticado.
             welcomeLabel.Text = $"Bienvenido, {usernamename}";
             roleLabel.Text = $"Rol: {role}";
             companyLabel.Text = $"Empresa: {empresaNombre}";
 
+            // Solo los administradores pueden ver la sección de catálogos.
             var isAdmin = string.Equals(role, "Administrador", StringComparison.OrdinalIgnoreCase);
             usersButton.Enabled = isAdmin;
             clientsButton.Enabled = isAdmin;
@@ -51,6 +53,7 @@ namespace Control_Pedidos.Views
         {
             try
             {
+                // Falta integrar métricas reales, por ahora dejamos una tabla vacía para evitar romper la UI.
                 var table = new DataTable(); // _orderController.GetOrderTable(_empresaId);
                 activeOrdersGrid.DataSource = table;
                 activeOrdersCountLabel.Text = table.Rows.Count.ToString();
@@ -97,7 +100,5 @@ namespace Control_Pedidos.Views
                 form.ShowDialog();
             }
         }
-
-       
     }
 }

@@ -23,6 +23,8 @@ namespace Control_Pedidos.Views
             _authController = authController;
             InitializeComponent();
             UIStyles.ApplyTheme(this);
+
+            // Autocompletamos el usuario con lo último que se usó para hacer más cómodo el login.
             if (!string.IsNullOrEmpty(lastUsername))
             {
                 usernameTextBox.Text = lastUsername;
@@ -41,6 +43,7 @@ namespace Control_Pedidos.Views
             {
                 if (_authController.TryLogin(usernameTextBox.Text, passwordTextBox.Text, out var role, out var user, out var userId))
                 {
+                    // Si el login fue exitoso, validamos que tenga empresas asignadas y dejamos elegir una.
                     var empresas = _authController.GetEmpresasPorUsuario(userId);
 
                     if (empresas.Count == 0)
@@ -56,6 +59,7 @@ namespace Control_Pedidos.Views
                         return;
                     }
 
+                    // Guardamos toda la info para que el dashboard arranque con contexto.
                     SelectedEmpresaId = empresaSeleccionada.Id;
                     SelectedEmpresaNombre = empresaSeleccionada.Nombre;
                     AuthenticatedRole = role;

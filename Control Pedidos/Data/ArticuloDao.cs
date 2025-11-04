@@ -18,6 +18,7 @@ namespace Control_Pedidos.Data
 
         public ArticuloDao(DatabaseConnectionFactory connectionFactory)
         {
+            // Guardamos la fábrica para abrir conexiones cuando sea necesario.
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
 
@@ -37,6 +38,7 @@ namespace Control_Pedidos.Data
 
                         using (var command = new MySqlCommand(insertQuery, connection, transaction))
                         {
+                            // Campos básicos del artículo; si algunos vienen nulos los convertimos a DBNull.
                             command.Parameters.AddWithValue("@nombre", articulo.Nombre);
                             command.Parameters.AddWithValue("@nombreCorto", articulo.NombreCorto);
                             command.Parameters.AddWithValue("@tipoArticulo", articulo.TipoArticulo);
@@ -55,6 +57,7 @@ namespace Control_Pedidos.Data
 
                         if (articulo.EsKit)
                         {
+                            // Si el artículo es un kit, persistimos sus componentes en la tabla de detalle.
                             GuardarComponentes(connection, transaction, articulo);
                         }
 
@@ -98,6 +101,7 @@ namespace Control_Pedidos.Data
 
                         using (var command = new MySqlCommand(updateQuery, connection, transaction))
                         {
+                            // Actualizamos los mismos campos que en el alta para mantenerlos sincronizados.
                             command.Parameters.AddWithValue("@nombre", articulo.Nombre);
                             command.Parameters.AddWithValue("@nombreCorto", articulo.NombreCorto);
                             command.Parameters.AddWithValue("@tipoArticulo", articulo.TipoArticulo);
@@ -117,6 +121,7 @@ namespace Control_Pedidos.Data
                         const string deleteDetalle = "DELETE FROM articulos_kit WHERE articulo_id = @articuloId";
                         using (var deleteCommand = new MySqlCommand(deleteDetalle, connection, transaction))
                         {
+                            // Limpiamos el detalle actual para evitar duplicados antes de grabar los nuevos componentes.
                             deleteCommand.Parameters.AddWithValue("@articuloId", articulo.Id);
                             deleteCommand.ExecuteNonQuery();
                         }
@@ -148,6 +153,7 @@ namespace Control_Pedidos.Data
                 using (var connection = _connectionFactory.Create())
                 using (var command = new MySqlCommand(@"UPDATE articulos SET estatus = 'B' WHERE articulo_id = @articuloId;", connection))
                 {
+                    // Baja lógica, marcamos como B en vez de borrar el registro.
                     command.Parameters.AddWithValue("@articuloId", articuloId);
 
                     connection.Open();
@@ -175,6 +181,7 @@ WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
                 using (var connection = _connectionFactory.Create())
                 using (var command = new MySqlCommand(query, connection))
                 {
+                    // El filtro es opcional: busca por nombre si viene algo.
                     command.Parameters.AddWithValue("@filtro", filtro ?? string.Empty);
                     connection.Open();
 
@@ -203,6 +210,7 @@ WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
                     }
                 }
 
+                // Para los kits completamos la lista de componentes en una segunda consulta.
                 CargarComponentes(articulos.Where(a => a.EsKit).ToList());
             }
             catch (Exception ex)
@@ -226,6 +234,7 @@ WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
             {
                 using (var command = new MySqlCommand(insertDetalle, connection, transaction))
                 {
+                    // Guardamos cada línea del kit con su cantidad.
                     command.Parameters.AddWithValue("@articulo_id", articulo.Id);
                     command.Parameters.AddWithValue("@articulo_compuesto_id", detalle.ArticuloId);
                     command.Parameters.AddWithValue("@cantidad", detalle.Cantidad);
@@ -241,6 +250,7 @@ WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
                 return;
             }
 
+            // Traemos todos los componentes de una sola vez para los kits listados.
             var ids = string.Join(",", kits.Select(k => k.Id));
             var query = $@"SELECT kd.articulo_kit_id, kd.articulo_id, kd.articulo_compuesto_id, kd.cantidad, a.nombre, a.nombre_corto
                 FROM articulos_kit kd
@@ -278,8 +288,5 @@ WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
                 }
             }
         }
-
-     
-
     }
 }
