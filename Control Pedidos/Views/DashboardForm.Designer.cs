@@ -37,7 +37,7 @@ namespace Control_Pedidos.Views
             // 
             this.welcomeLabel.AutoSize = true;
             this.welcomeLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.welcomeLabel.Location = new System.Drawing.Point(29, 22);
+            this.welcomeLabel.Location = new System.Drawing.Point(29, 73);
             this.welcomeLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.welcomeLabel.Name = "welcomeLabel";
             this.welcomeLabel.Size = new System.Drawing.Size(118, 28);
@@ -47,26 +47,17 @@ namespace Control_Pedidos.Views
             // roleLabel
             // 
             this.roleLabel.AutoSize = true;
-            this.roleLabel.Location = new System.Drawing.Point(33, 59);
+            this.roleLabel.Location = new System.Drawing.Point(33, 103);
             this.roleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.roleLabel.Name = "roleLabel";
             this.roleLabel.Size = new System.Drawing.Size(28, 16);
             this.roleLabel.TabIndex = 1;
             this.roleLabel.Text = "Rol";
-            //
-            // companyLabel
-            //
-            this.companyLabel.AutoSize = true;
-            this.companyLabel.Location = new System.Drawing.Point(33, 85);
-            this.companyLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.companyLabel.Name = "companyLabel";
-            this.companyLabel.Size = new System.Drawing.Size(59, 16);
-            this.companyLabel.TabIndex = 8;
-            this.companyLabel.Text = "Empresa";
-            //
+            // 
             // refreshButton
-            //
-            this.refreshButton.Location = new System.Drawing.Point(792, 46);
+            // 
+            this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.refreshButton.Location = new System.Drawing.Point(789, 97);
             this.refreshButton.Margin = new System.Windows.Forms.Padding(4);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(183, 42);
@@ -77,10 +68,10 @@ namespace Control_Pedidos.Views
             // 
             // ordersButton
             // 
-            this.ordersButton.Location = new System.Drawing.Point(37, 119);
+            this.ordersButton.Location = new System.Drawing.Point(37, 170);
             this.ordersButton.Margin = new System.Windows.Forms.Padding(4);
             this.ordersButton.Name = "ordersButton";
-            this.ordersButton.Size = new System.Drawing.Size(183, 42);
+            this.ordersButton.Size = new System.Drawing.Size(196, 42);
             this.ordersButton.TabIndex = 3;
             this.ordersButton.Text = "Gestión de pedidos";
             this.ordersButton.UseVisualStyleBackColor = true;
@@ -88,7 +79,7 @@ namespace Control_Pedidos.Views
             // 
             // usersButton
             // 
-            this.usersButton.Location = new System.Drawing.Point(241, 119);
+            this.usersButton.Location = new System.Drawing.Point(241, 170);
             this.usersButton.Margin = new System.Windows.Forms.Padding(4);
             this.usersButton.Name = "usersButton";
             this.usersButton.Size = new System.Drawing.Size(183, 42);
@@ -99,7 +90,7 @@ namespace Control_Pedidos.Views
             // 
             // clientsButton
             // 
-            this.clientsButton.Location = new System.Drawing.Point(445, 119);
+            this.clientsButton.Location = new System.Drawing.Point(445, 170);
             this.clientsButton.Margin = new System.Windows.Forms.Padding(4);
             this.clientsButton.Name = "clientsButton";
             this.clientsButton.Size = new System.Drawing.Size(183, 42);
@@ -110,7 +101,7 @@ namespace Control_Pedidos.Views
             // 
             // articlesButton
             // 
-            this.articlesButton.Location = new System.Drawing.Point(649, 119);
+            this.articlesButton.Location = new System.Drawing.Point(649, 170);
             this.articlesButton.Margin = new System.Windows.Forms.Padding(4);
             this.articlesButton.Name = "articlesButton";
             this.articlesButton.Size = new System.Drawing.Size(183, 42);
@@ -127,11 +118,11 @@ namespace Control_Pedidos.Views
             this.activeOrdersGroupBox.Controls.Add(this.activeOrdersCountLabel);
             this.activeOrdersGroupBox.Controls.Add(this.countCaptionLabel);
             this.activeOrdersGroupBox.Controls.Add(this.activeOrdersGrid);
-            this.activeOrdersGroupBox.Location = new System.Drawing.Point(37, 182);
+            this.activeOrdersGroupBox.Location = new System.Drawing.Point(37, 236);
             this.activeOrdersGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.activeOrdersGroupBox.Name = "activeOrdersGroupBox";
             this.activeOrdersGroupBox.Padding = new System.Windows.Forms.Padding(4);
-            this.activeOrdersGroupBox.Size = new System.Drawing.Size(938, 511);
+            this.activeOrdersGroupBox.Size = new System.Drawing.Size(932, 455);
             this.activeOrdersGroupBox.TabIndex = 5;
             this.activeOrdersGroupBox.TabStop = false;
             this.activeOrdersGroupBox.Text = "Pedidos activos";
@@ -140,7 +131,7 @@ namespace Control_Pedidos.Views
             // 
             this.activeOrdersCountLabel.AutoSize = true;
             this.activeOrdersCountLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.activeOrdersCountLabel.Location = new System.Drawing.Point(144, 33);
+            this.activeOrdersCountLabel.Location = new System.Drawing.Point(134, 24);
             this.activeOrdersCountLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.activeOrdersCountLabel.Name = "activeOrdersCountLabel";
             this.activeOrdersCountLabel.Size = new System.Drawing.Size(20, 23);
@@ -150,7 +141,7 @@ namespace Control_Pedidos.Views
             // countCaptionLabel
             // 
             this.countCaptionLabel.AutoSize = true;
-            this.countCaptionLabel.Location = new System.Drawing.Point(23, 38);
+            this.countCaptionLabel.Location = new System.Drawing.Point(23, 25);
             this.countCaptionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.countCaptionLabel.Name = "countCaptionLabel";
             this.countCaptionLabel.Size = new System.Drawing.Size(113, 16);
@@ -166,21 +157,31 @@ namespace Control_Pedidos.Views
             | System.Windows.Forms.AnchorStyles.Right)));
             this.activeOrdersGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.activeOrdersGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.activeOrdersGrid.Location = new System.Drawing.Point(27, 74);
+            this.activeOrdersGrid.Location = new System.Drawing.Point(27, 77);
             this.activeOrdersGrid.Margin = new System.Windows.Forms.Padding(4);
             this.activeOrdersGrid.MultiSelect = false;
             this.activeOrdersGrid.Name = "activeOrdersGrid";
             this.activeOrdersGrid.ReadOnly = true;
             this.activeOrdersGrid.RowHeadersWidth = 51;
             this.activeOrdersGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.activeOrdersGrid.Size = new System.Drawing.Size(886, 414);
+            this.activeOrdersGrid.Size = new System.Drawing.Size(880, 355);
             this.activeOrdersGrid.TabIndex = 0;
+            // 
+            // companyLabel
+            // 
+            this.companyLabel.AutoSize = true;
+            this.companyLabel.Location = new System.Drawing.Point(33, 129);
+            this.companyLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.companyLabel.Name = "companyLabel";
+            this.companyLabel.Size = new System.Drawing.Size(62, 16);
+            this.companyLabel.TabIndex = 8;
+            this.companyLabel.Text = "Empresa";
             // 
             // DashboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1003, 706);
+            this.ClientSize = new System.Drawing.Size(997, 704);
             this.Controls.Add(this.companyLabel);
             this.Controls.Add(this.activeOrdersGroupBox);
             this.Controls.Add(this.articlesButton);
@@ -194,6 +195,7 @@ namespace Control_Pedidos.Views
             this.Name = "DashboardForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Control de pedidos";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.activeOrdersGroupBox.ResumeLayout(false);
             this.activeOrdersGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.activeOrdersGrid)).EndInit();

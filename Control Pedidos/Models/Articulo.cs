@@ -13,7 +13,7 @@ namespace Control_Pedidos.Models
         public int Id { get; set; }
         public string Nombre { get; set; } = string.Empty;
         public string NombreCorto { get; set; } = string.Empty;
-        public string TipoArticulo { get; set; } = "normal";
+        public string TipoArticulo { get; set; } = "N";
         public string UnidadMedida { get; set; } = string.Empty;
         public string UnidadControl { get; set; } = string.Empty;
         public decimal ContenidoControl { get; set; }
@@ -24,7 +24,7 @@ namespace Control_Pedidos.Models
         public int? Personas { get; set; } = 0;
         public IList<KitDetalle> Componentes { get; set; } = new List<KitDetalle>();
 
-        public bool EsKit => string.Equals(TipoArticulo, "kit", StringComparison.OrdinalIgnoreCase);
+        public bool EsKit => string.Equals(TipoArticulo, "K", StringComparison.OrdinalIgnoreCase);
 
         public static bool Agregar(DatabaseConnectionFactory connectionFactory, Articulo articulo, out string message)
         {
