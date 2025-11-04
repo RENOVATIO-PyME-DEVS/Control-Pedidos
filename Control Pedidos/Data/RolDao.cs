@@ -103,7 +103,7 @@ VALUES (@nombre, @descripcion, @estatus);", connection))
         public IList<Rol> Listar()
         {
             var roles = new List<Rol>();
-            const string query = "SELECT rol_id, nombre, descripcion, estatus FROM roles WHERE estatus <> 'Eliminado'";
+            const string query = "SELECT rol_usuario_id, nombre FROM banquetes.roles_usuarios";
 
             try
             {
@@ -118,10 +118,8 @@ VALUES (@nombre, @descripcion, @estatus);", connection))
                             // Convertimos el resultado en objetos Rol para que la capa superior no toque MySQL directamente.
                             roles.Add(new Rol
                             {
-                                Id = reader.GetInt32("rol_id"),
+                                Id = reader.GetInt32("rol_usuario_id"),
                                 Nombre = reader.GetString("nombre"),
-                                Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? string.Empty : reader.GetString("descripcion"),
-                                Estatus = reader.GetString("estatus")
                             });
                         }
                     }

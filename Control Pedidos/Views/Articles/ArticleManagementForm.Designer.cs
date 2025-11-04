@@ -55,8 +55,10 @@ namespace Control_Pedidos.Views.Articles
             this.personsTextBox = new System.Windows.Forms.TextBox();
             this.countArticlesLabel = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.panelKit = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.articlesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.componentsGrid)).BeginInit();
+            this.panelKit.SuspendLayout();
             this.SuspendLayout();
             // 
             // articlesGrid
@@ -184,7 +186,7 @@ namespace Control_Pedidos.Views.Articles
             this.componentsGrid.AllowUserToAddRows = false;
             this.componentsGrid.AllowUserToDeleteRows = false;
             this.componentsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.componentsGrid.Location = new System.Drawing.Point(600, 139);
+            this.componentsGrid.Location = new System.Drawing.Point(14, 62);
             this.componentsGrid.MultiSelect = false;
             this.componentsGrid.Name = "componentsGrid";
             this.componentsGrid.ReadOnly = true;
@@ -198,21 +200,21 @@ namespace Control_Pedidos.Views.Articles
             // 
             this.componentComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.componentComboBox.FormattingEnabled = true;
-            this.componentComboBox.Location = new System.Drawing.Point(600, 99);
+            this.componentComboBox.Location = new System.Drawing.Point(14, 22);
             this.componentComboBox.Name = "componentComboBox";
             this.componentComboBox.Size = new System.Drawing.Size(267, 24);
             this.componentComboBox.TabIndex = 17;
             // 
             // componentQuantityTextBox
             // 
-            this.componentQuantityTextBox.Location = new System.Drawing.Point(883, 99);
+            this.componentQuantityTextBox.Location = new System.Drawing.Point(297, 22);
             this.componentQuantityTextBox.Name = "componentQuantityTextBox";
             this.componentQuantityTextBox.Size = new System.Drawing.Size(60, 22);
             this.componentQuantityTextBox.TabIndex = 18;
             // 
             // addComponentButton
             // 
-            this.addComponentButton.Location = new System.Drawing.Point(960, 96);
+            this.addComponentButton.Location = new System.Drawing.Point(374, 19);
             this.addComponentButton.Name = "addComponentButton";
             this.addComponentButton.Size = new System.Drawing.Size(60, 28);
             this.addComponentButton.TabIndex = 19;
@@ -222,7 +224,7 @@ namespace Control_Pedidos.Views.Articles
             // 
             // removeComponentButton
             // 
-            this.removeComponentButton.Location = new System.Drawing.Point(1119, 96);
+            this.removeComponentButton.Location = new System.Drawing.Point(533, 19);
             this.removeComponentButton.Name = "removeComponentButton";
             this.removeComponentButton.Size = new System.Drawing.Size(60, 28);
             this.removeComponentButton.TabIndex = 20;
@@ -314,7 +316,7 @@ namespace Control_Pedidos.Views.Articles
             // componentLabel
             // 
             this.componentLabel.AutoSize = true;
-            this.componentLabel.Location = new System.Drawing.Point(597, 79);
+            this.componentLabel.Location = new System.Drawing.Point(11, 2);
             this.componentLabel.Name = "componentLabel";
             this.componentLabel.Size = new System.Drawing.Size(84, 16);
             this.componentLabel.TabIndex = 32;
@@ -323,7 +325,7 @@ namespace Control_Pedidos.Views.Articles
             // quantityLabel
             // 
             this.quantityLabel.AutoSize = true;
-            this.quantityLabel.Location = new System.Drawing.Point(880, 79);
+            this.quantityLabel.Location = new System.Drawing.Point(294, 2);
             this.quantityLabel.Name = "quantityLabel";
             this.quantityLabel.Size = new System.Drawing.Size(61, 16);
             this.quantityLabel.TabIndex = 33;
@@ -420,11 +422,27 @@ namespace Control_Pedidos.Views.Articles
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // panelKit
+            // 
+            this.panelKit.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panelKit.Controls.Add(this.componentsGrid);
+            this.panelKit.Controls.Add(this.componentComboBox);
+            this.panelKit.Controls.Add(this.componentQuantityTextBox);
+            this.panelKit.Controls.Add(this.addComponentButton);
+            this.panelKit.Controls.Add(this.removeComponentButton);
+            this.panelKit.Controls.Add(this.componentLabel);
+            this.panelKit.Controls.Add(this.quantityLabel);
+            this.panelKit.Location = new System.Drawing.Point(585, 61);
+            this.panelKit.Name = "panelKit";
+            this.panelKit.Size = new System.Drawing.Size(607, 206);
+            this.panelKit.TabIndex = 44;
+            // 
             // ArticleManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1194, 737);
+            this.Controls.Add(this.panelKit);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.countArticlesLabel);
             this.Controls.Add(this.label1);
@@ -435,8 +453,6 @@ namespace Control_Pedidos.Views.Articles
             this.Controls.Add(this.unitMeasureComboBox);
             this.Controls.Add(this.searchTextBox);
             this.Controls.Add(this.searchLabel);
-            this.Controls.Add(this.quantityLabel);
-            this.Controls.Add(this.componentLabel);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.priceDateLabel);
             this.Controls.Add(this.priceLabel);
@@ -446,11 +462,6 @@ namespace Control_Pedidos.Views.Articles
             this.Controls.Add(this.typeLabel);
             this.Controls.Add(this.shortNameLabel);
             this.Controls.Add(this.nameLabel);
-            this.Controls.Add(this.removeComponentButton);
-            this.Controls.Add(this.addComponentButton);
-            this.Controls.Add(this.componentQuantityTextBox);
-            this.Controls.Add(this.componentComboBox);
-            this.Controls.Add(this.componentsGrid);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.updateButton);
@@ -472,6 +483,8 @@ namespace Control_Pedidos.Views.Articles
             this.Load += new System.EventHandler(this.ArticleManagementForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.articlesGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.componentsGrid)).EndInit();
+            this.panelKit.ResumeLayout(false);
+            this.panelKit.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -517,5 +530,6 @@ namespace Control_Pedidos.Views.Articles
         private System.Windows.Forms.TextBox personsTextBox;
         private System.Windows.Forms.Label countArticlesLabel;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel panelKit;
     }
 }

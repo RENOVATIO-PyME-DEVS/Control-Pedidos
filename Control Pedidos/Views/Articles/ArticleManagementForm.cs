@@ -490,6 +490,9 @@ namespace Control_Pedidos.Views.Articles
         {
             // Habilitamos o no la sección de componentes dependiendo del tipo seleccionado.
             var esKit = string.Equals(typeComboBox.SelectedItem?.ToString(), "kit", StringComparison.OrdinalIgnoreCase);
+
+            panelKit.Visible = esKit;
+
             componentComboBox.Enabled = esKit;
             componentQuantityTextBox.Enabled = esKit;
             addComponentButton.Enabled = esKit;
