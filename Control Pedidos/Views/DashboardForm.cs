@@ -24,7 +24,7 @@ namespace Control_Pedidos.Views
         public DashboardForm(string usernameid, string usernamename, string usernamecorreo, string role, DatabaseConnectionFactory connectionFactory, int empresaId, string empresaNombre)
         {
             InitializeComponent();
-            //UIStyles.ApplyTheme(this);
+            UIStyles.ApplyTheme(this);
 
             _connectionFactory = connectionFactory;
             _orderController = new OrderController(connectionFactory);
@@ -51,7 +51,7 @@ namespace Control_Pedidos.Views
         {
             try
             {
-                var table = _orderController.GetOrderTable(_empresaId);
+                var table = new DataTable(); // _orderController.GetOrderTable(_empresaId);
                 activeOrdersGrid.DataSource = table;
                 activeOrdersCountLabel.Text = table.Rows.Count.ToString();
             }

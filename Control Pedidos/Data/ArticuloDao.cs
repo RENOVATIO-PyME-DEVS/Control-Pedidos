@@ -1,9 +1,11 @@
+using Control_Pedidos.Models;
+using MySql.Data.MySqlClient;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Control_Pedidos.Models;
-using MySql.Data.MySqlClient;
+using System.Windows.Forms;
 
 namespace Control_Pedidos.Data
 {
@@ -31,7 +33,7 @@ namespace Control_Pedidos.Data
                     using (var transaction = connection.BeginTransaction())
                     {
                         const string insertQuery = @"INSERT INTO articulos (nombre, nombre_corto, tipo_articulo, unidad_medida, unidad_control, contenido_control, precio, fecha_precio, usuario_precio_id, estatus, personas)
-VALUES (@nombre, @nombreCorto, @tipoArticulo, @unidadMedida, @unidadControl, @contenidoControl, @precio, @fechaPrecio, @usuarioPrecioId, @estatus, @personas);";
+                        VALUES (@nombre, @nombreCorto, @tipoArticulo, @unidadMedida, @unidadControl, @contenidoControl, @precio, @fechaPrecio, @usuarioPrecioId, @estatus, @personas);";
 
                         using (var command = new MySqlCommand(insertQuery, connection, transaction))
                         {
@@ -44,7 +46,7 @@ VALUES (@nombre, @nombreCorto, @tipoArticulo, @unidadMedida, @unidadControl, @co
                             command.Parameters.AddWithValue("@precio", articulo.Precio);
                             command.Parameters.AddWithValue("@fechaPrecio", articulo.FechaPrecio);
                             command.Parameters.AddWithValue("@usuarioPrecioId", articulo.UsuarioPrecioId.HasValue ? (object)articulo.UsuarioPrecioId.Value : DBNull.Value);
-                            command.Parameters.AddWithValue("@estatus", articulo.Estatus);
+                            command.Parameters.AddWithValue("@estatus", "N");
                             command.Parameters.AddWithValue("@personas", articulo.Personas);
 
                             command.ExecuteNonQuery();
@@ -81,18 +83,18 @@ VALUES (@nombre, @nombreCorto, @tipoArticulo, @unidadMedida, @unidadControl, @co
                     using (var transaction = connection.BeginTransaction())
                     {
                         const string updateQuery = @"UPDATE articulos
-SET nombre = @nombre,
-    nombre_corto = @nombreCorto,
-    tipo_articulo = @tipoArticulo,
-    unidad_medida = @unidadMedida,
-    unidad_control = @unidadControl,
-    contenido_control = @contenidoControl,
-    precio = @precio,
-    fecha_precio = @fechaPrecio,
-    usuario_precio_id = @usuarioPrecioId,
-    estatus = @estatus,
-    personas = @personas
-WHERE articulo_id = @articuloId;";
+                            SET nombre = @nombre,
+                                nombre_corto = @nombreCorto,
+                                tipo_articulo = @tipoArticulo,
+                                unidad_medida = @unidadMedida,
+                                unidad_control = @unidadControl,
+                                contenido_control = @contenidoControl,
+                                precio = @precio,
+                                fecha_precio = @fechaPrecio,
+                                usuario_precio_id = @usuarioPrecioId,
+                                estatus = @estatus,
+                                personas = @personas
+                            WHERE articulo_id = @articuloId;";
 
                         using (var command = new MySqlCommand(updateQuery, connection, transaction))
                         {
@@ -106,16 +108,16 @@ WHERE articulo_id = @articuloId;";
                             command.Parameters.AddWithValue("@fechaPrecio", articulo.FechaPrecio);
                             command.Parameters.AddWithValue("@usuarioPrecioId", articulo.UsuarioPrecioId.HasValue ? (object)articulo.UsuarioPrecioId.Value : DBNull.Value);
                             command.Parameters.AddWithValue("@estatus", articulo.Estatus);
-                            command.Parameters.AddWithValue("@tiene", articulo.Personas);
+                            command.Parameters.AddWithValue("@personas", articulo.Personas);
                             command.Parameters.AddWithValue("@articuloId", articulo.Id);
 
                             command.ExecuteNonQuery();
                         }
 
-                        const string deleteDetalle = "DELETE FROM kit_detalle WHERE id_kit = @kitId";
+                        const string deleteDetalle = "DELETE FROM articulos_kit WHERE articulo_id = @articuloId";
                         using (var deleteCommand = new MySqlCommand(deleteDetalle, connection, transaction))
                         {
-                            deleteCommand.Parameters.AddWithValue("@kitId", articulo.Id);
+                            deleteCommand.Parameters.AddWithValue("@articuloId", articulo.Id);
                             deleteCommand.ExecuteNonQuery();
                         }
 
@@ -144,7 +146,7 @@ WHERE articulo_id = @articuloId;";
             try
             {
                 using (var connection = _connectionFactory.Create())
-                using (var command = new MySqlCommand(@"UPDATE articulos SET estatus = 'Inactivo' WHERE articulo_id = @articuloId;", connection))
+                using (var command = new MySqlCommand(@"UPDATE articulos SET estatus = 'B' WHERE articulo_id = @articuloId;", connection))
                 {
                     command.Parameters.AddWithValue("@articuloId", articuloId);
 
@@ -218,14 +220,14 @@ WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
                 return;
             }
 
-            const string insertDetalle = "INSERT INTO kit_detalle (id_kit, id_articulo, cantidad) VALUES (@kitId, @articuloId, @cantidad)";
+            const string insertDetalle = "INSERT INTO articulos_kit (articulo_id, articulo_compuesto_id, cantidad) VALUES (@articulo_id, @articulo_compuesto_id, @cantidad)";
 
             foreach (var detalle in articulo.Componentes)
             {
                 using (var command = new MySqlCommand(insertDetalle, connection, transaction))
                 {
-                    command.Parameters.AddWithValue("@kitId", articulo.Id);
-                    command.Parameters.AddWithValue("@articuloId", detalle.ArticuloId);
+                    command.Parameters.AddWithValue("@articulo_id", articulo.Id);
+                    command.Parameters.AddWithValue("@articulo_compuesto_id", detalle.ArticuloId);
                     command.Parameters.AddWithValue("@cantidad", detalle.Cantidad);
                     command.ExecuteNonQuery();
                 }
@@ -240,10 +242,10 @@ WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
             }
 
             var ids = string.Join(",", kits.Select(k => k.Id));
-            var query = $@"SELECT kd.id_kit, kd.id_articulo, kd.cantidad, a.nombre, a.nombre_corto
-FROM kit_detalle kd
-INNER JOIN articulos a ON a.articulo_id = kd.id_articulo
-WHERE kd.id_kit IN ({ids})";
+            var query = $@"SELECT kd.articulo_kit_id, kd.articulo_id, kd.articulo_compuesto_id, kd.cantidad, a.nombre, a.nombre_corto
+                FROM articulos_kit kd
+                INNER JOIN articulos a ON a.articulo_id = kd.articulo_compuesto_id
+                WHERE kd.articulo_id IN ({ids})";
 
             using (var connection = _connectionFactory.Create())
             using (var command = new MySqlCommand(query, connection))
@@ -253,7 +255,7 @@ WHERE kd.id_kit IN ({ids})";
                 {
                     while (reader.Read())
                     {
-                        var kitId = reader.GetInt32("id_kit");
+                        var kitId = reader.GetInt32("articulo_id");
                         var kit = kits.FirstOrDefault(k => k.Id == kitId);
                         if (kit == null)
                         {
@@ -263,11 +265,11 @@ WHERE kd.id_kit IN ({ids})";
                         kit.Componentes.Add(new KitDetalle
                         {
                             KitId = kitId,
-                            ArticuloId = reader.GetInt32("id_articulo"),
+                            ArticuloId = reader.GetInt32("articulo_id"),
                             Cantidad = reader.GetDecimal("cantidad"),
                             Articulo = new Articulo
                             {
-                                Id = reader.GetInt32("id_articulo"),
+                                Id = reader.GetInt32("articulo_compuesto_id"),
                                 Nombre = reader.GetString("nombre"),
                                 NombreCorto = reader.IsDBNull(reader.GetOrdinal("nombre_corto")) ? string.Empty : reader.GetString("nombre_corto")
                             }
@@ -276,5 +278,8 @@ WHERE kd.id_kit IN ({ids})";
                 }
             }
         }
+
+     
+
     }
 }

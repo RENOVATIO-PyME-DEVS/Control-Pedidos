@@ -1,17 +1,19 @@
+using Control_Pedidos.Data;
+using Control_Pedidos.Helpers;
+using Control_Pedidos.Models;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
-using Control_Pedidos.Data;
-using Control_Pedidos.Helpers;
-using Control_Pedidos.Models;
 
 namespace Control_Pedidos.Views.Articles
 {
     public partial class ArticleManagementForm : Form
     {
+
         private readonly DatabaseConnectionFactory _connectionFactory;
         private readonly BindingList<Articulo> _articulos = new BindingList<Articulo>();
         private readonly BindingSource _articlesSource = new BindingSource();
@@ -30,7 +32,7 @@ namespace Control_Pedidos.Views.Articles
 
             _userId = usernameid;
 
-            typeComboBox.DataSource = new[] { "normal", "produccion", "kit" };
+            typeComboBox.DataSource = new[] { "Normal", "Produccion", "Kit" };
             statusComboBox.DataSource = new[] { "Activo", "Inactivo" };
 
             priceDatePicker.Value = DateTime.Today;
@@ -49,9 +51,9 @@ namespace Control_Pedidos.Views.Articles
 
             articlesGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = nameof(Articulo.Id),
-                HeaderText = "ID",
-                Width = 60
+                DataPropertyName = nameof(Articulo.NombreCorto),
+                HeaderText = "Clave",
+                Width = 80
             });
 
             articlesGrid.Columns.Add(new DataGridViewTextBoxColumn
@@ -89,17 +91,17 @@ namespace Control_Pedidos.Views.Articles
             componentsGrid.AutoGenerateColumns = false;
             componentsGrid.Columns.Clear();
 
-            componentsGrid.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = nameof(KitDetalle.ArticuloId),
-                HeaderText = "ID",
-                Width = 60
-            });
+            //componentsGrid.Columns.Add(new DataGridViewTextBoxColumn
+            //{
+            //    DataPropertyName = nameof(KitDetalle.ArticuloId),
+            //    HeaderText = "ID",
+            //    Width = 60
+            //});
 
             componentsGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(KitDetalle.NombreArticulo),
-                HeaderText = "Artículo",
+                HeaderText = "Artículo Kit",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             });
 
@@ -107,7 +109,7 @@ namespace Control_Pedidos.Views.Articles
             {
                 DataPropertyName = nameof(KitDetalle.Cantidad),
                 HeaderText = "Cantidad",
-                Width = 90
+                Width = 100
             });
 
             componentsGrid.DataSource = _componentsSource;
@@ -122,6 +124,8 @@ namespace Control_Pedidos.Views.Articles
                 {
                     _articulos.Add(articulo);
                 }
+
+                countArticlesLabel.Text = $"Total articulos: {articlesGrid.Rows.Count}";
             }
             catch (Exception ex)
             {
@@ -133,13 +137,33 @@ namespace Control_Pedidos.Views.Articles
         {
             try
             {
-                _catalogoComponentes = Articulo.Listar(_connectionFactory, string.Empty)
-                    .Where(a => !a.EsKit)
-                    .ToList();
 
-                componentComboBox.DataSource = _catalogoComponentes;
-                componentComboBox.DisplayMember = nameof(Articulo.Nombre);
-                componentComboBox.ValueMember = nameof(Articulo.Id);
+                CargarUnidadesComboBox(unitMeasureComboBox, "unidad_medida");
+                CargarUnidadesComboBox(unitControlComboBox, "unidad_control");
+
+
+                // 🔹 Guardamos los artículos base para referencia (esta lista se usa en addComponentButton_Click)
+                _catalogoComponentes = Articulo.Listar(_connectionFactory, string.Empty)
+                    .Where(a => a.Estatus == "N" && (a.TipoArticulo == "N" || a.TipoArticulo == "P"))
+                    .OrderBy(a => a.NombreCorto)
+                    .ToList();
+                //componentComboBox.DataSource = _catalogoComponentes;
+                //componentComboBox.DisplayMember = nameof(Articulo.Nombre);
+                //componentComboBox.ValueMember = nameof(Articulo.Id);
+
+                //Para mostrar en el ComboBox con formato "<clave> - <nombre>"
+        var articulosVisual = _catalogoComponentes
+            .Select(a => new
+            {
+                a.Id,
+                NombreCompleto = $"{a.NombreCorto} - {a.Nombre}"
+            })
+            .OrderBy(a => a.NombreCompleto)
+            .ToList();
+
+                componentComboBox.DataSource = articulosVisual;
+                componentComboBox.DisplayMember = "NombreCompleto";
+                componentComboBox.ValueMember = "Id";
             }
             catch (Exception ex)
             {
@@ -224,18 +248,38 @@ namespace Control_Pedidos.Views.Articles
 
         private Articulo BuildArticuloFromForm()
         {
+            string estatusSeleccionado = statusComboBox.SelectedItem?.ToString() ?? "Activo";
+
+            string tipoSeleccionado = typeComboBox.SelectedItem?.ToString()?.Trim() ?? string.Empty;
+            string tipoArticulo;
+            bool eskit = false;
+
+            if (tipoSeleccionado.Equals("Produccion", StringComparison.OrdinalIgnoreCase))
+                tipoArticulo = "P";
+            else if (tipoSeleccionado.Equals("Kit", StringComparison.OrdinalIgnoreCase))
+            { tipoArticulo = "K"; eskit = true; }
+            else
+                tipoArticulo = "N";
+
             var articulo = new Articulo
             {
                 Nombre = nameTextBox.Text.Trim(),
                 NombreCorto = shortNameTextBox.Text.Trim(),
-                TipoArticulo = typeComboBox.SelectedItem?.ToString() ?? "normal",
-                UnidadMedida = unitMeasureTextBox.Text.Trim(),
-                UnidadControl = unitControlTextBox.Text.Trim(),
+                TipoArticulo = tipoArticulo, // typeComboBox.SelectedItem?.ToString() ?? "N",
+                UnidadMedida = unitMeasureComboBox.SelectedItem?.ToString() == "Otra..."
+                        ? customUnitMeasureTextBox.Text
+                        : unitMeasureComboBox.SelectedItem?.ToString(),
+                UnidadControl = unitControlComboBox.SelectedItem?.ToString() == "Otra..."
+                        ? customUnitControlTextBox.Text
+                        : unitControlComboBox.SelectedItem?.ToString(),
                 ContenidoControl = ParseDecimal(contentControlTextBox.Text.Trim()),
                 Precio = ParseDecimal(priceTextBox.Text.Trim()),
                 FechaPrecio = priceDatePicker.Value.Date,
                 UsuarioPrecioId = int.TryParse(_userId, out var usuarioId) ? usuarioId : (int?)null,
-                Estatus = statusComboBox.SelectedItem?.ToString() ?? "Activo",
+                //Estatus = statusComboBox.SelectedItem?.ToString() ?? "Activo",
+                Estatus = estatusSeleccionado.Equals("Activo", StringComparison.OrdinalIgnoreCase) ? "N" : estatusSeleccionado.Equals("Inactivo", StringComparison.OrdinalIgnoreCase) ? "B" : "N", // valor por defecto
+                Personas = int.TryParse(personsTextBox.Text.ToString(), out var intPersonas) ? intPersonas : (int?)null
+
                 //TieneInventario = inventoryCheckBox.Checked
             };
 
@@ -298,14 +342,51 @@ namespace Control_Pedidos.Views.Articles
                 _selectedArticulo = articulo;
                 nameTextBox.Text = articulo.Nombre;
                 shortNameTextBox.Text = articulo.NombreCorto;
-                typeComboBox.SelectedItem = articulo.TipoArticulo;
-                unitMeasureTextBox.Text = articulo.UnidadMedida;
-                unitControlTextBox.Text = articulo.UnidadControl;
+
+                switch (articulo.TipoArticulo)
+                {
+                    case "P":
+                        typeComboBox.SelectedItem = "Produccion";
+                        break;
+                    case "K":
+                        typeComboBox.SelectedItem = "Kit";
+                        break;
+                    default:
+                        typeComboBox.SelectedItem = "Normal";
+                        break;
+
+
+                }
+
+                unitMeasureComboBox.Text = articulo.UnidadMedida;
+                unitControlComboBox.Text = articulo.UnidadControl;
                 contentControlTextBox.Text = articulo.ContenidoControl.ToString(CultureInfo.CurrentCulture);
                 priceTextBox.Text = articulo.Precio.ToString(CultureInfo.CurrentCulture);
                 priceDatePicker.Value = articulo.FechaPrecio;
+                personsTextBox.Text = articulo.Personas.ToString();
                 //usuarioPrecioTextBox.Text = articulo.UsuarioPrecioId?.ToString() ?? string.Empty;
-                statusComboBox.SelectedItem = articulo.Estatus;
+
+                //statusComboBox.SelectedItem = articulo.Estatus;
+                // Establece el texto del ComboBox según el código de estatus
+                switch (articulo.Estatus)
+                {
+                    case "N":
+                    case "P": // si también manejas 'P' como activo o pendiente
+                        statusComboBox.SelectedItem = "Activo";
+                        deleteButton.Enabled = true;
+                        break;
+
+                    case "B":
+                        statusComboBox.SelectedItem = "Inactivo";
+                        deleteButton.Enabled = false; // Deshabilita botón eliminar
+                        break;
+
+                    default:
+                        statusComboBox.SelectedItem = "Activo";
+                        deleteButton.Enabled = true;
+                        break;
+                }
+
                 //inventoryCheckBox.Checked = articulo.Personas;
 
                 _componentes.Clear();
@@ -338,14 +419,23 @@ namespace Control_Pedidos.Views.Articles
             nameTextBox.Clear();
             shortNameTextBox.Clear();
             typeComboBox.SelectedIndex = 0;
-            unitMeasureTextBox.Clear();
-            unitControlTextBox.Clear();
+
+            // Limpiar unidad de medida
+            unitMeasureComboBox.SelectedIndex = -1;       // Limpia selección
+            customUnitMeasureTextBox.Clear();             // Limpia texto personalizado
+            customUnitMeasureTextBox.Visible = false;     // Lo oculta
+
+            // Limpiar unidad de control
+            unitControlComboBox.SelectedIndex = -1;
+            customUnitControlTextBox.Clear();
+            customUnitControlTextBox.Visible = false;
+
             contentControlTextBox.Clear();
             priceTextBox.Clear();
             priceDatePicker.Value = DateTime.Today;
-           // usuarioPrecioTextBox.Clear();
+            // usuarioPrecioTextBox.Clear();
             statusComboBox.SelectedIndex = 0;
-            inventoryCheckBox.Checked = false;
+            personsTextBox.Clear();
             _componentes.Clear();
             articlesGrid.ClearSelection();
             _selectedArticulo = null;
@@ -360,11 +450,31 @@ namespace Control_Pedidos.Views.Articles
                 return;
             }
 
-            if (!(componentComboBox.SelectedItem is Articulo articulo))
+            //if (!(componentComboBox.SelectedItem is Articulo articulo))
+            //{
+            //    MessageBox.Show("Seleccione un artículo para el componente", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return;
+            //}
+            // Validar que haya un artículo seleccionado
+            if (componentComboBox.SelectedValue == null)
             {
                 MessageBox.Show("Seleccione un artículo para el componente", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            // Obtener el ID del artículo seleccionado
+            int articuloId = Convert.ToInt32(componentComboBox.SelectedValue);
+            // MessageBox.Show(articuloId.ToString());
+            // Buscar el artículo real en tu lista de catálogo
+            //var articulo = _articulos.FirstOrDefault(a => a.Id == articuloId);
+            var articulo = _catalogoComponentes.FirstOrDefault(a => a.Id == articuloId);
+
+            if (articulo == null)
+            {
+                MessageBox.Show("No se encontró el artículo en el catálogo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
 
             if (!decimal.TryParse(componentQuantityTextBox.Text.Trim(), NumberStyles.Any, CultureInfo.CurrentCulture, out var cantidad) &&
                 !decimal.TryParse(componentQuantityTextBox.Text.Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out cantidad))
@@ -425,7 +535,117 @@ namespace Control_Pedidos.Views.Articles
 
         private void ArticleManagementForm_Load(object sender, EventArgs e)
         {
-            
+
+        }
+
+
+        private void CargarUnidadesComboBox(ComboBox comboBox, string columna)
+        {
+            comboBox.Items.Clear();
+
+            try
+            {
+                using (var connection = _connectionFactory.Create())
+                {
+                    connection.Open();
+
+                    string query = $"SELECT DISTINCT {columna} FROM articulos WHERE {columna} IS NOT NULL AND {columna} <> '' ORDER BY {columna}";
+                    using (var cmd = new MySqlCommand(query, connection))
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            comboBox.Items.Add(reader[columna].ToString());
+                        }
+                    }
+                }
+
+                comboBox.Items.Add("Otra...");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar {columna}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void unitMeasureComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            customUnitMeasureTextBox.Visible = (unitMeasureComboBox.SelectedItem?.ToString() == "Otra...");
+            if (!customUnitMeasureTextBox.Visible) customUnitMeasureTextBox.Text = string.Empty;
+        }
+
+        private void unitControlComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            customUnitControlTextBox.Visible = (unitControlComboBox.SelectedItem?.ToString() == "Otra...");
+            if (!customUnitControlTextBox.Visible) customUnitControlTextBox.Text = string.Empty;
+        }
+
+        private void personsTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite tecla de retroceso (Backspace)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Solo permite números
+            if (!char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void priceTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir control (Backspace, Supr, etc.)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Permitir dígitos
+            if (char.IsDigit(e.KeyChar))
+                return;
+
+            // Permitir solo un punto decimal
+            if (e.KeyChar == '.' && !((TextBox)sender).Text.Contains('.'))
+                return;
+
+            // Bloquear todo lo demás
+            e.Handled = true;
+        }
+
+        private void priceTextBox_Leave(object sender, EventArgs e)
+        {
+            string input = priceTextBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(input))
+            {
+                priceTextBox.Text = "0.00";
+                return;
+            }
+
+            // Intenta convertir a decimal
+            if (decimal.TryParse(input, out decimal value))
+            {
+                // Formatea con dos decimales
+                priceTextBox.Text = value.ToString("0.00");
+            }
+            else
+            {
+                // Si hay error en formato, lo resetea
+                priceTextBox.Text = "0.00";
+            }
+        }
+
+        private void contentControlTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite tecla de retroceso (Backspace)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Solo permite números
+            if (!char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

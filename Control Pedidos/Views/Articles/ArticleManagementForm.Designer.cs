@@ -21,8 +21,6 @@ namespace Control_Pedidos.Views.Articles
             this.nameTextBox = new System.Windows.Forms.TextBox();
             this.shortNameTextBox = new System.Windows.Forms.TextBox();
             this.typeComboBox = new System.Windows.Forms.ComboBox();
-            this.unitMeasureTextBox = new System.Windows.Forms.TextBox();
-            this.unitControlTextBox = new System.Windows.Forms.TextBox();
             this.contentControlTextBox = new System.Windows.Forms.TextBox();
             this.priceTextBox = new System.Windows.Forms.TextBox();
             this.priceDatePicker = new System.Windows.Forms.DateTimePicker();
@@ -49,8 +47,14 @@ namespace Control_Pedidos.Views.Articles
             this.quantityLabel = new System.Windows.Forms.Label();
             this.searchLabel = new System.Windows.Forms.Label();
             this.searchTextBox = new System.Windows.Forms.TextBox();
-            this.inventoryCheckBox = new System.Windows.Forms.CheckBox();
-            this.inventoryLabel = new System.Windows.Forms.Label();
+            this.unitMeasureComboBox = new System.Windows.Forms.ComboBox();
+            this.unitControlComboBox = new System.Windows.Forms.ComboBox();
+            this.customUnitMeasureTextBox = new System.Windows.Forms.TextBox();
+            this.customUnitControlTextBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.personsTextBox = new System.Windows.Forms.TextBox();
+            this.countArticlesLabel = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.articlesGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.componentsGrid)).BeginInit();
             this.SuspendLayout();
@@ -70,7 +74,7 @@ namespace Control_Pedidos.Views.Articles
             this.articlesGrid.RowHeadersWidth = 51;
             this.articlesGrid.RowTemplate.Height = 24;
             this.articlesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.articlesGrid.Size = new System.Drawing.Size(1155, 246);
+            this.articlesGrid.Size = new System.Drawing.Size(1144, 252);
             this.articlesGrid.TabIndex = 0;
             this.articlesGrid.SelectionChanged += new System.EventHandler(this.articlesGrid_SelectionChanged);
             // 
@@ -98,26 +102,13 @@ namespace Control_Pedidos.Views.Articles
             this.typeComboBox.TabIndex = 3;
             this.typeComboBox.SelectedIndexChanged += new System.EventHandler(this.typeComboBox_SelectedIndexChanged);
             // 
-            // unitMeasureTextBox
-            // 
-            this.unitMeasureTextBox.Location = new System.Drawing.Point(320, 83);
-            this.unitMeasureTextBox.Name = "unitMeasureTextBox";
-            this.unitMeasureTextBox.Size = new System.Drawing.Size(240, 22);
-            this.unitMeasureTextBox.TabIndex = 4;
-            // 
-            // unitControlTextBox
-            // 
-            this.unitControlTextBox.Location = new System.Drawing.Point(320, 139);
-            this.unitControlTextBox.Name = "unitControlTextBox";
-            this.unitControlTextBox.Size = new System.Drawing.Size(240, 22);
-            this.unitControlTextBox.TabIndex = 5;
-            // 
             // contentControlTextBox
             // 
             this.contentControlTextBox.Location = new System.Drawing.Point(320, 195);
             this.contentControlTextBox.Name = "contentControlTextBox";
             this.contentControlTextBox.Size = new System.Drawing.Size(240, 22);
             this.contentControlTextBox.TabIndex = 6;
+            this.contentControlTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.contentControlTextBox_KeyPress);
             // 
             // priceTextBox
             // 
@@ -125,6 +116,9 @@ namespace Control_Pedidos.Views.Articles
             this.priceTextBox.Name = "priceTextBox";
             this.priceTextBox.Size = new System.Drawing.Size(240, 22);
             this.priceTextBox.TabIndex = 7;
+            this.priceTextBox.Text = "0";
+            this.priceTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.priceTextBox_KeyPress);
+            this.priceTextBox.Leave += new System.EventHandler(this.priceTextBox_Leave);
             // 
             // priceDatePicker
             // 
@@ -140,7 +134,7 @@ namespace Control_Pedidos.Views.Articles
             // 
             this.statusComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.statusComboBox.FormattingEnabled = true;
-            this.statusComboBox.Location = new System.Drawing.Point(24, 307);
+            this.statusComboBox.Location = new System.Drawing.Point(24, 251);
             this.statusComboBox.Name = "statusComboBox";
             this.statusComboBox.Size = new System.Drawing.Size(260, 24);
             this.statusComboBox.TabIndex = 10;
@@ -206,19 +200,19 @@ namespace Control_Pedidos.Views.Articles
             this.componentComboBox.FormattingEnabled = true;
             this.componentComboBox.Location = new System.Drawing.Point(600, 99);
             this.componentComboBox.Name = "componentComboBox";
-            this.componentComboBox.Size = new System.Drawing.Size(224, 24);
+            this.componentComboBox.Size = new System.Drawing.Size(267, 24);
             this.componentComboBox.TabIndex = 17;
             // 
             // componentQuantityTextBox
             // 
-            this.componentQuantityTextBox.Location = new System.Drawing.Point(845, 99);
+            this.componentQuantityTextBox.Location = new System.Drawing.Point(883, 99);
             this.componentQuantityTextBox.Name = "componentQuantityTextBox";
             this.componentQuantityTextBox.Size = new System.Drawing.Size(60, 22);
             this.componentQuantityTextBox.TabIndex = 18;
             // 
             // addComponentButton
             // 
-            this.addComponentButton.Location = new System.Drawing.Point(922, 96);
+            this.addComponentButton.Location = new System.Drawing.Point(960, 96);
             this.addComponentButton.Name = "addComponentButton";
             this.addComponentButton.Size = new System.Drawing.Size(60, 28);
             this.addComponentButton.TabIndex = 19;
@@ -250,9 +244,9 @@ namespace Control_Pedidos.Views.Articles
             this.shortNameLabel.AutoSize = true;
             this.shortNameLabel.Location = new System.Drawing.Point(21, 119);
             this.shortNameLabel.Name = "shortNameLabel";
-            this.shortNameLabel.Size = new System.Drawing.Size(89, 16);
+            this.shortNameLabel.Size = new System.Drawing.Size(132, 16);
             this.shortNameLabel.TabIndex = 22;
-            this.shortNameLabel.Text = "Nombre corto";
+            this.shortNameLabel.Text = "Nombre corto(Clave)";
             // 
             // typeLabel
             // 
@@ -311,7 +305,7 @@ namespace Control_Pedidos.Views.Articles
             // statusLabel
             // 
             this.statusLabel.AutoSize = true;
-            this.statusLabel.Location = new System.Drawing.Point(21, 287);
+            this.statusLabel.Location = new System.Drawing.Point(21, 231);
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(51, 16);
             this.statusLabel.TabIndex = 30;
@@ -329,7 +323,7 @@ namespace Control_Pedidos.Views.Articles
             // quantityLabel
             // 
             this.quantityLabel.AutoSize = true;
-            this.quantityLabel.Location = new System.Drawing.Point(842, 79);
+            this.quantityLabel.Location = new System.Drawing.Point(880, 79);
             this.quantityLabel.Name = "quantityLabel";
             this.quantityLabel.Size = new System.Drawing.Size(61, 16);
             this.quantityLabel.TabIndex = 33;
@@ -352,35 +346,97 @@ namespace Control_Pedidos.Views.Articles
             this.searchTextBox.TabIndex = 35;
             this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
             // 
-            // inventoryCheckBox
+            // unitMeasureComboBox
             // 
-            this.inventoryCheckBox.AutoSize = true;
-            this.inventoryCheckBox.Location = new System.Drawing.Point(24, 364);
-            this.inventoryCheckBox.Name = "inventoryCheckBox";
-            this.inventoryCheckBox.Size = new System.Drawing.Size(99, 20);
-            this.inventoryCheckBox.TabIndex = 11;
-            this.inventoryCheckBox.Text = "Tiene stock";
-            this.inventoryCheckBox.UseVisualStyleBackColor = true;
+            this.unitMeasureComboBox.FormattingEnabled = true;
+            this.unitMeasureComboBox.Location = new System.Drawing.Point(320, 83);
+            this.unitMeasureComboBox.Name = "unitMeasureComboBox";
+            this.unitMeasureComboBox.Size = new System.Drawing.Size(158, 24);
+            this.unitMeasureComboBox.TabIndex = 36;
+            this.unitMeasureComboBox.SelectedIndexChanged += new System.EventHandler(this.unitMeasureComboBox_SelectedIndexChanged);
             // 
-            // inventoryLabel
+            // unitControlComboBox
             // 
-            this.inventoryLabel.AutoSize = true;
-            this.inventoryLabel.Location = new System.Drawing.Point(21, 344);
-            this.inventoryLabel.Name = "inventoryLabel";
-            this.inventoryLabel.Size = new System.Drawing.Size(110, 16);
-            this.inventoryLabel.TabIndex = 31;
-            this.inventoryLabel.Text = "Control inventario";
+            this.unitControlComboBox.FormattingEnabled = true;
+            this.unitControlComboBox.Location = new System.Drawing.Point(320, 139);
+            this.unitControlComboBox.Name = "unitControlComboBox";
+            this.unitControlComboBox.Size = new System.Drawing.Size(158, 24);
+            this.unitControlComboBox.TabIndex = 37;
+            this.unitControlComboBox.SelectedIndexChanged += new System.EventHandler(this.unitControlComboBox_SelectedIndexChanged);
+            // 
+            // customUnitMeasureTextBox
+            // 
+            this.customUnitMeasureTextBox.Location = new System.Drawing.Point(484, 85);
+            this.customUnitMeasureTextBox.Name = "customUnitMeasureTextBox";
+            this.customUnitMeasureTextBox.Size = new System.Drawing.Size(99, 22);
+            this.customUnitMeasureTextBox.TabIndex = 38;
+            this.customUnitMeasureTextBox.Visible = false;
+            // 
+            // customUnitControlTextBox
+            // 
+            this.customUnitControlTextBox.Location = new System.Drawing.Point(484, 139);
+            this.customUnitControlTextBox.Name = "customUnitControlTextBox";
+            this.customUnitControlTextBox.Size = new System.Drawing.Size(99, 22);
+            this.customUnitControlTextBox.TabIndex = 39;
+            this.customUnitControlTextBox.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(21, 289);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(65, 16);
+            this.label1.TabIndex = 41;
+            this.label1.Text = "Personas";
+            // 
+            // personsTextBox
+            // 
+            this.personsTextBox.Location = new System.Drawing.Point(24, 312);
+            this.personsTextBox.Name = "personsTextBox";
+            this.personsTextBox.Size = new System.Drawing.Size(260, 22);
+            this.personsTextBox.TabIndex = 40;
+            this.personsTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.personsTextBox_KeyPress);
+            // 
+            // countArticlesLabel
+            // 
+            this.countArticlesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.countArticlesLabel.AutoSize = true;
+            this.countArticlesLabel.Location = new System.Drawing.Point(25, 703);
+            this.countArticlesLabel.Name = "countArticlesLabel";
+            this.countArticlesLabel.Size = new System.Drawing.Size(104, 16);
+            this.countArticlesLabel.TabIndex = 42;
+            this.countArticlesLabel.Text = "Total articulos: 0";
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(845, 405);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(323, 36);
+            this.button1.TabIndex = 43;
+            this.button1.Text = "Exportar Articulos a Excel";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // ArticleManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1205, 731);
+            this.ClientSize = new System.Drawing.Size(1194, 737);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.countArticlesLabel);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.personsTextBox);
+            this.Controls.Add(this.customUnitControlTextBox);
+            this.Controls.Add(this.customUnitMeasureTextBox);
+            this.Controls.Add(this.unitControlComboBox);
+            this.Controls.Add(this.unitMeasureComboBox);
             this.Controls.Add(this.searchTextBox);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.quantityLabel);
             this.Controls.Add(this.componentLabel);
-            this.Controls.Add(this.inventoryLabel);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.priceDateLabel);
             this.Controls.Add(this.priceLabel);
@@ -399,13 +455,10 @@ namespace Control_Pedidos.Views.Articles
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.updateButton);
             this.Controls.Add(this.addButton);
-            this.Controls.Add(this.inventoryCheckBox);
             this.Controls.Add(this.statusComboBox);
             this.Controls.Add(this.priceDatePicker);
             this.Controls.Add(this.priceTextBox);
             this.Controls.Add(this.contentControlTextBox);
-            this.Controls.Add(this.unitControlTextBox);
-            this.Controls.Add(this.unitMeasureTextBox);
             this.Controls.Add(this.typeComboBox);
             this.Controls.Add(this.shortNameTextBox);
             this.Controls.Add(this.nameTextBox);
@@ -430,8 +483,6 @@ namespace Control_Pedidos.Views.Articles
         private System.Windows.Forms.TextBox nameTextBox;
         private System.Windows.Forms.TextBox shortNameTextBox;
         private System.Windows.Forms.ComboBox typeComboBox;
-        private System.Windows.Forms.TextBox unitMeasureTextBox;
-        private System.Windows.Forms.TextBox unitControlTextBox;
         private System.Windows.Forms.TextBox contentControlTextBox;
         private System.Windows.Forms.TextBox priceTextBox;
         private System.Windows.Forms.DateTimePicker priceDatePicker;
@@ -458,7 +509,13 @@ namespace Control_Pedidos.Views.Articles
         private System.Windows.Forms.Label quantityLabel;
         private System.Windows.Forms.Label searchLabel;
         private System.Windows.Forms.TextBox searchTextBox;
-        private System.Windows.Forms.CheckBox inventoryCheckBox;
-        private System.Windows.Forms.Label inventoryLabel;
+        private System.Windows.Forms.ComboBox unitMeasureComboBox;
+        private System.Windows.Forms.ComboBox unitControlComboBox;
+        private System.Windows.Forms.TextBox customUnitMeasureTextBox;
+        private System.Windows.Forms.TextBox customUnitControlTextBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox personsTextBox;
+        private System.Windows.Forms.Label countArticlesLabel;
+        private System.Windows.Forms.Button button1;
     }
 }
