@@ -1,11 +1,12 @@
+using Control_Pedidos.Data;
+using Control_Pedidos.Helpers;
+using Control_Pedidos.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-using Control_Pedidos.Data;
-using Control_Pedidos.Helpers;
-using Control_Pedidos.Models;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Control_Pedidos.Views.Users
 {
@@ -132,7 +133,7 @@ namespace Control_Pedidos.Views.Users
                 Nombre = nameTextBox.Text.Trim(),
                 Correo = emailTextBox.Text.Trim(),
                 PasswordHash = PasswordHelper.HashPassword(passwordTextBox.Text.Trim()),
-                Estatus = statusComboBox.SelectedItem?.ToString() ?? "Activo",
+                Estatus = statusComboBox.SelectedItem.ToString() == "Activo" ? "N" : "N",
                 Roles = _selectedRoles.ToList(),
                 RolUsuarioId = _selectedRoles.FirstOrDefault()?.Id
             };
@@ -215,7 +216,7 @@ namespace Control_Pedidos.Views.Users
                 _selectedUser = usuario;
                 nameTextBox.Text = usuario.Nombre;
                 emailTextBox.Text = usuario.Correo;
-                statusComboBox.SelectedItem = usuario.Estatus;
+                statusComboBox.SelectedItem = (usuario.Estatus == "N") ? "Activo" : "Inactivo";
                 passwordTextBox.Text = string.Empty;
 
                 _selectedRoles.Clear();
@@ -277,6 +278,19 @@ namespace Control_Pedidos.Views.Users
         private void searchTextBox_TextChanged(object sender, EventArgs e)
         {
             LoadUsuarios(searchTextBox.Text.Trim());
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                if (passwordTextBox.PasswordChar == '*')
+                    passwordTextBox.PasswordChar = '\0';
+            }
+            else
+            {
+                passwordTextBox.PasswordChar = '*';
+            }
         }
     }
 }

@@ -37,6 +37,7 @@ namespace Control_Pedidos.Views.Users
             this.rolesLabel = new System.Windows.Forms.Label();
             this.searchLabel = new System.Windows.Forms.Label();
             this.searchTextBox = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.usersGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,34 +48,34 @@ namespace Control_Pedidos.Views.Users
             this.usersGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.usersGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.usersGrid.Location = new System.Drawing.Point(24, 292);
+            this.usersGrid.Location = new System.Drawing.Point(12, 345);
             this.usersGrid.MultiSelect = false;
             this.usersGrid.Name = "usersGrid";
             this.usersGrid.ReadOnly = true;
             this.usersGrid.RowHeadersWidth = 51;
             this.usersGrid.RowTemplate.Height = 24;
             this.usersGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.usersGrid.Size = new System.Drawing.Size(888, 240);
+            this.usersGrid.Size = new System.Drawing.Size(864, 240);
             this.usersGrid.TabIndex = 0;
             this.usersGrid.SelectionChanged += new System.EventHandler(this.usersGrid_SelectionChanged);
             // 
             // nameTextBox
             // 
-            this.nameTextBox.Location = new System.Drawing.Point(24, 48);
+            this.nameTextBox.Location = new System.Drawing.Point(24, 82);
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(260, 22);
             this.nameTextBox.TabIndex = 1;
             // 
             // emailTextBox
             // 
-            this.emailTextBox.Location = new System.Drawing.Point(24, 104);
+            this.emailTextBox.Location = new System.Drawing.Point(24, 138);
             this.emailTextBox.Name = "emailTextBox";
             this.emailTextBox.Size = new System.Drawing.Size(260, 22);
             this.emailTextBox.TabIndex = 2;
             // 
             // passwordTextBox
             // 
-            this.passwordTextBox.Location = new System.Drawing.Point(24, 160);
+            this.passwordTextBox.Location = new System.Drawing.Point(24, 194);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.PasswordChar = '*';
             this.passwordTextBox.Size = new System.Drawing.Size(260, 22);
@@ -84,7 +85,7 @@ namespace Control_Pedidos.Views.Users
             // 
             this.roleComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.roleComboBox.FormattingEnabled = true;
-            this.roleComboBox.Location = new System.Drawing.Point(320, 48);
+            this.roleComboBox.Location = new System.Drawing.Point(320, 82);
             this.roleComboBox.Name = "roleComboBox";
             this.roleComboBox.Size = new System.Drawing.Size(240, 24);
             this.roleComboBox.TabIndex = 4;
@@ -93,14 +94,14 @@ namespace Control_Pedidos.Views.Users
             // 
             this.statusComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.statusComboBox.FormattingEnabled = true;
-            this.statusComboBox.Location = new System.Drawing.Point(24, 216);
+            this.statusComboBox.Location = new System.Drawing.Point(24, 250);
             this.statusComboBox.Name = "statusComboBox";
             this.statusComboBox.Size = new System.Drawing.Size(260, 24);
             this.statusComboBox.TabIndex = 5;
             // 
             // addRoleButton
             // 
-            this.addRoleButton.Location = new System.Drawing.Point(320, 88);
+            this.addRoleButton.Location = new System.Drawing.Point(320, 122);
             this.addRoleButton.Name = "addRoleButton";
             this.addRoleButton.Size = new System.Drawing.Size(240, 28);
             this.addRoleButton.TabIndex = 6;
@@ -112,14 +113,14 @@ namespace Control_Pedidos.Views.Users
             // 
             this.rolesListBox.FormattingEnabled = true;
             this.rolesListBox.ItemHeight = 16;
-            this.rolesListBox.Location = new System.Drawing.Point(320, 160);
+            this.rolesListBox.Location = new System.Drawing.Point(320, 194);
             this.rolesListBox.Name = "rolesListBox";
             this.rolesListBox.Size = new System.Drawing.Size(240, 84);
             this.rolesListBox.TabIndex = 7;
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(600, 40);
+            this.addButton.Location = new System.Drawing.Point(600, 74);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(140, 36);
             this.addButton.TabIndex = 8;
@@ -129,7 +130,7 @@ namespace Control_Pedidos.Views.Users
             // 
             // updateButton
             // 
-            this.updateButton.Location = new System.Drawing.Point(600, 88);
+            this.updateButton.Location = new System.Drawing.Point(600, 122);
             this.updateButton.Name = "updateButton";
             this.updateButton.Size = new System.Drawing.Size(140, 36);
             this.updateButton.TabIndex = 9;
@@ -139,7 +140,7 @@ namespace Control_Pedidos.Views.Users
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(600, 136);
+            this.deleteButton.Location = new System.Drawing.Point(600, 170);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(140, 36);
             this.deleteButton.TabIndex = 10;
@@ -149,7 +150,7 @@ namespace Control_Pedidos.Views.Users
             // 
             // clearButton
             // 
-            this.clearButton.Location = new System.Drawing.Point(600, 184);
+            this.clearButton.Location = new System.Drawing.Point(600, 218);
             this.clearButton.Name = "clearButton";
             this.clearButton.Size = new System.Drawing.Size(140, 36);
             this.clearButton.TabIndex = 11;
@@ -160,25 +161,25 @@ namespace Control_Pedidos.Views.Users
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
-            this.nameLabel.Location = new System.Drawing.Point(21, 28);
+            this.nameLabel.Location = new System.Drawing.Point(21, 62);
             this.nameLabel.Name = "nameLabel";
-            this.nameLabel.Size = new System.Drawing.Size(51, 16);
+            this.nameLabel.Size = new System.Drawing.Size(56, 16);
             this.nameLabel.TabIndex = 12;
             this.nameLabel.Text = "Nombre";
             // 
             // emailLabel
             // 
             this.emailLabel.AutoSize = true;
-            this.emailLabel.Location = new System.Drawing.Point(21, 84);
+            this.emailLabel.Location = new System.Drawing.Point(21, 118);
             this.emailLabel.Name = "emailLabel";
-            this.emailLabel.Size = new System.Drawing.Size(47, 16);
+            this.emailLabel.Size = new System.Drawing.Size(48, 16);
             this.emailLabel.TabIndex = 13;
             this.emailLabel.Text = "Correo";
             // 
             // passwordLabel
             // 
             this.passwordLabel.AutoSize = true;
-            this.passwordLabel.Location = new System.Drawing.Point(21, 140);
+            this.passwordLabel.Location = new System.Drawing.Point(21, 174);
             this.passwordLabel.Name = "passwordLabel";
             this.passwordLabel.Size = new System.Drawing.Size(76, 16);
             this.passwordLabel.TabIndex = 14;
@@ -187,52 +188,65 @@ namespace Control_Pedidos.Views.Users
             // roleLabel
             // 
             this.roleLabel.AutoSize = true;
-            this.roleLabel.Location = new System.Drawing.Point(317, 28);
+            this.roleLabel.Location = new System.Drawing.Point(317, 62);
             this.roleLabel.Name = "roleLabel";
-            this.roleLabel.Size = new System.Drawing.Size(31, 16);
+            this.roleLabel.Size = new System.Drawing.Size(28, 16);
             this.roleLabel.TabIndex = 15;
             this.roleLabel.Text = "Rol";
             // 
             // statusLabel
             // 
             this.statusLabel.AutoSize = true;
-            this.statusLabel.Location = new System.Drawing.Point(21, 196);
+            this.statusLabel.Location = new System.Drawing.Point(21, 230);
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(52, 16);
+            this.statusLabel.Size = new System.Drawing.Size(51, 16);
             this.statusLabel.TabIndex = 16;
             this.statusLabel.Text = "Estatus";
             // 
             // rolesLabel
             // 
             this.rolesLabel.AutoSize = true;
-            this.rolesLabel.Location = new System.Drawing.Point(317, 140);
+            this.rolesLabel.Location = new System.Drawing.Point(317, 174);
             this.rolesLabel.Name = "rolesLabel";
-            this.rolesLabel.Size = new System.Drawing.Size(39, 16);
+            this.rolesLabel.Size = new System.Drawing.Size(43, 16);
             this.rolesLabel.TabIndex = 17;
             this.rolesLabel.Text = "Roles";
             // 
             // searchLabel
             // 
             this.searchLabel.AutoSize = true;
-            this.searchLabel.Location = new System.Drawing.Point(21, 256);
+            this.searchLabel.Location = new System.Drawing.Point(11, 321);
             this.searchLabel.Name = "searchLabel";
-            this.searchLabel.Size = new System.Drawing.Size(55, 16);
+            this.searchLabel.Size = new System.Drawing.Size(52, 16);
             this.searchLabel.TabIndex = 18;
             this.searchLabel.Text = "Buscar:";
             // 
             // searchTextBox
             // 
-            this.searchTextBox.Location = new System.Drawing.Point(82, 252);
+            this.searchTextBox.Location = new System.Drawing.Point(72, 317);
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.Size = new System.Drawing.Size(260, 22);
             this.searchTextBox.TabIndex = 19;
             this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(160, 221);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(120, 20);
+            this.checkBox1.TabIndex = 20;
+            this.checkBox1.Text = "Ver contraseña";
+            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // UserManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(936, 556);
+            this.ClientSize = new System.Drawing.Size(888, 597);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.searchTextBox);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.rolesLabel);
@@ -287,5 +301,6 @@ namespace Control_Pedidos.Views.Users
         private System.Windows.Forms.Label rolesLabel;
         private System.Windows.Forms.Label searchLabel;
         private System.Windows.Forms.TextBox searchTextBox;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

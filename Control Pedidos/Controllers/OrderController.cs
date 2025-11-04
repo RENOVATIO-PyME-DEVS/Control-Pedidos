@@ -13,11 +13,13 @@ namespace Control_Pedidos.Controllers
 
         public OrderController(DatabaseConnectionFactory connectionFactory)
         {
+            // Guardamos la fábrica para crear conexiones bajo demanda cada vez que toquemos la base.
             _connectionFactory = connectionFactory;
         }
 
         public DataTable GetTodayDeliveries(int? empresaId = null)
         {
+            // Armamos la consulta que trae todos los pedidos a entregar hoy, con cliente y totales ya calculados.
             var query = @"SELECT
                     p.pedido_id AS PedidoId,
                     p.folio AS Folio,
@@ -37,6 +39,7 @@ namespace Control_Pedidos.Controllers
 
             if (empresaId.HasValue)
             {
+                // Si nos piden filtrar por empresa agregamos la cláusula extra.
                 query += "\n                AND p.empresa_id = @empresaId";
             }
 
@@ -63,6 +66,7 @@ namespace Control_Pedidos.Controllers
         {
             if (string.IsNullOrWhiteSpace(newStatus))
             {
+                // No dejamos que se intente guardar un estatus vacío porque no tendría sentido.
                 throw new ArgumentException("El nuevo estatus no puede estar vacío.", nameof(newStatus));
             }
 
@@ -81,6 +85,7 @@ namespace Control_Pedidos.Controllers
 
         public DataTable GetOrderTable(int? empresaId = null)
         {
+            // Consulta pensada para poblar tablas: trae todo el resumen de los pedidos con totales y saldos.
             var query = @"SELECT
                     p.pedido_id AS Id,
                     p.folio AS Folio,
@@ -113,6 +118,7 @@ namespace Control_Pedidos.Controllers
 
             if (empresaId.HasValue)
             {
+                // Mismo filtro que antes, pero para la lista completa.
                 query += "\n                WHERE p.empresa_id = @empresaId";
             }
 
@@ -137,6 +143,7 @@ namespace Control_Pedidos.Controllers
 
         public IEnumerable<Pedido> GetOrders()
         {
+            // Esta consulta trae todos los pedidos con la información embebida de cliente, empresa y usuario.
             const string query = @"SELECT
     p.pedido_id AS PedidoId,
     p.folio,
@@ -191,6 +198,7 @@ ORDER BY p.fecha_creacion DESC";
                 {
                     while (reader.Read())
                     {
+                        // Vamos armando el modelo pedido a mano porque necesitamos mapear varias columnas custom.
                         var pedido = new Pedido
                         {
                             Id = reader.GetInt32("PedidoId"),
@@ -243,6 +251,7 @@ ORDER BY p.fecha_creacion DESC";
 
         public void CreateOrder(Pedido pedido)
         {
+            // Insert simple donde se manda todo el contenido del pedido, incluyendo valores opcionales.
             const string query = @"INSERT INTO pedidos
     (usuario_id, empresa_id, cliente_id, folio, fecha, fecha_entrega, hora_entrega, requiere_factura, notas, fecha_creacion, estatus)
 VALUES
@@ -270,6 +279,7 @@ VALUES
 
         public void UpdateOrder(Pedido pedido)
         {
+            // Update espejo del insert para cuando se edita un pedido existente.
             const string query = @"UPDATE pedidos
 SET usuario_id = @usuarioId,
     empresa_id = @empresaId,
@@ -305,6 +315,7 @@ WHERE pedido_id = @id";
 
         public void DeleteOrder(int id)
         {
+            // Baja directa del pedido; la lógica de cascada queda en la base.
             const string query = "DELETE FROM pedidos WHERE pedido_id = @id";
 
             using (var connection = _connectionFactory.Create())

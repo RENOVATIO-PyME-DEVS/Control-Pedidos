@@ -40,6 +40,7 @@ namespace Control_Pedidos.Helpers
 
             form.SuspendLayout();
 
+            // Activamos doble buffer y seteamos colores base para evitar parpadeos.
             EnableDoubleBuffering(form);
             form.BackColor = BackgroundColor;
             form.ForeColor = TextPrimaryColor;
@@ -60,6 +61,7 @@ namespace Control_Pedidos.Helpers
 
         private static void AddHeaderPanel(Form form)
         {
+            // Header genérico para todas las pantallas con título y subtítulo.
             var header = new Panel
             {
                 Dock = DockStyle.Top,
@@ -188,6 +190,7 @@ namespace Control_Pedidos.Helpers
 
         private static void StyleButton(Button button)
         {
+            // Botones planos con padding y cursor de mano para dar feedback moderno.
             button.FlatStyle = FlatStyle.Flat;
             button.FlatAppearance.BorderSize = 0;
             button.ForeColor = Color.White;
@@ -249,6 +252,7 @@ namespace Control_Pedidos.Helpers
 
         private static void StyleDataGridView(DataGridView grid)
         {
+            // Configuramos apariencia consistente con el resto de la interfaz.
             EnableDoubleBuffering(grid);
 
             grid.BackgroundColor = SurfaceColor;

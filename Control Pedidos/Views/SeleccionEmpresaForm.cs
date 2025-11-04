@@ -22,6 +22,7 @@ namespace Control_Pedidos.Views
 
         private void PopulateEmpresas()
         {
+            // Configuramos el combo para que muestre el nombre pero conserve el id.
             empresaComboBox.DisplayMember = nameof(Empresa.Nombre);
             empresaComboBox.ValueMember = nameof(Empresa.Id);
             empresaComboBox.DataSource = new List<Empresa>(_empresas);
