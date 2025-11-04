@@ -12,6 +12,7 @@ namespace Control_Pedidos.Helpers
 
         public static bool IsEmail(string value)
         {
+            // Validamos el formato básico de email, descartando nulos o espacios.
             return !string.IsNullOrWhiteSpace(value) && EmailRegex.IsMatch(value);
         }
 
@@ -22,6 +23,7 @@ namespace Control_Pedidos.Helpers
                 return false;
             }
 
+            // El patrón acepta las variantes de RFC personas físicas y morales.
             return RfcRegex.IsMatch(value);
         }
     }

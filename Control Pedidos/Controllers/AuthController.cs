@@ -12,6 +12,7 @@ namespace Control_Pedidos.Controllers
 
         public AuthController(DatabaseConnectionFactory connectionFactory)
         {
+            // Guardamos la fábrica para sacar conexiones limpias cada vez que hagamos login u otra consulta.
             _connectionFactory = connectionFactory;
         }
 
@@ -20,23 +21,19 @@ namespace Control_Pedidos.Controllers
             role = string.Empty;
             nombreuser = string.Empty;
             usuarioid = string.Empty;
+
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
+                // Si mandan datos vacíos ni nos molestamos en ir a la base.
                 return false;
             }
 
-            //const string query = @"SELECT rol_usuario_id
-            //                        FROM usuarios
-            //                        WHERE correo = @username
-            //                          AND pass = SHA2(@password, 256)
-            //                          AND (estatus IS NULL OR estatus <> 'B')";
-
             const string query = @"SELECT ru.nombre as rol_nombre, u.nombre as usuario_nombre, u.usuario_id as usuario_id
-	                                FROM banquetes.usuarios u
+                                        FROM banquetes.usuarios u
                                     LEFT JOIN banquetes.roles_usuarios ru on ru.rol_usuario_id = u.rol_usuario_id
-	                                WHERE u.correo = @username
-	                                AND u.pass = SHA2(@password, 256)
-	                                AND (u.estatus IS NULL OR estatus <> 'B');";
+                                        WHERE u.correo = @username
+                                        AND u.pass = SHA2(@password, 256)
+                                        AND (u.estatus IS NULL OR estatus <> 'B');";
             try
             {
                 using (var connection = _connectionFactory.Create())
@@ -50,17 +47,18 @@ namespace Control_Pedidos.Controllers
                     {
                         if (reader.Read())
                         {
-                            //leemos los campos
+                            // Si hay coincidencia, rellenamos la info que espera la UI.
                             role = reader["rol_nombre"].ToString();
                             nombreuser = reader["usuario_nombre"].ToString();
                             usuarioid = reader["usuario_id"].ToString();
                             return true;
                         }
-                    }                    
+                    }
                 }
             }
             catch (Exception ex)
             {
+                // Envuelve el error original para que la capa superior pueda mostrar algo decente.
                 throw new InvalidOperationException("Error al validar las credenciales de usuario", ex);
             }
 
@@ -87,6 +85,7 @@ namespace Control_Pedidos.Controllers
                 {
                     while (reader.Read())
                     {
+                        // Construimos la lista de empresas habilitadas para el usuario.
                         empresas.Add(new Empresa
                         {
                             Id = reader.GetInt32("empresa_id"),

@@ -16,6 +16,7 @@ namespace Control_Pedidos.Data
 
         public UsuarioDao(DatabaseConnectionFactory connectionFactory)
         {
+            // Guardamos la fábrica para abrir conexiones en cada operación.
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
 
@@ -35,6 +36,7 @@ VALUES (@nombre, @correo, @password, @rolUsuarioId, @estatus, @fechaCreacion);";
 
                         using (var command = new MySqlCommand(insertUser, connection, transaction))
                         {
+                            // Datos básicos del usuario nuevo, incluyendo hash ya generado.
                             command.Parameters.AddWithValue("@nombre", usuario.Nombre);
                             command.Parameters.AddWithValue("@correo", usuario.Correo);
                             command.Parameters.AddWithValue("@password", usuario.PasswordHash);
@@ -46,6 +48,7 @@ VALUES (@nombre, @correo, @password, @rolUsuarioId, @estatus, @fechaCreacion);";
                             usuario.Id = Convert.ToInt32(command.LastInsertedId);
                         }
 
+                        // Guardamos los roles asociados aprovechando la misma transacción.
                         PersistirRoles(connection, transaction, usuario.Id, roles);
 
                         transaction.Commit();
@@ -82,6 +85,7 @@ WHERE usuario_id = @usuarioId;";
 
                         using (var command = new MySqlCommand(updateUser, connection, transaction))
                         {
+                            // Si no viene password nuevo dejamos el que ya estaba en la base.
                             command.Parameters.AddWithValue("@nombre", usuario.Nombre);
                             command.Parameters.AddWithValue("@correo", usuario.Correo);
                             command.Parameters.AddWithValue("@password", string.IsNullOrEmpty(usuario.PasswordHash) ? (object)DBNull.Value : usuario.PasswordHash);
@@ -92,6 +96,7 @@ WHERE usuario_id = @usuarioId;";
                             command.ExecuteNonQuery();
                         }
 
+                        // Primero limpiamos los roles actuales y luego cargamos los nuevos.
                         const string deleteRoles = "DELETE FROM usuarios_roles WHERE usuario_id = @usuarioId";
                         using (var deleteCommand = new MySqlCommand(deleteRoles, connection, transaction))
                         {
@@ -125,6 +130,7 @@ WHERE usuario_id = @usuarioId;";
 SET estatus = 'Inactivo', fecha_baja = @fechaBaja
 WHERE usuario_id = @usuarioId;", connection))
                 {
+                    // Marcamos fecha de baja para tener historial pero sin borrar el registro.
                     command.Parameters.AddWithValue("@fechaBaja", DateTime.Now);
                     command.Parameters.AddWithValue("@usuarioId", usuarioId);
 
@@ -154,6 +160,7 @@ WHERE (@filtro = '' OR u.nombre LIKE CONCAT('%', @filtro, '%') OR u.correo LIKE 
                 using (var connection = _connectionFactory.Create())
                 using (var command = new MySqlCommand(query, connection))
                 {
+                    // El filtro también es opcional acá, por nombre o correo.
                     command.Parameters.AddWithValue("@filtro", filtro ?? string.Empty);
                     connection.Open();
 
@@ -177,6 +184,7 @@ WHERE (@filtro = '' OR u.nombre LIKE CONCAT('%', @filtro, '%') OR u.correo LIKE 
                     }
                 }
 
+                // Una vez cargados los usuarios, recuperamos sus roles asociados.
                 CargarRoles(usuarios);
             }
             catch (Exception ex)
@@ -200,6 +208,7 @@ WHERE (@filtro = '' OR u.nombre LIKE CONCAT('%', @filtro, '%') OR u.correo LIKE 
             {
                 using (var command = new MySqlCommand(insertRole, connection, transaction))
                 {
+                    // Insertamos rol por rol evitando duplicados con Distinct por las dudas.
                     command.Parameters.AddWithValue("@usuarioId", usuarioId);
                     command.Parameters.AddWithValue("@rolId", rolId);
                     command.ExecuteNonQuery();
@@ -214,6 +223,7 @@ WHERE (@filtro = '' OR u.nombre LIKE CONCAT('%', @filtro, '%') OR u.correo LIKE 
                 return;
             }
 
+            // Armamos una lista de ids para traer todos los roles en un solo viaje.
             var usuariosIds = string.Join(",", usuarios.Select(u => u.Id));
             var rolesPorUsuario = new Dictionary<int, List<Rol>>();
 

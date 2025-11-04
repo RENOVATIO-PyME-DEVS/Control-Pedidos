@@ -15,6 +15,7 @@ namespace Control_Pedidos.Data
 
         public RolDao(DatabaseConnectionFactory connectionFactory)
         {
+            // Mismo patrón: guardamos la fábrica para tener conexiones listas cuando hagan falta.
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
 
@@ -28,6 +29,7 @@ namespace Control_Pedidos.Data
                 using (var command = new MySqlCommand(@"INSERT INTO roles (nombre, descripcion, estatus)
 VALUES (@nombre, @descripcion, @estatus);", connection))
                 {
+                    // Inserción simple para dar de alta un rol nuevo.
                     command.Parameters.AddWithValue("@nombre", rol.Nombre);
                     command.Parameters.AddWithValue("@descripcion", string.IsNullOrWhiteSpace(rol.Descripcion) ? (object)DBNull.Value : rol.Descripcion);
                     command.Parameters.AddWithValue("@estatus", rol.Estatus);
@@ -82,6 +84,7 @@ VALUES (@nombre, @descripcion, @estatus);", connection))
                 using (var connection = _connectionFactory.Create())
                 using (var command = new MySqlCommand(@"UPDATE roles SET estatus = 'Inactivo' WHERE rol_id = @rolId;", connection))
                 {
+                    // Usamos baja lógica igual que en otras tablas para mantener historial.
                     command.Parameters.AddWithValue("@rolId", rolId);
 
                     connection.Open();
@@ -112,6 +115,7 @@ VALUES (@nombre, @descripcion, @estatus);", connection))
                     {
                         while (reader.Read())
                         {
+                            // Convertimos el resultado en objetos Rol para que la capa superior no toque MySQL directamente.
                             roles.Add(new Rol
                             {
                                 Id = reader.GetInt32("rol_id"),

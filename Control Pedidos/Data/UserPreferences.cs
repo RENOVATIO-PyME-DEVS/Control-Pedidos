@@ -12,6 +12,7 @@ namespace Control_Pedidos.Data
 
         public UserPreferences()
         {
+            // Empezamos con valores vacíos para no romper cuando todavía no hay historial.
             LastUsername = string.Empty;
         }
 
@@ -23,6 +24,7 @@ namespace Control_Pedidos.Data
             var path = GetPreferencesPath();
             if (!File.Exists(path))
             {
+                // Si nunca se guardó nada, devolvemos una instancia limpia.
                 return new UserPreferences();
             }
 
@@ -30,6 +32,7 @@ namespace Control_Pedidos.Data
             {
                 using (var stream = File.OpenRead(path))
                 {
+                    // Leemos el JSON y lo convertimos en nuestro objeto de preferencias.
                     var serializer = new DataContractJsonSerializer(typeof(UserPreferences));
                     var loaded = serializer.ReadObject(stream) as UserPreferences;
                     return loaded ?? new UserPreferences();
@@ -37,10 +40,12 @@ namespace Control_Pedidos.Data
             }
             catch (SerializationException)
             {
+                // Si el archivo está corrupto, preferimos resetear y seguir en lugar de explotar.
                 return new UserPreferences();
             }
             catch (IOException)
             {
+                // Lo mismo para errores de IO: devolvemos algo por defecto.
                 return new UserPreferences();
             }
         }
@@ -50,6 +55,7 @@ namespace Control_Pedidos.Data
             var path = GetPreferencesPath();
             using (var stream = File.Create(path))
             {
+                // Guardamos el último usuario en un JSON muy simple.
                 var serializer = new DataContractJsonSerializer(typeof(UserPreferences));
                 serializer.WriteObject(stream, this);
             }
@@ -57,6 +63,7 @@ namespace Control_Pedidos.Data
 
         private static string GetPreferencesPath()
         {
+            // Guardamos el archivo en la misma carpeta que la app para mantener todo junto.
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
             return Path.Combine(basePath, PreferencesFileName);
         }

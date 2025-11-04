@@ -15,6 +15,7 @@ namespace Control_Pedidos.Data
 
         public ClienteDao(DatabaseConnectionFactory connectionFactory)
         {
+            // Nos quedamos con la fábrica para abrir conexiones cuando haga falta.
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
 
@@ -24,23 +25,22 @@ namespace Control_Pedidos.Data
             try
             {
                 using (var connection = _connectionFactory.Create())
-                //using (var command = new MySqlCommand(@"INSERT INTO clientes (nombre, razon_social, rfc, telefono, correo, direccion, estatus) VALUES (@nombre, @razonSocial, @rfc, @telefono, @correo, @direccion, @estatus);", connection))
                 using (var command = new MySqlCommand(@"INSERT INTO clientes
 (nombre, rfc, telefono, correo, estatus, codigo_postal, c_regimenfiscal_id)
 VALUES (@nombre, @rfc, @telefono, @correo, @estatus, @codigoPostal, @regimenFiscalId);", connection))
                 {
+                    // Mapeamos cada propiedad del modelo al parámetro correspondiente de la consulta.
                     command.Parameters.AddWithValue("@nombre", cliente.NombreComercial);
-                    //command.Parameters.AddWithValue("@razonSocial", cliente.RazonSocial);
                     command.Parameters.AddWithValue("@rfc", string.IsNullOrWhiteSpace(cliente.Rfc) ? (object)DBNull.Value : cliente.Rfc);
                     command.Parameters.AddWithValue("@telefono", cliente.Telefono);
                     command.Parameters.AddWithValue("@correo", cliente.Correo);
-                    //command.Parameters.AddWithValue("@direccion", cliente.Direccion);
                     command.Parameters.AddWithValue("@estatus", string.Equals(cliente.Estatus, "Activo", StringComparison.OrdinalIgnoreCase) ? "N" : "B");
                     command.Parameters.AddWithValue("@codigoPostal", string.IsNullOrWhiteSpace(cliente.CodigoPostal) ? (object)DBNull.Value : cliente.CodigoPostal);
                     command.Parameters.AddWithValue("@regimenFiscalId", cliente.RegimenFiscalId.HasValue ? (object)cliente.RegimenFiscalId.Value : DBNull.Value);
 
                     connection.Open();
                     command.ExecuteNonQuery();
+                    // Guardamos el id generado por la base para mantener sincronizado el modelo en memoria.
                     cliente.Id = Convert.ToInt32(command.LastInsertedId);
                 }
 
@@ -60,18 +60,16 @@ VALUES (@nombre, @rfc, @telefono, @correo, @estatus, @codigoPostal, @regimenFisc
             try
             {
                 using (var connection = _connectionFactory.Create())
-                //using (var command = new MySqlCommand(@"UPDATE clientes SET nombre = @nombre, razon_social = @razonSocial, rfc = @rfc, telefono = @telefono, correo = @correo, direccion = @direccion, estatus = @estatus WHERE cliente_id = @clienteId;", connection))
-                using (var command = new MySqlCommand(@"UPDATE clientes SET nombre = @nombre, rfc = @rfc, telefono = @telefono, correo = @correo, estatus = @estatus, codigo_postal = @codigoPostal, c_regimenfiscal_id = @regimenFiscalId WHERE cliente_id = @clienteId;", connection))
+                using (var command = new MySqlCommand(@"UPDATE clientes SET nombre = @nombre, rfc = @rfc, telefono = @telefono,
+correo = @correo, estatus = @estatus, codigo_postal = @codigoPostal, c_regimenfiscal_id = @regimenFiscalId WHERE cliente_id = @clienteId;", connection))
                 {
+                    // Mismos parámetros que el insert, pero además mandamos el id para ubicar el registro.
                     command.Parameters.AddWithValue("@nombre", cliente.NombreComercial);
-                    //command.Parameters.AddWithValue("@razonSocial", cliente.RazonSocial);
                     command.Parameters.AddWithValue("@rfc", string.IsNullOrWhiteSpace(cliente.Rfc) ? (object)DBNull.Value : cliente.Rfc);
                     command.Parameters.AddWithValue("@telefono", cliente.Telefono);
                     command.Parameters.AddWithValue("@correo", cliente.Correo);
-                    //command.Parameters.AddWithValue("@direccion", cliente.Direccion);
                     command.Parameters.AddWithValue("@estatus", string.Equals(cliente.Estatus, "Activo", StringComparison.OrdinalIgnoreCase) ? "N" : "B");
                     command.Parameters.AddWithValue("@codigoPostal", string.IsNullOrWhiteSpace(cliente.CodigoPostal) ? (object)DBNull.Value : cliente.CodigoPostal);
-                    //command.Parameters.AddWithValue("@requiereFactura", cliente.RequiereFactura ? "S" : "N");
                     command.Parameters.AddWithValue("@regimenFiscalId", cliente.RegimenFiscalId.HasValue ? (object)cliente.RegimenFiscalId.Value : DBNull.Value);
                     command.Parameters.AddWithValue("@clienteId", cliente.Id);
 
@@ -97,6 +95,7 @@ VALUES (@nombre, @rfc, @telefono, @correo, @estatus, @codigoPostal, @regimenFisc
                 using (var connection = _connectionFactory.Create())
                 using (var command = new MySqlCommand(@"UPDATE clientes SET estatus = 'B' WHERE cliente_id = @clienteId;", connection))
                 {
+                    // Baja lógica: solo se marca como B (baja) en lugar de borrar definitivamente.
                     command.Parameters.AddWithValue("@clienteId", clienteId);
 
                     connection.Open();
@@ -116,15 +115,15 @@ VALUES (@nombre, @rfc, @telefono, @correo, @estatus, @codigoPostal, @regimenFisc
         {
             var clientes = new List<Cliente>();
             const string query = @"SELECT c.cliente_id
-	            , c.nombre
+                    , c.nombre
                 , c.rfc
                 , c.telefono
                 , c.correo
                 , c.codigo_postal
-                ,  case 
-		            when c.c_regimenfiscal_id is null THEN 'No'
+                ,  case
+                            when c.c_regimenfiscal_id is null THEN 'No'
                     ELSE 'Si'
-	              end as requiere_factura
+                      end as requiere_factura
                 , c.c_regimenfiscal_id,
                     case
                         when c.estatus = 'N' THEN 'Activo'
@@ -141,6 +140,7 @@ VALUES (@nombre, @rfc, @telefono, @correo, @estatus, @codigoPostal, @regimenFisc
                 using (var connection = _connectionFactory.Create())
                 using (var command = new MySqlCommand(query, connection))
                 {
+                    // El filtro opcional permite buscar por nombre o RFC según la cadena que llegue.
                     command.Parameters.AddWithValue("@filtro", filtro ?? string.Empty);
                     connection.Open();
 
@@ -148,6 +148,7 @@ VALUES (@nombre, @rfc, @telefono, @correo, @estatus, @codigoPostal, @regimenFisc
                     {
                         while (reader.Read())
                         {
+                            // Convertimos cada fila de la consulta en un objeto Cliente listo para la UI.
                             clientes.Add(new Cliente
                             {
                                 Id = reader.GetInt32("cliente_id"),
