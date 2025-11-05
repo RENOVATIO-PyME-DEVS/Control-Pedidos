@@ -61,8 +61,11 @@ namespace Control_Pedidos.Views.Orders
             this.clientRfcTextBox = new System.Windows.Forms.TextBox();
             this.clientEmailLabel = new System.Windows.Forms.Label();
             this.clientEmailTextBox = new System.Windows.Forms.TextBox();
+            this.kitComponentsLabel = new System.Windows.Forms.Label();
+            this.kitComponentsDataGridView = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.precioNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kitComponentsDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.detallesGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -202,6 +205,7 @@ namespace Control_Pedidos.Views.Orders
             this.eventComboBox.Name = "eventComboBox";
             this.eventComboBox.Size = new System.Drawing.Size(319, 24);
             this.eventComboBox.TabIndex = 13;
+            this.eventComboBox.SelectedIndexChanged += new System.EventHandler(this.eventComboBox_SelectedIndexChanged);
             // 
             // folioLabel
             // 
@@ -412,13 +416,43 @@ namespace Control_Pedidos.Views.Orders
             this.agregarArticuloButton.Text = "Agregar artículo";
             this.agregarArticuloButton.UseVisualStyleBackColor = true;
             this.agregarArticuloButton.Click += new System.EventHandler(this.agregarArticuloButton_Click);
-            // 
+            //
+            // kitComponentsLabel
+            //
+            this.kitComponentsLabel.AutoSize = true;
+            this.kitComponentsLabel.Location = new System.Drawing.Point(35, 322);
+            this.kitComponentsLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.kitComponentsLabel.Name = "kitComponentsLabel";
+            this.kitComponentsLabel.Size = new System.Drawing.Size(130, 16);
+            this.kitComponentsLabel.TabIndex = 33;
+            this.kitComponentsLabel.Text = "Componentes del kit";
+            this.kitComponentsLabel.Visible = false;
+            //
+            // kitComponentsDataGridView
+            //
+            this.kitComponentsDataGridView.AllowUserToAddRows = false;
+            this.kitComponentsDataGridView.AllowUserToDeleteRows = false;
+            this.kitComponentsDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.kitComponentsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.kitComponentsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.kitComponentsDataGridView.Location = new System.Drawing.Point(33, 343);
+            this.kitComponentsDataGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kitComponentsDataGridView.MultiSelect = false;
+            this.kitComponentsDataGridView.Name = "kitComponentsDataGridView";
+            this.kitComponentsDataGridView.ReadOnly = true;
+            this.kitComponentsDataGridView.RowHeadersWidth = 51;
+            this.kitComponentsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.kitComponentsDataGridView.Size = new System.Drawing.Size(1384, 120);
+            this.kitComponentsDataGridView.TabIndex = 34;
+            this.kitComponentsDataGridView.Visible = false;
+            //
             // detallesGrid
-            // 
+            //
             this.detallesGrid.AllowUserToAddRows = false;
             this.detallesGrid.AllowUserToDeleteRows = false;
-            this.detallesGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.detallesGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.detallesGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.detallesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -430,19 +464,19 @@ namespace Control_Pedidos.Views.Orders
             this.detallesGrid.RowHeadersWidth = 51;
             this.detallesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.detallesGrid.Size = new System.Drawing.Size(1384, 364);
-            this.detallesGrid.TabIndex = 33;
-            // 
+            this.detallesGrid.TabIndex = 35;
+            //
             // eliminarArticuloButton
-            // 
+            //
             this.eliminarArticuloButton.Location = new System.Drawing.Point(33, 694);
             this.eliminarArticuloButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.eliminarArticuloButton.Name = "eliminarArticuloButton";
             this.eliminarArticuloButton.Size = new System.Drawing.Size(177, 33);
-            this.eliminarArticuloButton.TabIndex = 34;
+            this.eliminarArticuloButton.TabIndex = 36;
             this.eliminarArticuloButton.Text = "Eliminar artículo";
             this.eliminarArticuloButton.UseVisualStyleBackColor = true;
             this.eliminarArticuloButton.Click += new System.EventHandler(this.eliminarArticuloButton_Click);
-            // 
+            //
             // totalGeneralLabel
             // 
             this.totalGeneralLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -451,33 +485,33 @@ namespace Control_Pedidos.Views.Orders
             this.totalGeneralLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalGeneralLabel.Name = "totalGeneralLabel";
             this.totalGeneralLabel.Size = new System.Drawing.Size(84, 16);
-            this.totalGeneralLabel.TabIndex = 35;
+            this.totalGeneralLabel.TabIndex = 37;
             this.totalGeneralLabel.Text = "Total pedido";
-            // 
+            //
             // totalGeneralValueLabel
-            // 
+            //
             this.totalGeneralValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalGeneralValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
             this.totalGeneralValueLabel.Location = new System.Drawing.Point(1126, 706);
             this.totalGeneralValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalGeneralValueLabel.Name = "totalGeneralValueLabel";
             this.totalGeneralValueLabel.Size = new System.Drawing.Size(137, 28);
-            this.totalGeneralValueLabel.TabIndex = 36;
+            this.totalGeneralValueLabel.TabIndex = 38;
             this.totalGeneralValueLabel.Text = "$0.00";
             this.totalGeneralValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
+            //
             // cerrarPedidoButton
-            // 
+            //
             this.cerrarPedidoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cerrarPedidoButton.Location = new System.Drawing.Point(390, 706);
             this.cerrarPedidoButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cerrarPedidoButton.Name = "cerrarPedidoButton";
             this.cerrarPedidoButton.Size = new System.Drawing.Size(177, 33);
-            this.cerrarPedidoButton.TabIndex = 37;
+            this.cerrarPedidoButton.TabIndex = 39;
             this.cerrarPedidoButton.Text = "Cerrar pedido";
             this.cerrarPedidoButton.UseVisualStyleBackColor = true;
             this.cerrarPedidoButton.Click += new System.EventHandler(this.cerrarPedidoButton_Click);
-            // 
+            //
             // cancelarPedidoButton
             // 
             this.cancelarPedidoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -485,11 +519,11 @@ namespace Control_Pedidos.Views.Orders
             this.cancelarPedidoButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cancelarPedidoButton.Name = "cancelarPedidoButton";
             this.cancelarPedidoButton.Size = new System.Drawing.Size(177, 33);
-            this.cancelarPedidoButton.TabIndex = 38;
+            this.cancelarPedidoButton.TabIndex = 40;
             this.cancelarPedidoButton.Text = "Cancelar pedido";
             this.cancelarPedidoButton.UseVisualStyleBackColor = true;
             this.cancelarPedidoButton.Click += new System.EventHandler(this.cancelarPedidoButton_Click);
-            // 
+            //
             // cerrarVentanaButton
             // 
             this.cerrarVentanaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -497,7 +531,7 @@ namespace Control_Pedidos.Views.Orders
             this.cerrarVentanaButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cerrarVentanaButton.Name = "cerrarVentanaButton";
             this.cerrarVentanaButton.Size = new System.Drawing.Size(124, 33);
-            this.cerrarVentanaButton.TabIndex = 39;
+            this.cerrarVentanaButton.TabIndex = 41;
             this.cerrarVentanaButton.Text = "Cerrar";
             this.cerrarVentanaButton.UseVisualStyleBackColor = true;
             this.cerrarVentanaButton.Click += new System.EventHandler(this.cerrarVentanaButton_Click);
@@ -509,7 +543,7 @@ namespace Control_Pedidos.Views.Orders
             this.clientRfcLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.clientRfcLabel.Name = "clientRfcLabel";
             this.clientRfcLabel.Size = new System.Drawing.Size(34, 16);
-            this.clientRfcLabel.TabIndex = 40;
+            this.clientRfcLabel.TabIndex = 42;
             this.clientRfcLabel.Text = "RFC";
             // 
             // clientRfcTextBox
@@ -519,7 +553,7 @@ namespace Control_Pedidos.Views.Orders
             this.clientRfcTextBox.Name = "clientRfcTextBox";
             this.clientRfcTextBox.ReadOnly = true;
             this.clientRfcTextBox.Size = new System.Drawing.Size(372, 22);
-            this.clientRfcTextBox.TabIndex = 41;
+            this.clientRfcTextBox.TabIndex = 43;
             // 
             // clientEmailLabel
             // 
@@ -528,7 +562,7 @@ namespace Control_Pedidos.Views.Orders
             this.clientEmailLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.clientEmailLabel.Name = "clientEmailLabel";
             this.clientEmailLabel.Size = new System.Drawing.Size(48, 16);
-            this.clientEmailLabel.TabIndex = 42;
+            this.clientEmailLabel.TabIndex = 44;
             this.clientEmailLabel.Text = "Correo";
             // 
             // clientEmailTextBox
@@ -538,7 +572,7 @@ namespace Control_Pedidos.Views.Orders
             this.clientEmailTextBox.Name = "clientEmailTextBox";
             this.clientEmailTextBox.ReadOnly = true;
             this.clientEmailTextBox.Size = new System.Drawing.Size(372, 22);
-            this.clientEmailTextBox.TabIndex = 43;
+            this.clientEmailTextBox.TabIndex = 45;
             // 
             // OrderManagementForm
             // 
@@ -555,6 +589,8 @@ namespace Control_Pedidos.Views.Orders
             this.Controls.Add(this.totalGeneralValueLabel);
             this.Controls.Add(this.totalGeneralLabel);
             this.Controls.Add(this.eliminarArticuloButton);
+            this.Controls.Add(this.kitComponentsDataGridView);
+            this.Controls.Add(this.kitComponentsLabel);
             this.Controls.Add(this.detallesGrid);
             this.Controls.Add(this.agregarArticuloButton);
             this.Controls.Add(this.totalArticuloTextBox);
@@ -596,6 +632,7 @@ namespace Control_Pedidos.Views.Orders
             this.Text = "Gestión de pedidos";
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.precioNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kitComponentsDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.detallesGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -637,6 +674,8 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.Label totalArticuloLabel;
         private System.Windows.Forms.TextBox totalArticuloTextBox;
         private System.Windows.Forms.Button agregarArticuloButton;
+        private System.Windows.Forms.Label kitComponentsLabel;
+        private System.Windows.Forms.DataGridView kitComponentsDataGridView;
         private System.Windows.Forms.DataGridView detallesGrid;
         private System.Windows.Forms.Button eliminarArticuloButton;
         private System.Windows.Forms.Label totalGeneralLabel;

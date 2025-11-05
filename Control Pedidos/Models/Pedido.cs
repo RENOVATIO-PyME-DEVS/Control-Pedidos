@@ -6,6 +6,7 @@ namespace Control_Pedidos.Models
     {
         public int Id { get; set; }
         public string Folio { get; set; } = string.Empty;
+        public string FolioFormateado { get; set; } = string.Empty;
         public Cliente Cliente { get; set; } = new Cliente();
         public Empresa Empresa { get; set; } = new Empresa();
         public Usuario Usuario { get; set; } = new Usuario();
