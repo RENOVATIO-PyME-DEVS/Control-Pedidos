@@ -18,13 +18,16 @@ namespace Control_Pedidos.Views.Events
         private readonly List<Empresa> _empresas = new List<Empresa>();
         private Evento _selectedEvento;
         private bool _isLoadingEventos;
-
-        public EventManagementForm(DatabaseConnectionFactory connectionFactory)
+        private readonly int _empresaId;
+        public EventManagementForm(DatabaseConnectionFactory connectionFactory, int empresaid)
         {
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
 
+            _empresaId = empresaid;
+
             InitializeComponent();
             UIStyles.ApplyTheme(this);
+
 
             ConfigureGrid();
             LoadEmpresas();
@@ -98,10 +101,7 @@ namespace Control_Pedidos.Views.Events
             _empresas.Clear();
             try
             {
-                const string query = @"SELECT empresa_id, nombre
-                                       FROM banquetes.empresas
-                                      WHERE estatus IS NULL OR estatus = 'N'
-                                      ORDER BY nombre;";
+                 string query = $"SELECT empresa_id, nombre FROM banquetes.empresas where  empresa_id = {_empresaId} ORDER BY nombre;";
 
                 using (var connection = _connectionFactory.Create())
                 using (var command = new MySqlCommand(query, connection))
@@ -227,6 +227,7 @@ namespace Control_Pedidos.Views.Events
         private void limpiarButton_Click(object sender, EventArgs e)
         {
             ClearForm();
+            agregarButton.Enabled = true;
         }
 
         private void eventosGrid_SelectionChanged(object sender, EventArgs e)
@@ -275,6 +276,7 @@ namespace Control_Pedidos.Views.Events
             serieTextBox.Enabled = enabled && tieneSerieCheckBox.Checked;
             siguienteFolioNumericUpDown.Enabled = enabled;
             actualizarButton.Enabled = enabled && _selectedEvento != null;
+            agregarButton.Enabled = enabled && _selectedEvento != null;
         }
 
         private void ResetControlsState()

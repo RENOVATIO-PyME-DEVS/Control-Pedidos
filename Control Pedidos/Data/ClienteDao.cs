@@ -26,14 +26,15 @@ namespace Control_Pedidos.Data
             {
                 using (var connection = _connectionFactory.Create())
                 using (var command = new MySqlCommand(@"INSERT INTO clientes
-(nombre, rfc, telefono, correo, estatus, codigo_postal, c_regimenfiscal_id)
-VALUES (@nombre, @rfc, @telefono, @correo, @estatus, @codigoPostal, @regimenFiscalId);", connection))
+(nombre, rfc, telefono, correo, estatus, codigo_postal, c_regimenfiscal_id, domicilio)
+VALUES (@nombre, @rfc, @telefono, @correo, @estatus, @codigoPostal, @regimenFiscalId, @domicilio);", connection))
                 {
                     // Mapeamos cada propiedad del modelo al parámetro correspondiente de la consulta.
                     command.Parameters.AddWithValue("@nombre", cliente.NombreComercial);
                     command.Parameters.AddWithValue("@rfc", string.IsNullOrWhiteSpace(cliente.Rfc) ? (object)DBNull.Value : cliente.Rfc);
                     command.Parameters.AddWithValue("@telefono", cliente.Telefono);
                     command.Parameters.AddWithValue("@correo", cliente.Correo);
+                    command.Parameters.AddWithValue("@domicilio", cliente.Direccion);
                     command.Parameters.AddWithValue("@estatus", string.Equals(cliente.Estatus, "Activo", StringComparison.OrdinalIgnoreCase) ? "N" : "B");
                     command.Parameters.AddWithValue("@codigoPostal", string.IsNullOrWhiteSpace(cliente.CodigoPostal) ? (object)DBNull.Value : cliente.CodigoPostal);
                     command.Parameters.AddWithValue("@regimenFiscalId", cliente.RegimenFiscalId.HasValue ? (object)cliente.RegimenFiscalId.Value : DBNull.Value);
@@ -61,13 +62,14 @@ VALUES (@nombre, @rfc, @telefono, @correo, @estatus, @codigoPostal, @regimenFisc
             {
                 using (var connection = _connectionFactory.Create())
                 using (var command = new MySqlCommand(@"UPDATE clientes SET nombre = @nombre, rfc = @rfc, telefono = @telefono,
-correo = @correo, estatus = @estatus, codigo_postal = @codigoPostal, c_regimenfiscal_id = @regimenFiscalId WHERE cliente_id = @clienteId;", connection))
+correo = @correo, estatus = @estatus, codigo_postal = @codigoPostal, c_regimenfiscal_id = @regimenFiscalId, domicilio = @domicilio WHERE cliente_id = @clienteId;", connection))
                 {
                     // Mismos parámetros que el insert, pero además mandamos el id para ubicar el registro.
                     command.Parameters.AddWithValue("@nombre", cliente.NombreComercial);
                     command.Parameters.AddWithValue("@rfc", string.IsNullOrWhiteSpace(cliente.Rfc) ? (object)DBNull.Value : cliente.Rfc);
                     command.Parameters.AddWithValue("@telefono", cliente.Telefono);
                     command.Parameters.AddWithValue("@correo", cliente.Correo);
+                    command.Parameters.AddWithValue("@domicilio", cliente.Direccion);
                     command.Parameters.AddWithValue("@estatus", string.Equals(cliente.Estatus, "Activo", StringComparison.OrdinalIgnoreCase) ? "N" : "B");
                     command.Parameters.AddWithValue("@codigoPostal", string.IsNullOrWhiteSpace(cliente.CodigoPostal) ? (object)DBNull.Value : cliente.CodigoPostal);
                     command.Parameters.AddWithValue("@regimenFiscalId", cliente.RegimenFiscalId.HasValue ? (object)cliente.RegimenFiscalId.Value : DBNull.Value);
@@ -131,6 +133,7 @@ correo = @correo, estatus = @estatus, codigo_postal = @codigoPostal, c_regimenfi
                         when c.estatus = 'B' THEN 'Inactivo'
                     end as estatus
             , rf.descripcion regimen_nombre
+            , c.domicilio
                 FROM banquetes.clientes c
             left join c_regimenfiscal rf on rf.c_regimenfiscal_id = c.c_regimenfiscal_id
                 WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%') OR rfc LIKE CONCAT('%', @filtro, '%'))";
@@ -160,7 +163,8 @@ correo = @correo, estatus = @estatus, codigo_postal = @codigoPostal, c_regimenfi
                                 CodigoPostal = reader.IsDBNull(reader.GetOrdinal("codigo_postal")) ? string.Empty : reader.GetString("codigo_postal"),
                                 RequiereFacturaStr = reader.IsDBNull(reader.GetOrdinal("requiere_factura")) ? string.Empty : reader.GetString("requiere_factura"),
                                 RequiereFactura = (reader.GetString("requiere_factura") == "Si") ? true : false,
-                                RegimenFiscalId = reader.IsDBNull(reader.GetOrdinal("c_regimenfiscal_id")) ? (int?)null : reader.GetInt32("c_regimenfiscal_id")
+                                RegimenFiscalId = reader.IsDBNull(reader.GetOrdinal("c_regimenfiscal_id")) ? (int?)null : reader.GetInt32("c_regimenfiscal_id"),
+                                Direccion = reader.IsDBNull(reader.GetOrdinal("domicilio")) ? string.Empty : reader.GetString("domicilio"),
                             });
                         }
                     }
