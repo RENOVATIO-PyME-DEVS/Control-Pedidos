@@ -64,6 +64,61 @@ VALUES (@nombre, @correo, @pass, @rolUsuarioId, @estatus, @fechaCreacion);";
             }
         }
 
+        //        public bool Actualizar(Usuario usuario, IList<int> roles, out string message)
+        //        {
+        //            message = string.Empty;
+
+        //            try
+        //            {
+        //                using (var connection = _connectionFactory.Create())
+        //                {
+        //                    connection.Open();
+        //                    using (var transaction = connection.BeginTransaction())
+        //                    {
+        //                        const string updateUser = @"UPDATE usuarios
+        //SET nombre = @nombre,
+        //    correo = @correo,
+        //    pass = COALESCE(@password, password),
+        //    rol_usuario_id = @rolUsuarioId,
+        //    estatus = @estatus
+        //WHERE usuario_id = @usuarioId;";
+
+        //                        using (var command = new MySqlCommand(updateUser, connection, transaction))
+        //                        {
+        //                            // Si no viene password nuevo dejamos el que ya estaba en la base.
+        //                            command.Parameters.AddWithValue("@nombre", usuario.Nombre);
+        //                            command.Parameters.AddWithValue("@correo", usuario.Correo);
+        //                            command.Parameters.AddWithValue("@password", string.IsNullOrEmpty(usuario.PasswordHash) ? (object)DBNull.Value : usuario.PasswordHash);
+        //                            command.Parameters.AddWithValue("@rolUsuarioId", usuario.RolUsuarioId.HasValue ? (object)usuario.RolUsuarioId.Value : DBNull.Value);
+        //                            command.Parameters.AddWithValue("@estatus", usuario.Estatus);
+        //                            command.Parameters.AddWithValue("@usuarioId", usuario.Id);
+
+        //                            command.ExecuteNonQuery();
+        //                        }
+
+        //                        // Primero limpiamos los roles actuales y luego cargamos los nuevos.
+        //                        //const string deleteRoles = "DELETE FROM usuarios_roles WHERE usuario_id = @usuarioId";
+        //                        //using (var deleteCommand = new MySqlCommand(deleteRoles, connection, transaction))
+        //                        //{
+        //                        //    deleteCommand.Parameters.AddWithValue("@usuarioId", usuario.Id);
+        //                        //    deleteCommand.ExecuteNonQuery();
+        //                        //}
+
+        //                        //PersistirRoles(connection, transaction, usuario.Id, roles);
+
+        //                        transaction.Commit();
+        //                    }
+        //                }
+
+        //                return true;
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                message = $"No se pudo actualizar el usuario: {ex.Message}";
+        //                return false;
+        //            }
+        //        }
+
         public bool Actualizar(Usuario usuario, IList<int> roles, out string message)
         {
             message = string.Empty;
@@ -75,36 +130,43 @@ VALUES (@nombre, @correo, @pass, @rolUsuarioId, @estatus, @fechaCreacion);";
                     connection.Open();
                     using (var transaction = connection.BeginTransaction())
                     {
-                        const string updateUser = @"UPDATE usuarios
-SET nombre = @nombre,
-    correo = @correo,
-    password = COALESCE(@password, password),
-    rol_usuario_id = @rolUsuarioId,
-    estatus = @estatus
-WHERE usuario_id = @usuarioId;";
+                        // ✅ Si la contraseña viene vacía, no se actualiza.
+                        string updateUser = @"
+                    UPDATE usuarios
+                    SET nombre = @nombre,
+                        correo = @correo,
+                        rol_usuario_id = @rolUsuarioId,
+                        estatus = @estatus
+                    {0}
+                    WHERE usuario_id = @usuarioId;
+                ";
+
+                        // Si el usuario trae una contraseña nueva, se agrega a la consulta
+                        bool actualizarPassword = !string.IsNullOrEmpty(usuario.PasswordHash);
+                        if (actualizarPassword)
+                            updateUser = string.Format(updateUser, ", pass = @password");
+                        else
+                            updateUser = string.Format(updateUser, "");
 
                         using (var command = new MySqlCommand(updateUser, connection, transaction))
                         {
-                            // Si no viene password nuevo dejamos el que ya estaba en la base.
                             command.Parameters.AddWithValue("@nombre", usuario.Nombre);
                             command.Parameters.AddWithValue("@correo", usuario.Correo);
-                            command.Parameters.AddWithValue("@password", string.IsNullOrEmpty(usuario.PasswordHash) ? (object)DBNull.Value : usuario.PasswordHash);
-                            command.Parameters.AddWithValue("@rolUsuarioId", usuario.RolUsuarioId.HasValue ? (object)usuario.RolUsuarioId.Value : DBNull.Value);
+                            command.Parameters.AddWithValue("@rolUsuarioId", usuario.RolUsuarioId.HasValue
+                                ? (object)usuario.RolUsuarioId.Value
+                                : DBNull.Value);
                             command.Parameters.AddWithValue("@estatus", usuario.Estatus);
                             command.Parameters.AddWithValue("@usuarioId", usuario.Id);
+
+                            // Solo se agrega parámetro password si se va a actualizar
+                            if (actualizarPassword)
+                                command.Parameters.AddWithValue("@password", usuario.PasswordHash);
 
                             command.ExecuteNonQuery();
                         }
 
-                        // Primero limpiamos los roles actuales y luego cargamos los nuevos.
-                        const string deleteRoles = "DELETE FROM usuarios_roles WHERE usuario_id = @usuarioId";
-                        using (var deleteCommand = new MySqlCommand(deleteRoles, connection, transaction))
-                        {
-                            deleteCommand.Parameters.AddWithValue("@usuarioId", usuario.Id);
-                            deleteCommand.ExecuteNonQuery();
-                        }
-
-                        PersistirRoles(connection, transaction, usuario.Id, roles);
+                        // Roles si aplican
+                        // PersistirRoles(connection, transaction, usuario.Id, roles);
 
                         transaction.Commit();
                     }

@@ -108,8 +108,14 @@ namespace Control_Pedidos.Views.Users
 
         private void addRoleButton_Click(object sender, EventArgs e)
         {
-            if (roleComboBox.SelectedItem is Rol rol && !_selectedRoles.Any(r => r.Id == rol.Id))
+            if (roleComboBox.SelectedItem is Rol rol)
             {
+                if (_selectedRoles.Any(r => r.Id == rol.Id))
+                {
+                    return;
+                }
+
+                _selectedRoles.Clear();
                 _selectedRoles.Add(rol);
                 RefreshSelectedRoles();
             }
@@ -165,7 +171,7 @@ namespace Control_Pedidos.Views.Users
 
             _selectedUser.Nombre = nameTextBox.Text.Trim();
             _selectedUser.Correo = emailTextBox.Text.Trim();
-            _selectedUser.Estatus = statusComboBox.SelectedItem?.ToString() ?? "Activo";
+            _selectedUser.Estatus = statusComboBox.SelectedItem?.ToString() == "Activo" ? "N" : "B";
             _selectedUser.Roles = _selectedRoles.ToList();
             _selectedUser.RolUsuarioId = _selectedRoles.FirstOrDefault()?.Id;
 
@@ -220,9 +226,9 @@ namespace Control_Pedidos.Views.Users
                 passwordTextBox.Text = string.Empty;
 
                 _selectedRoles.Clear();
-                if (usuario.Roles != null)
+                if (usuario.Roles != null && usuario.Roles.Any())
                 {
-                    _selectedRoles.AddRange(usuario.Roles);
+                    _selectedRoles.Add(usuario.Roles.First());
                 }
 
                 RefreshSelectedRoles();
@@ -268,7 +274,13 @@ namespace Control_Pedidos.Views.Users
 
             if (_selectedRoles.Count == 0)
             {
-                MessageBox.Show("Seleccione al menos un rol", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione un rol", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (_selectedRoles.Count > 1)
+            {
+                MessageBox.Show("Solo se permite seleccionar un rol", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
