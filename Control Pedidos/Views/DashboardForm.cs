@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Control_Pedidos.Controllers;
 using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
+using Control_Pedidos.Models;
 using Control_Pedidos.Views.Articles;
 using Control_Pedidos.Views.Clients;
 using Control_Pedidos.Views.Events;
@@ -72,7 +73,7 @@ namespace Control_Pedidos.Views
 
         private void ordersButton_Click(object sender, EventArgs e)
         {
-            using (var ordersForm = new Orders.OrderManagementForm(_orderController, _empresaId, _empresaNombre))
+            using (var ordersForm = new Orders.OrderDeliveryDashboardForm(_orderController, _empresaId, _empresaNombre))
             {
                 ordersForm.ShowDialog();
             }
@@ -88,7 +89,25 @@ namespace Control_Pedidos.Views
 
         private void clientsButton_Click(object sender, EventArgs e)
         {
-            using (var form = new ClientManagementForm(_connectionFactory))
+            var usuarioActual = new Usuario
+            {
+                Id = int.TryParse(_userId, out var parsedId) ? parsedId : 0,
+                Nombre = _user,
+                Correo = _userEmail
+            };
+
+            if (!string.IsNullOrWhiteSpace(_role))
+            {
+                usuarioActual.Roles.Add(new Rol { Nombre = _role });
+            }
+
+            var empresaActual = new Empresa
+            {
+                Id = _empresaId,
+                Nombre = _empresaNombre
+            };
+
+            using (var form = new ClientManagementForm(_connectionFactory, usuarioActual, empresaActual))
             {
                 form.ShowDialog();
             }
