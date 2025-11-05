@@ -316,7 +316,8 @@ namespace Control_Pedidos.Views.Orders
                 return;
             }
 
-            if (articuloComboBox.SelectedItem is not Articulo articuloSeleccionado)
+            var articuloSeleccionado = articuloComboBox.SelectedItem as Articulo;
+            if (articuloSeleccionado == null)
             {
                 MessageBox.Show("Seleccione un artículo", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -375,10 +376,13 @@ namespace Control_Pedidos.Views.Orders
                 return;
             }
 
-            if (detallesGrid.CurrentRow?.DataBoundItem is not PedidoDetalle detalle)
-            {
+            if (detallesGrid.CurrentRow == null)
                 return;
-            }
+
+            var detalle = detallesGrid.CurrentRow.DataBoundItem as PedidoDetalle;
+            if (detalle == null)
+                return;
+
 
             if (MessageBox.Show("¿Desea eliminar el artículo seleccionado?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
             {

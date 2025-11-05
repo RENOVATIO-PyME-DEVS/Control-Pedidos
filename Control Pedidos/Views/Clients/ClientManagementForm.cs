@@ -41,7 +41,8 @@ namespace Control_Pedidos.Views.Clients
             _usuarioActual = usuarioActual ?? throw new ArgumentNullException(nameof(usuarioActual));
             _empresaSeleccionada = empresaSeleccionada ?? throw new ArgumentNullException(nameof(empresaSeleccionada));
 
-            _clientsContextMenu = new ContextMenuStrip(components);
+            //_clientsContextMenu = new ContextMenuStrip(components);
+            _clientsContextMenu = new ContextMenuStrip();
             _clientsContextMenu.Items.Add("Agregar pedido", null, agregarPedidoMenuItem_Click);
             clientsGrid.ContextMenuStrip = _clientsContextMenu;
 

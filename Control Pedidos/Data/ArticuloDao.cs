@@ -275,7 +275,8 @@ WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
                         kit.Componentes.Add(new KitDetalle
                         {
                             KitId = kitId,
-                            ArticuloId = reader.GetInt32("articulo_id"),
+                            //ArticuloId = reader.GetInt32("articulo_id"),
+                            ArticuloId = reader.GetInt32("articulo_compuesto_id"),
                             Cantidad = reader.GetDecimal("cantidad"),
                             Articulo = new Articulo
                             {
