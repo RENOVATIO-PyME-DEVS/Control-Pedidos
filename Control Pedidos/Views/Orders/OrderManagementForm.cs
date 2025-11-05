@@ -231,6 +231,7 @@ namespace Control_Pedidos.Views.Orders
             }
             UpdateFolioDisplay();
             statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
+            notesTextBox.Text = _pedido.Notas ?? string.Empty;
 
             if (_pedido.Detalles != null && _pedido.Detalles.Count > 0)
             {
@@ -279,6 +280,7 @@ namespace Control_Pedidos.Views.Orders
             fechaDateTimePicker.Enabled = !_readOnlyMode;
             fechaEntregaDateTimePicker.Enabled = !_readOnlyMode;
             horaEntregaDateTimePicker.Enabled = !_readOnlyMode;
+            notesTextBox.ReadOnly = _readOnlyMode;
 
             articuloComboBox.Enabled = !_readOnlyMode;
             cantidadNumericUpDown.Enabled = !_readOnlyMode;
@@ -303,6 +305,8 @@ namespace Control_Pedidos.Views.Orders
             _pedido.Fecha = fechaDateTimePicker.Value.Date;
             _pedido.FechaEntrega = fechaEntregaDateTimePicker.Value.Date;
             _pedido.HoraEntrega = horaEntregaDateTimePicker.Checked ? (TimeSpan?)horaEntregaDateTimePicker.Value.TimeOfDay : null;
+            var notas = notesTextBox.Text?.Trim();
+            _pedido.Notas = string.IsNullOrWhiteSpace(notas) ? null : notas;
 
             if (eventComboBox.SelectedItem is Evento evento && evento.Id > 0)
             {
