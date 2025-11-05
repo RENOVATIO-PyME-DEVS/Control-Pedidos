@@ -107,6 +107,8 @@
     <Compile Include="Data\ArticuloDao.cs" />
     <Compile Include="Data\ClienteDao.cs" />
     <Compile Include="Data\EventoDao.cs" />
+    <Compile Include="Data\PedidoDao.cs" />
+    <Compile Include="Data\PedidoDetalleDao.cs" />
     <Compile Include="Data\RolDao.cs" />
     <Compile Include="Data\UsuarioDao.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
@@ -216,6 +218,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Orders\OrderManagementForm.resx">
+      <DependentUpon>OrderManagementForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SeleccionEmpresaForm.resx">
       <DependentUpon>SeleccionEmpresaForm.cs</DependentUpon>

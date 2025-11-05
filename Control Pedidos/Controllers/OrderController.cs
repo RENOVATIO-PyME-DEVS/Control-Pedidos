@@ -202,7 +202,7 @@ ORDER BY p.fecha_creacion DESC";
                         var pedido = new Pedido
                         {
                             Id = reader.GetInt32("PedidoId"),
-                            Folio = reader.IsDBNull(reader.GetOrdinal("folio")) ? (int?)null : reader.GetInt32("folio"),
+                            Folio = reader.IsDBNull(reader.GetOrdinal("folio")) ? string.Empty : reader["folio"].ToString(),
                             Fecha = reader.GetDateTime("fecha"),
                             FechaEntrega = reader.GetDateTime("fecha_entrega"),
                             HoraEntrega = reader.IsDBNull(reader.GetOrdinal("hora_entrega"))
@@ -263,7 +263,7 @@ VALUES
                 command.Parameters.AddWithValue("@usuarioId", pedido.Usuario.Id);
                 command.Parameters.AddWithValue("@empresaId", pedido.Empresa.Id);
                 command.Parameters.AddWithValue("@clienteId", pedido.Cliente.Id);
-                command.Parameters.AddWithValue("@folio", pedido.Folio.HasValue ? (object)pedido.Folio.Value : DBNull.Value);
+                command.Parameters.AddWithValue("@folio", string.IsNullOrWhiteSpace(pedido.Folio) ? (object)DBNull.Value : pedido.Folio);
                 command.Parameters.AddWithValue("@fecha", pedido.Fecha);
                 command.Parameters.AddWithValue("@fechaEntrega", pedido.FechaEntrega);
                 command.Parameters.AddWithValue("@horaEntrega", pedido.HoraEntrega.HasValue ? (object)pedido.HoraEntrega.Value : DBNull.Value);
@@ -299,7 +299,7 @@ WHERE pedido_id = @id";
                 command.Parameters.AddWithValue("@usuarioId", pedido.Usuario.Id);
                 command.Parameters.AddWithValue("@empresaId", pedido.Empresa.Id);
                 command.Parameters.AddWithValue("@clienteId", pedido.Cliente.Id);
-                command.Parameters.AddWithValue("@folio", pedido.Folio.HasValue ? (object)pedido.Folio.Value : DBNull.Value);
+                command.Parameters.AddWithValue("@folio", string.IsNullOrWhiteSpace(pedido.Folio) ? (object)DBNull.Value : pedido.Folio);
                 command.Parameters.AddWithValue("@fecha", pedido.Fecha);
                 command.Parameters.AddWithValue("@fechaEntrega", pedido.FechaEntrega);
                 command.Parameters.AddWithValue("@horaEntrega", pedido.HoraEntrega.HasValue ? (object)pedido.HoraEntrega.Value : DBNull.Value);

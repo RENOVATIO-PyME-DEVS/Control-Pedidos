@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
+using Control_Pedidos.Views.Orders;
 using MySql.Data.MySqlClient;
 
 namespace Control_Pedidos.Views.Clients
@@ -11,6 +12,9 @@ namespace Control_Pedidos.Views.Clients
     public partial class ClientManagementForm : Form
     {
         private readonly DatabaseConnectionFactory _connectionFactory;
+        private readonly Usuario _usuarioActual;
+        private readonly Empresa _empresaSeleccionada;
+        private readonly ContextMenuStrip _clientsContextMenu;
         private readonly BindingList<Cliente> _clientes = new BindingList<Cliente>();
         private readonly BindingSource _bindingSource = new BindingSource();
         private Cliente _selectedClient;
@@ -29,11 +33,18 @@ namespace Control_Pedidos.Views.Clients
             PersonaMoral
         }
 
-        public ClientManagementForm(DatabaseConnectionFactory connectionFactory)
+        public ClientManagementForm(DatabaseConnectionFactory connectionFactory, Usuario usuarioActual, Empresa empresaSeleccionada)
         {
             InitializeComponent();
             UIStyles.ApplyTheme(this);
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
+            _usuarioActual = usuarioActual ?? throw new ArgumentNullException(nameof(usuarioActual));
+            _empresaSeleccionada = empresaSeleccionada ?? throw new ArgumentNullException(nameof(empresaSeleccionada));
+
+            //_clientsContextMenu = new ContextMenuStrip(components);
+            _clientsContextMenu = new ContextMenuStrip();
+            _clientsContextMenu.Items.Add("Agregar pedido", null, agregarPedidoMenuItem_Click);
+            clientsGrid.ContextMenuStrip = _clientsContextMenu;
 
             statusComboBox.DataSource = new[] { "Activo", "Inactivo" };
             ConfigureGrid();
@@ -103,6 +114,7 @@ namespace Control_Pedidos.Views.Clients
             });
 
             clientsGrid.DataSource = _bindingSource;
+            clientsGrid.CellMouseDown += clientsGrid_CellMouseDown;
         }
 
         private void LoadClientes(string filtro = "")
@@ -340,6 +352,34 @@ namespace Control_Pedidos.Views.Clients
         private void searchTextBox_TextChanged(object sender, EventArgs e)
         {
             LoadClientes(searchTextBox.Text.Trim());
+        }
+
+        private void clientsGrid_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                clientsGrid.ClearSelection();
+                clientsGrid.Rows[e.RowIndex].Selected = true;
+                clientsGrid.CurrentCell = clientsGrid.Rows[e.RowIndex].Cells[0];
+                if (clientsGrid.Rows[e.RowIndex].DataBoundItem is Cliente cliente)
+                {
+                    _selectedClient = cliente;
+                }
+            }
+        }
+
+        private void agregarPedidoMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_selectedClient == null)
+            {
+                MessageBox.Show("Seleccione un cliente", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (var form = new OrderManagementForm(_connectionFactory, _selectedClient, _usuarioActual, _empresaSeleccionada))
+            {
+                form.ShowDialog(this);
+            }
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
