@@ -111,9 +111,9 @@ namespace Control_Pedidos.Data
                 {
                     try
                     {
-                        var folio = ObtenerFolio(connection, transaction, empresaId, eventoId);
+                        var folioInfo = ObtenerFolioInfo(connection, transaction, empresaId, eventoId);
                         transaction.Commit();
-                        return folio;
+                        return folioInfo.Formateado;
                     }
                     catch
                     {
@@ -149,7 +149,9 @@ namespace Control_Pedidos.Data
 
             try
             {
-                pedido.Folio = ObtenerFolio(connection, transaction, empresaId, pedido.Evento?.Id > 0 ? pedido.Evento.Id : (int?)null);
+                var folioInfo = ObtenerFolioInfo(connection, transaction, empresaId, pedido.Evento?.Id > 0 ? pedido.Evento.Id : (int?)null);
+                pedido.Folio = folioInfo.Numero.ToString();
+                pedido.FolioFormateado = folioInfo.Formateado;
                 pedido.FechaCreacion = DateTime.Now;
                 pedido.Estatus = string.IsNullOrEmpty(pedido.Estatus) ? "P" : pedido.Estatus;
 
@@ -162,7 +164,7 @@ VALUES
                     command.Parameters.AddWithValue("@empresaId", empresaId);
                     command.Parameters.AddWithValue("@clienteId", pedido.Cliente.Id);
                     command.Parameters.AddWithValue("@eventoId", pedido.Evento != null && pedido.Evento.Id > 0 ? (object)pedido.Evento.Id : DBNull.Value);
-                    command.Parameters.AddWithValue("@folio", pedido.Folio);
+                    command.Parameters.AddWithValue("@folio", folioInfo.Numero);
                     command.Parameters.AddWithValue("@fecha", pedido.Fecha == default ? DateTime.Now : pedido.Fecha);
                     command.Parameters.AddWithValue("@fechaEntrega", pedido.FechaEntrega == default ? DateTime.Now : pedido.FechaEntrega);
                     command.Parameters.AddWithValue("@horaEntrega", pedido.HoraEntrega.HasValue ? (object)pedido.HoraEntrega.Value : DBNull.Value);
@@ -184,7 +186,7 @@ VALUES
             }
         }
 
-        private string ObtenerFolio(MySqlConnection connection, MySqlTransaction transaction, int empresaId, int? eventoId)
+        private FolioInfo ObtenerFolioInfo(MySqlConnection connection, MySqlTransaction transaction, int empresaId, int? eventoId)
         {
             if (eventoId.HasValue)
             {
@@ -203,7 +205,7 @@ VALUES
                         var siguienteFolio = reader.GetInt32("siguiente_folio");
                         reader.Close();
 
-                        var folio = FormatearFolio(tieneSerie ? serie : string.Empty, siguienteFolio);
+                        var folioInfo = new FolioInfo(tieneSerie ? serie : string.Empty, siguienteFolio);
 
                         using (var update = new MySqlCommand("UPDATE banquetes.eventos SET siguiente_folio = siguiente_folio + 1 WHERE evento_id = @eventoId;", connection, transaction))
                         {
@@ -211,7 +213,7 @@ VALUES
                             update.ExecuteNonQuery();
                         }
 
-                        return folio;
+                        return folioInfo;
                     }
                 }
             }
@@ -235,7 +237,7 @@ VALUES
                         update.ExecuteNonQuery();
                     }
 
-                    return FormatearFolio(string.Empty, siguienteFolio);
+                    return new FolioInfo(string.Empty, siguienteFolio);
                 }
             }
         }
@@ -244,6 +246,21 @@ VALUES
         {
             var numero = consecutivo.ToString("D5");
             return string.IsNullOrEmpty(serie) ? numero : string.Concat(serie, numero);
+        }
+
+        private sealed class FolioInfo
+        {
+            public FolioInfo(string serie, int numero)
+            {
+                Serie = serie ?? string.Empty;
+                Numero = numero;
+            }
+
+            public string Serie { get; }
+
+            public int Numero { get; }
+
+            public string Formateado => FormatearFolio(Serie, Numero);
         }
     }
 }
