@@ -135,6 +135,7 @@ namespace Control_Pedidos.Views.Clients
                 Rfc = chkRequiereFactura.Checked ? rfcTextBox.Text.Trim() : string.Empty,
                 Telefono = telefonoTextBox.Text.Trim(),
                 Correo = correoTextBox.Text.Trim(),
+                Direccion = direccionTextBox.Text.Trim(),
                 CodigoPostal = chkRequiereFactura.Checked ? codigoPostalTextBox.Text.Trim() : string.Empty,
                 RequiereFactura = chkRequiereFactura.Checked,
                 RegimenFiscalId = chkRequiereFactura.Checked ? GetSelectedRegimenFiscalId() : null,
@@ -175,7 +176,7 @@ namespace Control_Pedidos.Views.Clients
             _selectedClient.CodigoPostal = chkRequiereFactura.Checked ? codigoPostalTextBox.Text.Trim() : string.Empty;
             _selectedClient.RequiereFactura = chkRequiereFactura.Checked;
             _selectedClient.RegimenFiscalId = chkRequiereFactura.Checked ? GetSelectedRegimenFiscalId() : null;
-            // _selectedClient.Direccion = direccionTextBox.Text.Trim();
+            _selectedClient.Direccion = direccionTextBox.Text.Trim();
             _selectedClient.Estatus = statusComboBox.SelectedItem?.ToString() ?? "Activo";
 
             if (Cliente.Actualizar(_connectionFactory, _selectedClient, out var message))
@@ -233,9 +234,9 @@ namespace Control_Pedidos.Views.Clients
 
                 telefonoTextBox.Text = cliente.Telefono;
                 correoTextBox.Text = cliente.Correo;
-               // direccionTextBox.Text = cliente.Direccion;
+                direccionTextBox.Text = cliente.Direccion;
                 statusComboBox.SelectedItem = cliente.Estatus;
-
+                 
                 if (cliente.RequiereFactura)
                 {
                     LoadRegimenFiscalOptionsByRfc(cliente.Rfc, cliente.RegimenFiscalId);
@@ -287,7 +288,7 @@ namespace Control_Pedidos.Views.Clients
             telefonoTextBox.Clear();
             correoTextBox.Clear();
             codigoPostalTextBox.Clear();
-           // direccionTextBox.Clear();
+             direccionTextBox.Clear();
             statusComboBox.SelectedIndex = 0;
             _handlingFacturaCheck = true;
             chkRequiereFactura.Checked = false;

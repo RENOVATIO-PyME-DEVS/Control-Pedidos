@@ -29,6 +29,7 @@ namespace Control_Pedidos.Views
             this.countCaptionLabel = new System.Windows.Forms.Label();
             this.activeOrdersGrid = new System.Windows.Forms.DataGridView();
             this.companyLabel = new System.Windows.Forms.Label();
+            this.eventsButton = new System.Windows.Forms.Button();
             this.activeOrdersGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.activeOrdersGrid)).BeginInit();
             this.SuspendLayout();
@@ -57,7 +58,7 @@ namespace Control_Pedidos.Views
             // refreshButton
             // 
             this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.refreshButton.Location = new System.Drawing.Point(789, 97);
+            this.refreshButton.Location = new System.Drawing.Point(890, 97);
             this.refreshButton.Margin = new System.Windows.Forms.Padding(4);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(183, 42);
@@ -122,7 +123,7 @@ namespace Control_Pedidos.Views
             this.activeOrdersGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.activeOrdersGroupBox.Name = "activeOrdersGroupBox";
             this.activeOrdersGroupBox.Padding = new System.Windows.Forms.Padding(4);
-            this.activeOrdersGroupBox.Size = new System.Drawing.Size(932, 455);
+            this.activeOrdersGroupBox.Size = new System.Drawing.Size(1033, 455);
             this.activeOrdersGroupBox.TabIndex = 5;
             this.activeOrdersGroupBox.TabStop = false;
             this.activeOrdersGroupBox.Text = "Pedidos activos";
@@ -164,7 +165,7 @@ namespace Control_Pedidos.Views
             this.activeOrdersGrid.ReadOnly = true;
             this.activeOrdersGrid.RowHeadersWidth = 51;
             this.activeOrdersGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.activeOrdersGrid.Size = new System.Drawing.Size(880, 355);
+            this.activeOrdersGrid.Size = new System.Drawing.Size(981, 355);
             this.activeOrdersGrid.TabIndex = 0;
             // 
             // companyLabel
@@ -177,11 +178,23 @@ namespace Control_Pedidos.Views
             this.companyLabel.TabIndex = 8;
             this.companyLabel.Text = "Empresa";
             // 
+            // eventsButton
+            // 
+            this.eventsButton.Location = new System.Drawing.Point(852, 170);
+            this.eventsButton.Margin = new System.Windows.Forms.Padding(4);
+            this.eventsButton.Name = "eventsButton";
+            this.eventsButton.Size = new System.Drawing.Size(183, 42);
+            this.eventsButton.TabIndex = 9;
+            this.eventsButton.Text = "Eventos";
+            this.eventsButton.UseVisualStyleBackColor = true;
+            this.eventsButton.Click += new System.EventHandler(this.eventsButton_Click);
+            // 
             // DashboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(997, 704);
+            this.ClientSize = new System.Drawing.Size(1098, 704);
+            this.Controls.Add(this.eventsButton);
             this.Controls.Add(this.companyLabel);
             this.Controls.Add(this.activeOrdersGroupBox);
             this.Controls.Add(this.articlesButton);
@@ -218,5 +231,6 @@ namespace Control_Pedidos.Views
         private System.Windows.Forms.Label activeOrdersCountLabel;
         private System.Windows.Forms.Label countCaptionLabel;
         private System.Windows.Forms.Label companyLabel;
+        private System.Windows.Forms.Button eventsButton;
     }
 }

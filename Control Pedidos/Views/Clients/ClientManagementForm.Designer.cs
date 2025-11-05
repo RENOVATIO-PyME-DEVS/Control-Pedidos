@@ -40,6 +40,8 @@ namespace Control_Pedidos.Views.Clients
             this.codigoPostalTextBox = new System.Windows.Forms.TextBox();
             this.regimenFiscalLabel = new System.Windows.Forms.Label();
             this.cmbRegimenFiscal = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.direccionTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.clientsGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,7 +59,7 @@ namespace Control_Pedidos.Views.Clients
             this.clientsGrid.RowHeadersWidth = 51;
             this.clientsGrid.RowTemplate.Height = 24;
             this.clientsGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.clientsGrid.Size = new System.Drawing.Size(1236, 225);
+            this.clientsGrid.Size = new System.Drawing.Size(1298, 225);
             this.clientsGrid.TabIndex = 0;
             this.clientsGrid.SelectionChanged += new System.EventHandler(this.clientsGrid_SelectionChanged);
             // 
@@ -105,7 +107,7 @@ namespace Control_Pedidos.Views.Clients
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(600, 74);
+            this.addButton.Location = new System.Drawing.Point(586, 187);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(140, 36);
             this.addButton.TabIndex = 10;
@@ -115,7 +117,7 @@ namespace Control_Pedidos.Views.Clients
             // 
             // updateButton
             // 
-            this.updateButton.Location = new System.Drawing.Point(600, 122);
+            this.updateButton.Location = new System.Drawing.Point(747, 187);
             this.updateButton.Name = "updateButton";
             this.updateButton.Size = new System.Drawing.Size(140, 36);
             this.updateButton.TabIndex = 11;
@@ -125,7 +127,7 @@ namespace Control_Pedidos.Views.Clients
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(600, 170);
+            this.deleteButton.Location = new System.Drawing.Point(747, 243);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(140, 36);
             this.deleteButton.TabIndex = 12;
@@ -135,7 +137,7 @@ namespace Control_Pedidos.Views.Clients
             // 
             // clearButton
             // 
-            this.clearButton.Location = new System.Drawing.Point(600, 218);
+            this.clearButton.Location = new System.Drawing.Point(586, 243);
             this.clearButton.Name = "clearButton";
             this.clearButton.Size = new System.Drawing.Size(140, 36);
             this.clearButton.TabIndex = 13;
@@ -264,11 +266,31 @@ namespace Control_Pedidos.Views.Clients
             this.cmbRegimenFiscal.Size = new System.Drawing.Size(260, 24);
             this.cmbRegimenFiscal.TabIndex = 5;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(583, 61);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(79, 20);
+            this.label1.TabIndex = 26;
+            this.label1.Text = "Domicilio";
+            // 
+            // direccionTextBox
+            // 
+            this.direccionTextBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.direccionTextBox.Location = new System.Drawing.Point(586, 81);
+            this.direccionTextBox.Multiline = true;
+            this.direccionTextBox.Name = "direccionTextBox";
+            this.direccionTextBox.Size = new System.Drawing.Size(301, 79);
+            this.direccionTextBox.TabIndex = 25;
+            // 
             // ClientManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1284, 604);
+            this.ClientSize = new System.Drawing.Size(1346, 604);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.direccionTextBox);
             this.Controls.Add(this.cmbRegimenFiscal);
             this.Controls.Add(this.regimenFiscalLabel);
             this.Controls.Add(this.codigoPostalTextBox);
@@ -329,5 +351,7 @@ namespace Control_Pedidos.Views.Clients
         private System.Windows.Forms.TextBox codigoPostalTextBox;
         private System.Windows.Forms.Label regimenFiscalLabel;
         private System.Windows.Forms.ComboBox cmbRegimenFiscal;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox direccionTextBox;
     }
 }

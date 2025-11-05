@@ -106,6 +106,7 @@
     <Compile Include="Data\DatabaseConnectionFactory.cs" />
     <Compile Include="Data\ArticuloDao.cs" />
     <Compile Include="Data\ClienteDao.cs" />
+    <Compile Include="Data\EventoDao.cs" />
     <Compile Include="Data\RolDao.cs" />
     <Compile Include="Data\UsuarioDao.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Helpers\ValidationHelper.cs" />
     <Compile Include="Models\Articulo.cs" />
     <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\Empresa.cs" />
     <Compile Include="Models\Pedido.cs" />
     <Compile Include="Models\PedidoDetalle.cs" />
@@ -150,6 +152,12 @@
     </Compile>
     <Compile Include="Views\Clients\ClientManagementForm.Designer.cs">
       <DependentUpon>ClientManagementForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Events\EventManagementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Events\EventManagementForm.Designer.cs">
+      <DependentUpon>EventManagementForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Articles\ArticleManagementForm.cs">
       <SubType>Form</SubType>
@@ -199,6 +207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Clients\ClientManagementForm.resx">
       <DependentUpon>ClientManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Events\EventManagementForm.resx">
+      <DependentUpon>EventManagementForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\DashboardForm.resx">
       <DependentUpon>DashboardForm.cs</DependentUpon>

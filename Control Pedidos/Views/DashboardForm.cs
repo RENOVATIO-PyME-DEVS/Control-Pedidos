@@ -6,6 +6,7 @@ using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Views.Articles;
 using Control_Pedidos.Views.Clients;
+using Control_Pedidos.Views.Events;
 using Control_Pedidos.Views.Users;
 
 namespace Control_Pedidos.Views
@@ -96,6 +97,14 @@ namespace Control_Pedidos.Views
         private void articlesButton_Click(object sender, EventArgs e)
         {
             using (var form = new ArticleManagementForm(_connectionFactory, _userId))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void eventsButton_Click(object sender, EventArgs e)
+        {
+            using (var form = new EventManagementForm(_connectionFactory, _empresaId))
             {
                 form.ShowDialog();
             }
