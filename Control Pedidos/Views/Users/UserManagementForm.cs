@@ -171,7 +171,7 @@ namespace Control_Pedidos.Views.Users
 
             _selectedUser.Nombre = nameTextBox.Text.Trim();
             _selectedUser.Correo = emailTextBox.Text.Trim();
-            _selectedUser.Estatus = statusComboBox.SelectedItem?.ToString() ?? "Activo";
+            _selectedUser.Estatus = statusComboBox.SelectedItem?.ToString() == "Activo" ? "N" : "B";
             _selectedUser.Roles = _selectedRoles.ToList();
             _selectedUser.RolUsuarioId = _selectedRoles.FirstOrDefault()?.Id;
 
