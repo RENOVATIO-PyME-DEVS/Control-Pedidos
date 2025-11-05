@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
@@ -20,10 +21,9 @@ namespace Control_Pedidos.Views.Orders
         private readonly PedidoDetalleDao _pedidoDetalleDao;
         private readonly BindingList<PedidoDetalle> _detalles = new BindingList<PedidoDetalle>();
         private readonly List<Articulo> _articulos = new List<Articulo>();
-        private readonly BindingList<KitDetalle> _componentesKit = new BindingList<KitDetalle>();
         private readonly int _detallesGridTopBase;
         private readonly int _detallesGridHeightBase;
-        private readonly int _detallesGridTopWithKit;
+        private readonly int _kitComponentsBaseHeight;
         private Pedido _pedido;
         private bool _readOnlyMode;
 
@@ -60,10 +60,9 @@ namespace Control_Pedidos.Views.Orders
             };
 
             ConfigureGrid();
-            ConfigureKitComponentsGrid();
             _detallesGridTopBase = detallesGrid.Top;
             _detallesGridHeightBase = detallesGrid.Height;
-            _detallesGridTopWithKit = kitComponentsDataGridView.Bottom + 12;
+            _kitComponentsBaseHeight = kitComponentsRichTextBox.Height;
             BindClientData();
             BindUserData();
             LoadEmpresas();
@@ -114,29 +113,6 @@ namespace Control_Pedidos.Views.Orders
             });
 
             detallesGrid.DataSource = _detalles;
-        }
-
-        private void ConfigureKitComponentsGrid()
-        {
-            kitComponentsDataGridView.AutoGenerateColumns = false;
-            kitComponentsDataGridView.Columns.Clear();
-
-            kitComponentsDataGridView.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = nameof(KitDetalle.NombreArticulo),
-                HeaderText = "Artículo",
-                FillWeight = 70
-            });
-
-            kitComponentsDataGridView.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = nameof(KitDetalle.Cantidad),
-                HeaderText = "Cantidad",
-                FillWeight = 30,
-                DefaultCellStyle = { Format = "N2" }
-            });
-
-            kitComponentsDataGridView.DataSource = _componentesKit;
         }
 
         private void BindClientData()
@@ -522,7 +498,7 @@ namespace Control_Pedidos.Views.Orders
 
         private void RefreshKitComponents(Articulo articulo)
         {
-            _componentesKit.Clear();
+            kitComponentsRichTextBox.Clear();
 
             if (articulo == null || !articulo.EsKit)
             {
@@ -532,12 +508,29 @@ namespace Control_Pedidos.Views.Orders
 
             try
             {
-                foreach (var componente in ObtenerComponentesKit(articulo.Id))
+                var componentes = ObtenerComponentesKit(articulo.Id);
+
+                if (componentes.Count == 0)
                 {
-                    _componentesKit.Add(componente);
+                    ToggleKitComponentsVisibility(false);
+                    return;
                 }
 
-                ToggleKitComponentsVisibility(_componentesKit.Count > 0);
+                var builder = new StringBuilder();
+                builder.AppendLine("Componentes del kit:");
+
+                foreach (var componente in componentes)
+                {
+                    builder.Append("• ");
+                    builder.AppendLine(componente.NombreArticulo);
+                }
+
+                kitComponentsRichTextBox.Text = builder.ToString().TrimEnd();
+                var preferredHeight = kitComponentsRichTextBox.GetPositionFromCharIndex(kitComponentsRichTextBox.TextLength).Y + kitComponentsRichTextBox.Font.Height;
+                var minimumHeight = kitComponentsRichTextBox.Font.Height * 2;
+                var maximumHeight = Math.Max(_kitComponentsBaseHeight, kitComponentsRichTextBox.Font.Height * 4);
+                kitComponentsRichTextBox.Height = Math.Max(minimumHeight, Math.Min(preferredHeight, maximumHeight));
+                ToggleKitComponentsVisibility(true);
             }
             catch (Exception ex)
             {
@@ -584,12 +577,19 @@ WHERE ak.articulo_id = @kitId;", connection))
         private void ToggleKitComponentsVisibility(bool visible)
         {
             kitComponentsLabel.Visible = visible;
-            kitComponentsDataGridView.Visible = visible;
+            kitComponentsRichTextBox.Visible = visible;
+
+            if (!visible)
+            {
+                kitComponentsRichTextBox.Clear();
+                kitComponentsRichTextBox.Height = _kitComponentsBaseHeight;
+            }
 
             if (visible)
             {
-                detallesGrid.Top = _detallesGridTopWithKit;
-                var newHeight = _detallesGridHeightBase - (_detallesGridTopWithKit - _detallesGridTopBase);
+                var detallesGridTopWithKit = kitComponentsRichTextBox.Bottom + 12;
+                detallesGrid.Top = detallesGridTopWithKit;
+                var newHeight = _detallesGridHeightBase - (detallesGridTopWithKit - _detallesGridTopBase);
                 detallesGrid.Height = Math.Max(100, newHeight);
             }
             else

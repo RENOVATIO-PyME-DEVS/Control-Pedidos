@@ -62,10 +62,9 @@ namespace Control_Pedidos.Views.Orders
             this.clientEmailLabel = new System.Windows.Forms.Label();
             this.clientEmailTextBox = new System.Windows.Forms.TextBox();
             this.kitComponentsLabel = new System.Windows.Forms.Label();
-            this.kitComponentsDataGridView = new System.Windows.Forms.DataGridView();
+            this.kitComponentsRichTextBox = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.precioNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kitComponentsDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.detallesGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -423,29 +422,27 @@ namespace Control_Pedidos.Views.Orders
             this.kitComponentsLabel.Location = new System.Drawing.Point(35, 322);
             this.kitComponentsLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.kitComponentsLabel.Name = "kitComponentsLabel";
-            this.kitComponentsLabel.Size = new System.Drawing.Size(130, 16);
+            this.kitComponentsLabel.Size = new System.Drawing.Size(135, 16);
             this.kitComponentsLabel.TabIndex = 33;
-            this.kitComponentsLabel.Text = "Componentes del kit";
+            this.kitComponentsLabel.Text = "Componentes del kit:";
             this.kitComponentsLabel.Visible = false;
             //
-            // kitComponentsDataGridView
+            // kitComponentsRichTextBox
             //
-            this.kitComponentsDataGridView.AllowUserToAddRows = false;
-            this.kitComponentsDataGridView.AllowUserToDeleteRows = false;
-            this.kitComponentsDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.kitComponentsRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.kitComponentsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.kitComponentsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.kitComponentsDataGridView.Location = new System.Drawing.Point(33, 343);
-            this.kitComponentsDataGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.kitComponentsDataGridView.MultiSelect = false;
-            this.kitComponentsDataGridView.Name = "kitComponentsDataGridView";
-            this.kitComponentsDataGridView.ReadOnly = true;
-            this.kitComponentsDataGridView.RowHeadersWidth = 51;
-            this.kitComponentsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.kitComponentsDataGridView.Size = new System.Drawing.Size(1384, 120);
-            this.kitComponentsDataGridView.TabIndex = 34;
-            this.kitComponentsDataGridView.Visible = false;
+            this.kitComponentsRichTextBox.BackColor = System.Drawing.Color.Transparent;
+            this.kitComponentsRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.kitComponentsRichTextBox.Location = new System.Drawing.Point(33, 343);
+            this.kitComponentsRichTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.kitComponentsRichTextBox.Name = "kitComponentsRichTextBox";
+            this.kitComponentsRichTextBox.ReadOnly = true;
+            this.kitComponentsRichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.kitComponentsRichTextBox.Size = new System.Drawing.Size(1384, 96);
+            this.kitComponentsRichTextBox.TabIndex = 34;
+            this.kitComponentsRichTextBox.TabStop = false;
+            this.kitComponentsRichTextBox.Visible = false;
+            this.kitComponentsRichTextBox.WordWrap = true;
             //
             // detallesGrid
             //
@@ -589,7 +586,7 @@ namespace Control_Pedidos.Views.Orders
             this.Controls.Add(this.totalGeneralValueLabel);
             this.Controls.Add(this.totalGeneralLabel);
             this.Controls.Add(this.eliminarArticuloButton);
-            this.Controls.Add(this.kitComponentsDataGridView);
+            this.Controls.Add(this.kitComponentsRichTextBox);
             this.Controls.Add(this.kitComponentsLabel);
             this.Controls.Add(this.detallesGrid);
             this.Controls.Add(this.agregarArticuloButton);
@@ -632,7 +629,6 @@ namespace Control_Pedidos.Views.Orders
             this.Text = "Gestión de pedidos";
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.precioNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kitComponentsDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.detallesGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -675,7 +671,7 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.TextBox totalArticuloTextBox;
         private System.Windows.Forms.Button agregarArticuloButton;
         private System.Windows.Forms.Label kitComponentsLabel;
-        private System.Windows.Forms.DataGridView kitComponentsDataGridView;
+        private System.Windows.Forms.RichTextBox kitComponentsRichTextBox;
         private System.Windows.Forms.DataGridView detallesGrid;
         private System.Windows.Forms.Button eliminarArticuloButton;
         private System.Windows.Forms.Label totalGeneralLabel;
