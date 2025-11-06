@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
+using MySql.Data.MySqlClient;
 
 namespace Control_Pedidos.Views.Orders
 {
@@ -19,6 +21,9 @@ namespace Control_Pedidos.Views.Orders
         private readonly PedidoDetalleDao _pedidoDetalleDao;
         private readonly BindingList<PedidoDetalle> _detalles = new BindingList<PedidoDetalle>();
         private readonly List<Articulo> _articulos = new List<Articulo>();
+        private readonly int _detallesGridTopBase;
+        private readonly int _detallesGridHeightBase;
+        private readonly int _kitComponentsBaseHeight;
         private Pedido _pedido;
         private bool _readOnlyMode;
 
@@ -55,6 +60,9 @@ namespace Control_Pedidos.Views.Orders
             };
 
             ConfigureGrid();
+            _detallesGridTopBase = detallesGrid.Top;
+            _detallesGridHeightBase = detallesGrid.Height;
+            _kitComponentsBaseHeight = kitComponentsRichTextBox.Height;
             BindClientData();
             BindUserData();
             LoadEmpresas();
@@ -64,6 +72,8 @@ namespace Control_Pedidos.Views.Orders
             UpdateDetalleTotal();
             UpdateTotals();
             UpdateControlsState();
+
+            FormClosing += OrderManagementForm_FormClosing;
         }
 
         private void ConfigureGrid()
@@ -162,6 +172,18 @@ namespace Control_Pedidos.Views.Orders
             eventComboBox.DisplayMember = nameof(Evento.Nombre);
             eventComboBox.ValueMember = nameof(Evento.Id);
             eventComboBox.DataSource = eventos;
+            if (_pedido.Evento != null)
+            {
+                for (var i = 0; i < eventComboBox.Items.Count; i++)
+                {
+                    if (eventComboBox.Items[i] is Evento item && item.Id == _pedido.Evento.Id)
+                    {
+                        eventComboBox.SelectedIndex = i;
+                        return;
+                    }
+                }
+            }
+
             eventComboBox.SelectedIndex = 0;
         }
 
@@ -185,6 +207,11 @@ namespace Control_Pedidos.Views.Orders
             if (_articulos.Count > 0)
             {
                 precioNumericUpDown.Value = Math.Max(0, Convert.ToDecimal(_articulos[0].Precio));
+                RefreshKitComponents(_articulos[0]);
+            }
+            else
+            {
+                RefreshKitComponents(null);
             }
         }
 
@@ -202,8 +229,9 @@ namespace Control_Pedidos.Views.Orders
                 horaEntregaDateTimePicker.Checked = false;
                 horaEntregaDateTimePicker.Value = DateTime.Today;
             }
-            folioTextBox.Text = _pedido.Folio;
+            UpdateFolioDisplay();
             statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
+            notesTextBox.Text = _pedido.Notas ?? string.Empty;
 
             if (_pedido.Detalles != null && _pedido.Detalles.Count > 0)
             {
@@ -252,6 +280,7 @@ namespace Control_Pedidos.Views.Orders
             fechaDateTimePicker.Enabled = !_readOnlyMode;
             fechaEntregaDateTimePicker.Enabled = !_readOnlyMode;
             horaEntregaDateTimePicker.Enabled = !_readOnlyMode;
+            notesTextBox.ReadOnly = _readOnlyMode;
 
             articuloComboBox.Enabled = !_readOnlyMode;
             cantidadNumericUpDown.Enabled = !_readOnlyMode;
@@ -276,6 +305,8 @@ namespace Control_Pedidos.Views.Orders
             _pedido.Fecha = fechaDateTimePicker.Value.Date;
             _pedido.FechaEntrega = fechaEntregaDateTimePicker.Value.Date;
             _pedido.HoraEntrega = horaEntregaDateTimePicker.Checked ? (TimeSpan?)horaEntregaDateTimePicker.Value.TimeOfDay : null;
+            var notas = notesTextBox.Text?.Trim();
+            _pedido.Notas = string.IsNullOrWhiteSpace(notas) ? null : notas;
 
             if (eventComboBox.SelectedItem is Evento evento && evento.Id > 0)
             {
@@ -299,6 +330,11 @@ namespace Control_Pedidos.Views.Orders
             if (articuloComboBox.SelectedItem is Articulo articulo)
             {
                 precioNumericUpDown.Value = Math.Max(0, Convert.ToDecimal(articulo.Precio));
+                RefreshKitComponents(articulo);
+            }
+            else
+            {
+                RefreshKitComponents(null);
             }
 
             UpdateDetalleTotal();
@@ -358,15 +394,18 @@ namespace Control_Pedidos.Views.Orders
                 if (string.IsNullOrWhiteSpace(_pedido.Folio) && detalle.Pedido != null)
                 {
                     _pedido.Folio = detalle.Pedido.Folio;
+                    _pedido.FolioFormateado = detalle.Pedido.FolioFormateado;
                 }
-                folioTextBox.Text = _pedido.Folio;
-                statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
             }
+
+            UpdateFolioDisplay();
+            statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
 
             _detalles.Add(detalle);
             _pedido.Detalles.Add(detalle);
             UpdateTotals();
             UpdateControlsState();
+            RefreshKitComponents(articuloSeleccionado);
         }
 
         private void eliminarArticuloButton_Click(object sender, EventArgs e)
@@ -415,6 +454,8 @@ namespace Control_Pedidos.Views.Orders
                 statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
                 MessageBox.Show("Pedido cerrado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 UpdateControlsState();
+
+                this.Close();
             }
             else
             {
@@ -451,6 +492,178 @@ namespace Control_Pedidos.Views.Orders
         private void cerrarVentanaButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void eventComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (eventComboBox.SelectedItem is Evento evento && evento.Id > 0)
+            {
+                fechaEntregaDateTimePicker.Value = evento.FechaEvento;
+            }
+        }
+
+        private void RefreshKitComponents(Articulo articulo)
+        {
+            kitComponentsRichTextBox.Clear();
+
+            if (articulo == null || !articulo.EsKit)
+            {
+                ToggleKitComponentsVisibility(false);
+                return;
+            }
+
+            try
+            {
+                var componentes = ObtenerComponentesKit(articulo.Id);
+
+                if (componentes.Count == 0)
+                {
+                    ToggleKitComponentsVisibility(false);
+                    return;
+                }
+
+                var builder = new StringBuilder();
+                builder.AppendLine("Componentes del kit:");
+
+                foreach (var componente in componentes)
+                {
+                    builder.Append("• ");
+                    builder.AppendLine(componente.NombreArticulo);
+                }
+
+                kitComponentsRichTextBox.Text = builder.ToString().TrimEnd();
+                var preferredHeight = kitComponentsRichTextBox.GetPositionFromCharIndex(kitComponentsRichTextBox.TextLength).Y + kitComponentsRichTextBox.Font.Height;
+                var minimumHeight = kitComponentsRichTextBox.Font.Height * 2;
+                var maximumHeight = Math.Max(_kitComponentsBaseHeight, kitComponentsRichTextBox.Font.Height * 4);
+                kitComponentsRichTextBox.Height = Math.Max(minimumHeight, Math.Min(preferredHeight, maximumHeight));
+                ToggleKitComponentsVisibility(true);
+            }
+            catch (Exception ex)
+            {
+                ToggleKitComponentsVisibility(false);
+                MessageBox.Show($"No se pudieron cargar los componentes del kit: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private IList<KitDetalle> ObtenerComponentesKit(int kitId)
+        {
+            var componentes = new List<KitDetalle>();
+
+            using (var connection = _connectionFactory.Create())
+            using (var command = new MySqlCommand(@"SELECT ak.articulo_compuesto_id, ak.cantidad, a.nombre
+FROM banquetes.articulos_kit ak
+INNER JOIN banquetes.articulos a ON a.articulo_id = ak.articulo_compuesto_id
+WHERE ak.articulo_id = @kitId;", connection))
+            {
+                command.Parameters.AddWithValue("@kitId", kitId);
+                connection.Open();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        componentes.Add(new KitDetalle
+                        {
+                            KitId = kitId,
+                            ArticuloId = reader.GetInt32("articulo_compuesto_id"),
+                            Cantidad = reader.GetDecimal("cantidad"),
+                            Articulo = new Articulo
+                            {
+                                Id = reader.GetInt32("articulo_compuesto_id"),
+                                Nombre = reader.GetString("nombre")
+                            }
+                        });
+                    }
+                }
+            }
+
+            return componentes;
+        }
+
+        private void ToggleKitComponentsVisibility(bool visible)
+        {
+            //kitComponentsLabel.Visible = visible;
+            kitComponentsRichTextBox.Visible = visible;
+
+            if (!visible)
+            {
+                kitComponentsRichTextBox.Clear();
+                kitComponentsRichTextBox.Height = _kitComponentsBaseHeight;
+            }
+
+            if (visible)
+            {
+                var detallesGridTopWithKit = kitComponentsRichTextBox.Bottom + 12;
+                detallesGrid.Top = detallesGridTopWithKit;
+                var newHeight = _detallesGridHeightBase - (detallesGridTopWithKit - _detallesGridTopBase);
+                detallesGrid.Height = Math.Max(100, newHeight);
+            }
+            else
+            {
+                detallesGrid.Top = _detallesGridTopBase;
+                detallesGrid.Height = _detallesGridHeightBase;
+            }
+        }
+
+        private void UpdateFolioDisplay()
+        {
+            folioTextBox.Text = ObtenerFolioParaMostrar(_pedido);
+        }
+
+        private static string ObtenerFolioParaMostrar(Pedido pedido)
+        {
+            if (pedido == null)
+            {
+                return string.Empty;
+            }
+
+            if (!string.IsNullOrWhiteSpace(pedido.FolioFormateado))
+            {
+                return pedido.FolioFormateado;
+            }
+
+            if (int.TryParse(pedido.Folio, out var folioNumerico))
+            {
+                var serie = pedido.Evento != null && pedido.Evento.TieneSerie ? pedido.Evento.Serie : string.Empty;
+                return FormatearFolioParaMostrar(serie, folioNumerico);
+            }
+
+            return pedido.Folio ?? string.Empty;
+        }
+
+        private static string FormatearFolioParaMostrar(string serie, int folio)
+        {
+            var consecutivo = folio.ToString("D5");
+            return string.IsNullOrEmpty(serie) ? consecutivo : string.Concat(serie, consecutivo);
+        }
+
+        private void OrderManagementForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_detalles.Count <= 0 || e.CloseReason == CloseReason.WindowsShutDown || e.CloseReason == CloseReason.TaskManagerClosing)
+            {
+                return;
+            }
+
+            var result = MessageBox.Show("Se perderán los datos . ¿Desea cerrar este pedido?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result != DialogResult.Yes)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            if (_pedido.Id > 0)
+            {
+                if (!_pedidoDao.ActualizarEstatus(_pedido.Id, "C", out var message))
+                {
+                    MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    e.Cancel = true;
+                    return;
+                }
+
+                _pedido.Estatus = "C";
+                statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
+            }
         }
     }
 }

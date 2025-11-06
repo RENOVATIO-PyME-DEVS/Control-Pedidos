@@ -61,6 +61,10 @@ namespace Control_Pedidos.Views.Orders
             this.clientRfcTextBox = new System.Windows.Forms.TextBox();
             this.clientEmailLabel = new System.Windows.Forms.Label();
             this.clientEmailTextBox = new System.Windows.Forms.TextBox();
+            this.notesLabel = new System.Windows.Forms.Label();
+            this.notesTextBox = new System.Windows.Forms.TextBox();
+            this.kitComponentsLabel = new System.Windows.Forms.Label();
+            this.kitComponentsRichTextBox = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.precioNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.detallesGrid)).BeginInit();
@@ -79,7 +83,7 @@ namespace Control_Pedidos.Views.Orders
             // clientNameTextBox
             // 
             this.clientNameTextBox.Location = new System.Drawing.Point(153, 65);
-            this.clientNameTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.clientNameTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.clientNameTextBox.Name = "clientNameTextBox";
             this.clientNameTextBox.ReadOnly = true;
             this.clientNameTextBox.Size = new System.Drawing.Size(372, 22);
@@ -98,7 +102,7 @@ namespace Control_Pedidos.Views.Orders
             // clientPhoneTextBox
             // 
             this.clientPhoneTextBox.Location = new System.Drawing.Point(153, 102);
-            this.clientPhoneTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.clientPhoneTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.clientPhoneTextBox.Name = "clientPhoneTextBox";
             this.clientPhoneTextBox.ReadOnly = true;
             this.clientPhoneTextBox.Size = new System.Drawing.Size(372, 22);
@@ -117,7 +121,7 @@ namespace Control_Pedidos.Views.Orders
             // clientAddressTextBox
             // 
             this.clientAddressTextBox.Location = new System.Drawing.Point(153, 139);
-            this.clientAddressTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.clientAddressTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.clientAddressTextBox.Multiline = true;
             this.clientAddressTextBox.Name = "clientAddressTextBox";
             this.clientAddressTextBox.ReadOnly = true;
@@ -137,7 +141,7 @@ namespace Control_Pedidos.Views.Orders
             // userNameTextBox
             // 
             this.userNameTextBox.Location = new System.Drawing.Point(659, 65);
-            this.userNameTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.userNameTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.userNameTextBox.Name = "userNameTextBox";
             this.userNameTextBox.ReadOnly = true;
             this.userNameTextBox.Size = new System.Drawing.Size(319, 22);
@@ -156,7 +160,7 @@ namespace Control_Pedidos.Views.Orders
             // userRoleTextBox
             // 
             this.userRoleTextBox.Location = new System.Drawing.Point(659, 102);
-            this.userRoleTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.userRoleTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.userRoleTextBox.Name = "userRoleTextBox";
             this.userRoleTextBox.ReadOnly = true;
             this.userRoleTextBox.Size = new System.Drawing.Size(319, 22);
@@ -177,7 +181,7 @@ namespace Control_Pedidos.Views.Orders
             this.companyComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.companyComboBox.FormattingEnabled = true;
             this.companyComboBox.Location = new System.Drawing.Point(659, 176);
-            this.companyComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.companyComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.companyComboBox.Name = "companyComboBox";
             this.companyComboBox.Size = new System.Drawing.Size(319, 24);
             this.companyComboBox.TabIndex = 11;
@@ -198,10 +202,11 @@ namespace Control_Pedidos.Views.Orders
             this.eventComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.eventComboBox.FormattingEnabled = true;
             this.eventComboBox.Location = new System.Drawing.Point(659, 213);
-            this.eventComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.eventComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.eventComboBox.Name = "eventComboBox";
             this.eventComboBox.Size = new System.Drawing.Size(319, 24);
             this.eventComboBox.TabIndex = 13;
+            this.eventComboBox.SelectedIndexChanged += new System.EventHandler(this.eventComboBox_SelectedIndexChanged);
             // 
             // folioLabel
             // 
@@ -216,7 +221,7 @@ namespace Control_Pedidos.Views.Orders
             // folioTextBox
             // 
             this.folioTextBox.Location = new System.Drawing.Point(1087, 176);
-            this.folioTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.folioTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.folioTextBox.Name = "folioTextBox";
             this.folioTextBox.ReadOnly = true;
             this.folioTextBox.Size = new System.Drawing.Size(239, 22);
@@ -235,7 +240,7 @@ namespace Control_Pedidos.Views.Orders
             // statusTextBox
             // 
             this.statusTextBox.Location = new System.Drawing.Point(1087, 213);
-            this.statusTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.statusTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.statusTextBox.Name = "statusTextBox";
             this.statusTextBox.ReadOnly = true;
             this.statusTextBox.Size = new System.Drawing.Size(239, 22);
@@ -255,7 +260,7 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.fechaDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.fechaDateTimePicker.Location = new System.Drawing.Point(659, 139);
-            this.fechaDateTimePicker.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fechaDateTimePicker.Margin = new System.Windows.Forms.Padding(4);
             this.fechaDateTimePicker.Name = "fechaDateTimePicker";
             this.fechaDateTimePicker.Size = new System.Drawing.Size(153, 22);
             this.fechaDateTimePicker.TabIndex = 19;
@@ -274,7 +279,7 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.fechaEntregaDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.fechaEntregaDateTimePicker.Location = new System.Drawing.Point(945, 139);
-            this.fechaEntregaDateTimePicker.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fechaEntregaDateTimePicker.Margin = new System.Windows.Forms.Padding(4);
             this.fechaEntregaDateTimePicker.Name = "fechaEntregaDateTimePicker";
             this.fechaEntregaDateTimePicker.Size = new System.Drawing.Size(153, 22);
             this.fechaEntregaDateTimePicker.TabIndex = 21;
@@ -294,7 +299,7 @@ namespace Control_Pedidos.Views.Orders
             this.horaEntregaDateTimePicker.CustomFormat = "HH:mm";
             this.horaEntregaDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.horaEntregaDateTimePicker.Location = new System.Drawing.Point(1222, 139);
-            this.horaEntregaDateTimePicker.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.horaEntregaDateTimePicker.Margin = new System.Windows.Forms.Padding(4);
             this.horaEntregaDateTimePicker.Name = "horaEntregaDateTimePicker";
             this.horaEntregaDateTimePicker.ShowCheckBox = true;
             this.horaEntregaDateTimePicker.ShowUpDown = true;
@@ -317,9 +322,9 @@ namespace Control_Pedidos.Views.Orders
             this.articuloComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.articuloComboBox.FormattingEnabled = true;
             this.articuloComboBox.Location = new System.Drawing.Point(153, 277);
-            this.articuloComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.articuloComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.articuloComboBox.Name = "articuloComboBox";
-            this.articuloComboBox.Size = new System.Drawing.Size(425, 24);
+            this.articuloComboBox.Size = new System.Drawing.Size(372, 24);
             this.articuloComboBox.TabIndex = 25;
             this.articuloComboBox.SelectedIndexChanged += new System.EventHandler(this.articuloComboBox_SelectedIndexChanged);
             // 
@@ -337,7 +342,7 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.cantidadNumericUpDown.DecimalPlaces = 2;
             this.cantidadNumericUpDown.Location = new System.Drawing.Point(681, 277);
-            this.cantidadNumericUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cantidadNumericUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.cantidadNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -372,7 +377,7 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.precioNumericUpDown.DecimalPlaces = 2;
             this.precioNumericUpDown.Location = new System.Drawing.Point(869, 277);
-            this.precioNumericUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.precioNumericUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.precioNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -396,7 +401,7 @@ namespace Control_Pedidos.Views.Orders
             // totalArticuloTextBox
             // 
             this.totalArticuloTextBox.Location = new System.Drawing.Point(1075, 277);
-            this.totalArticuloTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.totalArticuloTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.totalArticuloTextBox.Name = "totalArticuloTextBox";
             this.totalArticuloTextBox.ReadOnly = true;
             this.totalArticuloTextBox.Size = new System.Drawing.Size(140, 22);
@@ -405,7 +410,7 @@ namespace Control_Pedidos.Views.Orders
             // agregarArticuloButton
             // 
             this.agregarArticuloButton.Location = new System.Drawing.Point(1243, 275);
-            this.agregarArticuloButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.agregarArticuloButton.Margin = new System.Windows.Forms.Padding(4);
             this.agregarArticuloButton.Name = "agregarArticuloButton";
             this.agregarArticuloButton.Size = new System.Drawing.Size(177, 28);
             this.agregarArticuloButton.TabIndex = 32;
@@ -423,22 +428,22 @@ namespace Control_Pedidos.Views.Orders
             this.detallesGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.detallesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.detallesGrid.Location = new System.Drawing.Point(33, 322);
-            this.detallesGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.detallesGrid.Margin = new System.Windows.Forms.Padding(4);
             this.detallesGrid.MultiSelect = false;
             this.detallesGrid.Name = "detallesGrid";
             this.detallesGrid.ReadOnly = true;
             this.detallesGrid.RowHeadersWidth = 51;
             this.detallesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.detallesGrid.Size = new System.Drawing.Size(1384, 364);
-            this.detallesGrid.TabIndex = 33;
+            this.detallesGrid.TabIndex = 35;
             // 
             // eliminarArticuloButton
             // 
             this.eliminarArticuloButton.Location = new System.Drawing.Point(33, 694);
-            this.eliminarArticuloButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.eliminarArticuloButton.Margin = new System.Windows.Forms.Padding(4);
             this.eliminarArticuloButton.Name = "eliminarArticuloButton";
             this.eliminarArticuloButton.Size = new System.Drawing.Size(177, 33);
-            this.eliminarArticuloButton.TabIndex = 34;
+            this.eliminarArticuloButton.TabIndex = 36;
             this.eliminarArticuloButton.Text = "Eliminar artículo";
             this.eliminarArticuloButton.UseVisualStyleBackColor = true;
             this.eliminarArticuloButton.Click += new System.EventHandler(this.eliminarArticuloButton_Click);
@@ -447,33 +452,33 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.totalGeneralLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalGeneralLabel.AutoSize = true;
-            this.totalGeneralLabel.Location = new System.Drawing.Point(1019, 714);
+            this.totalGeneralLabel.Location = new System.Drawing.Point(1018, 702);
             this.totalGeneralLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalGeneralLabel.Name = "totalGeneralLabel";
             this.totalGeneralLabel.Size = new System.Drawing.Size(84, 16);
-            this.totalGeneralLabel.TabIndex = 35;
+            this.totalGeneralLabel.TabIndex = 37;
             this.totalGeneralLabel.Text = "Total pedido";
             // 
             // totalGeneralValueLabel
             // 
             this.totalGeneralValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalGeneralValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            this.totalGeneralValueLabel.Location = new System.Drawing.Point(1126, 706);
+            this.totalGeneralValueLabel.Location = new System.Drawing.Point(1125, 694);
             this.totalGeneralValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalGeneralValueLabel.Name = "totalGeneralValueLabel";
             this.totalGeneralValueLabel.Size = new System.Drawing.Size(137, 28);
-            this.totalGeneralValueLabel.TabIndex = 36;
+            this.totalGeneralValueLabel.TabIndex = 38;
             this.totalGeneralValueLabel.Text = "$0.00";
             this.totalGeneralValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // cerrarPedidoButton
             // 
             this.cerrarPedidoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cerrarPedidoButton.Location = new System.Drawing.Point(390, 706);
-            this.cerrarPedidoButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cerrarPedidoButton.Location = new System.Drawing.Point(400, 694);
+            this.cerrarPedidoButton.Margin = new System.Windows.Forms.Padding(4);
             this.cerrarPedidoButton.Name = "cerrarPedidoButton";
             this.cerrarPedidoButton.Size = new System.Drawing.Size(177, 33);
-            this.cerrarPedidoButton.TabIndex = 37;
+            this.cerrarPedidoButton.TabIndex = 39;
             this.cerrarPedidoButton.Text = "Cerrar pedido";
             this.cerrarPedidoButton.UseVisualStyleBackColor = true;
             this.cerrarPedidoButton.Click += new System.EventHandler(this.cerrarPedidoButton_Click);
@@ -481,11 +486,11 @@ namespace Control_Pedidos.Views.Orders
             // cancelarPedidoButton
             // 
             this.cancelarPedidoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelarPedidoButton.Location = new System.Drawing.Point(575, 706);
-            this.cancelarPedidoButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cancelarPedidoButton.Location = new System.Drawing.Point(585, 694);
+            this.cancelarPedidoButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelarPedidoButton.Name = "cancelarPedidoButton";
             this.cancelarPedidoButton.Size = new System.Drawing.Size(177, 33);
-            this.cancelarPedidoButton.TabIndex = 38;
+            this.cancelarPedidoButton.TabIndex = 40;
             this.cancelarPedidoButton.Text = "Cancelar pedido";
             this.cancelarPedidoButton.UseVisualStyleBackColor = true;
             this.cancelarPedidoButton.Click += new System.EventHandler(this.cancelarPedidoButton_Click);
@@ -493,11 +498,11 @@ namespace Control_Pedidos.Views.Orders
             // cerrarVentanaButton
             // 
             this.cerrarVentanaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cerrarVentanaButton.Location = new System.Drawing.Point(1294, 706);
-            this.cerrarVentanaButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cerrarVentanaButton.Location = new System.Drawing.Point(1293, 694);
+            this.cerrarVentanaButton.Margin = new System.Windows.Forms.Padding(4);
             this.cerrarVentanaButton.Name = "cerrarVentanaButton";
             this.cerrarVentanaButton.Size = new System.Drawing.Size(124, 33);
-            this.cerrarVentanaButton.TabIndex = 39;
+            this.cerrarVentanaButton.TabIndex = 41;
             this.cerrarVentanaButton.Text = "Cerrar";
             this.cerrarVentanaButton.UseVisualStyleBackColor = true;
             this.cerrarVentanaButton.Click += new System.EventHandler(this.cerrarVentanaButton_Click);
@@ -509,17 +514,17 @@ namespace Control_Pedidos.Views.Orders
             this.clientRfcLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.clientRfcLabel.Name = "clientRfcLabel";
             this.clientRfcLabel.Size = new System.Drawing.Size(34, 16);
-            this.clientRfcLabel.TabIndex = 40;
+            this.clientRfcLabel.TabIndex = 42;
             this.clientRfcLabel.Text = "RFC";
             // 
             // clientRfcTextBox
             // 
             this.clientRfcTextBox.Location = new System.Drawing.Point(153, 201);
-            this.clientRfcTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.clientRfcTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.clientRfcTextBox.Name = "clientRfcTextBox";
             this.clientRfcTextBox.ReadOnly = true;
             this.clientRfcTextBox.Size = new System.Drawing.Size(372, 22);
-            this.clientRfcTextBox.TabIndex = 41;
+            this.clientRfcTextBox.TabIndex = 43;
             // 
             // clientEmailLabel
             // 
@@ -528,23 +533,74 @@ namespace Control_Pedidos.Views.Orders
             this.clientEmailLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.clientEmailLabel.Name = "clientEmailLabel";
             this.clientEmailLabel.Size = new System.Drawing.Size(48, 16);
-            this.clientEmailLabel.TabIndex = 42;
+            this.clientEmailLabel.TabIndex = 44;
             this.clientEmailLabel.Text = "Correo";
             // 
             // clientEmailTextBox
             // 
             this.clientEmailTextBox.Location = new System.Drawing.Point(153, 238);
-            this.clientEmailTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.clientEmailTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.clientEmailTextBox.Name = "clientEmailTextBox";
             this.clientEmailTextBox.ReadOnly = true;
             this.clientEmailTextBox.Size = new System.Drawing.Size(372, 22);
-            this.clientEmailTextBox.TabIndex = 43;
+            this.clientEmailTextBox.TabIndex = 45;
+            // 
+            // notesLabel
+            // 
+            this.notesLabel.AutoSize = true;
+            this.notesLabel.Location = new System.Drawing.Point(1014, 62);
+            this.notesLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.notesLabel.Name = "notesLabel";
+            this.notesLabel.Size = new System.Drawing.Size(43, 16);
+            this.notesLabel.TabIndex = 46;
+            this.notesLabel.Text = "Notas";
+            // 
+            // notesTextBox
+            // 
+            this.notesTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.notesTextBox.Location = new System.Drawing.Point(1017, 82);
+            this.notesTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.notesTextBox.Multiline = true;
+            this.notesTextBox.Name = "notesTextBox";
+            this.notesTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.notesTextBox.Size = new System.Drawing.Size(400, 40);
+            this.notesTextBox.TabIndex = 47;
+            // 
+            // kitComponentsLabel
+            // 
+            this.kitComponentsLabel.AutoSize = true;
+            this.kitComponentsLabel.Location = new System.Drawing.Point(13, 311);
+            this.kitComponentsLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.kitComponentsLabel.Name = "kitComponentsLabel";
+            this.kitComponentsLabel.Size = new System.Drawing.Size(132, 16);
+            this.kitComponentsLabel.TabIndex = 33;
+            this.kitComponentsLabel.Text = "Componentes del kit:";
+            this.kitComponentsLabel.Visible = false;
+            // 
+            // kitComponentsRichTextBox
+            // 
+            this.kitComponentsRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.kitComponentsRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.kitComponentsRichTextBox.Location = new System.Drawing.Point(153, 306);
+            this.kitComponentsRichTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.kitComponentsRichTextBox.Name = "kitComponentsRichTextBox";
+            this.kitComponentsRichTextBox.ReadOnly = true;
+            this.kitComponentsRichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.kitComponentsRichTextBox.Size = new System.Drawing.Size(372, 96);
+            this.kitComponentsRichTextBox.TabIndex = 34;
+            this.kitComponentsRichTextBox.TabStop = false;
+            this.kitComponentsRichTextBox.Text = "";
+            this.kitComponentsRichTextBox.Visible = false;
             // 
             // OrderManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1451, 763);
+            this.ClientSize = new System.Drawing.Size(1451, 838);
+            this.Controls.Add(this.notesTextBox);
+            this.Controls.Add(this.notesLabel);
             this.Controls.Add(this.clientEmailTextBox);
             this.Controls.Add(this.clientEmailLabel);
             this.Controls.Add(this.clientRfcTextBox);
@@ -555,6 +611,8 @@ namespace Control_Pedidos.Views.Orders
             this.Controls.Add(this.totalGeneralValueLabel);
             this.Controls.Add(this.totalGeneralLabel);
             this.Controls.Add(this.eliminarArticuloButton);
+            this.Controls.Add(this.kitComponentsRichTextBox);
+            this.Controls.Add(this.kitComponentsLabel);
             this.Controls.Add(this.detallesGrid);
             this.Controls.Add(this.agregarArticuloButton);
             this.Controls.Add(this.totalArticuloTextBox);
@@ -589,7 +647,7 @@ namespace Control_Pedidos.Views.Orders
             this.Controls.Add(this.clientPhoneLabel);
             this.Controls.Add(this.clientNameTextBox);
             this.Controls.Add(this.clientNameLabel);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(1463, 733);
             this.Name = "OrderManagementForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -637,6 +695,8 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.Label totalArticuloLabel;
         private System.Windows.Forms.TextBox totalArticuloTextBox;
         private System.Windows.Forms.Button agregarArticuloButton;
+        private System.Windows.Forms.Label kitComponentsLabel;
+        private System.Windows.Forms.RichTextBox kitComponentsRichTextBox;
         private System.Windows.Forms.DataGridView detallesGrid;
         private System.Windows.Forms.Button eliminarArticuloButton;
         private System.Windows.Forms.Label totalGeneralLabel;
@@ -648,5 +708,7 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.TextBox clientRfcTextBox;
         private System.Windows.Forms.Label clientEmailLabel;
         private System.Windows.Forms.TextBox clientEmailTextBox;
+        private System.Windows.Forms.Label notesLabel;
+        private System.Windows.Forms.TextBox notesTextBox;
     }
 }
