@@ -454,6 +454,8 @@ namespace Control_Pedidos.Views.Orders
                 statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
                 MessageBox.Show("Pedido cerrado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 UpdateControlsState();
+
+                this.Close();
             }
             else
             {
@@ -580,7 +582,7 @@ WHERE ak.articulo_id = @kitId;", connection))
 
         private void ToggleKitComponentsVisibility(bool visible)
         {
-            kitComponentsLabel.Visible = visible;
+            //kitComponentsLabel.Visible = visible;
             kitComponentsRichTextBox.Visible = visible;
 
             if (!visible)
