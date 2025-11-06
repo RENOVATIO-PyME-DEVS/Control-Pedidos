@@ -61,6 +61,8 @@ namespace Control_Pedidos.Views.Orders
             this.clientRfcTextBox = new System.Windows.Forms.TextBox();
             this.clientEmailLabel = new System.Windows.Forms.Label();
             this.clientEmailTextBox = new System.Windows.Forms.TextBox();
+            this.notesLabel = new System.Windows.Forms.Label();
+            this.notesTextBox = new System.Windows.Forms.TextBox();
             this.kitComponentsLabel = new System.Windows.Forms.Label();
             this.kitComponentsRichTextBox = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).BeginInit();
@@ -563,19 +565,43 @@ namespace Control_Pedidos.Views.Orders
             this.clientEmailLabel.Text = "Correo";
             // 
             // clientEmailTextBox
-            // 
+            //
             this.clientEmailTextBox.Location = new System.Drawing.Point(153, 238);
             this.clientEmailTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.clientEmailTextBox.Name = "clientEmailTextBox";
             this.clientEmailTextBox.ReadOnly = true;
             this.clientEmailTextBox.Size = new System.Drawing.Size(372, 22);
             this.clientEmailTextBox.TabIndex = 45;
-            // 
+            //
+            // notesLabel
+            //
+            this.notesLabel.AutoSize = true;
+            this.notesLabel.Location = new System.Drawing.Point(567, 252);
+            this.notesLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.notesLabel.Name = "notesLabel";
+            this.notesLabel.Size = new System.Drawing.Size(43, 16);
+            this.notesLabel.TabIndex = 46;
+            this.notesLabel.Text = "Notas";
+            //
+            // notesTextBox
+            //
+            this.notesTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.notesTextBox.Location = new System.Drawing.Point(659, 247);
+            this.notesTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.notesTextBox.Multiline = true;
+            this.notesTextBox.Name = "notesTextBox";
+            this.notesTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.notesTextBox.Size = new System.Drawing.Size(461, 60);
+            this.notesTextBox.TabIndex = 47;
+            //
             // OrderManagementForm
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1451, 763);
+            this.Controls.Add(this.notesTextBox);
+            this.Controls.Add(this.notesLabel);
             this.Controls.Add(this.clientEmailTextBox);
             this.Controls.Add(this.clientEmailLabel);
             this.Controls.Add(this.clientRfcTextBox);
@@ -683,5 +709,7 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.TextBox clientRfcTextBox;
         private System.Windows.Forms.Label clientEmailLabel;
         private System.Windows.Forms.TextBox clientEmailTextBox;
+        private System.Windows.Forms.Label notesLabel;
+        private System.Windows.Forms.TextBox notesTextBox;
     }
 }
