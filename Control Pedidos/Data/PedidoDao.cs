@@ -47,7 +47,7 @@ namespace Control_Pedidos.Data
             }
         }
 
-        public bool ActualizarEstatus(int pedidoId, string nuevoEstatus, out string message)
+        public bool ActualizarEstatus(int pedidoId, string nuevoEstatus, out string folioGenerado, out string message)
         {
             if (pedidoId <= 0)
             {
@@ -59,6 +59,7 @@ namespace Control_Pedidos.Data
                 throw new ArgumentException("El estatus es requerido", nameof(nuevoEstatus));
             }
 
+            folioGenerado = string.Empty;
             message = string.Empty;
 
             try
@@ -68,8 +69,55 @@ namespace Control_Pedidos.Data
                     connection.Open();
                     using (var transaction = connection.BeginTransaction())
                     {
+                        int empresaId;
+                        int? eventoId = null;
+                        string estatusActual;
+
+                        using (var select = new MySqlCommand("SELECT empresa_id, evento_id, estatus FROM banquetes.pedidos WHERE pedido_id = @pedidoId FOR UPDATE;", connection, transaction))
+                        {
+                            select.Parameters.AddWithValue("@pedidoId", pedidoId);
+                            using (var reader = select.ExecuteReader())
+                            {
+                                if (!reader.Read())
+                                {
+                                    message = "No se encontró el pedido especificado.";
+                                    transaction.Rollback();
+                                    return false;
+                                }
+
+                                empresaId = reader.GetInt32("empresa_id");
+                                if (!reader.IsDBNull(reader.GetOrdinal("evento_id")))
+                                {
+                                    eventoId = reader.GetInt32("evento_id");
+                                }
+
+                                estatusActual = reader.GetString("estatus");
+                            }
+                        }
+
                         if (string.Equals(nuevoEstatus, "N", StringComparison.OrdinalIgnoreCase))
                         {
+                            if (empresaId <= 0)
+                            {
+                                message = "No se encontró la empresa asociada al pedido.";
+                                transaction.Rollback();
+                                return false;
+                            }
+
+                            if (string.Equals(estatusActual, "N", StringComparison.OrdinalIgnoreCase))
+                            {
+                                message = "El pedido ya se encuentra cerrado.";
+                                transaction.Rollback();
+                                return false;
+                            }
+
+                            if (string.Equals(estatusActual, "C", StringComparison.OrdinalIgnoreCase))
+                            {
+                                message = "No es posible cerrar un pedido cancelado.";
+                                transaction.Rollback();
+                                return false;
+                            }
+
                             using (var countCommand = new MySqlCommand("SELECT COUNT(*) FROM banquetes.pedidos_detalles WHERE pedido_id = @pedidoId;", connection, transaction))
                             {
                                 countCommand.Parameters.AddWithValue("@pedidoId", pedidoId);
@@ -81,13 +129,49 @@ namespace Control_Pedidos.Data
                                     return false;
                                 }
                             }
-                        }
 
-                        using (var command = new MySqlCommand("UPDATE banquetes.pedidos SET estatus = @estatus WHERE pedido_id = @pedidoId;", connection, transaction))
+                            var folioInfo = ObtenerFolioInfo(connection, transaction, empresaId, eventoId);
+                            folioGenerado = folioInfo.Formateado;
+
+                            using (var update = new MySqlCommand("UPDATE banquetes.pedidos SET estatus = @estatus, folio = @folio WHERE pedido_id = @pedidoId;", connection, transaction))
+                            {
+                                update.Parameters.AddWithValue("@estatus", nuevoEstatus);
+                                update.Parameters.AddWithValue("@folio", folioInfo.Formateado);
+                                update.Parameters.AddWithValue("@pedidoId", pedidoId);
+                                update.ExecuteNonQuery();
+                            }
+                        }
+                        else if (string.Equals(nuevoEstatus, "C", StringComparison.OrdinalIgnoreCase))
                         {
-                            command.Parameters.AddWithValue("@estatus", nuevoEstatus);
-                            command.Parameters.AddWithValue("@pedidoId", pedidoId);
-                            command.ExecuteNonQuery();
+                            if (string.Equals(estatusActual, "N", StringComparison.OrdinalIgnoreCase))
+                            {
+                                message = "No se puede cancelar un pedido que ya fue cerrado.";
+                                transaction.Rollback();
+                                return false;
+                            }
+
+                            if (string.Equals(estatusActual, "C", StringComparison.OrdinalIgnoreCase))
+                            {
+                                message = "El pedido ya se encuentra cancelado.";
+                                transaction.Rollback();
+                                return false;
+                            }
+
+                            using (var update = new MySqlCommand("UPDATE banquetes.pedidos SET estatus = @estatus WHERE pedido_id = @pedidoId;", connection, transaction))
+                            {
+                                update.Parameters.AddWithValue("@estatus", nuevoEstatus);
+                                update.Parameters.AddWithValue("@pedidoId", pedidoId);
+                                update.ExecuteNonQuery();
+                            }
+                        }
+                        else
+                        {
+                            using (var update = new MySqlCommand("UPDATE banquetes.pedidos SET estatus = @estatus WHERE pedido_id = @pedidoId;", connection, transaction))
+                            {
+                                update.Parameters.AddWithValue("@estatus", nuevoEstatus);
+                                update.Parameters.AddWithValue("@pedidoId", pedidoId);
+                                update.ExecuteNonQuery();
+                            }
                         }
 
                         transaction.Commit();
@@ -149,9 +233,8 @@ namespace Control_Pedidos.Data
 
             try
             {
-                var folioInfo = ObtenerFolioInfo(connection, transaction, empresaId, pedido.Evento?.Id > 0 ? pedido.Evento.Id : (int?)null);
-                pedido.Folio = folioInfo.Numero.ToString();
-                pedido.FolioFormateado = folioInfo.Formateado;
+                pedido.Folio = string.Empty;
+                pedido.FolioFormateado = string.Empty;
                 pedido.FechaCreacion = DateTime.Now;
                 pedido.Estatus = string.IsNullOrEmpty(pedido.Estatus) ? "P" : pedido.Estatus;
 
@@ -164,7 +247,7 @@ VALUES
                     command.Parameters.AddWithValue("@empresaId", empresaId);
                     command.Parameters.AddWithValue("@clienteId", pedido.Cliente.Id);
                     command.Parameters.AddWithValue("@eventoId", pedido.Evento != null && pedido.Evento.Id > 0 ? (object)pedido.Evento.Id : DBNull.Value);
-                    command.Parameters.AddWithValue("@folio", folioInfo.Numero);
+                    command.Parameters.AddWithValue("@folio", DBNull.Value);
                     command.Parameters.AddWithValue("@fecha", pedido.Fecha == default ? DateTime.Now : pedido.Fecha);
                     command.Parameters.AddWithValue("@fechaEntrega", pedido.FechaEntrega == default ? DateTime.Now : pedido.FechaEntrega);
                     command.Parameters.AddWithValue("@horaEntrega", pedido.HoraEntrega.HasValue ? (object)pedido.HoraEntrega.Value : DBNull.Value);

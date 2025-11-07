@@ -21,9 +21,6 @@ namespace Control_Pedidos.Views.Orders
         private readonly PedidoDetalleDao _pedidoDetalleDao;
         private readonly BindingList<PedidoDetalle> _detalles = new BindingList<PedidoDetalle>();
         private readonly List<Articulo> _articulos = new List<Articulo>();
-        private readonly int _detallesGridTopBase;
-        private readonly int _detallesGridHeightBase;
-        private readonly int _kitComponentsBaseHeight;
         private Pedido _pedido;
         private bool _readOnlyMode;
 
@@ -60,9 +57,6 @@ namespace Control_Pedidos.Views.Orders
             };
 
             ConfigureGrid();
-            _detallesGridTopBase = detallesGrid.Top;
-            _detallesGridHeightBase = detallesGrid.Height;
-            _kitComponentsBaseHeight = kitComponentsRichTextBox.Height;
             BindClientData();
             BindUserData();
             LoadEmpresas();
@@ -126,8 +120,16 @@ namespace Control_Pedidos.Views.Orders
 
         private void BindUserData()
         {
-            userNameTextBox.Text = _usuario.Nombre;
-            userRoleTextBox.Text = _usuario.RolesResumen ?? string.Empty;
+            userNameLabel.Text = $"Usuario: {_usuario.Nombre}";
+            if (string.IsNullOrWhiteSpace(_usuario.RolesResumen))
+            {
+                userRoleLabel.Visible = false;
+            }
+            else
+            {
+                userRoleLabel.Text = $"Rol: {_usuario.RolesResumen}";
+                userRoleLabel.Visible = true;
+            }
         }
 
         private void LoadEmpresas()
@@ -230,7 +232,7 @@ namespace Control_Pedidos.Views.Orders
                 horaEntregaDateTimePicker.Value = DateTime.Today;
             }
             UpdateFolioDisplay();
-            statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
+            UpdateStatusDisplay();
             notesTextBox.Text = _pedido.Notas ?? string.Empty;
 
             if (_pedido.Detalles != null && _pedido.Detalles.Count > 0)
@@ -282,12 +284,13 @@ namespace Control_Pedidos.Views.Orders
             horaEntregaDateTimePicker.Enabled = !_readOnlyMode;
             notesTextBox.ReadOnly = _readOnlyMode;
 
+            orderItemsGroupBox.Enabled = !_readOnlyMode;
             articuloComboBox.Enabled = !_readOnlyMode;
             cantidadNumericUpDown.Enabled = !_readOnlyMode;
             precioNumericUpDown.Enabled = !_readOnlyMode;
             agregarArticuloButton.Enabled = !_readOnlyMode;
             eliminarArticuloButton.Enabled = !_readOnlyMode && _detalles.Count > 0;
-            cerrarPedidoButton.Enabled = !_readOnlyMode && _pedido.Id > 0;
+            cerrarPedidoButton.Enabled = !_readOnlyMode && _pedido.Id > 0 && _detalles.Count > 0;
             cancelarPedidoButton.Enabled = !_readOnlyMode && _pedido.Id > 0;
         }
 
@@ -399,7 +402,7 @@ namespace Control_Pedidos.Views.Orders
             }
 
             UpdateFolioDisplay();
-            statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
+            UpdateStatusDisplay();
 
             _detalles.Add(detalle);
             _pedido.Detalles.Add(detalle);
@@ -442,20 +445,21 @@ namespace Control_Pedidos.Views.Orders
 
         private void cerrarPedidoButton_Click(object sender, EventArgs e)
         {
-            if (_pedido.Id == 0)
+            if (_pedido.Id == 0 || _detalles.Count == 0)
             {
                 MessageBox.Show("Agregue al menos un artículo antes de cerrar el pedido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (_pedidoDao.ActualizarEstatus(_pedido.Id, "N", out var message))
+            if (_pedidoDao.ActualizarEstatus(_pedido.Id, "N", out var folioGenerado, out var message))
             {
                 _pedido.Estatus = "N";
-                statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
+                _pedido.Folio = folioGenerado;
+                _pedido.FolioFormateado = folioGenerado;
+                UpdateFolioDisplay();
+                UpdateStatusDisplay();
                 MessageBox.Show("Pedido cerrado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 UpdateControlsState();
-
-                this.Close();
             }
             else
             {
@@ -471,15 +475,21 @@ namespace Control_Pedidos.Views.Orders
                 return;
             }
 
+            if (string.Equals(_pedido.Estatus, "N", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("No se puede cancelar un pedido que ya está cerrado.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (MessageBox.Show("¿Desea cancelar el pedido?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
             {
                 return;
             }
 
-            if (_pedidoDao.ActualizarEstatus(_pedido.Id, "C", out var message))
+            if (_pedidoDao.ActualizarEstatus(_pedido.Id, "C", out _, out var message))
             {
                 _pedido.Estatus = "C";
-                statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
+                UpdateStatusDisplay();
                 MessageBox.Show("Pedido cancelado", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 UpdateControlsState();
             }
@@ -582,32 +592,36 @@ WHERE ak.articulo_id = @kitId;", connection))
 
         private void ToggleKitComponentsVisibility(bool visible)
         {
-            //kitComponentsLabel.Visible = visible;
+            kitComponentsLabel.Visible = visible;
             kitComponentsRichTextBox.Visible = visible;
 
             if (!visible)
             {
                 kitComponentsRichTextBox.Clear();
-                kitComponentsRichTextBox.Height = _kitComponentsBaseHeight;
-            }
-
-            if (visible)
-            {
-                var detallesGridTopWithKit = kitComponentsRichTextBox.Bottom + 12;
-                detallesGrid.Top = detallesGridTopWithKit;
-                var newHeight = _detallesGridHeightBase - (detallesGridTopWithKit - _detallesGridTopBase);
-                detallesGrid.Height = Math.Max(100, newHeight);
-            }
-            else
-            {
-                detallesGrid.Top = _detallesGridTopBase;
-                detallesGrid.Height = _detallesGridHeightBase;
             }
         }
 
         private void UpdateFolioDisplay()
         {
-            folioTextBox.Text = ObtenerFolioParaMostrar(_pedido);
+            var folio = ObtenerFolioParaMostrar(_pedido);
+            var showFolio = !string.IsNullOrWhiteSpace(folio);
+            folioValueLabel.Text = folio;
+            folioCaptionLabel.Visible = showFolio;
+            folioValueLabel.Visible = showFolio;
+        }
+
+        private void UpdateStatusDisplay()
+        {
+            if (_pedido == null)
+            {
+                statusValueLabel.Visible = false;
+                return;
+            }
+
+            var descripcion = ObtenerDescripcionEstatus(_pedido.Estatus);
+            var mostrar = !string.Equals(_pedido.Estatus, "P", StringComparison.OrdinalIgnoreCase);
+            statusValueLabel.Text = $"Estatus: {descripcion}";
+            statusValueLabel.Visible = mostrar;
         }
 
         private static string ObtenerFolioParaMostrar(Pedido pedido)
@@ -639,30 +653,37 @@ WHERE ak.articulo_id = @kitId;", connection))
 
         private void OrderManagementForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_detalles.Count <= 0 || e.CloseReason == CloseReason.WindowsShutDown || e.CloseReason == CloseReason.TaskManagerClosing)
+            if (e.CloseReason == CloseReason.WindowsShutDown || e.CloseReason == CloseReason.TaskManagerClosing)
             {
                 return;
             }
 
-            var result = MessageBox.Show("Se perderán los datos . ¿Desea cerrar este pedido?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (_pedido == null || _pedido.Estatus != "P" || _pedido.Id <= 0)
+            {
+                return;
+            }
 
-            if (result != DialogResult.Yes)
+            var result = MessageBox.Show("El pedido está pendiente, ¿desea cancelarlo?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (_pedido.Id > 0)
+                {
+                    if (!_pedidoDao.ActualizarEstatus(_pedido.Id, "C", out _, out var message))
+                    {
+                        MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        e.Cancel = true;
+                        return;
+                    }
+
+                    _pedido.Estatus = "C";
+                    UpdateStatusDisplay();
+                    UpdateControlsState();
+                }
+            }
+            else
             {
                 e.Cancel = true;
-                return;
-            }
-
-            if (_pedido.Id > 0)
-            {
-                if (!_pedidoDao.ActualizarEstatus(_pedido.Id, "C", out var message))
-                {
-                    MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    e.Cancel = true;
-                    return;
-                }
-
-                _pedido.Estatus = "C";
-                statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
             }
         }
     }

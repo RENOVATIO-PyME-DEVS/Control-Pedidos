@@ -24,17 +24,13 @@ namespace Control_Pedidos.Views.Orders
             this.clientAddressLabel = new System.Windows.Forms.Label();
             this.clientAddressTextBox = new System.Windows.Forms.TextBox();
             this.userNameLabel = new System.Windows.Forms.Label();
-            this.userNameTextBox = new System.Windows.Forms.TextBox();
             this.userRoleLabel = new System.Windows.Forms.Label();
-            this.userRoleTextBox = new System.Windows.Forms.TextBox();
             this.companyLabel = new System.Windows.Forms.Label();
             this.companyComboBox = new System.Windows.Forms.ComboBox();
             this.eventLabel = new System.Windows.Forms.Label();
             this.eventComboBox = new System.Windows.Forms.ComboBox();
             this.folioLabel = new System.Windows.Forms.Label();
-            this.folioTextBox = new System.Windows.Forms.TextBox();
             this.statusLabel = new System.Windows.Forms.Label();
-            this.statusTextBox = new System.Windows.Forms.TextBox();
             this.fechaLabel = new System.Windows.Forms.Label();
             this.fechaDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.fechaEntregaLabel = new System.Windows.Forms.Label();
@@ -65,9 +61,14 @@ namespace Control_Pedidos.Views.Orders
             this.notesTextBox = new System.Windows.Forms.TextBox();
             this.kitComponentsLabel = new System.Windows.Forms.Label();
             this.kitComponentsRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.orderItemsGroupBox = new System.Windows.Forms.GroupBox();
+            this.folioCaptionLabel = new System.Windows.Forms.Label();
+            this.folioValueLabel = new System.Windows.Forms.Label();
+            this.statusValueLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.precioNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.detallesGrid)).BeginInit();
+            this.orderItemsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // clientNameLabel
@@ -129,42 +130,32 @@ namespace Control_Pedidos.Views.Orders
             this.clientAddressTextBox.TabIndex = 5;
             // 
             // userNameLabel
-            // 
-            this.userNameLabel.AutoSize = true;
-            this.userNameLabel.Location = new System.Drawing.Point(567, 69);
+            //
+            this.userNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.userNameLabel.AutoSize = false;
+            this.userNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
+            this.userNameLabel.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.userNameLabel.Location = new System.Drawing.Point(1017, 18);
             this.userNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.userNameLabel.Name = "userNameLabel";
-            this.userNameLabel.Size = new System.Drawing.Size(54, 16);
+            this.userNameLabel.Size = new System.Drawing.Size(400, 18);
             this.userNameLabel.TabIndex = 6;
-            this.userNameLabel.Text = "Usuario";
-            // 
-            // userNameTextBox
-            // 
-            this.userNameTextBox.Location = new System.Drawing.Point(659, 65);
-            this.userNameTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.userNameTextBox.Name = "userNameTextBox";
-            this.userNameTextBox.ReadOnly = true;
-            this.userNameTextBox.Size = new System.Drawing.Size(319, 22);
-            this.userNameTextBox.TabIndex = 7;
-            // 
+            this.userNameLabel.Text = "Usuario:";
+            this.userNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
             // userRoleLabel
-            // 
-            this.userRoleLabel.AutoSize = true;
-            this.userRoleLabel.Location = new System.Drawing.Point(567, 106);
+            //
+            this.userRoleLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.userRoleLabel.AutoSize = false;
+            this.userRoleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
+            this.userRoleLabel.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.userRoleLabel.Location = new System.Drawing.Point(1017, 40);
             this.userRoleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.userRoleLabel.Name = "userRoleLabel";
-            this.userRoleLabel.Size = new System.Drawing.Size(28, 16);
-            this.userRoleLabel.TabIndex = 8;
-            this.userRoleLabel.Text = "Rol";
-            // 
-            // userRoleTextBox
-            // 
-            this.userRoleTextBox.Location = new System.Drawing.Point(659, 102);
-            this.userRoleTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.userRoleTextBox.Name = "userRoleTextBox";
-            this.userRoleTextBox.ReadOnly = true;
-            this.userRoleTextBox.Size = new System.Drawing.Size(319, 22);
-            this.userRoleTextBox.TabIndex = 9;
+            this.userRoleLabel.Size = new System.Drawing.Size(400, 18);
+            this.userRoleLabel.TabIndex = 7;
+            this.userRoleLabel.Text = "Rol:";
+            this.userRoleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // companyLabel
             // 
@@ -175,6 +166,7 @@ namespace Control_Pedidos.Views.Orders
             this.companyLabel.Size = new System.Drawing.Size(62, 16);
             this.companyLabel.TabIndex = 10;
             this.companyLabel.Text = "Empresa";
+            this.companyLabel.Visible = false;
             // 
             // companyComboBox
             // 
@@ -186,6 +178,7 @@ namespace Control_Pedidos.Views.Orders
             this.companyComboBox.Size = new System.Drawing.Size(319, 24);
             this.companyComboBox.TabIndex = 11;
             this.companyComboBox.SelectedIndexChanged += new System.EventHandler(this.companyComboBox_SelectedIndexChanged);
+            this.companyComboBox.Visible = false;
             // 
             // eventLabel
             // 
@@ -209,7 +202,7 @@ namespace Control_Pedidos.Views.Orders
             this.eventComboBox.SelectedIndexChanged += new System.EventHandler(this.eventComboBox_SelectedIndexChanged);
             // 
             // folioLabel
-            // 
+            //
             this.folioLabel.AutoSize = true;
             this.folioLabel.Location = new System.Drawing.Point(1014, 180);
             this.folioLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -217,34 +210,61 @@ namespace Control_Pedidos.Views.Orders
             this.folioLabel.Size = new System.Drawing.Size(37, 16);
             this.folioLabel.TabIndex = 14;
             this.folioLabel.Text = "Folio";
-            // 
-            // folioTextBox
-            // 
-            this.folioTextBox.Location = new System.Drawing.Point(1087, 176);
-            this.folioTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.folioTextBox.Name = "folioTextBox";
-            this.folioTextBox.ReadOnly = true;
-            this.folioTextBox.Size = new System.Drawing.Size(239, 22);
-            this.folioTextBox.TabIndex = 15;
-            // 
+            this.folioLabel.Visible = false;
+            //
             // statusLabel
-            // 
+            //
             this.statusLabel.AutoSize = true;
             this.statusLabel.Location = new System.Drawing.Point(1014, 217);
             this.statusLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(51, 16);
-            this.statusLabel.TabIndex = 16;
+            this.statusLabel.TabIndex = 15;
             this.statusLabel.Text = "Estatus";
-            // 
-            // statusTextBox
-            // 
-            this.statusTextBox.Location = new System.Drawing.Point(1087, 213);
-            this.statusTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.statusTextBox.Name = "statusTextBox";
-            this.statusTextBox.ReadOnly = true;
-            this.statusTextBox.Size = new System.Drawing.Size(239, 22);
-            this.statusTextBox.TabIndex = 17;
+            this.statusLabel.Visible = false;
+            //
+            // folioCaptionLabel
+            //
+            this.folioCaptionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.folioCaptionLabel.AutoSize = true;
+            this.folioCaptionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
+            this.folioCaptionLabel.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.folioCaptionLabel.Location = new System.Drawing.Point(1017, 184);
+            this.folioCaptionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.folioCaptionLabel.Name = "folioCaptionLabel";
+            this.folioCaptionLabel.Size = new System.Drawing.Size(39, 16);
+            this.folioCaptionLabel.TabIndex = 16;
+            this.folioCaptionLabel.Text = "Folio:";
+            this.folioCaptionLabel.Visible = false;
+            //
+            // folioValueLabel
+            //
+            this.folioValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.folioValueLabel.AutoSize = false;
+            this.folioValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.folioValueLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.folioValueLabel.Location = new System.Drawing.Point(1070, 180);
+            this.folioValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.folioValueLabel.Name = "folioValueLabel";
+            this.folioValueLabel.Size = new System.Drawing.Size(347, 24);
+            this.folioValueLabel.TabIndex = 17;
+            this.folioValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.folioValueLabel.Visible = false;
+            //
+            // statusValueLabel
+            //
+            this.statusValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.statusValueLabel.AutoSize = false;
+            this.statusValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
+            this.statusValueLabel.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.statusValueLabel.Location = new System.Drawing.Point(1017, 210);
+            this.statusValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.statusValueLabel.Name = "statusValueLabel";
+            this.statusValueLabel.Size = new System.Drawing.Size(400, 20);
+            this.statusValueLabel.TabIndex = 18;
+            this.statusValueLabel.Text = "Estatus: Pendiente";
+            this.statusValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.statusValueLabel.Visible = false;
             // 
             // fechaLabel
             // 
@@ -255,6 +275,7 @@ namespace Control_Pedidos.Views.Orders
             this.fechaLabel.Size = new System.Drawing.Size(45, 16);
             this.fechaLabel.TabIndex = 18;
             this.fechaLabel.Text = "Fecha";
+            this.fechaLabel.Visible = false;
             // 
             // fechaDateTimePicker
             // 
@@ -264,6 +285,7 @@ namespace Control_Pedidos.Views.Orders
             this.fechaDateTimePicker.Name = "fechaDateTimePicker";
             this.fechaDateTimePicker.Size = new System.Drawing.Size(153, 22);
             this.fechaDateTimePicker.TabIndex = 19;
+            this.fechaDateTimePicker.Visible = false;
             // 
             // fechaEntregaLabel
             // 
@@ -306,42 +328,68 @@ namespace Control_Pedidos.Views.Orders
             this.horaEntregaDateTimePicker.Size = new System.Drawing.Size(104, 22);
             this.horaEntregaDateTimePicker.TabIndex = 23;
             // 
+            // orderItemsGroupBox
+            //
+            this.orderItemsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.orderItemsGroupBox.Controls.Add(this.agregarArticuloButton);
+            this.orderItemsGroupBox.Controls.Add(this.totalArticuloTextBox);
+            this.orderItemsGroupBox.Controls.Add(this.totalArticuloLabel);
+            this.orderItemsGroupBox.Controls.Add(this.precioNumericUpDown);
+            this.orderItemsGroupBox.Controls.Add(this.precioLabel);
+            this.orderItemsGroupBox.Controls.Add(this.cantidadNumericUpDown);
+            this.orderItemsGroupBox.Controls.Add(this.cantidadLabel);
+            this.orderItemsGroupBox.Controls.Add(this.articuloComboBox);
+            this.orderItemsGroupBox.Controls.Add(this.articuloLabel);
+            this.orderItemsGroupBox.Controls.Add(this.kitComponentsRichTextBox);
+            this.orderItemsGroupBox.Controls.Add(this.kitComponentsLabel);
+            this.orderItemsGroupBox.Location = new System.Drawing.Point(33, 252);
+            this.orderItemsGroupBox.Margin = new System.Windows.Forms.Padding(4);
+            this.orderItemsGroupBox.Name = "orderItemsGroupBox";
+            this.orderItemsGroupBox.Padding = new System.Windows.Forms.Padding(4);
+            this.orderItemsGroupBox.Size = new System.Drawing.Size(1384, 152);
+            this.orderItemsGroupBox.TabIndex = 24;
+            this.orderItemsGroupBox.TabStop = false;
+            this.orderItemsGroupBox.Text = "Artículos del Pedido";
+            //
             // articuloLabel
-            // 
+            //
             this.articuloLabel.AutoSize = true;
-            this.articuloLabel.Location = new System.Drawing.Point(35, 281);
+            this.articuloLabel.Location = new System.Drawing.Point(24, 36);
             this.articuloLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.articuloLabel.Name = "articuloLabel";
             this.articuloLabel.Size = new System.Drawing.Size(51, 16);
-            this.articuloLabel.TabIndex = 24;
+            this.articuloLabel.TabIndex = 0;
             this.articuloLabel.Text = "Artículo";
-            // 
+            //
             // articuloComboBox
-            // 
+            //
             this.articuloComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.articuloComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.articuloComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.articuloComboBox.FormattingEnabled = true;
-            this.articuloComboBox.Location = new System.Drawing.Point(153, 277);
+            this.articuloComboBox.Location = new System.Drawing.Point(120, 32);
             this.articuloComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.articuloComboBox.Name = "articuloComboBox";
-            this.articuloComboBox.Size = new System.Drawing.Size(372, 24);
-            this.articuloComboBox.TabIndex = 25;
+            this.articuloComboBox.Size = new System.Drawing.Size(360, 24);
+            this.articuloComboBox.TabIndex = 1;
             this.articuloComboBox.SelectedIndexChanged += new System.EventHandler(this.articuloComboBox_SelectedIndexChanged);
-            // 
+            //
             // cantidadLabel
-            // 
+            //
             this.cantidadLabel.AutoSize = true;
-            this.cantidadLabel.Location = new System.Drawing.Point(603, 281);
+            this.cantidadLabel.Location = new System.Drawing.Point(500, 36);
             this.cantidadLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.cantidadLabel.Name = "cantidadLabel";
             this.cantidadLabel.Size = new System.Drawing.Size(61, 16);
-            this.cantidadLabel.TabIndex = 26;
+            this.cantidadLabel.TabIndex = 2;
             this.cantidadLabel.Text = "Cantidad";
-            // 
+            //
             // cantidadNumericUpDown
-            // 
+            //
             this.cantidadNumericUpDown.DecimalPlaces = 2;
-            this.cantidadNumericUpDown.Location = new System.Drawing.Point(681, 277);
+            this.cantidadNumericUpDown.Location = new System.Drawing.Point(580, 32);
             this.cantidadNumericUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.cantidadNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
@@ -354,29 +402,29 @@ namespace Control_Pedidos.Views.Orders
             0,
             131072});
             this.cantidadNumericUpDown.Name = "cantidadNumericUpDown";
-            this.cantidadNumericUpDown.Size = new System.Drawing.Size(107, 22);
-            this.cantidadNumericUpDown.TabIndex = 27;
+            this.cantidadNumericUpDown.Size = new System.Drawing.Size(120, 22);
+            this.cantidadNumericUpDown.TabIndex = 3;
             this.cantidadNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.cantidadNumericUpDown.ValueChanged += new System.EventHandler(this.DetalleValueChanged);
-            // 
+            //
             // precioLabel
-            // 
+            //
             this.precioLabel.AutoSize = true;
-            this.precioLabel.Location = new System.Drawing.Point(811, 281);
+            this.precioLabel.Location = new System.Drawing.Point(720, 36);
             this.precioLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.precioLabel.Name = "precioLabel";
             this.precioLabel.Size = new System.Drawing.Size(46, 16);
-            this.precioLabel.TabIndex = 28;
+            this.precioLabel.TabIndex = 4;
             this.precioLabel.Text = "Precio";
-            // 
+            //
             // precioNumericUpDown
-            // 
+            //
             this.precioNumericUpDown.DecimalPlaces = 2;
-            this.precioNumericUpDown.Location = new System.Drawing.Point(869, 277);
+            this.precioNumericUpDown.Location = new System.Drawing.Point(780, 32);
             this.precioNumericUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.precioNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
@@ -384,36 +432,38 @@ namespace Control_Pedidos.Views.Orders
             0,
             0});
             this.precioNumericUpDown.Name = "precioNumericUpDown";
-            this.precioNumericUpDown.Size = new System.Drawing.Size(133, 22);
-            this.precioNumericUpDown.TabIndex = 29;
+            this.precioNumericUpDown.Size = new System.Drawing.Size(120, 22);
+            this.precioNumericUpDown.TabIndex = 5;
             this.precioNumericUpDown.ValueChanged += new System.EventHandler(this.DetalleValueChanged);
-            // 
+            //
             // totalArticuloLabel
-            // 
+            //
             this.totalArticuloLabel.AutoSize = true;
-            this.totalArticuloLabel.Location = new System.Drawing.Point(1026, 281);
+            this.totalArticuloLabel.Location = new System.Drawing.Point(920, 36);
             this.totalArticuloLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalArticuloLabel.Name = "totalArticuloLabel";
             this.totalArticuloLabel.Size = new System.Drawing.Size(38, 16);
-            this.totalArticuloLabel.TabIndex = 30;
+            this.totalArticuloLabel.TabIndex = 6;
             this.totalArticuloLabel.Text = "Total";
-            // 
+            //
             // totalArticuloTextBox
-            // 
-            this.totalArticuloTextBox.Location = new System.Drawing.Point(1075, 277);
+            //
+            this.totalArticuloTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.totalArticuloTextBox.Location = new System.Drawing.Point(980, 32);
             this.totalArticuloTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.totalArticuloTextBox.Name = "totalArticuloTextBox";
             this.totalArticuloTextBox.ReadOnly = true;
-            this.totalArticuloTextBox.Size = new System.Drawing.Size(140, 22);
-            this.totalArticuloTextBox.TabIndex = 31;
-            // 
+            this.totalArticuloTextBox.Size = new System.Drawing.Size(120, 22);
+            this.totalArticuloTextBox.TabIndex = 7;
+            //
             // agregarArticuloButton
-            // 
-            this.agregarArticuloButton.Location = new System.Drawing.Point(1243, 275);
+            //
+            this.agregarArticuloButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.agregarArticuloButton.Location = new System.Drawing.Point(1120, 30);
             this.agregarArticuloButton.Margin = new System.Windows.Forms.Padding(4);
             this.agregarArticuloButton.Name = "agregarArticuloButton";
-            this.agregarArticuloButton.Size = new System.Drawing.Size(177, 28);
-            this.agregarArticuloButton.TabIndex = 32;
+            this.agregarArticuloButton.Size = new System.Drawing.Size(232, 28);
+            this.agregarArticuloButton.TabIndex = 8;
             this.agregarArticuloButton.Text = "Agregar artículo";
             this.agregarArticuloButton.UseVisualStyleBackColor = true;
             this.agregarArticuloButton.Click += new System.EventHandler(this.agregarArticuloButton_Click);
@@ -427,19 +477,19 @@ namespace Control_Pedidos.Views.Orders
             | System.Windows.Forms.AnchorStyles.Right)));
             this.detallesGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.detallesGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.detallesGrid.Location = new System.Drawing.Point(33, 322);
+            this.detallesGrid.Location = new System.Drawing.Point(33, 424);
             this.detallesGrid.Margin = new System.Windows.Forms.Padding(4);
             this.detallesGrid.MultiSelect = false;
             this.detallesGrid.Name = "detallesGrid";
             this.detallesGrid.ReadOnly = true;
             this.detallesGrid.RowHeadersWidth = 51;
             this.detallesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.detallesGrid.Size = new System.Drawing.Size(1384, 364);
+            this.detallesGrid.Size = new System.Drawing.Size(1384, 282);
             this.detallesGrid.TabIndex = 35;
             // 
             // eliminarArticuloButton
             // 
-            this.eliminarArticuloButton.Location = new System.Drawing.Point(33, 694);
+            this.eliminarArticuloButton.Location = new System.Drawing.Point(33, 724);
             this.eliminarArticuloButton.Margin = new System.Windows.Forms.Padding(4);
             this.eliminarArticuloButton.Name = "eliminarArticuloButton";
             this.eliminarArticuloButton.Size = new System.Drawing.Size(177, 33);
@@ -452,7 +502,7 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.totalGeneralLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalGeneralLabel.AutoSize = true;
-            this.totalGeneralLabel.Location = new System.Drawing.Point(1018, 702);
+            this.totalGeneralLabel.Location = new System.Drawing.Point(1018, 732);
             this.totalGeneralLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalGeneralLabel.Name = "totalGeneralLabel";
             this.totalGeneralLabel.Size = new System.Drawing.Size(84, 16);
@@ -463,7 +513,7 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.totalGeneralValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalGeneralValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            this.totalGeneralValueLabel.Location = new System.Drawing.Point(1125, 694);
+            this.totalGeneralValueLabel.Location = new System.Drawing.Point(1125, 724);
             this.totalGeneralValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalGeneralValueLabel.Name = "totalGeneralValueLabel";
             this.totalGeneralValueLabel.Size = new System.Drawing.Size(137, 28);
@@ -474,7 +524,7 @@ namespace Control_Pedidos.Views.Orders
             // cerrarPedidoButton
             // 
             this.cerrarPedidoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cerrarPedidoButton.Location = new System.Drawing.Point(400, 694);
+            this.cerrarPedidoButton.Location = new System.Drawing.Point(400, 724);
             this.cerrarPedidoButton.Margin = new System.Windows.Forms.Padding(4);
             this.cerrarPedidoButton.Name = "cerrarPedidoButton";
             this.cerrarPedidoButton.Size = new System.Drawing.Size(177, 33);
@@ -486,7 +536,7 @@ namespace Control_Pedidos.Views.Orders
             // cancelarPedidoButton
             // 
             this.cancelarPedidoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelarPedidoButton.Location = new System.Drawing.Point(585, 694);
+            this.cancelarPedidoButton.Location = new System.Drawing.Point(585, 724);
             this.cancelarPedidoButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelarPedidoButton.Name = "cancelarPedidoButton";
             this.cancelarPedidoButton.Size = new System.Drawing.Size(177, 33);
@@ -498,7 +548,7 @@ namespace Control_Pedidos.Views.Orders
             // cerrarVentanaButton
             // 
             this.cerrarVentanaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cerrarVentanaButton.Location = new System.Drawing.Point(1293, 694);
+            this.cerrarVentanaButton.Location = new System.Drawing.Point(1293, 724);
             this.cerrarVentanaButton.Margin = new System.Windows.Forms.Padding(4);
             this.cerrarVentanaButton.Name = "cerrarVentanaButton";
             this.cerrarVentanaButton.Size = new System.Drawing.Size(124, 33);
@@ -516,6 +566,7 @@ namespace Control_Pedidos.Views.Orders
             this.clientRfcLabel.Size = new System.Drawing.Size(34, 16);
             this.clientRfcLabel.TabIndex = 42;
             this.clientRfcLabel.Text = "RFC";
+            this.clientRfcLabel.Visible = false;
             // 
             // clientRfcTextBox
             // 
@@ -525,6 +576,7 @@ namespace Control_Pedidos.Views.Orders
             this.clientRfcTextBox.ReadOnly = true;
             this.clientRfcTextBox.Size = new System.Drawing.Size(372, 22);
             this.clientRfcTextBox.TabIndex = 43;
+            this.clientRfcTextBox.Visible = false;
             // 
             // clientEmailLabel
             // 
@@ -535,6 +587,7 @@ namespace Control_Pedidos.Views.Orders
             this.clientEmailLabel.Size = new System.Drawing.Size(48, 16);
             this.clientEmailLabel.TabIndex = 44;
             this.clientEmailLabel.Text = "Correo";
+            this.clientEmailLabel.Visible = false;
             // 
             // clientEmailTextBox
             // 
@@ -544,6 +597,7 @@ namespace Control_Pedidos.Views.Orders
             this.clientEmailTextBox.ReadOnly = true;
             this.clientEmailTextBox.Size = new System.Drawing.Size(372, 22);
             this.clientEmailTextBox.TabIndex = 45;
+            this.clientEmailTextBox.Visible = false;
             // 
             // notesLabel
             // 
@@ -570,26 +624,26 @@ namespace Control_Pedidos.Views.Orders
             // kitComponentsLabel
             // 
             this.kitComponentsLabel.AutoSize = true;
-            this.kitComponentsLabel.Location = new System.Drawing.Point(13, 311);
+            this.kitComponentsLabel.Location = new System.Drawing.Point(24, 80);
             this.kitComponentsLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.kitComponentsLabel.Name = "kitComponentsLabel";
             this.kitComponentsLabel.Size = new System.Drawing.Size(132, 16);
-            this.kitComponentsLabel.TabIndex = 33;
+            this.kitComponentsLabel.TabIndex = 9;
             this.kitComponentsLabel.Text = "Componentes del kit:";
             this.kitComponentsLabel.Visible = false;
             // 
             // kitComponentsRichTextBox
             // 
-            this.kitComponentsRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.kitComponentsRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kitComponentsRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.kitComponentsRichTextBox.Location = new System.Drawing.Point(153, 306);
+            this.kitComponentsRichTextBox.Location = new System.Drawing.Point(120, 76);
             this.kitComponentsRichTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.kitComponentsRichTextBox.Name = "kitComponentsRichTextBox";
             this.kitComponentsRichTextBox.ReadOnly = true;
             this.kitComponentsRichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.kitComponentsRichTextBox.Size = new System.Drawing.Size(372, 96);
-            this.kitComponentsRichTextBox.TabIndex = 34;
+            this.kitComponentsRichTextBox.Size = new System.Drawing.Size(1232, 60);
+            this.kitComponentsRichTextBox.TabIndex = 10;
             this.kitComponentsRichTextBox.TabStop = false;
             this.kitComponentsRichTextBox.Text = "";
             this.kitComponentsRichTextBox.Visible = false;
@@ -599,6 +653,10 @@ namespace Control_Pedidos.Views.Orders
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1451, 838);
+            this.Controls.Add(this.statusValueLabel);
+            this.Controls.Add(this.folioValueLabel);
+            this.Controls.Add(this.folioCaptionLabel);
+            this.Controls.Add(this.orderItemsGroupBox);
             this.Controls.Add(this.notesTextBox);
             this.Controls.Add(this.notesLabel);
             this.Controls.Add(this.clientEmailTextBox);
@@ -611,35 +669,20 @@ namespace Control_Pedidos.Views.Orders
             this.Controls.Add(this.totalGeneralValueLabel);
             this.Controls.Add(this.totalGeneralLabel);
             this.Controls.Add(this.eliminarArticuloButton);
-            this.Controls.Add(this.kitComponentsRichTextBox);
-            this.Controls.Add(this.kitComponentsLabel);
             this.Controls.Add(this.detallesGrid);
-            this.Controls.Add(this.agregarArticuloButton);
-            this.Controls.Add(this.totalArticuloTextBox);
-            this.Controls.Add(this.totalArticuloLabel);
-            this.Controls.Add(this.precioNumericUpDown);
-            this.Controls.Add(this.precioLabel);
-            this.Controls.Add(this.cantidadNumericUpDown);
-            this.Controls.Add(this.cantidadLabel);
-            this.Controls.Add(this.articuloComboBox);
-            this.Controls.Add(this.articuloLabel);
             this.Controls.Add(this.horaEntregaDateTimePicker);
             this.Controls.Add(this.horaEntregaLabel);
             this.Controls.Add(this.fechaEntregaDateTimePicker);
             this.Controls.Add(this.fechaEntregaLabel);
             this.Controls.Add(this.fechaDateTimePicker);
             this.Controls.Add(this.fechaLabel);
-            this.Controls.Add(this.statusTextBox);
             this.Controls.Add(this.statusLabel);
-            this.Controls.Add(this.folioTextBox);
             this.Controls.Add(this.folioLabel);
             this.Controls.Add(this.eventComboBox);
             this.Controls.Add(this.eventLabel);
             this.Controls.Add(this.companyComboBox);
             this.Controls.Add(this.companyLabel);
-            this.Controls.Add(this.userRoleTextBox);
             this.Controls.Add(this.userRoleLabel);
-            this.Controls.Add(this.userNameTextBox);
             this.Controls.Add(this.userNameLabel);
             this.Controls.Add(this.clientAddressTextBox);
             this.Controls.Add(this.clientAddressLabel);
@@ -655,6 +698,8 @@ namespace Control_Pedidos.Views.Orders
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.precioNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.detallesGrid)).EndInit();
+            this.orderItemsGroupBox.ResumeLayout(false);
+            this.orderItemsGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -669,17 +714,13 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.Label clientAddressLabel;
         private System.Windows.Forms.TextBox clientAddressTextBox;
         private System.Windows.Forms.Label userNameLabel;
-        private System.Windows.Forms.TextBox userNameTextBox;
         private System.Windows.Forms.Label userRoleLabel;
-        private System.Windows.Forms.TextBox userRoleTextBox;
         private System.Windows.Forms.Label companyLabel;
         private System.Windows.Forms.ComboBox companyComboBox;
         private System.Windows.Forms.Label eventLabel;
         private System.Windows.Forms.ComboBox eventComboBox;
         private System.Windows.Forms.Label folioLabel;
-        private System.Windows.Forms.TextBox folioTextBox;
         private System.Windows.Forms.Label statusLabel;
-        private System.Windows.Forms.TextBox statusTextBox;
         private System.Windows.Forms.Label fechaLabel;
         private System.Windows.Forms.DateTimePicker fechaDateTimePicker;
         private System.Windows.Forms.Label fechaEntregaLabel;
@@ -710,5 +751,9 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.TextBox clientEmailTextBox;
         private System.Windows.Forms.Label notesLabel;
         private System.Windows.Forms.TextBox notesTextBox;
+        private System.Windows.Forms.GroupBox orderItemsGroupBox;
+        private System.Windows.Forms.Label folioCaptionLabel;
+        private System.Windows.Forms.Label folioValueLabel;
+        private System.Windows.Forms.Label statusValueLabel;
     }
 }
