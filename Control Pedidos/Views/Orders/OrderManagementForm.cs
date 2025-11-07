@@ -26,10 +26,13 @@ namespace Control_Pedidos.Views.Orders
         private readonly int _kitComponentsBaseHeight;
         private Pedido _pedido;
         private bool _readOnlyMode;
+        private bool _isUpdatingDiscountValue;
 
         public OrderManagementForm(DatabaseConnectionFactory connectionFactory, Cliente cliente, Usuario usuario, Empresa empresa, IList<Empresa> empresasDisponibles = null, Pedido pedido = null)
         {
             InitializeComponent();
+
+            noStyle();
             UIStyles.ApplyTheme(this);
 
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
@@ -126,6 +129,7 @@ namespace Control_Pedidos.Views.Orders
 
         private void BindUserData()
         {
+            userAndRolLabel.Text = $"{_usuario.Nombre} - {_usuario.RolesResumen ?? string.Empty}";
             userNameTextBox.Text = _usuario.Nombre;
             userRoleTextBox.Text = _usuario.RolesResumen ?? string.Empty;
         }
@@ -241,6 +245,8 @@ namespace Control_Pedidos.Views.Orders
                     _detalles.Add(detalle);
                 }
             }
+
+            SetDiscountControlValue(_pedido.Descuento);
         }
 
         private static string ObtenerDescripcionEstatus(string estatus)
@@ -266,7 +272,32 @@ namespace Control_Pedidos.Views.Orders
         private void UpdateTotals()
         {
             var total = _detalles.Sum(d => d.Total);
+            _pedido.Total = total;
             totalGeneralValueLabel.Text = total.ToString("C2");
+
+            var descuento = descuentoNumericUpDown.Value;
+            if (descuento > total)
+            {
+                SetDiscountControlValue(total);
+                descuento = descuentoNumericUpDown.Value;
+            }
+
+            var totalConDescuento = Math.Max(0, total - descuento);
+            totalWithDiscountValueLabel.Text = totalConDescuento.ToString("C2");
+        }
+
+        private void SetDiscountControlValue(decimal value)
+        {
+            _isUpdatingDiscountValue = true;
+            try
+            {
+                var boundedValue = Math.Max(descuentoNumericUpDown.Minimum, Math.Min(descuentoNumericUpDown.Maximum, value));
+                descuentoNumericUpDown.Value = boundedValue;
+            }
+            finally
+            {
+                _isUpdatingDiscountValue = false;
+            }
         }
 
         private void UpdateControlsState()
@@ -289,6 +320,8 @@ namespace Control_Pedidos.Views.Orders
             eliminarArticuloButton.Enabled = !_readOnlyMode && _detalles.Count > 0;
             cerrarPedidoButton.Enabled = !_readOnlyMode && _pedido.Id > 0;
             cancelarPedidoButton.Enabled = !_readOnlyMode && _pedido.Id > 0;
+            descuentoNumericUpDown.Enabled = !_readOnlyMode && _pedido.Id > 0 && _detalles.Count > 0;
+            applyDiscountButton.Enabled = !_readOnlyMode && _pedido.Id > 0 && _detalles.Count > 0;
         }
 
         private bool TryPreparePedido(out string message)
@@ -345,6 +378,22 @@ namespace Control_Pedidos.Views.Orders
             UpdateDetalleTotal();
         }
 
+        private void descuentoNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            if (_isUpdatingDiscountValue)
+            {
+                return;
+            }
+
+            var total = _detalles.Sum(d => d.Total);
+            if (descuentoNumericUpDown.Value > total)
+            {
+                SetDiscountControlValue(total);
+            }
+
+            UpdateTotals();
+        }
+
         private void agregarArticuloButton_Click(object sender, EventArgs e)
         {
             if (_readOnlyMode)
@@ -391,11 +440,6 @@ namespace Control_Pedidos.Views.Orders
             if (_pedido.Id == 0)
             {
                 _pedido.Id = detalle.PedidoId;
-                if (string.IsNullOrWhiteSpace(_pedido.Folio) && detalle.Pedido != null)
-                {
-                    _pedido.Folio = detalle.Pedido.Folio;
-                    _pedido.FolioFormateado = detalle.Pedido.FolioFormateado;
-                }
             }
 
             UpdateFolioDisplay();
@@ -440,6 +484,91 @@ namespace Control_Pedidos.Views.Orders
             UpdateControlsState();
         }
 
+        private void applyDiscountButton_Click(object sender, EventArgs e)
+        {
+            
+            
+            if (_readOnlyMode)
+            {
+                return;
+            }
+
+            if (_pedido.Id == 0)
+            {
+                MessageBox.Show("El pedido aún no ha sido creado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (_detalles.Count == 0)
+            {
+                MessageBox.Show("Agregue al menos un artículo antes de aplicar un descuento.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var descuento = descuentoNumericUpDown.Value;
+            if (descuento <= 0)
+            {
+                MessageBox.Show("Ingrese un descuento mayor a cero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var total = _detalles.Sum(d => d.Total);
+            if (descuento > total)
+            {
+                MessageBox.Show("El descuento no puede ser mayor que el total del pedido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (var autorizacionForm = new DescuentoAutorizacionForm(_connectionFactory))
+            {
+                if (autorizacionForm.ShowDialog(this) != DialogResult.OK)
+                {
+                    return;
+                }
+
+                var administradorCorreo = autorizacionForm.AdministradorCorreo;
+                if (string.IsNullOrWhiteSpace(administradorCorreo))
+                {
+                    MessageBox.Show("No se obtuvo la autorización del administrador.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (_pedidoDao.AplicarDescuento(_pedido.Id, descuento, administradorCorreo, out var message, out var folioGenerado, out var folioFormateado))
+                {
+                    _pedido.Descuento = descuento;
+                    _pedido.UsuarioDescuento = administradorCorreo;
+                    _pedido.Estatus = "N";
+
+                    if (!string.IsNullOrEmpty(folioGenerado))
+                    {
+                        _pedido.Folio = folioGenerado;
+                    }
+
+                    if (!string.IsNullOrEmpty(folioFormateado))
+                    {
+                        _pedido.FolioFormateado = folioFormateado;
+                    }
+
+                    statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
+                    UpdateFolioDisplay();
+                    SetDiscountControlValue(descuento);
+                    UpdateTotals();
+                    UpdateControlsState();
+
+                    MessageBox.Show("Descuento aplicado y pedido cerrado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(message))
+                    {
+                        message = "No se pudo aplicar el descuento.";
+                    }
+
+                    MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void cerrarPedidoButton_Click(object sender, EventArgs e)
         {
             if (_pedido.Id == 0)
@@ -448,14 +577,36 @@ namespace Control_Pedidos.Views.Orders
                 return;
             }
 
-            if (_pedidoDao.ActualizarEstatus(_pedido.Id, "N", out var message))
+            // 🔹 Verifica si hay un importe mayor a 0 y aún no se aplicó descuento
+            if (descuentoNumericUpDown.Value > 0)
+            {
+                var respuesta = MessageBox.Show(
+                    "El pedido tiene ingresado un descuento mayor a $0.00.\n\n" +
+                    "Si desea aplicar un descuento, hágalo con el botón 'Aplicar descuento'.\n\n" +
+                    "¿Desea cerrar el pedido sin aplicar descuento?",
+                    "Confirmar cierre sin descuento",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (respuesta == DialogResult.No)
+                {
+                    // Cancela el cierre
+                    return;
+                }
+            }
+
+
+            if (_pedidoDao.ActualizarEstatus(_pedido.Id, "N", out var message, out var folioGenerado, out var folioFormateado))
             {
                 _pedido.Estatus = "N";
+                _pedido.Folio = folioGenerado;
+                _pedido.FolioFormateado = folioFormateado;
                 statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
-                MessageBox.Show("Pedido cerrado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                UpdateFolioDisplay();
+//                MessageBox.Show("Pedido cerrado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 UpdateControlsState();
 
-                this.Close();
+                //this.Close();
             }
             else
             {
@@ -476,7 +627,7 @@ namespace Control_Pedidos.Views.Orders
                 return;
             }
 
-            if (_pedidoDao.ActualizarEstatus(_pedido.Id, "C", out var message))
+            if (_pedidoDao.ActualizarEstatus(_pedido.Id, "C", out var message, out _, out _))
             {
                 _pedido.Estatus = "C";
                 statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
@@ -639,31 +790,44 @@ WHERE ak.articulo_id = @kitId;", connection))
 
         private void OrderManagementForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_detalles.Count <= 0 || e.CloseReason == CloseReason.WindowsShutDown || e.CloseReason == CloseReason.TaskManagerClosing)
+            if (e.CloseReason == CloseReason.WindowsShutDown || e.CloseReason == CloseReason.TaskManagerClosing)
             {
                 return;
             }
 
-            var result = MessageBox.Show("Se perderán los datos . ¿Desea cerrar este pedido?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (_pedido == null || _pedido.Id <= 0 || !string.Equals(_pedido.Estatus, "P", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            var result = MessageBox.Show("El pedido está pendiente, ¿desea cancelarlo?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result != DialogResult.Yes)
             {
+                return;
+            }
+
+            if (!_pedidoDao.ActualizarEstatus(_pedido.Id, "C", out var message, out _, out _))
+            {
+                MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
                 return;
             }
 
-            if (_pedido.Id > 0)
-            {
-                if (!_pedidoDao.ActualizarEstatus(_pedido.Id, "C", out var message))
-                {
-                    MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    e.Cancel = true;
-                    return;
-                }
+            _pedido.Estatus = "C";
+            statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
+        }
 
-                _pedido.Estatus = "C";
-                statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
-            }
+        private void OrderManagementForm_Load(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        private void noStyle()
+        {
+            groupBox2.Tag = "no_style";
+            //discountNoteLabel.Tag = "no_style";
         }
     }
 }
