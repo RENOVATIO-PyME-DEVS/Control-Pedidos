@@ -126,6 +126,7 @@ namespace Control_Pedidos.Views.Orders
 
         private void BindUserData()
         {
+            userAndRolLabel.Text = $"{_usuario.Nombre} - {_usuario.RolesResumen ?? string.Empty}";
             userNameTextBox.Text = _usuario.Nombre;
             userRoleTextBox.Text = _usuario.RolesResumen ?? string.Empty;
         }
@@ -663,6 +664,16 @@ WHERE ak.articulo_id = @kitId;", connection))
 
             _pedido.Estatus = "C";
             statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
+        }
+
+        private void OrderManagementForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kitComponentsRichTextBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
