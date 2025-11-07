@@ -31,6 +31,8 @@ namespace Control_Pedidos.Views.Orders
         public OrderManagementForm(DatabaseConnectionFactory connectionFactory, Cliente cliente, Usuario usuario, Empresa empresa, IList<Empresa> empresasDisponibles = null, Pedido pedido = null)
         {
             InitializeComponent();
+
+            noStyle();
             UIStyles.ApplyTheme(this);
 
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
@@ -484,6 +486,8 @@ namespace Control_Pedidos.Views.Orders
 
         private void applyDiscountButton_Click(object sender, EventArgs e)
         {
+            
+            
             if (_readOnlyMode)
             {
                 return;
@@ -573,6 +577,25 @@ namespace Control_Pedidos.Views.Orders
                 return;
             }
 
+            // 🔹 Verifica si hay un importe mayor a 0 y aún no se aplicó descuento
+            if (descuentoNumericUpDown.Value > 0)
+            {
+                var respuesta = MessageBox.Show(
+                    "El pedido tiene ingresado un descuento mayor a $0.00.\n\n" +
+                    "Si desea aplicar un descuento, hágalo con el botón 'Aplicar descuento'.\n\n" +
+                    "¿Desea cerrar el pedido sin aplicar descuento?",
+                    "Confirmar cierre sin descuento",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (respuesta == DialogResult.No)
+                {
+                    // Cancela el cierre
+                    return;
+                }
+            }
+
+
             if (_pedidoDao.ActualizarEstatus(_pedido.Id, "N", out var message, out var folioGenerado, out var folioFormateado))
             {
                 _pedido.Estatus = "N";
@@ -580,10 +603,10 @@ namespace Control_Pedidos.Views.Orders
                 _pedido.FolioFormateado = folioFormateado;
                 statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
                 UpdateFolioDisplay();
-                MessageBox.Show("Pedido cerrado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+//                MessageBox.Show("Pedido cerrado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 UpdateControlsState();
 
-                this.Close();
+                //this.Close();
             }
             else
             {
@@ -797,12 +820,14 @@ WHERE ak.articulo_id = @kitId;", connection))
 
         private void OrderManagementForm_Load(object sender, EventArgs e)
         {
+            
 
         }
 
-        private void kitComponentsRichTextBox_TextChanged(object sender, EventArgs e)
+        private void noStyle()
         {
-
+            groupBox2.Tag = "no_style";
+            //discountNoteLabel.Tag = "no_style";
         }
     }
 }

@@ -52,5 +52,6 @@ namespace Control_Pedidos.Views.Orders
             DialogResult = DialogResult.Cancel;
             Close();
         }
+         
     }
 }

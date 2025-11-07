@@ -28,15 +28,15 @@ namespace Control_Pedidos.Views.Orders
             // correoLabel
             // 
             this.correoLabel.AutoSize = true;
-            this.correoLabel.Location = new System.Drawing.Point(28, 28);
+            this.correoLabel.Location = new System.Drawing.Point(28, 66);
             this.correoLabel.Name = "correoLabel";
-            this.correoLabel.Size = new System.Drawing.Size(126, 16);
+            this.correoLabel.Size = new System.Drawing.Size(133, 16);
             this.correoLabel.TabIndex = 0;
             this.correoLabel.Text = "Correo administrador";
             // 
             // correoTextBox
             // 
-            this.correoTextBox.Location = new System.Drawing.Point(31, 47);
+            this.correoTextBox.Location = new System.Drawing.Point(31, 85);
             this.correoTextBox.MaxLength = 150;
             this.correoTextBox.Name = "correoTextBox";
             this.correoTextBox.Size = new System.Drawing.Size(346, 22);
@@ -45,7 +45,7 @@ namespace Control_Pedidos.Views.Orders
             // passwordLabel
             // 
             this.passwordLabel.AutoSize = true;
-            this.passwordLabel.Location = new System.Drawing.Point(28, 86);
+            this.passwordLabel.Location = new System.Drawing.Point(28, 132);
             this.passwordLabel.Name = "passwordLabel";
             this.passwordLabel.Size = new System.Drawing.Size(76, 16);
             this.passwordLabel.TabIndex = 2;
@@ -53,7 +53,7 @@ namespace Control_Pedidos.Views.Orders
             // 
             // passwordTextBox
             // 
-            this.passwordTextBox.Location = new System.Drawing.Point(31, 105);
+            this.passwordTextBox.Location = new System.Drawing.Point(31, 151);
             this.passwordTextBox.MaxLength = 100;
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.PasswordChar = '•';
@@ -63,9 +63,9 @@ namespace Control_Pedidos.Views.Orders
             // 
             // autorizarButton
             // 
-            this.autorizarButton.Location = new System.Drawing.Point(166, 150);
+            this.autorizarButton.Location = new System.Drawing.Point(167, 209);
             this.autorizarButton.Name = "autorizarButton";
-            this.autorizarButton.Size = new System.Drawing.Size(100, 30);
+            this.autorizarButton.Size = new System.Drawing.Size(210, 30);
             this.autorizarButton.TabIndex = 4;
             this.autorizarButton.Text = "Autorizar";
             this.autorizarButton.UseVisualStyleBackColor = true;
@@ -74,9 +74,9 @@ namespace Control_Pedidos.Views.Orders
             // cancelarButton
             // 
             this.cancelarButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelarButton.Location = new System.Drawing.Point(277, 150);
+            this.cancelarButton.Location = new System.Drawing.Point(31, 209);
             this.cancelarButton.Name = "cancelarButton";
-            this.cancelarButton.Size = new System.Drawing.Size(100, 30);
+            this.cancelarButton.Size = new System.Drawing.Size(130, 30);
             this.cancelarButton.TabIndex = 5;
             this.cancelarButton.Text = "Cancelar";
             this.cancelarButton.UseVisualStyleBackColor = true;
@@ -88,7 +88,7 @@ namespace Control_Pedidos.Views.Orders
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelarButton;
-            this.ClientSize = new System.Drawing.Size(409, 206);
+            this.ClientSize = new System.Drawing.Size(409, 263);
             this.Controls.Add(this.cancelarButton);
             this.Controls.Add(this.autorizarButton);
             this.Controls.Add(this.passwordTextBox);

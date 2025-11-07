@@ -52,6 +52,10 @@ namespace Control_Pedidos.Helpers
             // Aplica estilos a los controles existentes
             foreach (Control control in form.Controls)
             {
+
+                if (control.Tag != null && control.Tag.ToString() == "no_style")
+                    continue;
+
                 StyleControl(control);
             }
 
