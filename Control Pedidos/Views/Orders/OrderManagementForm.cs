@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
+using Control_Pedidos.Printing;
 using MySql.Data.MySqlClient;
 
 namespace Control_Pedidos.Views.Orders
@@ -19,6 +20,7 @@ namespace Control_Pedidos.Views.Orders
         private readonly IList<Empresa> _empresas;
         private readonly PedidoDao _pedidoDao;
         private readonly PedidoDetalleDao _pedidoDetalleDao;
+        private readonly PedidoPrintingService _printingService;
         private readonly BindingList<PedidoDetalle> _detalles = new BindingList<PedidoDetalle>();
         private readonly List<Articulo> _articulos = new List<Articulo>();
         private readonly int _detallesGridTopBase;
@@ -50,6 +52,7 @@ namespace Control_Pedidos.Views.Orders
 
             _pedidoDao = new PedidoDao(_connectionFactory);
             _pedidoDetalleDao = new PedidoDetalleDao(_connectionFactory);
+            _printingService = new PedidoPrintingService();
 
             _pedido = pedido ?? new Pedido
             {
@@ -61,6 +64,11 @@ namespace Control_Pedidos.Views.Orders
                 HoraEntrega = null,
                 Estatus = "P"
             };
+
+            if (pedido != null)
+            {
+                _pedido.Impreso = pedido.Impreso;
+            }
 
             ConfigureGrid();
             _detallesGridTopBase = detallesGrid.Top;
@@ -556,6 +564,7 @@ namespace Control_Pedidos.Views.Orders
                     UpdateControlsState();
 
                     MessageBox.Show("Descuento aplicado y pedido cerrado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    PreguntarImpresionPedidoCerrado();
                 }
                 else
                 {
@@ -566,6 +575,120 @@ namespace Control_Pedidos.Views.Orders
 
                     MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private void PreguntarImpresionPedidoCerrado()
+        {
+            var respuesta = MessageBox.Show(
+                "Pedido cerrado correctamente. ¿Desea imprimirlo ahora?",
+                "Pedido cerrado",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (respuesta == DialogResult.Yes)
+            {
+                ProcesarImpresionPedido(false);
+            }
+            else
+            {
+                ActualizarEstadoImpresion(false);
+            }
+        }
+
+        private void ProcesarImpresionPedido(bool esReimpresion)
+        {
+            if (_pedido?.Id <= 0)
+            {
+                MessageBox.Show("El pedido debe guardarse antes de poder imprimirse.", "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            Pedido pedidoCompleto;
+            try
+            {
+                pedidoCompleto = _pedidoDao.ObtenerPedidoCompleto(_pedido.Id);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"No se pudo obtener la información completa del pedido: {ex.Message}", "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (pedidoCompleto == null)
+            {
+                MessageBox.Show("No se encontró el pedido seleccionado.", "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            _pedido.Folio = pedidoCompleto.Folio;
+            _pedido.FolioFormateado = pedidoCompleto.FolioFormateado;
+
+            PedidoPrintingResult resultado;
+            try
+            {
+                var mostrarLeyenda = esReimpresion || pedidoCompleto.EstaImpreso;
+                resultado = _printingService.Print(pedidoCompleto, this, mostrarLeyenda);
+            }
+            catch (Exception ex)
+            {
+                ActualizarEstadoImpresion(false);
+                MessageBox.Show($"No se pudo generar el archivo PDF del pedido: {ex.Message}", "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (resultado.Printed)
+            {
+                ActualizarEstadoImpresion(true);
+                MessageBox.Show(esReimpresion ? "Pedido reimpreso correctamente." : "Pedido impreso correctamente.", "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (resultado.SavedPdf)
+            {
+                ActualizarEstadoImpresion(false);
+
+                var mensaje = new StringBuilder();
+                if (resultado.CancelledByUser)
+                {
+                    mensaje.AppendLine("La impresión fue cancelada por el usuario.");
+                }
+                else if (resultado.Error != null)
+                {
+                    mensaje.AppendLine("Ocurrió un problema al imprimir el pedido.");
+                    mensaje.AppendLine(resultado.Error.Message);
+                }
+
+                if (!string.IsNullOrWhiteSpace(resultado.PdfPath))
+                {
+                    if (mensaje.Length > 0)
+                    {
+                        mensaje.AppendLine();
+                    }
+
+                    mensaje.AppendLine("El pedido se guardó automáticamente en formato PDF en:");
+                    mensaje.AppendLine(resultado.PdfPath);
+                }
+
+                MessageBox.Show(mensaje.ToString(), "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void ActualizarEstadoImpresion(bool impreso)
+        {
+            if (_pedido == null || _pedido.Id <= 0)
+            {
+                return;
+            }
+
+            try
+            {
+                _pedidoDao.ActualizarImpresion(_pedido.Id, impreso);
+                _pedido.Impreso = impreso ? "S" : "N";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"No se pudo actualizar el estado de impresión del pedido: {ex.Message}", "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -605,6 +728,8 @@ namespace Control_Pedidos.Views.Orders
                 UpdateFolioDisplay();
 //                MessageBox.Show("Pedido cerrado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 UpdateControlsState();
+
+                PreguntarImpresionPedidoCerrado();
 
                 //this.Close();
             }

@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using Control_Pedidos.Models;
 using MySql.Data.MySqlClient;
 
@@ -128,8 +131,8 @@ FOR UPDATE;", connection, transaction))
 
                         var actualizarFolio = string.Equals(nuevoEstatus, "N", StringComparison.OrdinalIgnoreCase) && folioNumero.HasValue;
                         var updateSql = actualizarFolio
-                            ? "UPDATE banquetes.pedidos SET estatus = @estatus, folio = @folio WHERE pedido_id = @pedidoId;"
-                            : "UPDATE banquetes.pedidos SET estatus = @estatus WHERE pedido_id = @pedidoId;";
+                            ? "UPDATE banquetes.pedidos SET estatus = @estatus, folio = @folio, impreso = CASE WHEN @estatus = 'N' THEN 'N' ELSE impreso END WHERE pedido_id = @pedidoId;"
+                            : "UPDATE banquetes.pedidos SET estatus = @estatus, impreso = CASE WHEN @estatus = 'N' THEN 'N' ELSE impreso END WHERE pedido_id = @pedidoId;";
 
                         using (var command = new MySqlCommand(updateSql, connection, transaction))
                         {
@@ -158,6 +161,258 @@ FOR UPDATE;", connection, transaction))
             {
                 message = $"No se pudo actualizar el estatus del pedido: {ex.Message}";
                 return false;
+            }
+        }
+
+        public Pedido ObtenerPedidoCompleto(int pedidoId)
+        {
+            if (pedidoId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pedidoId));
+            }
+
+            using (var connection = _connectionFactory.Create())
+            {
+                connection.Open();
+
+                Pedido pedido = null;
+                string serieEvento = string.Empty;
+                bool eventoTieneSerie = false;
+
+                using (var pedidoCommand = new MySqlCommand(@"SELECT
+                                p.pedido_id,
+                                p.folio,
+                                p.fecha,
+                                p.fecha_entrega,
+                                p.hora_entrega,
+                                p.requiere_factura,
+                                p.notas,
+                                p.fecha_creacion,
+                                p.estatus,
+                                p.descuento,
+                                p.usuario_descuento,
+                                p.impreso,
+                                p.evento_id,
+                                c.cliente_id,
+                                c.nombre AS cliente_nombre,
+                                c.telefono AS cliente_telefono,
+                                c.correo AS cliente_correo,
+                                c.domicilio AS cliente_domicilio,
+                                e.empresa_id,
+                                e.nombre AS empresa_nombre,
+                                e.rfc AS empresa_rfc,
+                                e.domicilio AS empresa_domicilio,
+                                e.telefono AS empresa_telefono,
+                                e.correo AS empresa_correo,
+                                u.usuario_id,
+                                u.nombre AS usuario_nombre,
+                                u.correo AS usuario_correo,
+                                ev.nombre AS evento_nombre,
+                                ev.fecha_evento,
+                                ev.tiene_serie,
+                                ev.serie
+                            FROM banquetes.pedidos p
+                            INNER JOIN banquetes.clientes c ON c.cliente_id = p.cliente_id
+                            INNER JOIN banquetes.empresas e ON e.empresa_id = p.empresa_id
+                            INNER JOIN banquetes.usuarios u ON u.usuario_id = p.usuario_id
+                            LEFT JOIN banquetes.eventos ev ON ev.evento_id = p.evento_id
+                            WHERE p.pedido_id = @pedidoId;", connection))
+                {
+                    pedidoCommand.Parameters.AddWithValue("@pedidoId", pedidoId);
+
+                    using (var reader = pedidoCommand.ExecuteReader())
+                    {
+                        if (!reader.Read())
+                        {
+                            return null;
+                        }
+
+                        var folioNumero = reader.IsDBNull(reader.GetOrdinal("folio")) ? (int?)null : reader.GetInt32("folio");
+                        var requiereFactura = !reader.IsDBNull(reader.GetOrdinal("requiere_factura")) && string.Equals(reader.GetString("requiere_factura"), "S", StringComparison.OrdinalIgnoreCase);
+                        var horaEntrega = reader.IsDBNull(reader.GetOrdinal("hora_entrega")) ? (TimeSpan?)null : reader.GetTimeSpan(reader.GetOrdinal("hora_entrega"));
+                        var notas = reader.IsDBNull(reader.GetOrdinal("notas")) ? string.Empty : reader.GetString("notas");
+                        var descuento = reader.IsDBNull(reader.GetOrdinal("descuento")) ? 0m : reader.GetDecimal("descuento");
+                        var usuarioDescuento = reader.IsDBNull(reader.GetOrdinal("usuario_descuento")) ? string.Empty : reader.GetString("usuario_descuento");
+                        var impreso = reader.IsDBNull(reader.GetOrdinal("impreso")) ? "N" : reader.GetString("impreso");
+
+                        var cliente = new Cliente
+                        {
+                            Id = reader.GetInt32("cliente_id"),
+                            Nombre = reader.GetString("cliente_nombre"),
+                            Telefono = reader.IsDBNull(reader.GetOrdinal("cliente_telefono")) ? string.Empty : reader.GetString("cliente_telefono"),
+                            Correo = reader.IsDBNull(reader.GetOrdinal("cliente_correo")) ? string.Empty : reader.GetString("cliente_correo"),
+                            Direccion = reader.IsDBNull(reader.GetOrdinal("cliente_domicilio")) ? string.Empty : reader.GetString("cliente_domicilio")
+                        };
+
+                        var empresa = new Empresa
+                        {
+                            Id = reader.GetInt32("empresa_id"),
+                            Nombre = reader.GetString("empresa_nombre"),
+                            Rfc = reader.IsDBNull(reader.GetOrdinal("empresa_rfc")) ? string.Empty : reader.GetString("empresa_rfc"),
+                            Direccion = reader.IsDBNull(reader.GetOrdinal("empresa_domicilio")) ? string.Empty : reader.GetString("empresa_domicilio"),
+                            Telefono = reader.IsDBNull(reader.GetOrdinal("empresa_telefono")) ? string.Empty : reader.GetString("empresa_telefono"),
+                            Correo = reader.IsDBNull(reader.GetOrdinal("empresa_correo")) ? string.Empty : reader.GetString("empresa_correo")
+                        };
+
+                        var usuario = new Usuario
+                        {
+                            Id = reader.GetInt32("usuario_id"),
+                            Nombre = reader.GetString("usuario_nombre"),
+                            Correo = reader.IsDBNull(reader.GetOrdinal("usuario_correo")) ? string.Empty : reader.GetString("usuario_correo")
+                        };
+
+                        Evento evento = null;
+                        if (!reader.IsDBNull(reader.GetOrdinal("evento_id")))
+                        {
+                            var eventoId = reader.GetInt32("evento_id");
+                            eventoTieneSerie = !reader.IsDBNull(reader.GetOrdinal("tiene_serie")) && reader.GetBoolean("tiene_serie");
+                            serieEvento = eventoTieneSerie && !reader.IsDBNull(reader.GetOrdinal("serie")) ? reader.GetString("serie") : string.Empty;
+
+                            evento = new Evento
+                            {
+                                Id = eventoId,
+                                EmpresaId = empresa.Id,
+                                Nombre = reader.IsDBNull(reader.GetOrdinal("evento_nombre")) ? string.Empty : reader.GetString("evento_nombre"),
+                                FechaEvento = reader.IsDBNull(reader.GetOrdinal("fecha_evento")) ? DateTime.MinValue : reader.GetDateTime("fecha_evento"),
+                                TieneSerie = eventoTieneSerie,
+                                Serie = serieEvento
+                            };
+                        }
+
+                        pedido = new Pedido
+                        {
+                            Id = pedidoId,
+                            Folio = folioNumero?.ToString(CultureInfo.InvariantCulture) ?? string.Empty,
+                            Cliente = cliente,
+                            Empresa = empresa,
+                            Usuario = usuario,
+                            Evento = evento,
+                            Fecha = reader.GetDateTime("fecha"),
+                            FechaEntrega = reader.GetDateTime("fecha_entrega"),
+                            HoraEntrega = horaEntrega,
+                            RequiereFactura = requiereFactura,
+                            Notas = notas,
+                            FechaCreacion = reader.GetDateTime("fecha_creacion"),
+                            Estatus = reader.GetString("estatus"),
+                            Descuento = descuento,
+                            UsuarioDescuento = usuarioDescuento,
+                            Impreso = impreso
+                        };
+
+                        if (folioNumero.HasValue)
+                        {
+                            var serie = eventoTieneSerie ? serieEvento : string.Empty;
+                            pedido.FolioFormateado = FormatearFolio(serie, folioNumero.Value);
+                        }
+                    }
+                }
+
+                if (pedido == null)
+                {
+                    return null;
+                }
+
+                var detalles = new List<PedidoDetalle>();
+                using (var detalleCommand = new MySqlCommand(@"SELECT
+                                d.pedido_detalle_id,
+                                d.articulo_id,
+                                d.cantidad,
+                                d.precio_unitario,
+                                d.total,
+                                a.nombre AS articulo_nombre,
+                                a.nombre_corto,
+                                a.tipo_articulo
+                            FROM banquetes.pedidos_detalles d
+                            INNER JOIN banquetes.articulos a ON a.articulo_id = d.articulo_id
+                            WHERE d.pedido_id = @pedidoId
+                            ORDER BY d.pedido_detalle_id;", connection))
+                {
+                    detalleCommand.Parameters.AddWithValue("@pedidoId", pedidoId);
+
+                    using (var reader = detalleCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var articulo = new Articulo
+                            {
+                                Id = reader.GetInt32("articulo_id"),
+                                Nombre = reader.GetString("articulo_nombre"),
+                                NombreCorto = reader.IsDBNull(reader.GetOrdinal("nombre_corto")) ? string.Empty : reader.GetString("nombre_corto"),
+                                TipoArticulo = reader.IsDBNull(reader.GetOrdinal("tipo_articulo")) ? string.Empty : reader.GetString("tipo_articulo")
+                            };
+
+                            var detalle = new PedidoDetalle
+                            {
+                                Id = reader.GetInt32("pedido_detalle_id"),
+                                PedidoId = pedidoId,
+                                ArticuloId = articulo.Id,
+                                Articulo = articulo,
+                                Cantidad = reader.GetDecimal("cantidad"),
+                                PrecioUnitario = reader.GetDecimal("precio_unitario"),
+                                Total = reader.GetDecimal("total")
+                            };
+
+                            detalles.Add(detalle);
+                        }
+                    }
+                }
+
+                if (detalles.Count > 0)
+                {
+                    var kitArticuloIds = detalles
+                        .Where(d => d.Articulo != null && d.Articulo.EsKit)
+                        .Select(d => d.Articulo.Id)
+                        .Distinct()
+                        .ToList();
+
+                    if (kitArticuloIds.Count > 0)
+                    {
+                        var parameterNames = kitArticuloIds.Select((_, index) => $"@kitId{index}").ToList();
+                        var query = $@"SELECT kd.articulo_id AS kit_id, kd.articulo_compuesto_id, kd.cantidad, a.nombre, a.nombre_corto
+                                FROM banquetes.articulos_kit kd
+                                INNER JOIN banquetes.articulos a ON a.articulo_id = kd.articulo_compuesto_id
+                                WHERE kd.articulo_id IN ({string.Join(",", parameterNames)});";
+
+                        using (var componentesCommand = new MySqlCommand(query, connection))
+                        {
+                            for (var i = 0; i < kitArticuloIds.Count; i++)
+                            {
+                                componentesCommand.Parameters.AddWithValue(parameterNames[i], kitArticuloIds[i]);
+                            }
+
+                            using (var reader = componentesCommand.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var kitId = reader.GetInt32("kit_id");
+                                    var detalle = detalles.FirstOrDefault(d => d.Articulo != null && d.Articulo.Id == kitId);
+                                    if (detalle == null)
+                                    {
+                                        continue;
+                                    }
+
+                                    detalle.Componentes.Add(new KitDetalle
+                                    {
+                                        KitId = kitId,
+                                        ArticuloId = reader.GetInt32("articulo_compuesto_id"),
+                                        Cantidad = reader.GetDecimal("cantidad"),
+                                        Articulo = new Articulo
+                                        {
+                                            Id = reader.GetInt32("articulo_compuesto_id"),
+                                            Nombre = reader.GetString("nombre"),
+                                            NombreCorto = reader.IsDBNull(reader.GetOrdinal("nombre_corto")) ? string.Empty : reader.GetString("nombre_corto")
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+
+                pedido.Detalles = detalles;
+                pedido.Total = detalles.Sum(d => d.Total);
+
+                return pedido;
             }
         }
 
@@ -257,8 +512,8 @@ FOR UPDATE;", connection, transaction))
                         }
 
                         var updateSql = folioNumero.HasValue
-                            ? "UPDATE banquetes.pedidos SET estatus = @estatus, folio = @folio, descuento = @descuento, usuario_descuento = @usuarioDescuento WHERE pedido_id = @pedidoId;"
-                            : "UPDATE banquetes.pedidos SET estatus = @estatus, descuento = @descuento, usuario_descuento = @usuarioDescuento WHERE pedido_id = @pedidoId;";
+                            ? "UPDATE banquetes.pedidos SET estatus = @estatus, folio = @folio, descuento = @descuento, usuario_descuento = @usuarioDescuento, impreso = 'N' WHERE pedido_id = @pedidoId;"
+                            : "UPDATE banquetes.pedidos SET estatus = @estatus, descuento = @descuento, usuario_descuento = @usuarioDescuento, impreso = 'N' WHERE pedido_id = @pedidoId;";
 
                         using (var updateCommand = new MySqlCommand(updateSql, connection, transaction))
                         {
@@ -293,6 +548,26 @@ FOR UPDATE;", connection, transaction))
                 folioGenerado = string.Empty;
                 folioFormateado = string.Empty;
                 return false;
+            }
+        }
+
+        public void ActualizarImpresion(int pedidoId, bool impreso)
+        {
+            if (pedidoId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pedidoId));
+            }
+
+            var valor = impreso ? "S" : "N";
+
+            using (var connection = _connectionFactory.Create())
+            using (var command = new MySqlCommand("UPDATE banquetes.pedidos SET impreso = @impreso WHERE pedido_id = @pedidoId;", connection))
+            {
+                command.Parameters.AddWithValue("@impreso", valor);
+                command.Parameters.AddWithValue("@pedidoId", pedidoId);
+
+                connection.Open();
+                command.ExecuteNonQuery();
             }
         }
 

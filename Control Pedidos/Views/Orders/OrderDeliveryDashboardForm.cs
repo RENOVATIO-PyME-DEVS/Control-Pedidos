@@ -1,11 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using Control_Pedidos.Controllers;
+using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
+using Control_Pedidos.Models;
+using Control_Pedidos.Printing;
 
 namespace Control_Pedidos.Views.Orders
 {
@@ -20,21 +25,27 @@ namespace Control_Pedidos.Views.Orders
         };
 
         private readonly OrderController _orderController;
+        private readonly DatabaseConnectionFactory _connectionFactory;
         private readonly int? _empresaId;
         private readonly Timer _refreshTimer;
         private readonly ContextMenuStrip _statusMenu;
+        private readonly ContextMenuStrip _ordersContextMenu;
+        private readonly ToolStripMenuItem _reprintMenuItem;
+        private readonly PedidoDao _pedidoDao;
+        private readonly PedidoPrintingService _printingService;
 
         private DataTable _allOrders;
         private bool _suppressFilterEvents;
         private bool _isRefreshing;
         private int? _selectedOrderId;
 
-        public OrderDeliveryDashboardForm(OrderController orderController, int? empresaId = null, string empresaNombre = null)
+        public OrderDeliveryDashboardForm(OrderController orderController, DatabaseConnectionFactory connectionFactory, int? empresaId = null, string empresaNombre = null)
         {
             InitializeComponent();
             UIStyles.ApplyTheme(this);
 
             _orderController = orderController ?? throw new ArgumentNullException(nameof(orderController));
+            _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
             _empresaId = empresaId;
 
             if (!string.IsNullOrWhiteSpace(empresaNombre))
@@ -49,6 +60,15 @@ namespace Control_Pedidos.Views.Orders
                 item.Click += StatusMenuItem_Click;
                 _statusMenu.Items.Add(item);
             }
+
+            _ordersContextMenu = new ContextMenuStrip();
+            _ordersContextMenu.Opening += OrdersContextMenu_Opening;
+            _reprintMenuItem = new ToolStripMenuItem("Reimprimir pedido");
+            _reprintMenuItem.Click += ReprintMenuItem_Click;
+            _ordersContextMenu.Items.Add(_reprintMenuItem);
+
+            _pedidoDao = new PedidoDao(_connectionFactory);
+            _printingService = new PedidoPrintingService();
 
             _refreshTimer = new Timer
             {
@@ -70,6 +90,138 @@ namespace Control_Pedidos.Views.Orders
             _refreshTimer.Stop();
             _refreshTimer.Dispose();
             _statusMenu?.Dispose();
+            _ordersContextMenu?.Dispose();
+        }
+
+        private void TodaysOrdersGrid_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right)
+            {
+                return;
+            }
+
+            var hit = todaysOrdersGrid.HitTest(e.X, e.Y);
+            if (hit.RowIndex >= 0 && hit.RowIndex < todaysOrdersGrid.Rows.Count)
+            {
+                todaysOrdersGrid.ClearSelection();
+                todaysOrdersGrid.Rows[hit.RowIndex].Selected = true;
+
+                if (todaysOrdersGrid.Rows[hit.RowIndex].DataBoundItem is DataRowView rowView)
+                {
+                    _selectedOrderId = rowView.Row.Field<int>("PedidoId");
+                }
+            }
+            else
+            {
+                todaysOrdersGrid.ClearSelection();
+                _selectedOrderId = null;
+            }
+        }
+
+        private void OrdersContextMenu_Opening(object sender, CancelEventArgs e)
+        {
+            if (todaysOrdersGrid.SelectedRows.Count == 0)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            var row = todaysOrdersGrid.SelectedRows[0];
+            if (!(row?.DataBoundItem is DataRowView rowView))
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            _selectedOrderId = rowView.Row.Field<int>("PedidoId");
+            _reprintMenuItem.Enabled = _selectedOrderId.HasValue;
+        }
+
+        private void ReprintMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_selectedOrderId == null)
+            {
+                MessageBox.Show("Seleccione un pedido para reimprimir.", "Reimpresión", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            Pedido pedido;
+            try
+            {
+                pedido = _pedidoDao.ObtenerPedidoCompleto(_selectedOrderId.Value);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"No se pudo obtener la información del pedido: {ex.Message}", "Reimpresión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (pedido == null)
+            {
+                MessageBox.Show("No se encontró el pedido seleccionado.", "Reimpresión", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            PedidoPrintingResult resultado;
+            try
+            {
+                resultado = _printingService.Print(pedido, this, pedido.EstaImpreso);
+            }
+            catch (Exception ex)
+            {
+                ActualizarImpresionPedido(pedido.Id, false);
+                MessageBox.Show($"No se pudo generar el archivo PDF del pedido: {ex.Message}", "Reimpresión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (resultado.Printed)
+            {
+                ActualizarImpresionPedido(pedido.Id, true);
+                var mensajeExito = pedido.EstaImpreso ? "Pedido reimpreso correctamente." : "Pedido impreso correctamente.";
+                MessageBox.Show(mensajeExito, "Reimpresión", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (resultado.SavedPdf)
+            {
+                ActualizarImpresionPedido(pedido.Id, false);
+
+                var mensaje = new StringBuilder();
+                if (resultado.CancelledByUser)
+                {
+                    mensaje.AppendLine("La impresión fue cancelada por el usuario.");
+                }
+                else if (resultado.Error != null)
+                {
+                    mensaje.AppendLine("Ocurrió un problema al imprimir el pedido.");
+                    mensaje.AppendLine(resultado.Error.Message);
+                }
+
+                if (!string.IsNullOrWhiteSpace(resultado.PdfPath))
+                {
+                    if (mensaje.Length > 0)
+                    {
+                        mensaje.AppendLine();
+                    }
+
+                    mensaje.AppendLine("El pedido se guardó automáticamente en formato PDF en:");
+                    mensaje.AppendLine(resultado.PdfPath);
+                }
+
+                MessageBox.Show(mensaje.ToString(), "Reimpresión", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            _selectedOrderId = null;
+        }
+
+        private void ActualizarImpresionPedido(int pedidoId, bool impreso)
+        {
+            try
+            {
+                _pedidoDao.ActualizarImpresion(pedidoId, impreso);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"No se pudo actualizar el estado de impresión del pedido: {ex.Message}", "Reimpresión", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void ConfigureGrid()
@@ -101,6 +253,9 @@ namespace Control_Pedidos.Views.Orders
             {
                 buttonColumn.FlatStyle = FlatStyle.Flat;
             }
+
+            todaysOrdersGrid.ContextMenuStrip = _ordersContextMenu;
+            todaysOrdersGrid.MouseDown += TodaysOrdersGrid_MouseDown;
         }
 
         private void InitializeFilters()
