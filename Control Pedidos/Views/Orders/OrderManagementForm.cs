@@ -26,6 +26,7 @@ namespace Control_Pedidos.Views.Orders
         private readonly int _kitComponentsBaseHeight;
         private Pedido _pedido;
         private bool _readOnlyMode;
+        private bool _isUpdatingDiscountValue;
 
         public OrderManagementForm(DatabaseConnectionFactory connectionFactory, Cliente cliente, Usuario usuario, Empresa empresa, IList<Empresa> empresasDisponibles = null, Pedido pedido = null)
         {
@@ -242,6 +243,8 @@ namespace Control_Pedidos.Views.Orders
                     _detalles.Add(detalle);
                 }
             }
+
+            SetDiscountControlValue(_pedido.Descuento);
         }
 
         private static string ObtenerDescripcionEstatus(string estatus)
@@ -267,7 +270,32 @@ namespace Control_Pedidos.Views.Orders
         private void UpdateTotals()
         {
             var total = _detalles.Sum(d => d.Total);
+            _pedido.Total = total;
             totalGeneralValueLabel.Text = total.ToString("C2");
+
+            var descuento = descuentoNumericUpDown.Value;
+            if (descuento > total)
+            {
+                SetDiscountControlValue(total);
+                descuento = descuentoNumericUpDown.Value;
+            }
+
+            var totalConDescuento = Math.Max(0, total - descuento);
+            totalWithDiscountValueLabel.Text = totalConDescuento.ToString("C2");
+        }
+
+        private void SetDiscountControlValue(decimal value)
+        {
+            _isUpdatingDiscountValue = true;
+            try
+            {
+                var boundedValue = Math.Max(descuentoNumericUpDown.Minimum, Math.Min(descuentoNumericUpDown.Maximum, value));
+                descuentoNumericUpDown.Value = boundedValue;
+            }
+            finally
+            {
+                _isUpdatingDiscountValue = false;
+            }
         }
 
         private void UpdateControlsState()
@@ -290,6 +318,8 @@ namespace Control_Pedidos.Views.Orders
             eliminarArticuloButton.Enabled = !_readOnlyMode && _detalles.Count > 0;
             cerrarPedidoButton.Enabled = !_readOnlyMode && _pedido.Id > 0;
             cancelarPedidoButton.Enabled = !_readOnlyMode && _pedido.Id > 0;
+            descuentoNumericUpDown.Enabled = !_readOnlyMode && _pedido.Id > 0 && _detalles.Count > 0;
+            applyDiscountButton.Enabled = !_readOnlyMode && _pedido.Id > 0 && _detalles.Count > 0;
         }
 
         private bool TryPreparePedido(out string message)
@@ -344,6 +374,22 @@ namespace Control_Pedidos.Views.Orders
         private void DetalleValueChanged(object sender, EventArgs e)
         {
             UpdateDetalleTotal();
+        }
+
+        private void descuentoNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            if (_isUpdatingDiscountValue)
+            {
+                return;
+            }
+
+            var total = _detalles.Sum(d => d.Total);
+            if (descuentoNumericUpDown.Value > total)
+            {
+                SetDiscountControlValue(total);
+            }
+
+            UpdateTotals();
         }
 
         private void agregarArticuloButton_Click(object sender, EventArgs e)
@@ -434,6 +480,89 @@ namespace Control_Pedidos.Views.Orders
             _pedido.Detalles.Remove(detalle);
             UpdateTotals();
             UpdateControlsState();
+        }
+
+        private void applyDiscountButton_Click(object sender, EventArgs e)
+        {
+            if (_readOnlyMode)
+            {
+                return;
+            }
+
+            if (_pedido.Id == 0)
+            {
+                MessageBox.Show("El pedido aún no ha sido creado.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (_detalles.Count == 0)
+            {
+                MessageBox.Show("Agregue al menos un artículo antes de aplicar un descuento.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var descuento = descuentoNumericUpDown.Value;
+            if (descuento <= 0)
+            {
+                MessageBox.Show("Ingrese un descuento mayor a cero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var total = _detalles.Sum(d => d.Total);
+            if (descuento > total)
+            {
+                MessageBox.Show("El descuento no puede ser mayor que el total del pedido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (var autorizacionForm = new DescuentoAutorizacionForm(_connectionFactory))
+            {
+                if (autorizacionForm.ShowDialog(this) != DialogResult.OK)
+                {
+                    return;
+                }
+
+                var administradorCorreo = autorizacionForm.AdministradorCorreo;
+                if (string.IsNullOrWhiteSpace(administradorCorreo))
+                {
+                    MessageBox.Show("No se obtuvo la autorización del administrador.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (_pedidoDao.AplicarDescuento(_pedido.Id, descuento, administradorCorreo, out var message, out var folioGenerado, out var folioFormateado))
+                {
+                    _pedido.Descuento = descuento;
+                    _pedido.UsuarioDescuento = administradorCorreo;
+                    _pedido.Estatus = "N";
+
+                    if (!string.IsNullOrEmpty(folioGenerado))
+                    {
+                        _pedido.Folio = folioGenerado;
+                    }
+
+                    if (!string.IsNullOrEmpty(folioFormateado))
+                    {
+                        _pedido.FolioFormateado = folioFormateado;
+                    }
+
+                    statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
+                    UpdateFolioDisplay();
+                    SetDiscountControlValue(descuento);
+                    UpdateTotals();
+                    UpdateControlsState();
+
+                    MessageBox.Show("Descuento aplicado y pedido cerrado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(message))
+                    {
+                        message = "No se pudo aplicar el descuento.";
+                    }
+
+                    MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void cerrarPedidoButton_Click(object sender, EventArgs e)
