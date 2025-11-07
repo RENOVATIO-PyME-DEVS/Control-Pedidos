@@ -391,11 +391,6 @@ namespace Control_Pedidos.Views.Orders
             if (_pedido.Id == 0)
             {
                 _pedido.Id = detalle.PedidoId;
-                if (string.IsNullOrWhiteSpace(_pedido.Folio) && detalle.Pedido != null)
-                {
-                    _pedido.Folio = detalle.Pedido.Folio;
-                    _pedido.FolioFormateado = detalle.Pedido.FolioFormateado;
-                }
             }
 
             UpdateFolioDisplay();
@@ -448,10 +443,13 @@ namespace Control_Pedidos.Views.Orders
                 return;
             }
 
-            if (_pedidoDao.ActualizarEstatus(_pedido.Id, "N", out var message))
+            if (_pedidoDao.ActualizarEstatus(_pedido.Id, "N", out var message, out var folioGenerado, out var folioFormateado))
             {
                 _pedido.Estatus = "N";
+                _pedido.Folio = folioGenerado;
+                _pedido.FolioFormateado = folioFormateado;
                 statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
+                UpdateFolioDisplay();
                 MessageBox.Show("Pedido cerrado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 UpdateControlsState();
 
@@ -476,7 +474,7 @@ namespace Control_Pedidos.Views.Orders
                 return;
             }
 
-            if (_pedidoDao.ActualizarEstatus(_pedido.Id, "C", out var message))
+            if (_pedidoDao.ActualizarEstatus(_pedido.Id, "C", out var message, out _, out _))
             {
                 _pedido.Estatus = "C";
                 statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
@@ -639,31 +637,32 @@ WHERE ak.articulo_id = @kitId;", connection))
 
         private void OrderManagementForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_detalles.Count <= 0 || e.CloseReason == CloseReason.WindowsShutDown || e.CloseReason == CloseReason.TaskManagerClosing)
+            if (e.CloseReason == CloseReason.WindowsShutDown || e.CloseReason == CloseReason.TaskManagerClosing)
             {
                 return;
             }
 
-            var result = MessageBox.Show("Se perderán los datos . ¿Desea cerrar este pedido?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (_pedido == null || _pedido.Id <= 0 || !string.Equals(_pedido.Estatus, "P", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            var result = MessageBox.Show("El pedido está pendiente, ¿desea cancelarlo?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result != DialogResult.Yes)
             {
+                return;
+            }
+
+            if (!_pedidoDao.ActualizarEstatus(_pedido.Id, "C", out var message, out _, out _))
+            {
+                MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
                 return;
             }
 
-            if (_pedido.Id > 0)
-            {
-                if (!_pedidoDao.ActualizarEstatus(_pedido.Id, "C", out var message))
-                {
-                    MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    e.Cancel = true;
-                    return;
-                }
-
-                _pedido.Estatus = "C";
-                statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
-            }
+            _pedido.Estatus = "C";
+            statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
         }
     }
 }

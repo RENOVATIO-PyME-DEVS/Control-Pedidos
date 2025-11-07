@@ -47,7 +47,7 @@ namespace Control_Pedidos.Data
             }
         }
 
-        public bool ActualizarEstatus(int pedidoId, string nuevoEstatus, out string message)
+        public bool ActualizarEstatus(int pedidoId, string nuevoEstatus, out string message, out string folioGenerado, out string folioFormateado)
         {
             if (pedidoId <= 0)
             {
@@ -60,6 +60,8 @@ namespace Control_Pedidos.Data
             }
 
             message = string.Empty;
+            folioGenerado = string.Empty;
+            folioFormateado = string.Empty;
 
             try
             {
@@ -68,6 +70,11 @@ namespace Control_Pedidos.Data
                     connection.Open();
                     using (var transaction = connection.BeginTransaction())
                     {
+                        int? folioNumero = null;
+                        string serie = string.Empty;
+                        int? eventoId = null;
+                        int empresaId = 0;
+
                         if (string.Equals(nuevoEstatus, "N", StringComparison.OrdinalIgnoreCase))
                         {
                             using (var countCommand = new MySqlCommand("SELECT COUNT(*) FROM banquetes.pedidos_detalles WHERE pedido_id = @pedidoId;", connection, transaction))
@@ -81,16 +88,68 @@ namespace Control_Pedidos.Data
                                     return false;
                                 }
                             }
+
+                            using (var pedidoCommand = new MySqlCommand(@"SELECT folio, empresa_id, evento_id
+FROM banquetes.pedidos
+WHERE pedido_id = @pedidoId
+FOR UPDATE;", connection, transaction))
+                            {
+                                pedidoCommand.Parameters.AddWithValue("@pedidoId", pedidoId);
+                                using (var reader = pedidoCommand.ExecuteReader())
+                                {
+                                    if (!reader.Read())
+                                    {
+                                        message = "No se encontró el pedido.";
+                                        transaction.Rollback();
+                                        return false;
+                                    }
+
+                                    empresaId = reader.GetInt32("empresa_id");
+                                    eventoId = reader.IsDBNull(reader.GetOrdinal("evento_id")) ? (int?)null : reader.GetInt32("evento_id");
+
+                                    if (!reader.IsDBNull(reader.GetOrdinal("folio")))
+                                    {
+                                        folioNumero = reader.GetInt32("folio");
+                                    }
+                                }
+                            }
+
+                            if (!folioNumero.HasValue)
+                            {
+                                var folioInfo = ObtenerFolioInfo(connection, transaction, empresaId, eventoId);
+                                folioNumero = folioInfo.Numero;
+                                serie = folioInfo.Serie;
+                            }
+                            else
+                            {
+                                serie = ObtenerSerieEvento(connection, transaction, eventoId);
+                            }
                         }
 
-                        using (var command = new MySqlCommand("UPDATE banquetes.pedidos SET estatus = @estatus WHERE pedido_id = @pedidoId;", connection, transaction))
+                        var actualizarFolio = string.Equals(nuevoEstatus, "N", StringComparison.OrdinalIgnoreCase) && folioNumero.HasValue;
+                        var updateSql = actualizarFolio
+                            ? "UPDATE banquetes.pedidos SET estatus = @estatus, folio = @folio WHERE pedido_id = @pedidoId;"
+                            : "UPDATE banquetes.pedidos SET estatus = @estatus WHERE pedido_id = @pedidoId;";
+
+                        using (var command = new MySqlCommand(updateSql, connection, transaction))
                         {
                             command.Parameters.AddWithValue("@estatus", nuevoEstatus);
                             command.Parameters.AddWithValue("@pedidoId", pedidoId);
+                            if (actualizarFolio)
+                            {
+                                command.Parameters.AddWithValue("@folio", folioNumero.Value);
+                            }
                             command.ExecuteNonQuery();
                         }
 
                         transaction.Commit();
+
+                        if (folioNumero.HasValue)
+                        {
+                            folioGenerado = folioNumero.Value.ToString();
+                            folioFormateado = FormatearFolio(serie, folioNumero.Value);
+                        }
+
                         return true;
                     }
                 }
@@ -149,9 +208,19 @@ namespace Control_Pedidos.Data
 
             try
             {
-                var folioInfo = ObtenerFolioInfo(connection, transaction, empresaId, pedido.Evento?.Id > 0 ? pedido.Evento.Id : (int?)null);
-                pedido.Folio = folioInfo.Numero.ToString();
-                pedido.FolioFormateado = folioInfo.Formateado;
+                int? folioNumero = null;
+                if (int.TryParse(pedido.Folio, out var folioExistente))
+                {
+                    folioNumero = folioExistente;
+                }
+
+                var folioFormateado = string.Empty;
+                if (folioNumero.HasValue)
+                {
+                    var serie = pedido.Evento != null && pedido.Evento.TieneSerie ? pedido.Evento.Serie : string.Empty;
+                    folioFormateado = FormatearFolio(serie, folioNumero.Value);
+                }
+
                 pedido.FechaCreacion = DateTime.Now;
                 pedido.Estatus = string.IsNullOrEmpty(pedido.Estatus) ? "P" : pedido.Estatus;
 
@@ -164,7 +233,14 @@ VALUES
                     command.Parameters.AddWithValue("@empresaId", empresaId);
                     command.Parameters.AddWithValue("@clienteId", pedido.Cliente.Id);
                     command.Parameters.AddWithValue("@eventoId", pedido.Evento != null && pedido.Evento.Id > 0 ? (object)pedido.Evento.Id : DBNull.Value);
-                    command.Parameters.AddWithValue("@folio", folioInfo.Numero);
+                    if (folioNumero.HasValue)
+                    {
+                        command.Parameters.AddWithValue("@folio", folioNumero.Value);
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@folio", DBNull.Value);
+                    }
                     command.Parameters.AddWithValue("@fecha", pedido.Fecha == default ? DateTime.Now : pedido.Fecha);
                     command.Parameters.AddWithValue("@fechaEntrega", pedido.FechaEntrega == default ? DateTime.Now : pedido.FechaEntrega);
                     command.Parameters.AddWithValue("@horaEntrega", pedido.HoraEntrega.HasValue ? (object)pedido.HoraEntrega.Value : DBNull.Value);
@@ -176,6 +252,9 @@ VALUES
                     command.ExecuteNonQuery();
                     pedido.Id = Convert.ToInt32(command.LastInsertedId);
                 }
+
+                pedido.Folio = folioNumero?.ToString() ?? string.Empty;
+                pedido.FolioFormateado = folioFormateado;
 
                 return true;
             }
@@ -238,6 +317,34 @@ VALUES
                     }
 
                     return new FolioInfo(string.Empty, siguienteFolio);
+                }
+            }
+        }
+
+        private string ObtenerSerieEvento(MySqlConnection connection, MySqlTransaction transaction, int? eventoId)
+        {
+            if (!eventoId.HasValue)
+            {
+                return string.Empty;
+            }
+
+            using (var command = new MySqlCommand("SELECT tiene_serie, serie FROM banquetes.eventos WHERE evento_id = @eventoId;", connection, transaction))
+            {
+                command.Parameters.AddWithValue("@eventoId", eventoId.Value);
+                using (var reader = command.ExecuteReader())
+                {
+                    if (!reader.Read())
+                    {
+                        return string.Empty;
+                    }
+
+                    var tieneSerie = reader.GetBoolean("tiene_serie");
+                    if (!tieneSerie)
+                    {
+                        return string.Empty;
+                    }
+
+                    return reader.IsDBNull(reader.GetOrdinal("serie")) ? string.Empty : reader.GetString("serie");
                 }
             }
         }
