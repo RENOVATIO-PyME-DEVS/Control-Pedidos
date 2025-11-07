@@ -20,6 +20,8 @@ namespace Control_Pedidos.Models
         public string Estatus { get; set; } = string.Empty;
         public decimal Total { get; set; }
         public decimal SaldoPendiente { get; set; }
+        public decimal Descuento { get; set; }
+        public string UsuarioDescuento { get; set; } = string.Empty;
         public System.Collections.Generic.List<PedidoDetalle> Detalles { get; set; } = new System.Collections.Generic.List<PedidoDetalle>();
     }
 }

@@ -209,6 +209,60 @@ WHERE usuario_id = @usuarioId;", connection))
             }
         }
 
+        public bool TryAutorizarDescuento(string correo, string password, out Usuario usuario, out string message)
+        {
+            usuario = null;
+            message = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(correo) || string.IsNullOrWhiteSpace(password))
+            {
+                message = "Ingrese el correo y la contraseña del administrador.";
+                return false;
+            }
+
+            const string query = @"SELECT u.usuario_id, u.nombre, u.correo
+FROM banquetes.usuarios u
+INNER JOIN banquetes.roles_usuarios ru ON ru.rol_usuario_id = u.rol_usuario_id
+WHERE u.correo = @correo
+  AND u.pass = SHA2(@password, 256)
+  AND (u.estatus IS NULL OR u.estatus <> 'B')
+  AND ru.nombre = 'Administrador';";
+
+            try
+            {
+                using (var connection = _connectionFactory.Create())
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@correo", correo);
+                    command.Parameters.AddWithValue("@password", password);
+
+                    connection.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            usuario = new Usuario
+                            {
+                                Id = reader.GetInt32("usuario_id"),
+                                Nombre = reader.GetString("nombre"),
+                                Correo = reader.GetString("correo")
+                            };
+
+                            return true;
+                        }
+                    }
+                }
+
+                message = "Credenciales inválidas o el usuario no tiene permisos de administrador.";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                message = $"No se pudo validar las credenciales: {ex.Message}";
+                return false;
+            }
+        }
+
         public IList<Usuario> Listar(string filtro)
         {
             var usuarios = new List<Usuario>();

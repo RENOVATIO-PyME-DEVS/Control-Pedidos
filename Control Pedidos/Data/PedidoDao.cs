@@ -161,6 +161,141 @@ FOR UPDATE;", connection, transaction))
             }
         }
 
+        public bool AplicarDescuento(int pedidoId, decimal descuento, string usuarioCorreo, out string message, out string folioGenerado, out string folioFormateado)
+        {
+            if (pedidoId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pedidoId));
+            }
+
+            if (string.IsNullOrWhiteSpace(usuarioCorreo))
+            {
+                throw new ArgumentException("El correo del usuario es requerido", nameof(usuarioCorreo));
+            }
+
+            message = string.Empty;
+            folioGenerado = string.Empty;
+            folioFormateado = string.Empty;
+
+            if (descuento <= 0)
+            {
+                message = "El descuento debe ser mayor que cero.";
+                return false;
+            }
+
+            try
+            {
+                using (var connection = _connectionFactory.Create())
+                {
+                    connection.Open();
+                    using (var transaction = connection.BeginTransaction())
+                    {
+                        decimal totalPedido = 0;
+                        using (var totalCommand = new MySqlCommand("SELECT SUM(cantidad * precio_unitario) FROM banquetes.pedidos_detalles WHERE pedido_id = @pedidoId;", connection, transaction))
+                        {
+                            totalCommand.Parameters.AddWithValue("@pedidoId", pedidoId);
+                            var result = totalCommand.ExecuteScalar();
+                            if (result != null && result != DBNull.Value)
+                            {
+                                totalPedido = Convert.ToDecimal(result);
+                            }
+                        }
+
+                        if (totalPedido <= 0)
+                        {
+                            message = "El pedido debe tener artículos registrados.";
+                            transaction.Rollback();
+                            return false;
+                        }
+
+                        if (descuento > totalPedido)
+                        {
+                            message = "El descuento no puede ser mayor que el total del pedido.";
+                            transaction.Rollback();
+                            return false;
+                        }
+
+                        int? folioNumero = null;
+                        string serie = string.Empty;
+                        int? eventoId = null;
+                        int empresaId = 0;
+
+                        using (var pedidoCommand = new MySqlCommand(@"SELECT folio, empresa_id, evento_id
+FROM banquetes.pedidos
+WHERE pedido_id = @pedidoId
+FOR UPDATE;", connection, transaction))
+                        {
+                            pedidoCommand.Parameters.AddWithValue("@pedidoId", pedidoId);
+                            using (var reader = pedidoCommand.ExecuteReader())
+                            {
+                                if (!reader.Read())
+                                {
+                                    message = "No se encontró el pedido.";
+                                    transaction.Rollback();
+                                    return false;
+                                }
+
+                                empresaId = reader.GetInt32("empresa_id");
+                                eventoId = reader.IsDBNull(reader.GetOrdinal("evento_id")) ? (int?)null : reader.GetInt32("evento_id");
+
+                                if (!reader.IsDBNull(reader.GetOrdinal("folio")))
+                                {
+                                    folioNumero = reader.GetInt32("folio");
+                                }
+                            }
+                        }
+
+                        if (!folioNumero.HasValue)
+                        {
+                            var folioInfo = ObtenerFolioInfo(connection, transaction, empresaId, eventoId);
+                            folioNumero = folioInfo.Numero;
+                            serie = folioInfo.Serie;
+                        }
+                        else
+                        {
+                            serie = ObtenerSerieEvento(connection, transaction, eventoId);
+                        }
+
+                        var updateSql = folioNumero.HasValue
+                            ? "UPDATE banquetes.pedidos SET estatus = @estatus, folio = @folio, descuento = @descuento, usuario_descuento = @usuarioDescuento WHERE pedido_id = @pedidoId;"
+                            : "UPDATE banquetes.pedidos SET estatus = @estatus, descuento = @descuento, usuario_descuento = @usuarioDescuento WHERE pedido_id = @pedidoId;";
+
+                        using (var updateCommand = new MySqlCommand(updateSql, connection, transaction))
+                        {
+                            updateCommand.Parameters.AddWithValue("@estatus", "N");
+                            updateCommand.Parameters.AddWithValue("@pedidoId", pedidoId);
+                            updateCommand.Parameters.AddWithValue("@descuento", descuento);
+                            updateCommand.Parameters.AddWithValue("@usuarioDescuento", usuarioCorreo);
+
+                            if (updateSql.Contains("@folio"))
+                            {
+                                updateCommand.Parameters.AddWithValue("@folio", folioNumero.Value);
+                            }
+
+                            updateCommand.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+
+                        if (folioNumero.HasValue)
+                        {
+                            folioGenerado = folioNumero.Value.ToString();
+                            folioFormateado = FormatearFolio(serie, folioNumero.Value);
+                        }
+
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                message = $"No se pudo aplicar el descuento: {ex.Message}";
+                folioGenerado = string.Empty;
+                folioFormateado = string.Empty;
+                return false;
+            }
+        }
+
         public string ObtenerFolio(int empresaId, int? eventoId)
         {
             using (var connection = _connectionFactory.Create())

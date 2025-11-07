@@ -54,6 +54,12 @@ namespace Control_Pedidos.Views.Orders
             this.eliminarArticuloButton = new System.Windows.Forms.Button();
             this.totalGeneralLabel = new System.Windows.Forms.Label();
             this.totalGeneralValueLabel = new System.Windows.Forms.Label();
+            this.discountLabel = new System.Windows.Forms.Label();
+            this.descuentoNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.applyDiscountButton = new System.Windows.Forms.Button();
+            this.totalWithDiscountLabel = new System.Windows.Forms.Label();
+            this.totalWithDiscountValueLabel = new System.Windows.Forms.Label();
+            this.discountNoteLabel = new System.Windows.Forms.Label();
             this.cerrarPedidoButton = new System.Windows.Forms.Button();
             this.cancelarPedidoButton = new System.Windows.Forms.Button();
             this.cerrarVentanaButton = new System.Windows.Forms.Button();
@@ -70,6 +76,7 @@ namespace Control_Pedidos.Views.Orders
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.precioNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.descuentoNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.detallesGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -457,33 +464,108 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.totalGeneralLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalGeneralLabel.AutoSize = true;
-            this.totalGeneralLabel.Location = new System.Drawing.Point(1018, 702);
+            this.totalGeneralLabel.Location = new System.Drawing.Point(1018, 646);
             this.totalGeneralLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalGeneralLabel.Name = "totalGeneralLabel";
             this.totalGeneralLabel.Size = new System.Drawing.Size(84, 16);
             this.totalGeneralLabel.TabIndex = 37;
             this.totalGeneralLabel.Text = "Total pedido";
-            // 
+            //
             // totalGeneralValueLabel
-            // 
+            //
             this.totalGeneralValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalGeneralValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            this.totalGeneralValueLabel.Location = new System.Drawing.Point(1125, 694);
+            this.totalGeneralValueLabel.Location = new System.Drawing.Point(1125, 638);
             this.totalGeneralValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalGeneralValueLabel.Name = "totalGeneralValueLabel";
             this.totalGeneralValueLabel.Size = new System.Drawing.Size(137, 28);
             this.totalGeneralValueLabel.TabIndex = 38;
             this.totalGeneralValueLabel.Text = "$0.00";
             this.totalGeneralValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
+            //
+            // discountLabel
+            //
+            this.discountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.discountLabel.AutoSize = true;
+            this.discountLabel.Location = new System.Drawing.Point(1018, 677);
+            this.discountLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.discountLabel.Name = "discountLabel";
+            this.discountLabel.Size = new System.Drawing.Size(69, 16);
+            this.discountLabel.TabIndex = 39;
+            this.discountLabel.Text = "Descuento";
+            //
+            // descuentoNumericUpDown
+            //
+            this.descuentoNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.descuentoNumericUpDown.DecimalPlaces = 2;
+            this.descuentoNumericUpDown.Location = new System.Drawing.Point(1128, 673);
+            this.descuentoNumericUpDown.Margin = new System.Windows.Forms.Padding(4);
+            this.descuentoNumericUpDown.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.descuentoNumericUpDown.Name = "descuentoNumericUpDown";
+            this.descuentoNumericUpDown.Size = new System.Drawing.Size(134, 22);
+            this.descuentoNumericUpDown.TabIndex = 40;
+            this.descuentoNumericUpDown.ThousandsSeparator = true;
+            this.descuentoNumericUpDown.ValueChanged += new System.EventHandler(this.descuentoNumericUpDown_ValueChanged);
+            //
+            // applyDiscountButton
+            //
+            this.applyDiscountButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.applyDiscountButton.Location = new System.Drawing.Point(1270, 670);
+            this.applyDiscountButton.Margin = new System.Windows.Forms.Padding(4);
+            this.applyDiscountButton.Name = "applyDiscountButton";
+            this.applyDiscountButton.Size = new System.Drawing.Size(147, 28);
+            this.applyDiscountButton.TabIndex = 41;
+            this.applyDiscountButton.Text = "Aplicar descuento";
+            this.applyDiscountButton.UseVisualStyleBackColor = true;
+            this.applyDiscountButton.Click += new System.EventHandler(this.applyDiscountButton_Click);
+            //
+            // totalWithDiscountLabel
+            //
+            this.totalWithDiscountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.totalWithDiscountLabel.AutoSize = true;
+            this.totalWithDiscountLabel.Location = new System.Drawing.Point(1018, 708);
+            this.totalWithDiscountLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.totalWithDiscountLabel.Name = "totalWithDiscountLabel";
+            this.totalWithDiscountLabel.Size = new System.Drawing.Size(119, 16);
+            this.totalWithDiscountLabel.TabIndex = 42;
+            this.totalWithDiscountLabel.Text = "Total con descuento";
+            //
+            // totalWithDiscountValueLabel
+            //
+            this.totalWithDiscountValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.totalWithDiscountValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.totalWithDiscountValueLabel.Location = new System.Drawing.Point(1125, 700);
+            this.totalWithDiscountValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.totalWithDiscountValueLabel.Name = "totalWithDiscountValueLabel";
+            this.totalWithDiscountValueLabel.Size = new System.Drawing.Size(137, 28);
+            this.totalWithDiscountValueLabel.TabIndex = 43;
+            this.totalWithDiscountValueLabel.Text = "$0.00";
+            this.totalWithDiscountValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+            // discountNoteLabel
+            //
+            this.discountNoteLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.discountNoteLabel.AutoSize = true;
+            this.discountNoteLabel.ForeColor = System.Drawing.Color.Firebrick;
+            this.discountNoteLabel.Location = new System.Drawing.Point(1018, 736);
+            this.discountNoteLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.discountNoteLabel.Name = "discountNoteLabel";
+            this.discountNoteLabel.Size = new System.Drawing.Size(344, 32);
+            this.discountNoteLabel.TabIndex = 44;
+            this.discountNoteLabel.Text = "Al aplicar un descuento, el pedido se cerrará y no podrá modificarse.\r\nSolo un usuario con rol Administrador puede autorizarlo.";
+            //
             // cerrarPedidoButton
-            // 
+            //
             this.cerrarPedidoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cerrarPedidoButton.Location = new System.Drawing.Point(400, 694);
             this.cerrarPedidoButton.Margin = new System.Windows.Forms.Padding(4);
             this.cerrarPedidoButton.Name = "cerrarPedidoButton";
             this.cerrarPedidoButton.Size = new System.Drawing.Size(177, 33);
-            this.cerrarPedidoButton.TabIndex = 39;
+            this.cerrarPedidoButton.TabIndex = 45;
             this.cerrarPedidoButton.Text = "Cerrar pedido";
             this.cerrarPedidoButton.UseVisualStyleBackColor = true;
             this.cerrarPedidoButton.Click += new System.EventHandler(this.cerrarPedidoButton_Click);
@@ -495,7 +577,7 @@ namespace Control_Pedidos.Views.Orders
             this.cancelarPedidoButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelarPedidoButton.Name = "cancelarPedidoButton";
             this.cancelarPedidoButton.Size = new System.Drawing.Size(177, 33);
-            this.cancelarPedidoButton.TabIndex = 40;
+            this.cancelarPedidoButton.TabIndex = 46;
             this.cancelarPedidoButton.Text = "Cancelar pedido";
             this.cancelarPedidoButton.UseVisualStyleBackColor = true;
             this.cancelarPedidoButton.Click += new System.EventHandler(this.cancelarPedidoButton_Click);
@@ -507,7 +589,7 @@ namespace Control_Pedidos.Views.Orders
             this.cerrarVentanaButton.Margin = new System.Windows.Forms.Padding(4);
             this.cerrarVentanaButton.Name = "cerrarVentanaButton";
             this.cerrarVentanaButton.Size = new System.Drawing.Size(124, 33);
-            this.cerrarVentanaButton.TabIndex = 41;
+            this.cerrarVentanaButton.TabIndex = 47;
             this.cerrarVentanaButton.Text = "Cerrar";
             this.cerrarVentanaButton.UseVisualStyleBackColor = true;
             this.cerrarVentanaButton.Click += new System.EventHandler(this.cerrarVentanaButton_Click);
@@ -662,6 +744,12 @@ namespace Control_Pedidos.Views.Orders
             this.Controls.Add(this.cerrarVentanaButton);
             this.Controls.Add(this.cancelarPedidoButton);
             this.Controls.Add(this.cerrarPedidoButton);
+            this.Controls.Add(this.discountNoteLabel);
+            this.Controls.Add(this.totalWithDiscountValueLabel);
+            this.Controls.Add(this.totalWithDiscountLabel);
+            this.Controls.Add(this.applyDiscountButton);
+            this.Controls.Add(this.descuentoNumericUpDown);
+            this.Controls.Add(this.discountLabel);
             this.Controls.Add(this.totalGeneralValueLabel);
             this.Controls.Add(this.totalGeneralLabel);
             this.Controls.Add(this.eliminarArticuloButton);
@@ -690,6 +778,7 @@ namespace Control_Pedidos.Views.Orders
             this.Load += new System.EventHandler(this.OrderManagementForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.precioNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.descuentoNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.detallesGrid)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -753,5 +842,11 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label userAndRolLabel;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label discountLabel;
+        private System.Windows.Forms.NumericUpDown descuentoNumericUpDown;
+        private System.Windows.Forms.Button applyDiscountButton;
+        private System.Windows.Forms.Label totalWithDiscountLabel;
+        private System.Windows.Forms.Label totalWithDiscountValueLabel;
+        private System.Windows.Forms.Label discountNoteLabel;
     }
 }

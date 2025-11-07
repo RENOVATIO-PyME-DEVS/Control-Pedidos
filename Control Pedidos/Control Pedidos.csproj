@@ -185,6 +185,12 @@
     <Compile Include="Views\Orders\OrderManagementForm.Designer.cs">
       <DependentUpon>OrderManagementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Orders\DescuentoAutorizacionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Orders\DescuentoAutorizacionForm.Designer.cs">
+      <DependentUpon>DescuentoAutorizacionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Orders\OrderDeliveryDashboardForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -221,6 +227,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Orders\OrderManagementForm.resx">
       <DependentUpon>OrderManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Orders\DescuentoAutorizacionForm.resx">
+      <DependentUpon>DescuentoAutorizacionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SeleccionEmpresaForm.resx">
       <DependentUpon>SeleccionEmpresaForm.cs</DependentUpon>
