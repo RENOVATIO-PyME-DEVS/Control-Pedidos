@@ -23,5 +23,7 @@ namespace Control_Pedidos.Models
         public decimal Descuento { get; set; }
         public string UsuarioDescuento { get; set; } = string.Empty;
         public System.Collections.Generic.List<PedidoDetalle> Detalles { get; set; } = new System.Collections.Generic.List<PedidoDetalle>();
+        public string Impreso { get; set; } = "N";
+        public bool EstaImpreso => string.Equals(Impreso, "S", StringComparison.OrdinalIgnoreCase);
     }
 }

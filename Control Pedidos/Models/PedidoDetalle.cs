@@ -11,5 +11,6 @@ namespace Control_Pedidos.Models
         public decimal Total { get; set; }
         public Pedido Pedido { get; set; }
         public string ArticuloNombre => Articulo?.Nombre ?? string.Empty;
+        public System.Collections.Generic.List<KitDetalle> Componentes { get; set; } = new System.Collections.Generic.List<KitDetalle>();
     }
 }
