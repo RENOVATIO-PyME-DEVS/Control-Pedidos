@@ -46,6 +46,7 @@ namespace Control_Pedidos.Views.Clients
             _clientsContextMenu = new ContextMenuStrip();
             _clientsContextMenu.Items.Add("Agregar pedido", null, agregarPedidoMenuItem_Click);
             _clientsContextMenu.Items.Add("Registrar cobro", null, registrarCobroMenuItem_Click);
+            _clientsContextMenu.Items.Add("Ver cobros", null, verCobrosMenuItem_Click);
             clientsGrid.ContextMenuStrip = _clientsContextMenu;
 
             statusComboBox.DataSource = new[] { "Activo", "Inactivo" };
@@ -393,6 +394,20 @@ namespace Control_Pedidos.Views.Clients
             }
 
             using (var form = new RegisterAbonoForm(_connectionFactory, _selectedClient, _usuarioActual, _empresaSeleccionada))
+            {
+                form.ShowDialog(this);
+            }
+        }
+
+        private void verCobrosMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_selectedClient == null)
+            {
+                MessageBox.Show("Seleccione un cliente", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (var form = new CobrosClienteForm(_connectionFactory, _selectedClient))
             {
                 form.ShowDialog(this);
             }

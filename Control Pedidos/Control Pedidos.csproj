@@ -171,6 +171,12 @@
     <Compile Include="Views\Clients\ClientManagementForm.Designer.cs">
       <DependentUpon>ClientManagementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Payments\CobrosClienteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Payments\CobrosClienteForm.Designer.cs">
+      <DependentUpon>CobrosClienteForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Events\EventManagementForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -255,6 +261,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Payments\RegisterAbonoForm.resx">
       <DependentUpon>RegisterAbonoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Payments\CobrosClienteForm.resx">
+      <DependentUpon>CobrosClienteForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SeleccionEmpresaForm.resx">
       <DependentUpon>SeleccionEmpresaForm.cs</DependentUpon>

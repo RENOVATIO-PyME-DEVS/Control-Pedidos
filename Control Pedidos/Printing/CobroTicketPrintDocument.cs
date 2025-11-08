@@ -67,6 +67,12 @@ namespace Control_Pedidos.Printing
 
         private float DibujarEncabezado(Graphics g, Rectangle bounds, float y)
         {
+            if (_cobro != null && (_cobro.MostrarLeyendaCopia || _cobro.EstaImpreso))
+            {
+                y = DibujarTextoCentrado(g, bounds, y, _subtituloFont, "****** COPIA ******");
+                y += 2f;
+            }
+
             var logo = ObtenerLogo();
             if (logo != null)
             {

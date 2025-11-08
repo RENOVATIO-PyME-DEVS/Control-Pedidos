@@ -281,7 +281,7 @@ namespace Control_Pedidos.Views.Payments
                 Estatus = "N",
                 SaldoAnterior = _saldoCliente,
                 SaldoDespues = Math.Max(0, _saldoCliente - totalAsignado),
-                Impreso = false,
+                Impreso = "N",
                 Detalles = detalles
             };
 
@@ -305,7 +305,8 @@ namespace Control_Pedidos.Views.Payments
             var respuesta = MessageBox.Show("¿Desea imprimir el ticket del abono?", "Imprimir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (respuesta != DialogResult.Yes)
             {
-                _cobroDao.ActualizarEstadoImpresion(cobro.Id, false);
+                _cobroDao.MarcarCobroImpreso(cobro.Id, false);
+                cobro.Impreso = "N";
                 return;
             }
 
@@ -316,31 +317,42 @@ namespace Control_Pedidos.Views.Payments
             }
             catch (Exception ex)
             {
-                _cobroDao.ActualizarEstadoImpresion(cobro.Id, false);
+                _cobroDao.MarcarCobroImpreso(cobro.Id, false);
+                cobro.Impreso = "N";
                 MessageBox.Show($"No se pudo imprimir el ticket: {ex.Message}", "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (resultado.Printed)
             {
-                _cobroDao.ActualizarEstadoImpresion(cobro.Id, true);
+                _cobroDao.MarcarCobroImpreso(cobro.Id, true);
+                cobro.Impreso = "S";
                 MessageBox.Show("Ticket impreso correctamente.", "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            _cobroDao.ActualizarEstadoImpresion(cobro.Id, false);
-            var mensaje = resultado.CancelledByUser
-                ? "Impresión cancelada."
-                : "Error al imprimir, se guardó una copia en PDF.";
+            _cobroDao.MarcarCobroImpreso(cobro.Id, false);
+            cobro.Impreso = "N";
+            var mensaje = resultado.CancelledByUser ? "Impresión cancelada." : "Error al imprimir.";
 
             if (!string.IsNullOrWhiteSpace(resultado.PdfPath))
             {
-                mensaje += $"\n\nRuta del archivo: {resultado.PdfPath}";
+                mensaje += "\n\nSe generó un archivo PDF con el ticket.";
+                mensaje += $"\nRuta del archivo: {resultado.PdfPath}";
+            }
+            else if (!resultado.CancelledByUser)
+            {
+                mensaje += "\nNo se pudo generar el PDF automáticamente.";
             }
 
             if (resultado.Error != null && !resultado.CancelledByUser)
             {
                 mensaje += $"\nDetalle: {resultado.Error.Message}";
+            }
+
+            if (resultado.PdfError != null)
+            {
+                mensaje += $"\nPDF: {resultado.PdfError.Message}";
             }
 
             MessageBox.Show(mensaje, "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Warning);

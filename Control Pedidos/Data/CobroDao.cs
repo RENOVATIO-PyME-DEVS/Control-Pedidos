@@ -171,9 +171,9 @@ ORDER BY p.fecha_entrega ASC, p.pedido_id ASC;";
                     using (var transaction = connection.BeginTransaction())
                     {
                         var insertCobroSql = @"INSERT INTO banquetes.cobros_pedidos
-    (usuario_id, empresa_id, cliente_id, forma_cobro_id, monto, fecha, fecha_creacion, estatus)
+    (usuario_id, empresa_id, cliente_id, forma_cobro_id, monto, fecha, fecha_creacion, estatus, impreso)
 VALUES
-    (@usuarioId, @empresaId, @clienteId, @formaCobroId, @monto, NOW(), NOW(), 'N');";
+    (@usuarioId, @empresaId, @clienteId, @formaCobroId, @monto, NOW(), NOW(), 'N', 'N');";
 
                         long cobroId;
                         using (var command = new MySqlCommand(insertCobroSql, connection, transaction))
@@ -205,6 +205,7 @@ VALUES
 
                         transaction.Commit();
                         cobro.Id = (int)cobroId;
+                        cobro.Impreso = "N";
                         return true;
                     }
                 }
@@ -216,25 +217,191 @@ VALUES
             }
         }
 
-        public void ActualizarEstadoImpresion(int cobroId, bool impreso)
+        public bool MarcarCobroImpreso(int cobroId, bool correcto)
         {
-            const string query = "UPDATE banquetes.cobros_pedidos SET impreso = @impreso WHERE cobro_pedido_id = @cobroId;";
+            const string query = @"UPDATE banquetes.cobros_pedidos
+SET impreso = @impreso
+WHERE cobro_pedido_id = @cobroId;";
 
-            try
+            using (var connection = _connectionFactory.Create())
+            using (var command = new MySqlCommand(query, connection))
             {
-                using (var connection = _connectionFactory.Create())
-                using (var command = new MySqlCommand(query, connection))
+                connection.Open();
+                command.Parameters.AddWithValue("@impreso", correcto ? "S" : "N");
+                command.Parameters.AddWithValue("@cobroId", cobroId);
+                return command.ExecuteNonQuery() > 0;
+            }
+        }
+
+        public List<Cobro> ObtenerCobrosPorCliente(int clienteId)
+        {
+            const string query = @"SELECT
+    cp.cobro_pedido_id,
+    IFNULL(cp.cobro_pedido, cp.cobro_pedido_id) AS cobro_pedido,
+    cp.cliente_id,
+    cp.forma_cobro_id,
+    IFNULL(fc.nombre, '') AS forma_cobro,
+    cp.monto,
+    cp.fecha,
+    cp.estatus,
+    IFNULL(cp.impreso, 'N') AS impreso
+FROM banquetes.cobros_pedidos cp
+LEFT JOIN banquetes.formas_cobros fc ON fc.forma_cobro_id = cp.forma_cobro_id
+WHERE cp.cliente_id = @clienteId
+ORDER BY cp.fecha DESC;";
+
+            var cobros = new List<Cobro>();
+
+            using (var connection = _connectionFactory.Create())
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@clienteId", clienteId);
+                connection.Open();
+
+                using (var reader = command.ExecuteReader())
                 {
-                    connection.Open();
-                    command.Parameters.AddWithValue("@impreso", impreso ? "S" : "N");
-                    command.Parameters.AddWithValue("@cobroId", cobroId);
-                    command.ExecuteNonQuery();
+                    while (reader.Read())
+                    {
+                        var fechaOrdinal = reader.GetOrdinal("fecha");
+                        var cobro = new Cobro
+                        {
+                            CobroPedidoId = reader.GetInt32("cobro_pedido_id"),
+                            ClienteId = reader.GetInt32("cliente_id"),
+                            FormaCobroId = reader.IsDBNull(reader.GetOrdinal("forma_cobro_id")) ? 0 : reader.GetInt32("forma_cobro_id"),
+                            FormaCobroNombre = reader.GetString("forma_cobro"),
+                            Monto = reader.GetDecimal("monto"),
+                            Fecha = reader.IsDBNull(fechaOrdinal) ? DateTime.Now : reader.GetDateTime(fechaOrdinal),
+                            Estatus = reader.IsDBNull(reader.GetOrdinal("estatus")) ? string.Empty : reader.GetString("estatus"),
+                            Impreso = reader.IsDBNull(reader.GetOrdinal("impreso")) ? "N" : reader.GetString("impreso")
+                        };
+
+                        cobros.Add(cobro);
+                    }
                 }
             }
-            catch (MySqlException)
+
+            return cobros;
+        }
+
+        public Cobro ObtenerCobroPorId(int cobroId)
+        {
+            const string cobroQuery = @"SELECT
+    cp.cobro_pedido_id,
+    IFNULL(cp.cobro_pedido, cp.cobro_pedido_id) AS cobro_pedido,
+    cp.usuario_id,
+    cp.empresa_id,
+    cp.cliente_id,
+    cp.forma_cobro_id,
+    cp.monto,
+    cp.fecha,
+    cp.fecha_creacion,
+    cp.estatus,
+    IFNULL(cp.impreso, 'N') AS impreso,
+    IFNULL(fc.nombre, '') AS forma_cobro,
+    c.cliente_id,
+    c.nombre AS cliente_nombre,
+    IFNULL(c.nombre_comercial, '') AS cliente_nombre_comercial,
+    IFNULL(c.rfc, '') AS cliente_rfc,
+    IFNULL(c.correo, '') AS cliente_correo,
+    IFNULL(c.telefono, '') AS cliente_telefono,
+    e.empresa_id,
+    e.nombre AS empresa_nombre,
+    IFNULL(e.rfc, '') AS empresa_rfc,
+    IFNULL(e.telefono, '') AS empresa_telefono
+FROM banquetes.cobros_pedidos cp
+LEFT JOIN banquetes.formas_cobros fc ON fc.forma_cobro_id = cp.forma_cobro_id
+LEFT JOIN banquetes.clientes c ON c.cliente_id = cp.cliente_id
+LEFT JOIN banquetes.empresas e ON e.empresa_id = cp.empresa_id
+WHERE cp.cobro_pedido_id = @cobroId;";
+
+            using (var connection = _connectionFactory.Create())
+            using (var command = new MySqlCommand(cobroQuery, connection))
             {
-                // El campo impreso es opcional; si no existe, ignoramos el error para no interrumpir el flujo.
+                command.Parameters.AddWithValue("@cobroId", cobroId);
+                connection.Open();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (!reader.Read())
+                    {
+                        return null;
+                    }
+
+                    var fechaOrdinal = reader.GetOrdinal("fecha");
+                    var fechaCreacionOrdinal = reader.GetOrdinal("fecha_creacion");
+                    var cobro = new Cobro
+                    {
+                        CobroPedidoId = reader.GetInt32("cobro_pedido_id"),
+                        UsuarioId = reader.GetInt32("usuario_id"),
+                        EmpresaId = reader.GetInt32("empresa_id"),
+                        ClienteId = reader.GetInt32("cliente_id"),
+                        FormaCobroId = reader.IsDBNull(reader.GetOrdinal("forma_cobro_id")) ? 0 : reader.GetInt32("forma_cobro_id"),
+                        FormaCobroNombre = reader.GetString("forma_cobro"),
+                        Monto = reader.GetDecimal("monto"),
+                        Fecha = reader.IsDBNull(fechaOrdinal) ? DateTime.Now : reader.GetDateTime(fechaOrdinal),
+                        FechaCreacion = reader.IsDBNull(fechaCreacionOrdinal) ? DateTime.Now : reader.GetDateTime(fechaCreacionOrdinal),
+                        Estatus = reader.IsDBNull(reader.GetOrdinal("estatus")) ? string.Empty : reader.GetString("estatus"),
+                        Impreso = reader.IsDBNull(reader.GetOrdinal("impreso")) ? "N" : reader.GetString("impreso"),
+                        Cliente = new Cliente
+                        {
+                            Id = reader.GetInt32("cliente_id"),
+                            Nombre = reader.IsDBNull(reader.GetOrdinal("cliente_nombre")) ? string.Empty : reader.GetString("cliente_nombre"),
+                            NombreComercial = reader.IsDBNull(reader.GetOrdinal("cliente_nombre_comercial")) ? string.Empty : reader.GetString("cliente_nombre_comercial"),
+                            Rfc = reader.IsDBNull(reader.GetOrdinal("cliente_rfc")) ? string.Empty : reader.GetString("cliente_rfc"),
+                            Correo = reader.IsDBNull(reader.GetOrdinal("cliente_correo")) ? string.Empty : reader.GetString("cliente_correo"),
+                            Telefono = reader.IsDBNull(reader.GetOrdinal("cliente_telefono")) ? string.Empty : reader.GetString("cliente_telefono")
+                        },
+                        Empresa = new Empresa
+                        {
+                            Id = reader.GetInt32("empresa_id"),
+                            Nombre = reader.IsDBNull(reader.GetOrdinal("empresa_nombre")) ? string.Empty : reader.GetString("empresa_nombre"),
+                            Rfc = reader.IsDBNull(reader.GetOrdinal("empresa_rfc")) ? string.Empty : reader.GetString("empresa_rfc"),
+                            Telefono = reader.IsDBNull(reader.GetOrdinal("empresa_telefono")) ? string.Empty : reader.GetString("empresa_telefono")
+                        }
+                    };
+
+                    reader.Close();
+                    cobro.Detalles = ObtenerDetallesCobro(connection, cobro.CobroPedidoId);
+                    return cobro;
+                }
             }
+        }
+
+        private IReadOnlyList<CobroDetalle> ObtenerDetallesCobro(MySqlConnection connection, int cobroId)
+        {
+            const string query = @"SELECT
+    det.pedido_id,
+    COALESCE(CAST(f_folio_pedido(det.pedido_id) AS CHAR), CAST(det.pedido_id AS CHAR)) AS folio,
+    ped.fecha_entrega,
+    det.monto
+FROM banquetes.cobros_pedidos_det det
+LEFT JOIN banquetes.pedidos ped ON ped.pedido_id = det.pedido_id
+WHERE det.cobro_pedido_id = @cobroId;";
+
+            var detalles = new List<CobroDetalle>();
+
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@cobroId", cobroId);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var detalle = new CobroDetalle
+                        {
+                            PedidoId = reader.GetInt32("pedido_id"),
+                            Folio = reader.IsDBNull(reader.GetOrdinal("folio")) ? string.Empty : reader.GetString("folio"),
+                            FechaEntrega = reader.IsDBNull(reader.GetOrdinal("fecha_entrega")) ? DateTime.Now : reader.GetDateTime("fecha_entrega"),
+                            Monto = reader.GetDecimal("monto")
+                        };
+
+                        detalles.Add(detalle);
+                    }
+                }
+            }
+
+            return detalles;
         }
     }
 }
