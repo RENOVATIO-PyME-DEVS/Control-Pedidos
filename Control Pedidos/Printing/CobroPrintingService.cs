@@ -48,14 +48,14 @@ namespace Control_Pedidos.Printing
                         return CobroPrintingResult.PrintedSuccessfully();
                     }
 
-                    var pdfPath = GuardarComoPdf(cobro);
-                    return CobroPrintingResult.SavedToPdf(pdfPath, true, null);
+                    var pdfResult = TryGuardarComoPdf(cobro);
+                    return CobroPrintingResult.SavedToPdf(pdfResult.Path, true, null, pdfResult.Error);
                 }
             }
             catch (Exception ex)
             {
-                var pdfPath = GuardarComoPdf(cobro);
-                return CobroPrintingResult.SavedToPdf(pdfPath, false, ex);
+                var pdfResult = TryGuardarComoPdf(cobro);
+                return CobroPrintingResult.SavedToPdf(pdfResult.Path, false, ex, pdfResult.Error);
             }
         }
 
@@ -86,6 +86,19 @@ namespace Control_Pedidos.Printing
             return rutaArchivo;
         }
 
+        private (string Path, Exception Error) TryGuardarComoPdf(Cobro cobro)
+        {
+            try
+            {
+                var pdfPath = GuardarComoPdf(cobro);
+                return (pdfPath, null);
+            }
+            catch (Exception ex)
+            {
+                return (string.Empty, ex);
+            }
+        }
+
         private string BuscarImpresoraPdf()
         {
             foreach (string printer in PrinterSettings.InstalledPrinters)
@@ -101,35 +114,24 @@ namespace Control_Pedidos.Printing
 
         private static string ConstruirRutaPdf(Cobro cobro)
         {
-            var directorio = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Cobros");
+            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var directorio = Path.Combine(baseDirectory, "Tickets");
             Directory.CreateDirectory(directorio);
 
-            var clienteNombre = string.Empty;
-            if (cobro.Cliente != null)
-            {
-                clienteNombre = !string.IsNullOrWhiteSpace(cobro.Cliente.NombreComercial)
-                    ? cobro.Cliente.NombreComercial
-                    : cobro.Cliente.Nombre;
-            }
+            var identificador = cobro?.CobroPedidoId > 0
+                ? cobro.CobroPedidoId.ToString()
+                : (cobro?.Id > 0 ? cobro.Id.ToString() : "SinId");
 
-            var baseNombre = !string.IsNullOrWhiteSpace(clienteNombre)
-                ? $"Cobro_{clienteNombre.Replace(' ', '_')}_{cobro.Id}".Trim('_')
-                : $"Cobro_{cobro.Id}";
-
-            if (string.IsNullOrWhiteSpace(baseNombre))
-            {
-                baseNombre = $"Cobro_{DateTime.Now:yyyyMMddHHmmss}";
-            }
-
+            var fecha = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            var archivo = $"TicketCobro_{identificador}_{fecha}.pdf";
             var invalidChars = Path.GetInvalidFileNameChars();
-            var nombreSeguro = new string(baseNombre.Where(c => !invalidChars.Contains(c)).ToArray());
-            if (string.IsNullOrWhiteSpace(nombreSeguro))
+            var seguro = new string(archivo.Where(c => !invalidChars.Contains(c)).ToArray());
+            if (string.IsNullOrWhiteSpace(seguro))
             {
-                nombreSeguro = $"Cobro_{DateTime.Now:yyyyMMddHHmmss}";
+                seguro = $"TicketCobro_{fecha}.pdf";
             }
 
-            var archivo = $"{nombreSeguro}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
-            return Path.Combine(directorio, archivo);
+            return Path.Combine(directorio, seguro);
         }
     }
 }
