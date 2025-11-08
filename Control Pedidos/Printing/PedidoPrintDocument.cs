@@ -186,11 +186,11 @@ namespace Control_Pedidos.Printing
 
             var horaEntrega = _pedido.HoraEntrega.HasValue ? _pedido.HoraEntrega.Value.ToString(@"hh\:mm") : "--";
             var rectRight = new RectangleF(left + columnWidth, y, columnWidth, lineaAltura);
-            graphics.DrawString($"Hora entrega: {horaEntrega}", _textoRegularFont, Brushes.Black, rectRight, formatRight);
+            graphics.DrawString($"Fecha y Hora entrega: {_pedido.FechaEntrega:dd/MM/yyyy} {horaEntrega}", _textoRegularFont, Brushes.Black, rectRight, formatRight);
             y += lineaAltura;
 
             rectLeft = new RectangleF(left, y, columnWidth, lineaAltura);
-            graphics.DrawString($"Fecha entrega: {_pedido.FechaEntrega:dd/MM/yyyy}", _textoRegularFont, Brushes.Black, rectLeft, formatLeft);
+            graphics.DrawString($"Lo atendió: {_pedido.Usuario.Nombre}", _textoRegularFont, Brushes.Black, rectLeft, formatLeft);
 
             if (_pedido.Evento != null && !string.IsNullOrWhiteSpace(_pedido.Evento.Nombre))
             {
@@ -340,17 +340,27 @@ namespace Control_Pedidos.Printing
 
             var rectTotal = new RectangleF(columnaDerecha, y, ancho, _totalFont.GetHeight(graphics) + 2);
             graphics.DrawString($"Total: {total:C2}", _totalFont, Brushes.Black, rectTotal, format);
-            y += _totalFont.GetHeight(graphics) + 6;
+            y += _totalFont.GetHeight(graphics) + 40;
 
             return y;
         }
 
         private void DibujarPie(Graphics graphics, Rectangle bounds, float y)
         {
-            var leyenda = "Antes de 72 horas del evento se podrá cancelar o cambiar la fecha del pedido.\nPasado ese tiempo, no se aceptan cambios ni devoluciones.";
+            var leyenda = "***Antes de 72 horas del evento se podrá cancelar o cambiar la fecha de entrega del pedido. Pasado ese tiempo, no se aceptan cambios ni devoluciones.***";
             var leyendaRect = new RectangleF(bounds.Left, y, bounds.Width, graphics.MeasureString(leyenda, _textoPequenoFont, bounds.Width).Height + 4);
-            graphics.DrawString(leyenda, _textoPequenoFont, Brushes.Black, leyendaRect);
-            y += leyendaRect.Height + 12;
+
+            using (var formatoCentrado = new StringFormat())
+            {
+                formatoCentrado.Alignment = StringAlignment.Center;       // Centrado horizontal
+                formatoCentrado.LineAlignment = StringAlignment.Near;     // Alineado arriba dentro del rectángulo
+                formatoCentrado.Trimming = StringTrimming.Word;           // Ajuste de texto por palabra
+                formatoCentrado.FormatFlags = StringFormatFlags.LineLimit;
+
+                graphics.DrawString(leyenda, _textoPequenoFont, Brushes.Black, leyendaRect,formatoCentrado);
+            }
+
+            y += leyendaRect.Height + 40;
 
             var firmaWidth = bounds.Width * 0.4f;
             var firmaLeft = bounds.Left + (bounds.Width - firmaWidth) / 2f;
@@ -448,7 +458,7 @@ namespace Control_Pedidos.Printing
 
             public RectangleF GetColumnRectangle(int index, float y, float height)
             {
-                var left = _bounds.Left;
+                var left = (float)_bounds.Left;
                 for (var i = 0; i < index; i++)
                 {
                     left += _anchos[i];
