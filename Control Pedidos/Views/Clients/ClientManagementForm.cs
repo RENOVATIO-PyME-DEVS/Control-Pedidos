@@ -5,6 +5,7 @@ using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
 using Control_Pedidos.Views.Orders;
+using Control_Pedidos.Views.Payments;
 using MySql.Data.MySqlClient;
 
 namespace Control_Pedidos.Views.Clients
@@ -44,6 +45,7 @@ namespace Control_Pedidos.Views.Clients
             //_clientsContextMenu = new ContextMenuStrip(components);
             _clientsContextMenu = new ContextMenuStrip();
             _clientsContextMenu.Items.Add("Agregar pedido", null, agregarPedidoMenuItem_Click);
+            _clientsContextMenu.Items.Add("Registrar cobro", null, registrarCobroMenuItem_Click);
             clientsGrid.ContextMenuStrip = _clientsContextMenu;
 
             statusComboBox.DataSource = new[] { "Activo", "Inactivo" };
@@ -379,6 +381,23 @@ namespace Control_Pedidos.Views.Clients
             using (var form = new OrderManagementForm(_connectionFactory, _selectedClient, _usuarioActual, _empresaSeleccionada))
             {
                 form.ShowDialog(this);
+            }
+        }
+
+        private void registrarCobroMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_selectedClient == null)
+            {
+                MessageBox.Show("Seleccione un cliente", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (var form = new RegistrarAbonoForm(_connectionFactory, _selectedClient, _usuarioActual, _empresaSeleccionada))
+            {
+                if (form.ShowDialog(this) == DialogResult.OK)
+                {
+                    LoadClientes(searchTextBox.Text.Trim());
+                }
             }
         }
 

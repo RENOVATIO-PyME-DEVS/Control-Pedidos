@@ -8,6 +8,7 @@ using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
 using Control_Pedidos.Printing;
+using Control_Pedidos.Views.Payments;
 using MySql.Data.MySqlClient;
 
 namespace Control_Pedidos.Views.Orders
@@ -596,6 +597,31 @@ namespace Control_Pedidos.Views.Orders
             }
         }
 
+        private void PreguntarRegistrarAbonoDespuesImpresion(Pedido pedidoImpreso)
+        {
+            var pedidoParaAbono = pedidoImpreso ?? _pedido;
+            if (pedidoParaAbono?.Cliente == null || pedidoParaAbono.Cliente.Id <= 0 || pedidoParaAbono.Empresa == null)
+            {
+                return;
+            }
+
+            var respuesta = MessageBox.Show(
+                "¿Desea registrar un abono para este pedido?",
+                "Registrar abono",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (respuesta != DialogResult.Yes)
+            {
+                return;
+            }
+
+            using (var registrarAbonoForm = new RegistrarAbonoForm(_connectionFactory, pedidoParaAbono.Cliente, _usuario, pedidoParaAbono.Empresa, pedidoParaAbono.Id > 0 ? pedidoParaAbono.Id : (int?)null))
+            {
+                registrarAbonoForm.ShowDialog(this);
+            }
+        }
+
         private void ProcesarImpresionPedido(bool esReimpresion)
         {
             if (_pedido?.Id <= 0)
@@ -641,6 +667,10 @@ namespace Control_Pedidos.Views.Orders
             {
                 ActualizarEstadoImpresion(true);
                 MessageBox.Show(esReimpresion ? "Pedido reimpreso correctamente." : "Pedido impreso correctamente.", "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (!esReimpresion)
+                {
+                    PreguntarRegistrarAbonoDespuesImpresion(pedidoCompleto);
+                }
                 return;
             }
 

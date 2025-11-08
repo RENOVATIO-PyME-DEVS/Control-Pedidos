@@ -2,7 +2,7 @@ using System;
 
 namespace Control_Pedidos.Models
 {
-    public class CobroPedido
+    public class Cobro
     {
         public int Id { get; set; }
         public int UsuarioId { get; set; }
@@ -13,5 +13,6 @@ namespace Control_Pedidos.Models
         public DateTime Fecha { get; set; }
         public DateTime FechaCreacion { get; set; }
         public string Estatus { get; set; } = string.Empty;
+        public string Impreso { get; set; } = "N";
     }
 }
