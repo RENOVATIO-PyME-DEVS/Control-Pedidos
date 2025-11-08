@@ -448,7 +448,7 @@ namespace Control_Pedidos.Views.Orders
             this.detallesGrid.ReadOnly = true;
             this.detallesGrid.RowHeadersWidth = 51;
             this.detallesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.detallesGrid.Size = new System.Drawing.Size(1585, 257);
+            this.detallesGrid.Size = new System.Drawing.Size(1529, 257);
             this.detallesGrid.TabIndex = 35;
             // 
             // eliminarArticuloButton
@@ -467,7 +467,7 @@ namespace Control_Pedidos.Views.Orders
             this.totalGeneralLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalGeneralLabel.AutoSize = true;
             this.totalGeneralLabel.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalGeneralLabel.Location = new System.Drawing.Point(59, 55);
+            this.totalGeneralLabel.Location = new System.Drawing.Point(3, 55);
             this.totalGeneralLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalGeneralLabel.Name = "totalGeneralLabel";
             this.totalGeneralLabel.Size = new System.Drawing.Size(148, 31);
@@ -478,7 +478,7 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.totalGeneralValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalGeneralValueLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalGeneralValueLabel.Location = new System.Drawing.Point(225, 46);
+            this.totalGeneralValueLabel.Location = new System.Drawing.Point(169, 46);
             this.totalGeneralValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalGeneralValueLabel.Name = "totalGeneralValueLabel";
             this.totalGeneralValueLabel.Size = new System.Drawing.Size(193, 44);
@@ -491,7 +491,7 @@ namespace Control_Pedidos.Views.Orders
             this.discountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.discountLabel.AutoSize = true;
             this.discountLabel.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.discountLabel.Location = new System.Drawing.Point(116, 107);
+            this.discountLabel.Location = new System.Drawing.Point(60, 107);
             this.discountLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.discountLabel.Name = "discountLabel";
             this.discountLabel.Size = new System.Drawing.Size(91, 23);
@@ -503,7 +503,7 @@ namespace Control_Pedidos.Views.Orders
             this.descuentoNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.descuentoNumericUpDown.DecimalPlaces = 2;
             this.descuentoNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.descuentoNumericUpDown.Location = new System.Drawing.Point(252, 107);
+            this.descuentoNumericUpDown.Location = new System.Drawing.Point(196, 107);
             this.descuentoNumericUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.descuentoNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
@@ -520,10 +520,10 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.applyDiscountButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.applyDiscountButton.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.applyDiscountButton.Location = new System.Drawing.Point(10, 192);
+            this.applyDiscountButton.Location = new System.Drawing.Point(27, 192);
             this.applyDiscountButton.Margin = new System.Windows.Forms.Padding(4);
             this.applyDiscountButton.Name = "applyDiscountButton";
-            this.applyDiscountButton.Size = new System.Drawing.Size(442, 51);
+            this.applyDiscountButton.Size = new System.Drawing.Size(369, 51);
             this.applyDiscountButton.TabIndex = 41;
             this.applyDiscountButton.Text = "Aplicar descuento";
             this.applyDiscountButton.UseVisualStyleBackColor = true;
@@ -534,7 +534,7 @@ namespace Control_Pedidos.Views.Orders
             this.totalWithDiscountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalWithDiscountLabel.AutoSize = true;
             this.totalWithDiscountLabel.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.totalWithDiscountLabel.Location = new System.Drawing.Point(44, 154);
+            this.totalWithDiscountLabel.Location = new System.Drawing.Point(7, 154);
             this.totalWithDiscountLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalWithDiscountLabel.Name = "totalWithDiscountLabel";
             this.totalWithDiscountLabel.Size = new System.Drawing.Size(163, 23);
@@ -545,7 +545,7 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.totalWithDiscountValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalWithDiscountValueLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalWithDiscountValueLabel.Location = new System.Drawing.Point(232, 149);
+            this.totalWithDiscountValueLabel.Location = new System.Drawing.Point(176, 149);
             this.totalWithDiscountValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalWithDiscountValueLabel.Name = "totalWithDiscountValueLabel";
             this.totalWithDiscountValueLabel.Size = new System.Drawing.Size(186, 28);
@@ -562,7 +562,7 @@ namespace Control_Pedidos.Views.Orders
             this.discountNoteLabel.Location = new System.Drawing.Point(7, 247);
             this.discountNoteLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.discountNoteLabel.Name = "discountNoteLabel";
-            this.discountNoteLabel.Size = new System.Drawing.Size(450, 57);
+            this.discountNoteLabel.Size = new System.Drawing.Size(394, 57);
             this.discountNoteLabel.TabIndex = 44;
             this.discountNoteLabel.Text = "Al aplicar un descuento, el pedido se cerrará y no podrá modificarse.\r\nSolo un us" +
     "uario con rol Administrador puede autorizarlo.";
@@ -571,7 +571,7 @@ namespace Control_Pedidos.Views.Orders
             // cerrarPedidoButton
             // 
             this.cerrarPedidoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cerrarPedidoButton.Location = new System.Drawing.Point(1258, 660);
+            this.cerrarPedidoButton.Location = new System.Drawing.Point(1202, 660);
             this.cerrarPedidoButton.Margin = new System.Windows.Forms.Padding(4);
             this.cerrarPedidoButton.Name = "cerrarPedidoButton";
             this.cerrarPedidoButton.Size = new System.Drawing.Size(177, 33);
@@ -583,7 +583,7 @@ namespace Control_Pedidos.Views.Orders
             // cancelarPedidoButton
             // 
             this.cancelarPedidoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelarPedidoButton.Location = new System.Drawing.Point(1443, 660);
+            this.cancelarPedidoButton.Location = new System.Drawing.Point(1387, 660);
             this.cancelarPedidoButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelarPedidoButton.Name = "cancelarPedidoButton";
             this.cancelarPedidoButton.Size = new System.Drawing.Size(177, 33);
@@ -595,7 +595,7 @@ namespace Control_Pedidos.Views.Orders
             // cerrarVentanaButton
             // 
             this.cerrarVentanaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cerrarVentanaButton.Location = new System.Drawing.Point(1026, 660);
+            this.cerrarVentanaButton.Location = new System.Drawing.Point(970, 660);
             this.cerrarVentanaButton.Margin = new System.Windows.Forms.Padding(4);
             this.cerrarVentanaButton.Name = "cerrarVentanaButton";
             this.cerrarVentanaButton.Size = new System.Drawing.Size(147, 33);
@@ -661,7 +661,7 @@ namespace Control_Pedidos.Views.Orders
             this.notesTextBox.Multiline = true;
             this.notesTextBox.Name = "notesTextBox";
             this.notesTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.notesTextBox.Size = new System.Drawing.Size(497, 40);
+            this.notesTextBox.Size = new System.Drawing.Size(441, 40);
             this.notesTextBox.TabIndex = 47;
             // 
             // kitComponentsLabel
@@ -685,7 +685,7 @@ namespace Control_Pedidos.Views.Orders
             this.kitComponentsRichTextBox.Name = "kitComponentsRichTextBox";
             this.kitComponentsRichTextBox.ReadOnly = true;
             this.kitComponentsRichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.kitComponentsRichTextBox.Size = new System.Drawing.Size(399, 86);
+            this.kitComponentsRichTextBox.Size = new System.Drawing.Size(343, 86);
             this.kitComponentsRichTextBox.TabIndex = 34;
             this.kitComponentsRichTextBox.TabStop = false;
             this.kitComponentsRichTextBox.Text = "";
@@ -716,7 +716,7 @@ namespace Control_Pedidos.Views.Orders
             // userAndRolLabel
             // 
             this.userAndRolLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.userAndRolLabel.Location = new System.Drawing.Point(1174, 375);
+            this.userAndRolLabel.Location = new System.Drawing.Point(1118, 375);
             this.userAndRolLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.userAndRolLabel.Name = "userAndRolLabel";
             this.userAndRolLabel.Size = new System.Drawing.Size(446, 16);
@@ -756,7 +756,7 @@ namespace Control_Pedidos.Views.Orders
             this.groupBox2.Controls.Add(this.discountNoteLabel);
             this.groupBox2.Location = new System.Drawing.Point(1154, 65);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(464, 307);
+            this.groupBox2.Size = new System.Drawing.Size(408, 307);
             this.groupBox2.TabIndex = 51;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Resumen $";
@@ -765,7 +765,7 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1647, 801);
+            this.ClientSize = new System.Drawing.Size(1591, 801);
             this.Controls.Add(this.cerrarVentanaButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.kitComponentsRichTextBox);
