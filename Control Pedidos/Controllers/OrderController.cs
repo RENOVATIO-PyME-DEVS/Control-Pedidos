@@ -20,7 +20,7 @@ namespace Control_Pedidos.Controllers
         public DataTable GetTodayDeliveries(int? empresaId = null)
         {
             // Armamos la consulta que trae todos los pedidos a entregar hoy, con cliente y totales ya calculados.
-            var query = @"SELECT
+           var query = @"SELECT
                     p.pedido_id AS PedidoId,
                     p.folio AS Folio,
                     c.cliente_id AS ClienteId,
@@ -35,7 +35,7 @@ namespace Control_Pedidos.Controllers
                     FROM pedidos_detalles
                     GROUP BY pedido_id
                 ) det ON det.pedido_id = p.pedido_id
-                WHERE DATE(p.fecha_entrega) = CURDATE()";
+              --  WHERE DATE(p.fecha_entrega) = CURDATE()";
 
             if (empresaId.HasValue)
             {
