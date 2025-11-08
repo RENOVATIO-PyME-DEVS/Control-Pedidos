@@ -197,7 +197,12 @@ namespace Control_Pedidos.Views.Orders
                 }
             }
 
-            eventComboBox.SelectedIndex = 0;
+            // Si hay más de un evento, seleccionar el siguiente a "Sin evento"
+            if (eventos.Count > 1)
+                eventComboBox.SelectedIndex = 1;
+            else
+                eventComboBox.SelectedIndex = 0;
+
         }
 
         private void LoadArticulos()

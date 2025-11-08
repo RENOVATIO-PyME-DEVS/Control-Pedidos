@@ -35,7 +35,7 @@ WHERE p.cliente_id = @clienteId
         {
             const string query = @"SELECT
     p.pedido_id,
-    COALESCE(CAST(p.folio AS CHAR), CAST(p.pedido_id AS CHAR)) AS folio,
+    COALESCE(CAST(f_folio_pedido(p.pedido_id) AS CHAR), CAST(p.pedido_id AS CHAR)) AS folio,
     p.fecha_entrega,
     IFNULL(f_totalPedido(p.pedido_id), 0) AS total,
     IFNULL(f_cobroPedido(p.pedido_id), 0) AS abonado
@@ -91,9 +91,9 @@ ORDER BY p.fecha_entrega ASC, p.pedido_id ASC;";
 
         public List<FormaCobro> ObtenerFormasCobro()
         {
-            const string query = @"SELECT forma_cobro_id, nombre, IFNULL(descripcion, '') AS descripcion
-FROM banquetes.formas_cobros
-ORDER BY nombre;";
+            const string query = @"SELECT forma_cobro_id, nombre,IFNULL(tipo_cobro, '') AS descripcion, tipo
+                                    FROM banquetes.formas_cobros
+                                   -- ORDER BY nombre;";
 
             var formas = new List<FormaCobro>();
 
@@ -109,7 +109,8 @@ ORDER BY nombre;";
                         {
                             Id = reader.GetInt32("forma_cobro_id"),
                             Nombre = reader.IsDBNull(reader.GetOrdinal("nombre")) ? string.Empty : reader.GetString("nombre"),
-                            Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? string.Empty : reader.GetString("descripcion")
+                            Descripcion = reader.IsDBNull(reader.GetOrdinal("descripcion")) ? string.Empty : reader.GetString("descripcion"),
+                            Tipo = reader.IsDBNull(reader.GetOrdinal("tipo")) ? string.Empty : reader.GetString("tipo")
                         });
                     }
                 }

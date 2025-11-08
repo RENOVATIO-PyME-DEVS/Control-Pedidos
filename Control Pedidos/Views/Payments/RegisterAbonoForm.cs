@@ -25,6 +25,8 @@ namespace Control_Pedidos.Views.Payments
         private List<FormaCobro> _formasCobro = new List<FormaCobro>();
         private decimal _saldoCliente;
 
+
+
         public RegisterAbonoForm(DatabaseConnectionFactory connectionFactory, Cliente cliente, Usuario usuario, Empresa empresa, int? pedidoPrioritarioId = null)
         {
             InitializeComponent();
@@ -220,11 +222,13 @@ namespace Control_Pedidos.Views.Payments
                 return;
             }
 
-            if (formaCobroComboBox.SelectedItem is not FormaCobro formaCobro)
+            var formaCobro = formaCobroComboBox.SelectedItem as FormaCobro;
+            if (formaCobro == null)
             {
                 MessageBox.Show("Seleccione la forma de cobro.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
 
             var totalAsignado = _pedidosConSaldo.Sum(p => p.MontoAsignado);
             if (totalAsignado <= 0)
@@ -340,6 +344,11 @@ namespace Control_Pedidos.Views.Payments
             }
 
             MessageBox.Show(mensaje, "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void RegisterAbonoForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

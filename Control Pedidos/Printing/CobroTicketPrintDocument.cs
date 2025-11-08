@@ -75,7 +75,7 @@ namespace Control_Pedidos.Printing
                 var width = Math.Min(maxWidth, 120f);
                 var height = width / aspect;
                 var x = bounds.Left + (bounds.Width - width) / 2f;
-                g.DrawImage(logo, new RectangleF(x, y, width, height));
+                g.DrawImage(logo, new RectangleF(x-30, y, width, height));
                 y += height + 4f;
             }
 
@@ -126,7 +126,7 @@ namespace Control_Pedidos.Printing
                 var linea = $"Folio {detalle.Folio}";
                 var monto = detalle.Monto.ToString("C2");
                 g.DrawString(linea, _textoFont, Brushes.Black, new RectangleF(bounds.Left, y, bounds.Width / 2f, _textoFont.GetHeight(g) + 2f), formatoFolio);
-                g.DrawString(monto, _textoFont, Brushes.Black, new RectangleF(bounds.Left + bounds.Width / 2f, y, bounds.Width / 2f, _textoFont.GetHeight(g) + 2f), formatoMonto);
+                g.DrawString(monto, _textoFont, Brushes.Black, new RectangleF(bounds.Left + bounds.Width / 2f, y, bounds.Width / 3f, _textoFont.GetHeight(g) + 2f), formatoMonto);
                 y += _textoFont.GetHeight(g) + 2f;
             }
 
@@ -189,7 +189,7 @@ namespace Control_Pedidos.Printing
                 return y;
             }
 
-            var rect = new RectangleF(bounds.Left, y, bounds.Width, font.GetHeight(g) + 2f);
+            var rect = new RectangleF(bounds.Left-30, y, bounds.Width, font.GetHeight(g) + 2f);
             g.DrawString(texto, font, Brushes.Black, rect, new StringFormat { Alignment = StringAlignment.Center });
             return y + font.GetHeight(g) + 2f;
         }

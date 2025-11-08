@@ -400,7 +400,7 @@ namespace Control_Pedidos.Printing
         {
             var lineHeight = _textoRegularFont.GetHeight(graphics);
             var totalHeight = lineHeight * 4 + _totalFont.GetHeight(graphics);
-            var leyendaHeight = graphics.MeasureString("Antes de 72 horas del evento se podrá cancelar o cambiar la fecha del pedido.\nPasado ese tiempo, no se aceptan cambios ni devoluciones.", _textoPequenoFont, 1000).Height + 30;
+            var leyendaHeight = graphics.MeasureString("Antes de 72 horas del evento se podrá cancelar o cambiar la fecha del pedido. Pasado ese tiempo, no se aceptan cambios ni devoluciones.", _textoPequenoFont, 1000).Height + 30;
             return totalHeight + leyendaHeight;
         }
 

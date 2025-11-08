@@ -28,6 +28,11 @@ namespace Control_Pedidos.Views.Payments
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.clienteLabel = new System.Windows.Forms.Label();
             this.clienteTextBox = new System.Windows.Forms.TextBox();
             this.saldoClienteLabel = new System.Windows.Forms.Label();
@@ -50,80 +55,87 @@ namespace Control_Pedidos.Views.Payments
             this.cancelarButton = new System.Windows.Forms.Button();
             this.guardarButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panelAcciones = new System.Windows.Forms.Panel();
             this.panelResumen = new System.Windows.Forms.Panel();
+            this.panelAcciones = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.montoNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pedidosGrid)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
-            this.panelAcciones.SuspendLayout();
             this.panelResumen.SuspendLayout();
+            this.panelAcciones.SuspendLayout();
             this.SuspendLayout();
             // 
             // clienteLabel
             // 
             this.clienteLabel.AutoSize = true;
-            this.clienteLabel.Location = new System.Drawing.Point(12, 15);
+            this.clienteLabel.Location = new System.Drawing.Point(18, 83);
+            this.clienteLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.clienteLabel.Name = "clienteLabel";
-            this.clienteLabel.Size = new System.Drawing.Size(45, 13);
+            this.clienteLabel.Size = new System.Drawing.Size(51, 16);
             this.clienteLabel.TabIndex = 0;
             this.clienteLabel.Text = "Cliente:";
             // 
             // clienteTextBox
             // 
-            this.clienteTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.clienteTextBox.Location = new System.Drawing.Point(110, 12);
+            this.clienteTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.clienteTextBox.Location = new System.Drawing.Point(149, 80);
+            this.clienteTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.clienteTextBox.Name = "clienteTextBox";
             this.clienteTextBox.ReadOnly = true;
-            this.clienteTextBox.Size = new System.Drawing.Size(348, 20);
+            this.clienteTextBox.Size = new System.Drawing.Size(463, 22);
             this.clienteTextBox.TabIndex = 1;
             this.clienteTextBox.TabStop = false;
             // 
             // saldoClienteLabel
             // 
             this.saldoClienteLabel.AutoSize = true;
-            this.saldoClienteLabel.Location = new System.Drawing.Point(12, 44);
+            this.saldoClienteLabel.Location = new System.Drawing.Point(18, 119);
+            this.saldoClienteLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.saldoClienteLabel.Name = "saldoClienteLabel";
-            this.saldoClienteLabel.Size = new System.Drawing.Size(77, 13);
+            this.saldoClienteLabel.Size = new System.Drawing.Size(88, 16);
             this.saldoClienteLabel.TabIndex = 2;
             this.saldoClienteLabel.Text = "Saldo cliente:";
             // 
             // saldoClienteTextBox
             // 
-            this.saldoClienteTextBox.Location = new System.Drawing.Point(110, 41);
+            this.saldoClienteTextBox.Location = new System.Drawing.Point(149, 115);
+            this.saldoClienteTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.saldoClienteTextBox.Name = "saldoClienteTextBox";
             this.saldoClienteTextBox.ReadOnly = true;
-            this.saldoClienteTextBox.Size = new System.Drawing.Size(120, 20);
+            this.saldoClienteTextBox.Size = new System.Drawing.Size(159, 22);
             this.saldoClienteTextBox.TabIndex = 3;
             this.saldoClienteTextBox.TabStop = false;
             // 
             // formaCobroLabel
             // 
             this.formaCobroLabel.AutoSize = true;
-            this.formaCobroLabel.Location = new System.Drawing.Point(250, 44);
+            this.formaCobroLabel.Location = new System.Drawing.Point(335, 119);
+            this.formaCobroLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.formaCobroLabel.Name = "formaCobroLabel";
-            this.formaCobroLabel.Size = new System.Drawing.Size(77, 13);
+            this.formaCobroLabel.Size = new System.Drawing.Size(87, 16);
             this.formaCobroLabel.TabIndex = 4;
             this.formaCobroLabel.Text = "Forma cobro:";
             // 
             // formaCobroComboBox
             // 
-            this.formaCobroComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.formaCobroComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.formaCobroComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.formaCobroComboBox.FormattingEnabled = true;
-            this.formaCobroComboBox.Location = new System.Drawing.Point(333, 41);
+            this.formaCobroComboBox.Location = new System.Drawing.Point(446, 115);
+            this.formaCobroComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.formaCobroComboBox.Name = "formaCobroComboBox";
-            this.formaCobroComboBox.Size = new System.Drawing.Size(125, 21);
+            this.formaCobroComboBox.Size = new System.Drawing.Size(165, 24);
             this.formaCobroComboBox.TabIndex = 5;
             this.formaCobroComboBox.SelectedIndexChanged += new System.EventHandler(this.formaCobroComboBox_SelectedIndexChanged);
             // 
             // montoLabel
             // 
             this.montoLabel.AutoSize = true;
-            this.montoLabel.Location = new System.Drawing.Point(12, 74);
+            this.montoLabel.Location = new System.Drawing.Point(18, 156);
+            this.montoLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.montoLabel.Name = "montoLabel";
-            this.montoLabel.Size = new System.Drawing.Size(73, 13);
+            this.montoLabel.Size = new System.Drawing.Size(89, 16);
             this.montoLabel.TabIndex = 6;
             this.montoLabel.Text = "Monto abono:";
             // 
@@ -135,23 +147,25 @@ namespace Control_Pedidos.Views.Payments
             0,
             0,
             131072});
-            this.montoNumericUpDown.Location = new System.Drawing.Point(110, 72);
+            this.montoNumericUpDown.Location = new System.Drawing.Point(149, 154);
+            this.montoNumericUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.montoNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
             this.montoNumericUpDown.Name = "montoNumericUpDown";
-            this.montoNumericUpDown.Size = new System.Drawing.Size(120, 20);
+            this.montoNumericUpDown.Size = new System.Drawing.Size(160, 22);
             this.montoNumericUpDown.TabIndex = 7;
             this.montoNumericUpDown.ValueChanged += new System.EventHandler(this.montoNumericUpDown_ValueChanged);
             // 
             // saldoRestanteTitleLabel
             // 
             this.saldoRestanteTitleLabel.AutoSize = true;
-            this.saldoRestanteTitleLabel.Location = new System.Drawing.Point(250, 74);
+            this.saldoRestanteTitleLabel.Location = new System.Drawing.Point(335, 156);
+            this.saldoRestanteTitleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.saldoRestanteTitleLabel.Name = "saldoRestanteTitleLabel";
-            this.saldoRestanteTitleLabel.Size = new System.Drawing.Size(82, 13);
+            this.saldoRestanteTitleLabel.Size = new System.Drawing.Size(97, 16);
             this.saldoRestanteTitleLabel.TabIndex = 8;
             this.saldoRestanteTitleLabel.Text = "Saldo restante:";
             // 
@@ -159,9 +173,10 @@ namespace Control_Pedidos.Views.Payments
             // 
             this.saldoRestanteLabel.AutoSize = true;
             this.saldoRestanteLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.saldoRestanteLabel.Location = new System.Drawing.Point(338, 72);
+            this.saldoRestanteLabel.Location = new System.Drawing.Point(453, 154);
+            this.saldoRestanteLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.saldoRestanteLabel.Name = "saldoRestanteLabel";
-            this.saldoRestanteLabel.Size = new System.Drawing.Size(29, 15);
+            this.saldoRestanteLabel.Size = new System.Drawing.Size(40, 20);
             this.saldoRestanteLabel.TabIndex = 9;
             this.saldoRestanteLabel.Text = "$0.0";
             // 
@@ -179,75 +194,109 @@ namespace Control_Pedidos.Views.Payments
             this.abonadoColumn,
             this.saldoColumn,
             this.montoAsignadoColumn});
-            this.folioColumn.DataPropertyName = "Folio";
-            this.folioColumn.HeaderText = "Folio";
-            this.folioColumn.Name = "folioColumn";
-            this.folioColumn.ReadOnly = true;
-            this.fechaEntregaColumn.DataPropertyName = "FechaEntrega";
-            this.fechaEntregaColumn.HeaderText = "Fecha entrega";
-            this.fechaEntregaColumn.Name = "fechaEntregaColumn";
-            this.fechaEntregaColumn.ReadOnly = true;
-            this.fechaEntregaColumn.DefaultCellStyle = new System.Windows.Forms.DataGridViewCellStyle { Format = "dd/MM/yyyy" };
-            this.totalColumn.DataPropertyName = "Total";
-            this.totalColumn.HeaderText = "Total";
-            this.totalColumn.Name = "totalColumn";
-            this.totalColumn.ReadOnly = true;
-            this.totalColumn.DefaultCellStyle = new System.Windows.Forms.DataGridViewCellStyle { Format = "C2" };
-            this.abonadoColumn.DataPropertyName = "Abonado";
-            this.abonadoColumn.HeaderText = "Abonado";
-            this.abonadoColumn.Name = "abonadoColumn";
-            this.abonadoColumn.ReadOnly = true;
-            this.abonadoColumn.DefaultCellStyle = new System.Windows.Forms.DataGridViewCellStyle { Format = "C2" };
-            this.saldoColumn.DataPropertyName = "Saldo";
-            this.saldoColumn.HeaderText = "Saldo";
-            this.saldoColumn.Name = "saldoColumn";
-            this.saldoColumn.ReadOnly = true;
-            this.saldoColumn.DefaultCellStyle = new System.Windows.Forms.DataGridViewCellStyle { Format = "C2" };
-            this.montoAsignadoColumn.DataPropertyName = "MontoAsignado";
-            this.montoAsignadoColumn.HeaderText = "Monto asignado";
-            this.montoAsignadoColumn.Name = "montoAsignadoColumn";
-            this.montoAsignadoColumn.ReadOnly = true;
-            this.montoAsignadoColumn.DefaultCellStyle = new System.Windows.Forms.DataGridViewCellStyle { Format = "C2" };
             this.pedidosGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pedidosGrid.Location = new System.Drawing.Point(3, 3);
+            this.pedidosGrid.Location = new System.Drawing.Point(4, 4);
+            this.pedidosGrid.Margin = new System.Windows.Forms.Padding(4);
             this.pedidosGrid.MultiSelect = false;
             this.pedidosGrid.Name = "pedidosGrid";
             this.pedidosGrid.ReadOnly = true;
             this.pedidosGrid.RowHeadersVisible = false;
+            this.pedidosGrid.RowHeadersWidth = 51;
             this.pedidosGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.pedidosGrid.Size = new System.Drawing.Size(679, 230);
+            this.pedidosGrid.Size = new System.Drawing.Size(905, 245);
             this.pedidosGrid.TabIndex = 10;
             this.pedidosGrid.TabStop = false;
+            // 
+            // folioColumn
+            // 
+            this.folioColumn.DataPropertyName = "Folio";
+            this.folioColumn.HeaderText = "Folio";
+            this.folioColumn.MinimumWidth = 6;
+            this.folioColumn.Name = "folioColumn";
+            this.folioColumn.ReadOnly = true;
+            // 
+            // fechaEntregaColumn
+            // 
+            this.fechaEntregaColumn.DataPropertyName = "FechaEntrega";
+            dataGridViewCellStyle1.Format = "dd/MM/yyyy";
+            this.fechaEntregaColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.fechaEntregaColumn.HeaderText = "Fecha entrega";
+            this.fechaEntregaColumn.MinimumWidth = 6;
+            this.fechaEntregaColumn.Name = "fechaEntregaColumn";
+            this.fechaEntregaColumn.ReadOnly = true;
+            // 
+            // totalColumn
+            // 
+            this.totalColumn.DataPropertyName = "Total";
+            dataGridViewCellStyle2.Format = "C2";
+            this.totalColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.totalColumn.HeaderText = "Total";
+            this.totalColumn.MinimumWidth = 6;
+            this.totalColumn.Name = "totalColumn";
+            this.totalColumn.ReadOnly = true;
+            // 
+            // abonadoColumn
+            // 
+            this.abonadoColumn.DataPropertyName = "Abonado";
+            dataGridViewCellStyle3.Format = "C2";
+            this.abonadoColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            this.abonadoColumn.HeaderText = "Abonado";
+            this.abonadoColumn.MinimumWidth = 6;
+            this.abonadoColumn.Name = "abonadoColumn";
+            this.abonadoColumn.ReadOnly = true;
+            // 
+            // saldoColumn
+            // 
+            this.saldoColumn.DataPropertyName = "Saldo";
+            dataGridViewCellStyle4.Format = "C2";
+            this.saldoColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            this.saldoColumn.HeaderText = "Saldo";
+            this.saldoColumn.MinimumWidth = 6;
+            this.saldoColumn.Name = "saldoColumn";
+            this.saldoColumn.ReadOnly = true;
+            // 
+            // montoAsignadoColumn
+            // 
+            this.montoAsignadoColumn.DataPropertyName = "MontoAsignado";
+            dataGridViewCellStyle5.Format = "C2";
+            this.montoAsignadoColumn.DefaultCellStyle = dataGridViewCellStyle5;
+            this.montoAsignadoColumn.HeaderText = "Monto asignado";
+            this.montoAsignadoColumn.MinimumWidth = 6;
+            this.montoAsignadoColumn.Name = "montoAsignadoColumn";
+            this.montoAsignadoColumn.ReadOnly = true;
             // 
             // resumenLabel
             // 
             this.resumenLabel.AutoSize = true;
-            this.resumenLabel.Location = new System.Drawing.Point(6, 8);
+            this.resumenLabel.Location = new System.Drawing.Point(8, 10);
+            this.resumenLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.resumenLabel.Name = "resumenLabel";
-            this.resumenLabel.Size = new System.Drawing.Size(55, 13);
+            this.resumenLabel.Size = new System.Drawing.Size(68, 16);
             this.resumenLabel.TabIndex = 11;
             this.resumenLabel.Text = "Resumen:";
             // 
             // resumenTextBox
             // 
-            this.resumenTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.resumenTextBox.Location = new System.Drawing.Point(9, 26);
+            this.resumenTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.resumenTextBox.Location = new System.Drawing.Point(12, 32);
+            this.resumenTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.resumenTextBox.Multiline = true;
             this.resumenTextBox.Name = "resumenTextBox";
             this.resumenTextBox.ReadOnly = true;
             this.resumenTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.resumenTextBox.Size = new System.Drawing.Size(664, 78);
+            this.resumenTextBox.Size = new System.Drawing.Size(884, 78);
             this.resumenTextBox.TabIndex = 12;
             this.resumenTextBox.TabStop = false;
             // 
             // cancelarButton
             // 
             this.cancelarButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.cancelarButton.Location = new System.Drawing.Point(509, 9);
+            this.cancelarButton.Location = new System.Drawing.Point(546, 11);
+            this.cancelarButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelarButton.Name = "cancelarButton";
-            this.cancelarButton.Size = new System.Drawing.Size(75, 30);
+            this.cancelarButton.Size = new System.Drawing.Size(151, 37);
             this.cancelarButton.TabIndex = 14;
             this.cancelarButton.Text = "Cancelar";
             this.cancelarButton.UseVisualStyleBackColor = true;
@@ -256,9 +305,10 @@ namespace Control_Pedidos.Views.Payments
             // guardarButton
             // 
             this.guardarButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.guardarButton.Location = new System.Drawing.Point(598, 9);
+            this.guardarButton.Location = new System.Drawing.Point(705, 11);
+            this.guardarButton.Margin = new System.Windows.Forms.Padding(4);
             this.guardarButton.Name = "guardarButton";
-            this.guardarButton.Size = new System.Drawing.Size(75, 30);
+            this.guardarButton.Size = new System.Drawing.Size(192, 37);
             this.guardarButton.TabIndex = 13;
             this.guardarButton.Text = "Guardar";
             this.guardarButton.UseVisualStyleBackColor = true;
@@ -266,47 +316,50 @@ namespace Control_Pedidos.Views.Payments
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.pedidosGrid, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panelResumen, 0, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 107);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(16, 188);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(685, 340);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(913, 362);
             this.tableLayoutPanel1.TabIndex = 15;
-            // 
-            // panelAcciones
-            // 
-            this.panelAcciones.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelAcciones.Controls.Add(this.cancelarButton);
-            this.panelAcciones.Controls.Add(this.guardarButton);
-            this.panelAcciones.Location = new System.Drawing.Point(12, 453);
-            this.panelAcciones.Name = "panelAcciones";
-            this.panelAcciones.Size = new System.Drawing.Size(685, 48);
-            this.panelAcciones.TabIndex = 16;
             // 
             // panelResumen
             // 
             this.panelResumen.Controls.Add(this.resumenLabel);
             this.panelResumen.Controls.Add(this.resumenTextBox);
             this.panelResumen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelResumen.Location = new System.Drawing.Point(3, 241);
+            this.panelResumen.Location = new System.Drawing.Point(4, 257);
+            this.panelResumen.Margin = new System.Windows.Forms.Padding(4);
             this.panelResumen.Name = "panelResumen";
-            this.panelResumen.Size = new System.Drawing.Size(679, 96);
+            this.panelResumen.Size = new System.Drawing.Size(905, 101);
             this.panelResumen.TabIndex = 17;
+            // 
+            // panelAcciones
+            // 
+            this.panelAcciones.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelAcciones.Controls.Add(this.cancelarButton);
+            this.panelAcciones.Controls.Add(this.guardarButton);
+            this.panelAcciones.Location = new System.Drawing.Point(16, 558);
+            this.panelAcciones.Margin = new System.Windows.Forms.Padding(4);
+            this.panelAcciones.Name = "panelAcciones";
+            this.panelAcciones.Size = new System.Drawing.Size(913, 59);
+            this.panelAcciones.TabIndex = 16;
             // 
             // RegisterAbonoForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(709, 513);
+            this.ClientSize = new System.Drawing.Size(945, 631);
             this.Controls.Add(this.panelAcciones);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.saldoRestanteLabel);
@@ -319,16 +372,18 @@ namespace Control_Pedidos.Views.Payments
             this.Controls.Add(this.saldoClienteLabel);
             this.Controls.Add(this.clienteTextBox);
             this.Controls.Add(this.clienteLabel);
-            this.MinimumSize = new System.Drawing.Size(725, 552);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(961, 669);
             this.Name = "RegisterAbonoForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Registrar abono";
+            this.Load += new System.EventHandler(this.RegisterAbonoForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.montoNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pedidosGrid)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.panelAcciones.ResumeLayout(false);
             this.panelResumen.ResumeLayout(false);
             this.panelResumen.PerformLayout();
+            this.panelAcciones.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
