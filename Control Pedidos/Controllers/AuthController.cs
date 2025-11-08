@@ -69,7 +69,7 @@ namespace Control_Pedidos.Controllers
         {
             var empresas = new List<Empresa>();
 
-            const string query = @"SELECT e.empresa_id, e.nombre AS empresa_nombre, e.rfc AS empresa_rfc
+            const string query = @"SELECT e.empresa_id, e.nombre AS empresa_nombre, e.rfc AS empresa_rfc, e.domicilio AS empresa_domicilio, e.telefono AS empresa_telefono, e.correo AS empresa_correo
                                     FROM banquetes.usuarios_empresas ue
                                     INNER JOIN banquetes.empresas e ON ue.empresa_id = e.empresa_id
                                     WHERE ue.usuario_id = @usuarioId
@@ -90,7 +90,10 @@ namespace Control_Pedidos.Controllers
                         {
                             Id = reader.GetInt32("empresa_id"),
                             Nombre = reader.GetString("empresa_nombre"),
-                            Rfc = reader.IsDBNull(reader.GetOrdinal("empresa_rfc")) ? string.Empty : reader.GetString("empresa_rfc")
+                            Rfc = reader.IsDBNull(reader.GetOrdinal("empresa_rfc")) ? string.Empty : reader.GetString("empresa_rfc"),
+                            Direccion = reader.IsDBNull(reader.GetOrdinal("empresa_domicilio")) ? string.Empty : reader.GetString("empresa_domicilio"),
+                            Telefono = reader.IsDBNull(reader.GetOrdinal("empresa_telefono")) ? string.Empty : reader.GetString("empresa_telefono"),
+                            Correo = reader.IsDBNull(reader.GetOrdinal("empresa_correo")) ? string.Empty : reader.GetString("empresa_correo")
                         });
                     }
                 }

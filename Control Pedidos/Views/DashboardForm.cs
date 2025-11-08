@@ -73,7 +73,7 @@ namespace Control_Pedidos.Views
 
         private void ordersButton_Click(object sender, EventArgs e)
         {
-            using (var ordersForm = new Orders.OrderDeliveryDashboardForm(_orderController, _empresaId, _empresaNombre))
+            using (var ordersForm = new Orders.OrderDeliveryDashboardForm(_orderController, _connectionFactory, _empresaId, _empresaNombre))
             {
                 ordersForm.ShowDialog();
             }
