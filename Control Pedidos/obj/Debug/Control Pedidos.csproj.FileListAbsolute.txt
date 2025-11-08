@@ -1,7 +1,3 @@
-C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.csproj.AssemblyReference.cache
-C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Properties.Resources.resources
-C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.csproj.GenerateResource.cache
-C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.csproj.CoreCompileInputs.cache
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\Control Pedidos.exe.config
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\Control Pedidos.exe
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\Control Pedidos.pdb
@@ -37,16 +33,21 @@ C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Mem
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.csproj.AssemblyReference.cache
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Properties.Resources.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Articles.ArticleManagementForm.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Clients.ClientManagementForm.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Events.EventManagementForm.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.DashboardForm.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.LoginForm.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Orders.OrderManagementForm.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Orders.DescuentoAutorizacionForm.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Payments.RegisterAbonoForm.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.SeleccionEmpresaForm.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Users.UserManagementForm.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.csproj.GenerateResource.cache
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.csproj.CoreCompileInputs.cache
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control .B9C08F3E.Up2Date
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.exe
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.pdb
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.exe.config
-C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.DashboardForm.resources
-C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Clients.ClientManagementForm.resources
-C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.LoginForm.resources
-C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.SeleccionEmpresaForm.resources
-C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Articles.ArticleManagementForm.resources
-C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Users.UserManagementForm.resources
-C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Events.EventManagementForm.resources
-C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Orders.OrderManagementForm.resources
-C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Orders.DescuentoAutorizacionForm.resources

@@ -105,6 +105,7 @@
     <Compile Include="Data\UserPreferences.cs" />
     <Compile Include="Data\DatabaseConnectionFactory.cs" />
     <Compile Include="Data\ArticuloDao.cs" />
+    <Compile Include="Data\CobroDao.cs" />
     <Compile Include="Data\ClienteDao.cs" />
     <Compile Include="Data\EventoDao.cs" />
     <Compile Include="Data\PedidoDao.cs" />
@@ -116,16 +117,25 @@
     <Compile Include="Helpers\UIStyles.cs" />
     <Compile Include="Helpers\ValidationHelper.cs" />
     <Compile Include="Models\Articulo.cs" />
+    <Compile Include="Models\Cobro.cs" />
+    <Compile Include="Models\CobroDetalle.cs" />
     <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\FormaCobro.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\Empresa.cs" />
     <Compile Include="Models\Pedido.cs" />
+    <Compile Include="Models\PedidoSaldo.cs" />
     <Compile Include="Models\PedidoDetalle.cs" />
     <Compile Include="Models\CobroPedido.cs" />
     <Compile Include="Models\Kit.cs" />
     <Compile Include="Models\KitDetalle.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Printing\CobroPrintingResult.cs" />
+    <Compile Include="Printing\CobroPrintingService.cs" />
+    <Compile Include="Printing\CobroTicketPrintDocument.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Printing\PedidoPrintDocument.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -209,6 +219,12 @@
     <Compile Include="Views\Settings\DatabaseSettingsForm.Designer.cs">
       <DependentUpon>DatabaseSettingsForm.cs</DependentUpon>
     </Compile>
+     <Compile Include="Views\Payments\RegisterAbonoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Payments\RegisterAbonoForm.Designer.cs">
+      <DependentUpon>RegisterAbonoForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -237,6 +253,9 @@
     <EmbeddedResource Include="Views\Orders\DescuentoAutorizacionForm.resx">
       <DependentUpon>DescuentoAutorizacionForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Payments\RegisterAbonoForm.resx">
+      <DependentUpon>RegisterAbonoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\SeleccionEmpresaForm.resx">
       <DependentUpon>SeleccionEmpresaForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -260,3 +279,4 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
+   

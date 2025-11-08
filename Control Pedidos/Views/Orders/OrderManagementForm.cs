@@ -8,6 +8,7 @@ using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
 using Control_Pedidos.Printing;
+using Control_Pedidos.Views.Payments;
 using MySql.Data.MySqlClient;
 
 namespace Control_Pedidos.Views.Orders
@@ -196,7 +197,12 @@ namespace Control_Pedidos.Views.Orders
                 }
             }
 
-            eventComboBox.SelectedIndex = 0;
+            // Si hay más de un evento, seleccionar el siguiente a "Sin evento"
+            if (eventos.Count > 1)
+                eventComboBox.SelectedIndex = 1;
+            else
+                eventComboBox.SelectedIndex = 0;
+
         }
 
         private void LoadArticulos()
@@ -641,6 +647,12 @@ namespace Control_Pedidos.Views.Orders
             {
                 ActualizarEstadoImpresion(true);
                 MessageBox.Show(esReimpresion ? "Pedido reimpreso correctamente." : "Pedido impreso correctamente.", "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (!esReimpresion)
+                {
+                    PreguntarRegistroAbono();
+                }
+
                 return;
             }
 
@@ -671,6 +683,35 @@ namespace Control_Pedidos.Views.Orders
                 }
 
                 MessageBox.Show(mensaje.ToString(), "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (!esReimpresion)
+                {
+                    PreguntarRegistroAbono();
+                }
+            }
+        }
+
+        private void PreguntarRegistroAbono()
+        {
+            if (_pedido == null || _pedido.Id <= 0 || _pedido.Empresa == null)
+            {
+                return;
+            }
+
+            var respuesta = MessageBox.Show(
+                "¿Desea registrar un abono para este pedido?",
+                "Registrar abono",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (respuesta != DialogResult.Yes)
+            {
+                return;
+            }
+
+            using (var form = new RegisterAbonoForm(_connectionFactory, _cliente, _usuario, _pedido.Empresa, _pedido.Id))
+            {
+                form.ShowDialog(this);
             }
         }
 
