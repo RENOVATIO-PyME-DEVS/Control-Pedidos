@@ -61,7 +61,7 @@ namespace Control_Pedidos.Views.Payments
             cobrosGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(Cobro.CobroPedidoId),
-                HeaderText = "ID",
+                HeaderText = "Folio",
                 Width = 70,
                 ReadOnly = true
             });
@@ -108,7 +108,7 @@ namespace Control_Pedidos.Views.Payments
             {
                 DataPropertyName = nameof(Cobro.Impreso),
                 HeaderText = "Impreso",
-                Width = 80,
+                Width = 90,
                 ReadOnly = true
             });
 
@@ -234,5 +234,6 @@ namespace Control_Pedidos.Views.Payments
                 reimprimirCobroToolStripMenuItem_Click(sender, EventArgs.Empty);
             }
         }
+
     }
 }

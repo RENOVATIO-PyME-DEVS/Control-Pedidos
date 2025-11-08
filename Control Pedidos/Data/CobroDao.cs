@@ -221,7 +221,7 @@ VALUES
         {
             const string query = @"UPDATE banquetes.cobros_pedidos
 SET impreso = @impreso
-WHERE cobro_pedido_id = @cobroId;";
+WHERE cobro_pedido = @cobroId;";
 
             using (var connection = _connectionFactory.Create())
             using (var command = new MySqlCommand(query, connection))
@@ -236,8 +236,8 @@ WHERE cobro_pedido_id = @cobroId;";
         public List<Cobro> ObtenerCobrosPorCliente(int clienteId)
         {
             const string query = @"SELECT
-    cp.cobro_pedido_id,
-    IFNULL(cp.cobro_pedido, cp.cobro_pedido_id) AS cobro_pedido,
+    cp.cobro_pedido,
+    IFNULL(cp.cobro_pedido, cp.cobro_pedido) AS cobro_pedido,
     cp.cliente_id,
     cp.forma_cobro_id,
     IFNULL(fc.nombre, '') AS forma_cobro,
@@ -265,7 +265,7 @@ ORDER BY cp.fecha DESC;";
                         var fechaOrdinal = reader.GetOrdinal("fecha");
                         var cobro = new Cobro
                         {
-                            CobroPedidoId = reader.GetInt32("cobro_pedido_id"),
+                            CobroPedidoId = reader.GetInt32("cobro_pedido"),
                             ClienteId = reader.GetInt32("cliente_id"),
                             FormaCobroId = reader.IsDBNull(reader.GetOrdinal("forma_cobro_id")) ? 0 : reader.GetInt32("forma_cobro_id"),
                             FormaCobroNombre = reader.GetString("forma_cobro"),
@@ -286,8 +286,8 @@ ORDER BY cp.fecha DESC;";
         public Cobro ObtenerCobroPorId(int cobroId)
         {
             const string cobroQuery = @"SELECT
-    cp.cobro_pedido_id,
-    IFNULL(cp.cobro_pedido, cp.cobro_pedido_id) AS cobro_pedido,
+    cp.cobro_pedido,
+    IFNULL(cp.cobro_pedido, cp.cobro_pedido) AS cobro_pedido,
     cp.usuario_id,
     cp.empresa_id,
     cp.cliente_id,
@@ -300,7 +300,6 @@ ORDER BY cp.fecha DESC;";
     IFNULL(fc.nombre, '') AS forma_cobro,
     c.cliente_id,
     c.nombre AS cliente_nombre,
-    IFNULL(c.nombre_comercial, '') AS cliente_nombre_comercial,
     IFNULL(c.rfc, '') AS cliente_rfc,
     IFNULL(c.correo, '') AS cliente_correo,
     IFNULL(c.telefono, '') AS cliente_telefono,
@@ -312,7 +311,7 @@ FROM banquetes.cobros_pedidos cp
 LEFT JOIN banquetes.formas_cobros fc ON fc.forma_cobro_id = cp.forma_cobro_id
 LEFT JOIN banquetes.clientes c ON c.cliente_id = cp.cliente_id
 LEFT JOIN banquetes.empresas e ON e.empresa_id = cp.empresa_id
-WHERE cp.cobro_pedido_id = @cobroId;";
+WHERE cp.cobro_pedido = @cobroId;";
 
             using (var connection = _connectionFactory.Create())
             using (var command = new MySqlCommand(cobroQuery, connection))
@@ -331,7 +330,7 @@ WHERE cp.cobro_pedido_id = @cobroId;";
                     var fechaCreacionOrdinal = reader.GetOrdinal("fecha_creacion");
                     var cobro = new Cobro
                     {
-                        CobroPedidoId = reader.GetInt32("cobro_pedido_id"),
+                        CobroPedidoId = reader.GetInt32("cobro_pedido"),
                         UsuarioId = reader.GetInt32("usuario_id"),
                         EmpresaId = reader.GetInt32("empresa_id"),
                         ClienteId = reader.GetInt32("cliente_id"),
@@ -345,8 +344,7 @@ WHERE cp.cobro_pedido_id = @cobroId;";
                         Cliente = new Cliente
                         {
                             Id = reader.GetInt32("cliente_id"),
-                            Nombre = reader.IsDBNull(reader.GetOrdinal("cliente_nombre")) ? string.Empty : reader.GetString("cliente_nombre"),
-                            NombreComercial = reader.IsDBNull(reader.GetOrdinal("cliente_nombre_comercial")) ? string.Empty : reader.GetString("cliente_nombre_comercial"),
+                            Nombre = reader.IsDBNull(reader.GetOrdinal("cliente_nombre")) ? string.Empty : reader.GetString("cliente_nombre"), 
                             Rfc = reader.IsDBNull(reader.GetOrdinal("cliente_rfc")) ? string.Empty : reader.GetString("cliente_rfc"),
                             Correo = reader.IsDBNull(reader.GetOrdinal("cliente_correo")) ? string.Empty : reader.GetString("cliente_correo"),
                             Telefono = reader.IsDBNull(reader.GetOrdinal("cliente_telefono")) ? string.Empty : reader.GetString("cliente_telefono")
@@ -355,7 +353,7 @@ WHERE cp.cobro_pedido_id = @cobroId;";
                         {
                             Id = reader.GetInt32("empresa_id"),
                             Nombre = reader.IsDBNull(reader.GetOrdinal("empresa_nombre")) ? string.Empty : reader.GetString("empresa_nombre"),
-                            Rfc = reader.IsDBNull(reader.GetOrdinal("empresa_rfc")) ? string.Empty : reader.GetString("empresa_rfc"),
+                            //Rfc = reader.IsDBNull(reader.GetOrdinal("empresa_rfc")) ? string.Empty : reader.GetString("empresa_rfc"),
                             Telefono = reader.IsDBNull(reader.GetOrdinal("empresa_telefono")) ? string.Empty : reader.GetString("empresa_telefono")
                         }
                     };

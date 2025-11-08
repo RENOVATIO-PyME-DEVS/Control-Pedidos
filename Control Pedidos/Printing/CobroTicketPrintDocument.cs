@@ -87,7 +87,7 @@ namespace Control_Pedidos.Printing
 
             y = DibujarTextoCentrado(g, bounds, y, _tituloFont, _cobro.Empresa?.Nombre);
             y = DibujarTextoCentrado(g, bounds, y, _textoFont, _cobro.Empresa?.Rfc);
-            y = DibujarTextoCentrado(g, bounds, y, _textoFont, _cobro.Empresa?.Telefono);
+            y = DibujarTextoCentrado(g, bounds, y, _textoFont, $"Tel. {_cobro.Empresa?.Telefono}");
 
             y += 4f;
             g.DrawString(new string('-', 40), _textoFont, Brushes.Black, bounds, new StringFormat { Alignment = StringAlignment.Center });
@@ -151,7 +151,12 @@ namespace Control_Pedidos.Printing
         private float DibujarTotales(Graphics g, Rectangle bounds, float y)
         {
             y = DibujarTextoResaltado(g, bounds, y, $"TOTAL ABONADO: ........ {_cobro.Monto:C2}");
+
+            if (_cobro.SaldoDespues > 0)
+            {
             y = DibujarTexto(g, bounds, y, $"SALDO RESTANTE: ....... {_cobro.SaldoDespues:C2}", _textoFont);
+
+            }
 
             if (_cobro.SaldoAnterior > 0)
             {
