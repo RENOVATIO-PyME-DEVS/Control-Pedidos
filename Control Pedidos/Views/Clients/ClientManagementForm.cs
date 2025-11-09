@@ -316,11 +316,11 @@ namespace Control_Pedidos.Views.Clients
 
         private bool ValidateForm()
         {
-            //if (string.IsNullOrWhiteSpace(razonSocialTextBox.Text))
-            //{
-            //    MessageBox.Show("Ingrese la razón social", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    return false;
-            //}
+            if (string.IsNullOrWhiteSpace(nombreComercialTextBox.Text))
+            {
+                MessageBox.Show("Ingrese El nombre del cliente", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
             if (chkRequiereFactura.Checked)
             {

@@ -82,7 +82,7 @@ namespace Control_Pedidos.Views.Payments
             this.clienteTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.clienteTextBox.Name = "clienteTextBox";
             this.clienteTextBox.ReadOnly = true;
-            this.clienteTextBox.Size = new System.Drawing.Size(463, 22);
+            this.clienteTextBox.Size = new System.Drawing.Size(518, 22);
             this.clienteTextBox.TabIndex = 1;
             this.clienteTextBox.TabStop = false;
             // 
@@ -125,7 +125,7 @@ namespace Control_Pedidos.Views.Payments
             this.formaCobroComboBox.Location = new System.Drawing.Point(446, 115);
             this.formaCobroComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.formaCobroComboBox.Name = "formaCobroComboBox";
-            this.formaCobroComboBox.Size = new System.Drawing.Size(165, 24);
+            this.formaCobroComboBox.Size = new System.Drawing.Size(221, 24);
             this.formaCobroComboBox.TabIndex = 5;
             this.formaCobroComboBox.SelectedIndexChanged += new System.EventHandler(this.formaCobroComboBox_SelectedIndexChanged);
             // 

@@ -55,7 +55,7 @@ namespace Control_Pedidos.Views.Payments
             this.cobrosGrid.RowHeadersWidth = 51;
             this.cobrosGrid.RowTemplate.Height = 24;
             this.cobrosGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.cobrosGrid.Size = new System.Drawing.Size(855, 247);
+            this.cobrosGrid.Size = new System.Drawing.Size(804, 247);
             this.cobrosGrid.TabIndex = 1;
             this.cobrosGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.cobrosGrid_CellDoubleClick);
             // 
@@ -77,9 +77,9 @@ namespace Control_Pedidos.Views.Payments
             // cerrarButton
             // 
             this.cerrarButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cerrarButton.Location = new System.Drawing.Point(766, 374);
+            this.cerrarButton.Location = new System.Drawing.Point(590, 374);
             this.cerrarButton.Name = "cerrarButton";
-            this.cerrarButton.Size = new System.Drawing.Size(105, 32);
+            this.cerrarButton.Size = new System.Drawing.Size(230, 32);
             this.cerrarButton.TabIndex = 2;
             this.cerrarButton.Text = "Cerrar";
             this.cerrarButton.UseVisualStyleBackColor = true;
@@ -98,7 +98,7 @@ namespace Control_Pedidos.Views.Payments
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(887, 418);
+            this.ClientSize = new System.Drawing.Size(836, 418);
             this.Controls.Add(this.clienteLabel);
             this.Controls.Add(this.cerrarButton);
             this.Controls.Add(this.cobrosGrid);
