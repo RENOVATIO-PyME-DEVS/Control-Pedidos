@@ -8,6 +8,10 @@ using Control_Pedidos.Models;
 
 namespace Control_Pedidos.Printing
 {
+    /*
+     * Clase: CobroPrintingService
+     * Descripción: Gestiona la impresión de tickets de cobro y la generación automática de PDFs en caso de falla.
+     */
     public class CobroPrintingService
     {
         private static readonly IReadOnlyList<string> PdfPrinterCandidates = new[]
@@ -114,8 +118,9 @@ namespace Control_Pedidos.Printing
 
         private static string ConstruirRutaPdf(Cobro cobro)
         {
-            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var directorio = Path.Combine(baseDirectory, "Tickets");
+            // Se guarda el PDF en el escritorio dentro de la carpeta "Banquetes/Tickets" para que el usuario lo encuentre fácilmente.
+            var escritorio = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            var directorio = Path.Combine(escritorio, "Banquetes", "Tickets");
             Directory.CreateDirectory(directorio);
 
             var identificador = cobro?.CobroPedidoId > 0

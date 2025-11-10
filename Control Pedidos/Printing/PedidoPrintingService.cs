@@ -8,6 +8,10 @@ using Control_Pedidos.Models;
 
 namespace Control_Pedidos.Printing
 {
+    /*
+     * Clase: PedidoPrintingService
+     * Descripción: Centraliza la impresión del pedido en formato carta y la creación de archivos PDF de respaldo.
+     */
     public class PedidoPrintingService
     {
         private static readonly IReadOnlyList<string> PdfPrinterCandidates = new[]
@@ -101,7 +105,9 @@ namespace Control_Pedidos.Printing
 
         private static string ConstruirRutaPdf(Pedido pedido)
         {
-            var directorio = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pedidos");
+            // Los archivos PDF del pedido se almacenan en el escritorio en la carpeta "Banquetes/Pedidos".
+            var escritorio = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            var directorio = Path.Combine(escritorio, "Banquetes", "Pedidos");
             Directory.CreateDirectory(directorio);
 
             var baseNombre = !string.IsNullOrWhiteSpace(pedido.FolioFormateado)

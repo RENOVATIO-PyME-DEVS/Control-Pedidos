@@ -5,17 +5,32 @@ using MySql.Data.MySqlClient;
 
 namespace Control_Pedidos.Data
 {
+    /*
+     * Clase: CobroDao
+     * Descripción: Expone todas las consultas y operaciones de base de datos relacionadas con los cobros.
+     *               Aquí se obtienen saldos, pedidos con adeudo y se registran/consultan los cobros.
+     */
     public class CobroDao
     {
         private readonly DatabaseConnectionFactory _connectionFactory;
 
+        /// <summary>
+        /// Inicializa el DAO asegurando que siempre exista una fábrica de conexiones válida.
+        /// </summary>
+        /// <param name="connectionFactory">Fábrica que crea conexiones MySQL ya configuradas.</param>
         public CobroDao(DatabaseConnectionFactory connectionFactory)
         {
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
 
+        /// <summary>
+        /// Obtiene el saldo total pendiente de un cliente sumando todos los pedidos abiertos (estatus 'N').
+        /// </summary>
+        /// <param name="clienteId">Identificador del cliente a consultar.</param>
+        /// <returns>Monto pendiente por pagar de todos los pedidos abiertos del cliente.</returns>
         public decimal ObtenerSaldoCliente(int clienteId)
         {
+            // Consulta que suma pedido por pedido la diferencia entre el total y los cobros ya aplicados.
             const string query = @"SELECT IFNULL(SUM(f_totalPedido(p.pedido_id) - f_cobroPedido(p.pedido_id)), 0)
 FROM banquetes.pedidos p
 WHERE p.cliente_id = @clienteId
@@ -31,8 +46,14 @@ WHERE p.cliente_id = @clienteId
             }
         }
 
+        /// <summary>
+        /// Obtiene la lista de pedidos abiertos de un cliente con su folio, total, abonado y saldo restante.
+        /// </summary>
+        /// <param name="clienteId">Identificador del cliente.</param>
+        /// <returns>Lista de pedidos que aún tienen saldo mayor a cero.</returns>
         public List<PedidoSaldo> ObtenerPedidosConSaldo(int clienteId)
         {
+            // Consulta que recupera cada pedido del cliente y calcula el saldo utilizando las funciones f_totalPedido y f_cobroPedido.
             const string query = @"SELECT
     p.pedido_id,
     COALESCE(CAST(f_folio_pedido(p.pedido_id) AS CHAR), CAST(p.pedido_id AS CHAR)) AS folio,
@@ -89,8 +110,13 @@ ORDER BY p.fecha_entrega ASC, p.pedido_id ASC;";
             return pedidos;
         }
 
+        /// <summary>
+        /// Recupera el catálogo completo de formas de cobro disponibles para el sistema.
+        /// </summary>
+        /// <returns>Lista de formas de cobro.</returns>
         public List<FormaCobro> ObtenerFormasCobro()
         {
+            // Consulta simple al catálogo de formas de cobro. Se devuelven los datos básicos que el formulario necesita.
             const string query = @"SELECT forma_cobro_id, nombre,IFNULL(tipo_cobro, '') AS descripcion, tipo
                                     FROM banquetes.formas_cobros
                                    -- ORDER BY nombre;";
@@ -119,6 +145,13 @@ ORDER BY p.fecha_entrega ASC, p.pedido_id ASC;";
             return formas;
         }
 
+        /// <summary>
+        /// Inserta un nuevo cobro en la base de datos junto con el detalle que relaciona el pedido afectado.
+        /// </summary>
+        /// <param name="cobro">Información general del cobro a registrar.</param>
+        /// <param name="detalles">Detalle del cobro. A partir de este cambio solamente debe existir un pedido por cobro.</param>
+        /// <param name="message">Mensaje descriptivo en caso de error de validación o excepción.</param>
+        /// <returns>True cuando el cobro se registró correctamente; false en caso contrario.</returns>
         public bool RegistrarCobro(Cobro cobro, List<CobroDetalle> detalles, out string message)
         {
             if (cobro == null)
@@ -134,6 +167,13 @@ ORDER BY p.fecha_entrega ASC, p.pedido_id ASC;";
             if (detalles.Count == 0)
             {
                 message = "Seleccione al menos un pedido para aplicar el abono.";
+                return false;
+            }
+
+            if (detalles.Count > 1)
+            {
+                // A partir de los nuevos requisitos, un cobro sólo puede aplicarse a un pedido.
+                message = "Cada cobro debe aplicarse únicamente a un pedido.";
                 return false;
             }
 
@@ -155,6 +195,14 @@ ORDER BY p.fecha_entrega ASC, p.pedido_id ASC;";
                 }
 
                 totalDetalles += detalle.Monto;
+
+                // Se valida contra base de datos que no se pretenda abonar más del saldo disponible.
+                var saldoPedido = ObtenerSaldoPedido(detalle.PedidoId);
+                if (detalle.Monto > saldoPedido + 0.01m)
+                {
+                    message = "El monto del abono no puede superar el saldo pendiente del pedido.";
+                    return false;
+                }
             }
 
             if (Math.Abs(totalDetalles - cobro.Monto) > 0.01m)
@@ -170,6 +218,7 @@ ORDER BY p.fecha_entrega ASC, p.pedido_id ASC;";
                     connection.Open();
                     using (var transaction = connection.BeginTransaction())
                     {
+                        // Inserción del encabezado del cobro. El estatus inicia en 'N' y se marca impreso hasta que el ticket se genere.
                         var insertCobroSql = @"INSERT INTO banquetes.cobros_pedidos
     (usuario_id, empresa_id, cliente_id, forma_cobro_id, monto, fecha, fecha_creacion, estatus, impreso)
 VALUES
@@ -187,6 +236,7 @@ VALUES
                             cobroId = command.LastInsertedId;
                         }
 
+                        // Inserción del detalle que vincula el cobro con el pedido al que se le está abonando.
                         var insertDetalleSql = @"INSERT INTO banquetes.cobros_pedidos_det
     (cobro_pedido_id, pedido_id, monto)
 VALUES
@@ -217,6 +267,12 @@ VALUES
             }
         }
 
+        /// <summary>
+        /// Actualiza el indicador "impreso" del cobro para reflejar si se generó el ticket correctamente.
+        /// </summary>
+        /// <param name="cobroId">Identificador del cobro.</param>
+        /// <param name="correcto">True si se imprimió correctamente, false si se canceló o falló.</param>
+        /// <returns>True cuando la operación afecta al menos un registro.</returns>
         public bool MarcarCobroImpreso(int cobroId, bool correcto)
         {
             const string query = @"UPDATE banquetes.cobros_pedidos
@@ -233,6 +289,11 @@ WHERE cobro_pedido = @cobroId;";
             }
         }
 
+        /// <summary>
+        /// Devuelve todos los cobros del cliente ordenados del más reciente al más antiguo.
+        /// </summary>
+        /// <param name="clienteId">Identificador del cliente.</param>
+        /// <returns>Lista con el historial de cobros.</returns>
         public List<Cobro> ObtenerCobrosPorCliente(int clienteId)
         {
             const string query = @"SELECT
@@ -283,6 +344,11 @@ ORDER BY cp.fecha DESC;";
             return cobros;
         }
 
+        /// <summary>
+        /// Consulta completa de un cobro incluyendo cliente, empresa y la lista de pedidos abonados.
+        /// </summary>
+        /// <param name="cobroId">Identificador del cobro.</param>
+        /// <returns>Cobro con toda la información necesaria para impresión.</returns>
         public Cobro ObtenerCobroPorId(int cobroId)
         {
             const string cobroQuery = @"SELECT
@@ -365,6 +431,12 @@ WHERE cp.cobro_pedido = @cobroId;";
             }
         }
 
+        /// <summary>
+        /// Devuelve los pedidos asociados al cobro que se está imprimiendo.
+        /// </summary>
+        /// <param name="connection">Conexión abierta para reutilizar dentro de la transacción.</param>
+        /// <param name="cobroId">Identificador del cobro.</param>
+        /// <returns>Lista de detalles del cobro.</returns>
         private IReadOnlyList<CobroDetalle> ObtenerDetallesCobro(MySqlConnection connection, int cobroId)
         {
             const string query = @"SELECT
@@ -400,6 +472,32 @@ WHERE det.cobro_pedido_id = @cobroId;";
             }
 
             return detalles;
+        }
+
+        /// <summary>
+        /// Ejecuta la consulta de saldo proporcionada para validar los montos ingresados por el usuario.
+        /// </summary>
+        /// <param name="pedidoId">Pedido que se desea validar.</param>
+        /// <returns>Saldo restante del pedido. Si no existe el pedido se considera 0.</returns>
+        public decimal ObtenerSaldoPedido(int pedidoId)
+        {
+            const string query = @"SELECT f_totalPedido(@pedidoId) - f_cobroPedido(@pedidoId) AS saldo;";
+
+            using (var connection = _connectionFactory.Create())
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@pedidoId", pedidoId);
+                connection.Open();
+
+                var result = command.ExecuteScalar();
+                if (result == null || result == DBNull.Value)
+                {
+                    return 0m;
+                }
+
+                var saldo = Convert.ToDecimal(result);
+                return Math.Max(0m, saldo);
+            }
         }
     }
 }

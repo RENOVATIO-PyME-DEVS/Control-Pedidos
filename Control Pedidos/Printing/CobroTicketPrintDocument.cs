@@ -7,6 +7,10 @@ using Control_Pedidos.Properties;
 
 namespace Control_Pedidos.Printing
 {
+    /*
+     * Clase: CobroTicketPrintDocument
+     * Descripción: Define el layout del ticket de cobro para impresoras térmicas.
+     */
     public class CobroTicketPrintDocument : PrintDocument
     {
         private readonly Cobro _cobro;
@@ -108,6 +112,11 @@ namespace Control_Pedidos.Printing
             var fechaCobro = _cobro.Fecha == default ? DateTime.Now : _cobro.Fecha;
             y = DibujarTexto(g, bounds, y, $"FECHA:    {fechaCobro:dd/MM/yyyy HH:mm}", _textoFont);
             y = DibujarTexto(g, bounds, y, $"COBRO #:  {_cobro.Id}", _textoFont);
+            var folioPedido = _cobro.Detalles?.FirstOrDefault()?.Folio ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(folioPedido))
+            {
+                y = DibujarTexto(g, bounds, y, $"PEDIDO:  {folioPedido}", _textoFont);
+            }
             var formaCobro = string.IsNullOrWhiteSpace(_cobro.FormaCobroNombre) ? string.Empty : _cobro.FormaCobroNombre;
             y = DibujarTexto(g, bounds, y, $"FORMA DE PAGO: {formaCobro}", _textoFont);
 

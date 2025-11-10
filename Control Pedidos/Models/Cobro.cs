@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace Control_Pedidos.Models
 {
+    /*
+     * Clase: Cobro
+     * Descripción: Representa un pago registrado por el cliente, incluyendo sus detalles para impresión.
+     */
     public class Cobro
     {
         public int Id { get; set; }

@@ -13,6 +13,11 @@ using MySql.Data.MySqlClient;
 
 namespace Control_Pedidos.Views.Orders
 {
+    /*
+     * Clase: OrderManagementForm
+     * Descripción: Ventana principal para la captura y administración de pedidos.
+     *               Coordina la impresión, el cierre de pedidos y ahora el flujo de cobros.
+     */
     public partial class OrderManagementForm : Form
     {
         private readonly DatabaseConnectionFactory _connectionFactory;
@@ -570,7 +575,7 @@ namespace Control_Pedidos.Views.Orders
                     UpdateControlsState();
 
                     MessageBox.Show("Descuento aplicado y pedido cerrado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    PreguntarImpresionPedidoCerrado();
+                    GestionarCobroEImpresionTrasCierre();
                 }
                 else
                 {
@@ -584,10 +589,18 @@ namespace Control_Pedidos.Views.Orders
             }
         }
 
-        private void PreguntarImpresionPedidoCerrado()
+        /// <summary>
+        /// Pregunta al cajero si desea imprimir el pedido considerando si se registró un cobro previamente.
+        /// </summary>
+        /// <param name="cobroAsociado">Cobro registrado durante el cierre del pedido, si existe.</param>
+        private void PreguntarImpresionPedidoCerrado(Cobro cobroAsociado)
         {
+            var mensaje = cobroAsociado != null
+                ? "Se registró un cobro para este pedido. ¿Desea imprimir el pedido con el abono registrado?"
+                : "Pedido cerrado correctamente. ¿Desea imprimirlo ahora?";
+
             var respuesta = MessageBox.Show(
-                "Pedido cerrado correctamente. ¿Desea imprimirlo ahora?",
+                mensaje,
                 "Pedido cerrado",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
@@ -602,6 +615,40 @@ namespace Control_Pedidos.Views.Orders
             }
         }
 
+        /// <summary>
+        /// Invoca el formulario de cobros y posteriormente pregunta por la impresión del pedido.
+        /// </summary>
+        private void GestionarCobroEImpresionTrasCierre()
+        {
+            Cobro cobroRegistrado = null;
+
+            if (_pedido?.Empresa != null)
+            {
+                var respuestaCobro = MessageBox.Show(
+                    "¿Desea registrar un cobro para este pedido?",
+                    "Registrar cobro",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (respuestaCobro == DialogResult.Yes)
+                {
+                    using (var form = new RegisterAbonoForm(_connectionFactory, _cliente, _usuario, _pedido.Empresa, _pedido.Id))
+                    {
+                        if (form.ShowDialog(this) == DialogResult.OK && form.CobroRegistrado != null)
+                        {
+                            cobroRegistrado = form.CobroRegistrado;
+                        }
+                    }
+                }
+            }
+
+            PreguntarImpresionPedidoCerrado(cobroRegistrado);
+        }
+
+        /// <summary>
+        /// Ejecuta la impresión (o generación de PDF) del pedido actual.
+        /// </summary>
+        /// <param name="esReimpresion">Indica si se trata de una reimpresión para mostrar la leyenda correspondiente.</param>
         private void ProcesarImpresionPedido(bool esReimpresion)
         {
             if (_pedido?.Id <= 0)
@@ -647,12 +694,6 @@ namespace Control_Pedidos.Views.Orders
             {
                 ActualizarEstadoImpresion(true);
                 MessageBox.Show(esReimpresion ? "Pedido reimpreso correctamente." : "Pedido impreso correctamente.", "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                if (!esReimpresion)
-                {
-                    PreguntarRegistroAbono();
-                }
-
                 return;
             }
 
@@ -683,35 +724,6 @@ namespace Control_Pedidos.Views.Orders
                 }
 
                 MessageBox.Show(mensaje.ToString(), "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                if (!esReimpresion)
-                {
-                    PreguntarRegistroAbono();
-                }
-            }
-        }
-
-        private void PreguntarRegistroAbono()
-        {
-            if (_pedido == null || _pedido.Id <= 0 || _pedido.Empresa == null)
-            {
-                return;
-            }
-
-            var respuesta = MessageBox.Show(
-                "¿Desea registrar un abono para este pedido?",
-                "Registrar abono",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (respuesta != DialogResult.Yes)
-            {
-                return;
-            }
-
-            using (var form = new RegisterAbonoForm(_connectionFactory, _cliente, _usuario, _pedido.Empresa, _pedido.Id))
-            {
-                form.ShowDialog(this);
             }
         }
 
@@ -770,7 +782,7 @@ namespace Control_Pedidos.Views.Orders
 //                MessageBox.Show("Pedido cerrado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 UpdateControlsState();
 
-                PreguntarImpresionPedidoCerrado();
+                GestionarCobroEImpresionTrasCierre();
 
                 //this.Close();
             }
@@ -845,7 +857,7 @@ namespace Control_Pedidos.Views.Orders
                 foreach (var componente in componentes)
                 {
                     builder.Append("• ");
-                    builder.AppendLine(componente.NombreArticulo);
+                    builder.AppendLine($"{componente.NombreArticulo} {componente.Cantidad.ToString("N2")} {componente.Articulo.UnidadMedida}" );
                 }
 
                 kitComponentsRichTextBox.Text = builder.ToString().TrimEnd();
@@ -867,7 +879,7 @@ namespace Control_Pedidos.Views.Orders
             var componentes = new List<KitDetalle>();
 
             using (var connection = _connectionFactory.Create())
-            using (var command = new MySqlCommand(@"SELECT ak.articulo_compuesto_id, ak.cantidad, a.nombre
+            using (var command = new MySqlCommand(@"SELECT ak.articulo_compuesto_id, ak.cantidad, a.nombre, a.unidad_medida
 FROM banquetes.articulos_kit ak
 INNER JOIN banquetes.articulos a ON a.articulo_id = ak.articulo_compuesto_id
 WHERE ak.articulo_id = @kitId;", connection))
@@ -887,7 +899,8 @@ WHERE ak.articulo_id = @kitId;", connection))
                             Articulo = new Articulo
                             {
                                 Id = reader.GetInt32("articulo_compuesto_id"),
-                                Nombre = reader.GetString("nombre")
+                                Nombre = reader.GetString("nombre"),
+                                UnidadMedida = reader.GetString("unidad_medida")
                             }
                         });
                     }
