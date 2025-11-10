@@ -448,12 +448,12 @@ namespace Control_Pedidos.Views.Orders
             this.detallesGrid.ReadOnly = true;
             this.detallesGrid.RowHeadersWidth = 51;
             this.detallesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.detallesGrid.Size = new System.Drawing.Size(1631, 257);
+            this.detallesGrid.Size = new System.Drawing.Size(1631, 300);
             this.detallesGrid.TabIndex = 35;
             // 
             // eliminarArticuloButton
             // 
-            this.eliminarArticuloButton.Location = new System.Drawing.Point(38, 660);
+            this.eliminarArticuloButton.Location = new System.Drawing.Point(38, 692);
             this.eliminarArticuloButton.Margin = new System.Windows.Forms.Padding(4);
             this.eliminarArticuloButton.Name = "eliminarArticuloButton";
             this.eliminarArticuloButton.Size = new System.Drawing.Size(177, 33);
@@ -575,7 +575,7 @@ namespace Control_Pedidos.Views.Orders
             // cerrarPedidoButton
             // 
             this.cerrarPedidoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cerrarPedidoButton.Location = new System.Drawing.Point(1304, 671);
+            this.cerrarPedidoButton.Location = new System.Drawing.Point(1304, 703);
             this.cerrarPedidoButton.Margin = new System.Windows.Forms.Padding(4);
             this.cerrarPedidoButton.Name = "cerrarPedidoButton";
             this.cerrarPedidoButton.Size = new System.Drawing.Size(177, 33);
@@ -587,7 +587,7 @@ namespace Control_Pedidos.Views.Orders
             // cancelarPedidoButton
             // 
             this.cancelarPedidoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelarPedidoButton.Location = new System.Drawing.Point(1489, 671);
+            this.cancelarPedidoButton.Location = new System.Drawing.Point(1489, 703);
             this.cancelarPedidoButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelarPedidoButton.Name = "cancelarPedidoButton";
             this.cancelarPedidoButton.Size = new System.Drawing.Size(177, 33);
@@ -599,7 +599,7 @@ namespace Control_Pedidos.Views.Orders
             // cerrarVentanaButton
             // 
             this.cerrarVentanaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cerrarVentanaButton.Location = new System.Drawing.Point(1072, 671);
+            this.cerrarVentanaButton.Location = new System.Drawing.Point(1072, 703);
             this.cerrarVentanaButton.Margin = new System.Windows.Forms.Padding(4);
             this.cerrarVentanaButton.Name = "cerrarVentanaButton";
             this.cerrarVentanaButton.Size = new System.Drawing.Size(147, 33);

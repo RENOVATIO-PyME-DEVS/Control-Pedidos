@@ -110,6 +110,57 @@ ORDER BY p.fecha_entrega ASC, p.pedido_id ASC;";
             return pedidos;
         }
 
+        public PedidoSaldo ObtenerPedidoPorId(int pedidoId)
+        {
+            const string query = @"
+        SELECT
+            p.pedido_id,
+            COALESCE(CAST(f_folio_pedido(p.pedido_id) AS CHAR), CAST(p.pedido_id AS CHAR)) AS folio,
+            p.fecha_entrega,
+            IFNULL(f_totalPedido(p.pedido_id), 0) AS total,
+            IFNULL(f_cobroPedido(p.pedido_id), 0) AS abonado
+        FROM banquetes.pedidos p
+        WHERE p.pedido_id = @pedidoId
+          AND p.estatus = 'N'
+        LIMIT 1;";
+
+            using (var connection = _connectionFactory.Create())
+            using (var command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@pedidoId", pedidoId);
+                connection.Open();
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        var total = reader.GetDecimal("total");
+                        var abonado = reader.GetDecimal("abonado");
+                        if (total <= 0) return null;
+
+                        var saldo = total - abonado;
+                        if (saldo <= 0) return null;
+
+                        var fechaEntregaOrdinal = reader.GetOrdinal("fecha_entrega");
+                        var fechaEntrega = reader.IsDBNull(fechaEntregaOrdinal)
+                            ? DateTime.Now
+                            : reader.GetDateTime(fechaEntregaOrdinal);
+
+                        return new PedidoSaldo
+                        {
+                            PedidoId = reader.GetInt32("pedido_id"),
+                            Folio = reader.GetString("folio"),
+                            FechaEntrega = fechaEntrega,
+                            Total = total,
+                            Abonado = abonado
+                        };
+                    }
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Recupera el catálogo completo de formas de cobro disponibles para el sistema.
         /// </summary>

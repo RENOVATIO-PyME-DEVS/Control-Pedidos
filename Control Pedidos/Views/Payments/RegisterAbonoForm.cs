@@ -118,12 +118,28 @@ namespace Control_Pedidos.Views.Payments
                 saldoClienteTextBox.Text = _saldoCliente.ToString("C2");
                 saldoRestanteLabel.Text = _saldoCliente.ToString("C2");
 
-              
                 _pedidosConSaldo.Clear();
-                foreach (var pedido in _cobroDao.ObtenerPedidosConSaldo(_cliente.Id))
+
+                if (_pedidoPrioritarioId.HasValue)
                 {
-                    _pedidosConSaldo.Add(pedido);
+                    var pedido = _cobroDao.ObtenerPedidoPorId(_pedidoPrioritarioId.Value);
+                    if (pedido != null)
+                        _pedidosConSaldo.Add(pedido);
                 }
+                else
+                {
+                    foreach (var pedido in _cobroDao.ObtenerPedidosConSaldo(_cliente.Id))
+                        _pedidosConSaldo.Add(pedido);
+                }
+
+                // 🔹 Selecciona automáticamente si solo hay un pedido
+                if (_pedidosConSaldo.Count == 1)
+                {
+                    var unicoPedido = _pedidosConSaldo.First();
+                    SeleccionarPedidoEnGrid(unicoPedido.PedidoId);
+                    montoNumericUpDown.Value = unicoPedido.Saldo;
+                }
+
 
                 //activar temporalmente los eventos del grid
                 pedidosGrid.SelectionChanged += pedidosGrid_SelectionChanged;
