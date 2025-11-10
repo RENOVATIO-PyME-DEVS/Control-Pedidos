@@ -32,73 +32,82 @@ namespace Control_Pedidos.Views.Settings
             // hostLabel
             // 
             this.hostLabel.AutoSize = true;
-            this.hostLabel.Location = new System.Drawing.Point(23, 22);
+            this.hostLabel.Location = new System.Drawing.Point(31, 70);
+            this.hostLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.hostLabel.Name = "hostLabel";
-            this.hostLabel.Size = new System.Drawing.Size(32, 13);
+            this.hostLabel.Size = new System.Drawing.Size(35, 16);
             this.hostLabel.TabIndex = 0;
             this.hostLabel.Text = "Host";
             // 
             // hostTextBox
             // 
-            this.hostTextBox.Location = new System.Drawing.Point(26, 38);
+            this.hostTextBox.Location = new System.Drawing.Point(35, 90);
+            this.hostTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.hostTextBox.Name = "hostTextBox";
-            this.hostTextBox.Size = new System.Drawing.Size(246, 20);
+            this.hostTextBox.Size = new System.Drawing.Size(327, 22);
             this.hostTextBox.TabIndex = 1;
             // 
             // userLabel
             // 
             this.userLabel.AutoSize = true;
-            this.userLabel.Location = new System.Drawing.Point(23, 70);
+            this.userLabel.Location = new System.Drawing.Point(31, 129);
+            this.userLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.userLabel.Name = "userLabel";
-            this.userLabel.Size = new System.Drawing.Size(43, 13);
+            this.userLabel.Size = new System.Drawing.Size(54, 16);
             this.userLabel.TabIndex = 2;
             this.userLabel.Text = "Usuario";
             // 
             // userTextBox
             // 
-            this.userTextBox.Location = new System.Drawing.Point(26, 86);
+            this.userTextBox.Location = new System.Drawing.Point(35, 149);
+            this.userTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.userTextBox.Name = "userTextBox";
-            this.userTextBox.Size = new System.Drawing.Size(246, 20);
+            this.userTextBox.Size = new System.Drawing.Size(327, 22);
             this.userTextBox.TabIndex = 3;
             // 
             // passwordLabel
             // 
             this.passwordLabel.AutoSize = true;
-            this.passwordLabel.Location = new System.Drawing.Point(23, 119);
+            this.passwordLabel.Location = new System.Drawing.Point(31, 189);
+            this.passwordLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.passwordLabel.Name = "passwordLabel";
-            this.passwordLabel.Size = new System.Drawing.Size(61, 13);
+            this.passwordLabel.Size = new System.Drawing.Size(76, 16);
             this.passwordLabel.TabIndex = 4;
             this.passwordLabel.Text = "Contraseña";
             // 
             // passwordTextBox
             // 
-            this.passwordTextBox.Location = new System.Drawing.Point(26, 135);
+            this.passwordTextBox.Location = new System.Drawing.Point(35, 209);
+            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.PasswordChar = '*';
-            this.passwordTextBox.Size = new System.Drawing.Size(246, 20);
+            this.passwordTextBox.Size = new System.Drawing.Size(327, 22);
             this.passwordTextBox.TabIndex = 5;
             // 
             // databaseLabel
             // 
             this.databaseLabel.AutoSize = true;
-            this.databaseLabel.Location = new System.Drawing.Point(23, 170);
+            this.databaseLabel.Location = new System.Drawing.Point(31, 252);
+            this.databaseLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.databaseLabel.Name = "databaseLabel";
-            this.databaseLabel.Size = new System.Drawing.Size(78, 13);
+            this.databaseLabel.Size = new System.Drawing.Size(95, 16);
             this.databaseLabel.TabIndex = 6;
             this.databaseLabel.Text = "Base de datos";
             // 
             // databaseTextBox
             // 
-            this.databaseTextBox.Location = new System.Drawing.Point(26, 186);
+            this.databaseTextBox.Location = new System.Drawing.Point(35, 272);
+            this.databaseTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.databaseTextBox.Name = "databaseTextBox";
-            this.databaseTextBox.Size = new System.Drawing.Size(246, 20);
+            this.databaseTextBox.Size = new System.Drawing.Size(327, 22);
             this.databaseTextBox.TabIndex = 7;
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(26, 228);
+            this.saveButton.Location = new System.Drawing.Point(35, 324);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(118, 27);
+            this.saveButton.Size = new System.Drawing.Size(157, 33);
             this.saveButton.TabIndex = 8;
             this.saveButton.Text = "Guardar";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -107,9 +116,10 @@ namespace Control_Pedidos.Views.Settings
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(154, 228);
+            this.cancelButton.Location = new System.Drawing.Point(205, 324);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(118, 27);
+            this.cancelButton.Size = new System.Drawing.Size(157, 33);
             this.cancelButton.TabIndex = 9;
             this.cancelButton.Text = "Cancelar";
             this.cancelButton.UseVisualStyleBackColor = true;
@@ -117,10 +127,10 @@ namespace Control_Pedidos.Views.Settings
             // DatabaseSettingsForm
             // 
             this.AcceptButton = this.saveButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(301, 278);
+            this.ClientSize = new System.Drawing.Size(401, 390);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.databaseTextBox);
@@ -132,6 +142,7 @@ namespace Control_Pedidos.Views.Settings
             this.Controls.Add(this.hostTextBox);
             this.Controls.Add(this.hostLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DatabaseSettingsForm";

@@ -1,13 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
 using Control_Pedidos.Printing;
+using Org.BouncyCastle.Pqc.Crypto.Lms;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Windows.Forms;
 
 namespace Control_Pedidos.Views.Payments
 {
@@ -109,15 +111,22 @@ namespace Control_Pedidos.Views.Payments
         {
             try
             {
+                // ⚠️ Desactivar eventos del grid temporalmente
+                pedidosGrid.SelectionChanged -= pedidosGrid_SelectionChanged;
+
                 _saldoCliente = _cobroDao.ObtenerSaldoCliente(_cliente.Id);
                 saldoClienteTextBox.Text = _saldoCliente.ToString("C2");
                 saldoRestanteLabel.Text = _saldoCliente.ToString("C2");
 
+              
                 _pedidosConSaldo.Clear();
                 foreach (var pedido in _cobroDao.ObtenerPedidosConSaldo(_cliente.Id))
                 {
                     _pedidosConSaldo.Add(pedido);
                 }
+
+                //activar temporalmente los eventos del grid
+                pedidosGrid.SelectionChanged += pedidosGrid_SelectionChanged;
             }
             catch (Exception ex)
             {
@@ -153,12 +162,20 @@ namespace Control_Pedidos.Views.Payments
         /// </summary>
         private void SeleccionarPedidoEnGrid(int pedidoId)
         {
+            if (pedidosGrid.Rows.Count == 0)
+                return;
+
             foreach (DataGridViewRow row in pedidosGrid.Rows)
             {
                 if (row.DataBoundItem is PedidoSaldo pedido && pedido.PedidoId == pedidoId)
                 {
                     row.Selected = true;
-                    pedidosGrid.CurrentCell = row.Cells[0];
+
+                    // 🔒 Evitar acceder al CurrentCell si aún no está inicializado
+                    if (row.Cells.Count > 0)
+                        pedidosGrid.CurrentCell = row.Cells[0];
+
+
                     ActualizarPedidoSeleccionado(pedido);
                     break;
                 }
@@ -170,6 +187,7 @@ namespace Control_Pedidos.Views.Payments
         /// </summary>
         private void montoNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
+            
             ActualizarMontoAsignado();
         }
 
@@ -178,6 +196,10 @@ namespace Control_Pedidos.Views.Payments
         /// </summary>
         private void ActualizarMontoAsignado()
         {
+            if (pedidosGrid.Rows.Count == 0) return;
+            // ⚠️ Desactivar notificaciones del BindingSource
+            //_bindingSource.RaiseListChangedEvents = false;
+
             if (_pedidoSeleccionado == null)
             {
                 foreach (var pedido in _pedidosConSaldo)
@@ -189,12 +211,20 @@ namespace Control_Pedidos.Views.Payments
                 return;
             }
 
+            //// 🔒 Suspender notificaciones al grid
+            //_bindingSource.RaiseListChangedEvents = false;
+
+
             foreach (var pedido in _pedidosConSaldo)
             {
                 pedido.MontoAsignado = pedido.PedidoId == _pedidoSeleccionado.PedidoId
                     ? Math.Min(montoNumericUpDown.Value, pedido.Saldo)
                     : 0m;
             }
+
+            //// 🔓 Reanudar notificaciones y refrescar el grid
+            //_bindingSource.RaiseListChangedEvents = true;
+            //_bindingSource.ResetBindings(false);
 
             ActualizarResumen();
         }
@@ -405,6 +435,10 @@ namespace Control_Pedidos.Views.Payments
         /// </summary>
         private void pedidosGrid_SelectionChanged(object sender, EventArgs e)
         {
+            // 🔒 Evita errores cuando no hay filas válidas
+            if (pedidosGrid.CurrentRow == null || pedidosGrid.CurrentRow.Index < 0)
+                return;
+
             if (pedidosGrid.CurrentRow?.DataBoundItem is PedidoSaldo pedido)
             {
                 ActualizarPedidoSeleccionado(pedido);
@@ -435,6 +469,7 @@ namespace Control_Pedidos.Views.Payments
                 textBox2.Text = string.Empty;
                 montoNumericUpDown.Value = 0;
                 montoNumericUpDown.Maximum = 0;
+
                 ActualizarMontoAsignado();
                 return;
             }

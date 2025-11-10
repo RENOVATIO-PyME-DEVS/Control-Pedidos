@@ -353,7 +353,7 @@ namespace Control_Pedidos.Printing
                     componentesTexto.AppendLine("Componentes:");
                     foreach (var componente in detalle.Componentes)
                     {
-                        componentesTexto.AppendLine($"• {componente.NombreArticulo}");
+                        componentesTexto.AppendLine($"• {componente.NombreArticulo} {componente.Cantidad.ToString("N")} {componente.Articulo.UnidadMedida}(s)");
                     }
 
                     var componenteRect = new RectangleF(descripcionRect.Left + 10, descripcionY, descripcionRect.Width - 10, filaAltura);
@@ -410,17 +410,17 @@ namespace Control_Pedidos.Printing
             graphics.DrawString($"Anticipo registrado: {anticipo:C2}", _textoRegularFont, Brushes.Black, rectAnticipo, format);
             y += _textoRegularFont.GetHeight(graphics) + 2;
 
+
+            var rectSaldo = new RectangleF(columnaDerecha, y, ancho, _textoRegularFont.GetHeight(graphics) + 2);
+            graphics.DrawString($"Saldo pendiente: {saldo:C2}", _textoRegularFont, Brushes.Black, rectSaldo, format);
+            y += _textoRegularFont.GetHeight(graphics) + 40;
+
             if (!string.IsNullOrWhiteSpace(_pedido.FormaCobroUltima))
             {
                 var rectForma = new RectangleF(columnaDerecha, y, ancho, _textoRegularFont.GetHeight(graphics) + 2);
                 graphics.DrawString($"Forma de pago: {_pedido.FormaCobroUltima}", _textoRegularFont, Brushes.Black, rectForma, format);
                 y += _textoRegularFont.GetHeight(graphics) + 2;
             }
-
-            var rectSaldo = new RectangleF(columnaDerecha, y, ancho, _textoRegularFont.GetHeight(graphics) + 2);
-            graphics.DrawString($"Saldo pendiente: {saldo:C2}", _textoRegularFont, Brushes.Black, rectSaldo, format);
-            y += _textoRegularFont.GetHeight(graphics) + 40;
-
             return y;
         }
 

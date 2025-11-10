@@ -857,7 +857,7 @@ namespace Control_Pedidos.Views.Orders
                 foreach (var componente in componentes)
                 {
                     builder.Append("• ");
-                    builder.AppendLine(componente.NombreArticulo);
+                    builder.AppendLine($"{componente.NombreArticulo} {componente.Cantidad.ToString("N2")} {componente.Articulo.UnidadMedida}" );
                 }
 
                 kitComponentsRichTextBox.Text = builder.ToString().TrimEnd();
@@ -879,7 +879,7 @@ namespace Control_Pedidos.Views.Orders
             var componentes = new List<KitDetalle>();
 
             using (var connection = _connectionFactory.Create())
-            using (var command = new MySqlCommand(@"SELECT ak.articulo_compuesto_id, ak.cantidad, a.nombre
+            using (var command = new MySqlCommand(@"SELECT ak.articulo_compuesto_id, ak.cantidad, a.nombre, a.unidad_medida
 FROM banquetes.articulos_kit ak
 INNER JOIN banquetes.articulos a ON a.articulo_id = ak.articulo_compuesto_id
 WHERE ak.articulo_id = @kitId;", connection))
@@ -899,7 +899,8 @@ WHERE ak.articulo_id = @kitId;", connection))
                             Articulo = new Articulo
                             {
                                 Id = reader.GetInt32("articulo_compuesto_id"),
-                                Nombre = reader.GetString("nombre")
+                                Nombre = reader.GetString("nombre"),
+                                UnidadMedida = reader.GetString("unidad_medida")
                             }
                         });
                     }

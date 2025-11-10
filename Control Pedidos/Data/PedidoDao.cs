@@ -370,7 +370,7 @@ FOR UPDATE;", connection, transaction))
                     if (kitArticuloIds.Count > 0)
                     {
                         var parameterNames = kitArticuloIds.Select((_, index) => $"@kitId{index}").ToList();
-                        var query = $@"SELECT kd.articulo_id AS kit_id, kd.articulo_compuesto_id, kd.cantidad, a.nombre, a.nombre_corto
+                        var query = $@"SELECT kd.articulo_id AS kit_id, kd.articulo_compuesto_id, kd.cantidad, a.nombre, a.nombre_corto, a.unidad_medida
                                 FROM banquetes.articulos_kit kd
                                 INNER JOIN banquetes.articulos a ON a.articulo_id = kd.articulo_compuesto_id
                                 WHERE kd.articulo_id IN ({string.Join(",", parameterNames)});";
@@ -402,7 +402,8 @@ FOR UPDATE;", connection, transaction))
                                         {
                                             Id = reader.GetInt32("articulo_compuesto_id"),
                                             Nombre = reader.GetString("nombre"),
-                                            NombreCorto = reader.IsDBNull(reader.GetOrdinal("nombre_corto")) ? string.Empty : reader.GetString("nombre_corto")
+                                            NombreCorto = reader.IsDBNull(reader.GetOrdinal("nombre_corto")) ? string.Empty : reader.GetString("nombre_corto"),
+                                            UnidadMedida = reader.GetString("unidad_medida")
                                         }
                                     });
                                 }

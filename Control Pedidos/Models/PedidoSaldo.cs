@@ -8,6 +8,8 @@ namespace Control_Pedidos.Models
     {
         private decimal _montoAsignado;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public int PedidoId { get; set; }
         public string Folio { get; set; } = string.Empty;
         public DateTime FechaEntrega { get; set; }
@@ -28,7 +30,6 @@ namespace Control_Pedidos.Models
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

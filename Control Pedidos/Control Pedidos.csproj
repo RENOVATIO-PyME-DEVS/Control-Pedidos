@@ -225,7 +225,7 @@
     <Compile Include="Views\Settings\DatabaseSettingsForm.Designer.cs">
       <DependentUpon>DatabaseSettingsForm.cs</DependentUpon>
     </Compile>
-     <Compile Include="Views\Payments\RegisterAbonoForm.cs">
+    <Compile Include="Views\Payments\RegisterAbonoForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\Payments\RegisterAbonoForm.Designer.cs">
@@ -268,6 +268,9 @@
     <EmbeddedResource Include="Views\SeleccionEmpresaForm.resx">
       <DependentUpon>SeleccionEmpresaForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Settings\DatabaseSettingsForm.resx">
+      <DependentUpon>DatabaseSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Users\UserManagementForm.resx">
       <DependentUpon>UserManagementForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -288,4 +291,3 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
-   
