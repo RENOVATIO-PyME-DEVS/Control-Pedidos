@@ -362,5 +362,25 @@ namespace Control_Pedidos.Views.Payments
         {
 
         }
+
+        private void pedidosGrid_SelectionChanged(object sender, EventArgs e)
+        {
+            if (pedidosGrid.CurrentRow != null)
+            {
+                //   Supongamos que tienes una columna llamada "Folio"
+                string folio = pedidosGrid.CurrentRow.Cells["folioColumn"].Value?.ToString() ?? "";
+                string Saldo = pedidosGrid.CurrentRow.Cells["saldoColumn"].Value?.ToString() ?? "";
+
+                // Llenas el TextBox
+                textBox1.Text = folio;
+                textBox2.Text = Saldo;
+                montoNumericUpDown.Value = decimal.Parse(Saldo);
+            }
+        }
+
+        private void saldoRestanteLabel_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("El abono registrado no puede ser mayor al", "Renovatio pYyme");
+        }
     }
 }

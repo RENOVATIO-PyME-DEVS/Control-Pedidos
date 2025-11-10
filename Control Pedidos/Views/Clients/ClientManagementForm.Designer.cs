@@ -271,7 +271,7 @@ namespace Control_Pedidos.Views.Clients
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(583, 61);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 20);
+            this.label1.Size = new System.Drawing.Size(63, 16);
             this.label1.TabIndex = 26;
             this.label1.Text = "Domicilio";
             // 
@@ -320,6 +320,7 @@ namespace Control_Pedidos.Views.Clients
             this.Name = "ClientManagementForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Banquetes - Gestión de clientes";
+            this.Load += new System.EventHandler(this.ClientManagementForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.clientsGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

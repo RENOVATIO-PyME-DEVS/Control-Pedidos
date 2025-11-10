@@ -543,5 +543,11 @@ WHERE rg.moral = 'S';";
 
             return null;
         }
+
+        private void ClientManagementForm_Load(object sender, EventArgs e)
+        {
+            ClearForm();
+            ClearForm();
+        }
     }
 }
