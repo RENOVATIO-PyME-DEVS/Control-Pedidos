@@ -412,7 +412,45 @@ FOR UPDATE;", connection, transaction))
                 }
 
                 pedido.Detalles = detalles;
-                pedido.Total = detalles.Sum(d => d.Total);
+                pedido.Subtotal = detalles.Sum(d => d.Total);
+                pedido.Total = Math.Max(0m, pedido.Subtotal - pedido.Descuento);
+
+                // Se calcula el total de cobros registrados para el pedido.
+                decimal totalAbonado = 0m;
+                using (var cobrosCommand = new MySqlCommand(@"SELECT IFNULL(SUM(det.monto), 0)
+FROM banquetes.cobros_pedidos_det det
+INNER JOIN banquetes.cobros_pedidos cp ON cp.cobro_pedido = det.cobro_pedido_id
+WHERE det.pedido_id = @pedidoId;", connection))
+                {
+                    cobrosCommand.Parameters.AddWithValue("@pedidoId", pedidoId);
+                    var resultado = cobrosCommand.ExecuteScalar();
+                    if (resultado != null && resultado != DBNull.Value)
+                    {
+                        totalAbonado = Convert.ToDecimal(resultado);
+                    }
+                }
+
+                // Se obtiene la forma de pago del último cobro aplicado al pedido.
+                string formaCobro = string.Empty;
+                using (var formaCommand = new MySqlCommand(@"SELECT IFNULL(fc.nombre, '') AS forma
+FROM banquetes.cobros_pedidos cp
+INNER JOIN banquetes.cobros_pedidos_det det ON det.cobro_pedido_id = cp.cobro_pedido
+LEFT JOIN banquetes.formas_cobros fc ON fc.forma_cobro_id = cp.forma_cobro_id
+WHERE det.pedido_id = @pedidoId
+ORDER BY cp.fecha DESC, cp.cobro_pedido DESC
+LIMIT 1;", connection))
+                {
+                    formaCommand.Parameters.AddWithValue("@pedidoId", pedidoId);
+                    var resultado = formaCommand.ExecuteScalar();
+                    if (resultado != null && resultado != DBNull.Value)
+                    {
+                        formaCobro = Convert.ToString(resultado);
+                    }
+                }
+
+                pedido.MontoAbonado = totalAbonado;
+                pedido.FormaCobroUltima = formaCobro;
+                pedido.SaldoPendiente = Math.Max(0m, pedido.Total - totalAbonado);
 
                 return pedido;
             }
