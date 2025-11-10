@@ -10,6 +10,10 @@ using Control_Pedidos.Properties;
 
 namespace Control_Pedidos.Printing
 {
+    /*
+     * Clase: PedidoPrintDocument
+     * Descripción: Genera la representación impresa del pedido en formato carta.
+     */
     public sealed class PedidoPrintDocument : PrintDocument
     {
         private readonly Pedido _pedido;
@@ -377,9 +381,11 @@ namespace Control_Pedidos.Printing
 
         private float DibujarTotales(Graphics graphics, Rectangle bounds, float y)
         {
-            var subtotal = _pedido.Detalles?.Sum(d => d.Total) ?? 0m;
+            var subtotal = _pedido.Subtotal > 0m ? _pedido.Subtotal : (_pedido.Detalles?.Sum(d => d.Total) ?? 0m);
             var descuento = Math.Max(0m, _pedido.Descuento);
             var total = Math.Max(0m, subtotal - descuento);
+            var anticipo = Math.Max(0m, _pedido.MontoAbonado);
+            var saldo = Math.Max(0m, total - anticipo);
 
             var columnaDerecha = bounds.Left + bounds.Width * 0.55f;
             var ancho = bounds.Right - columnaDerecha;
@@ -397,8 +403,23 @@ namespace Control_Pedidos.Printing
             }
 
             var rectTotal = new RectangleF(columnaDerecha, y, ancho, _totalFont.GetHeight(graphics) + 2);
-            graphics.DrawString($"Total: {total:C2}", _totalFont, Brushes.Black, rectTotal, format);
-            y += _totalFont.GetHeight(graphics) + 40;
+            graphics.DrawString($"Total final: {total:C2}", _totalFont, Brushes.Black, rectTotal, format);
+            y += _totalFont.GetHeight(graphics) + 6;
+
+            var rectAnticipo = new RectangleF(columnaDerecha, y, ancho, _textoRegularFont.GetHeight(graphics) + 2);
+            graphics.DrawString($"Anticipo registrado: {anticipo:C2}", _textoRegularFont, Brushes.Black, rectAnticipo, format);
+            y += _textoRegularFont.GetHeight(graphics) + 2;
+
+            if (!string.IsNullOrWhiteSpace(_pedido.FormaCobroUltima))
+            {
+                var rectForma = new RectangleF(columnaDerecha, y, ancho, _textoRegularFont.GetHeight(graphics) + 2);
+                graphics.DrawString($"Forma de pago: {_pedido.FormaCobroUltima}", _textoRegularFont, Brushes.Black, rectForma, format);
+                y += _textoRegularFont.GetHeight(graphics) + 2;
+            }
+
+            var rectSaldo = new RectangleF(columnaDerecha, y, ancho, _textoRegularFont.GetHeight(graphics) + 2);
+            graphics.DrawString($"Saldo pendiente: {saldo:C2}", _textoRegularFont, Brushes.Black, rectSaldo, format);
+            y += _textoRegularFont.GetHeight(graphics) + 40;
 
             return y;
         }
@@ -457,7 +478,7 @@ namespace Control_Pedidos.Printing
         private float CalcularEspacioTotalesYFooter(Graphics graphics)
         {
             var lineHeight = _textoRegularFont.GetHeight(graphics);
-            var totalHeight = lineHeight * 4 + _totalFont.GetHeight(graphics);
+            var totalHeight = lineHeight * 6 + _totalFont.GetHeight(graphics);
             var leyendaHeight = graphics.MeasureString("Antes de 72 horas del evento se podrá cancelar o cambiar la fecha del pedido. Pasado ese tiempo, no se aceptan cambios ni devoluciones.", _textoPequenoFont, 1000).Height + 30;
             return totalHeight + leyendaHeight;
         }
