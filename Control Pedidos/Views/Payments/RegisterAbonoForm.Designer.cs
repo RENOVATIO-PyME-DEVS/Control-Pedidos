@@ -28,11 +28,11 @@ namespace Control_Pedidos.Views.Payments
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
             this.clienteLabel = new System.Windows.Forms.Label();
             this.clienteTextBox = new System.Windows.Forms.TextBox();
             this.saldoClienteLabel = new System.Windows.Forms.Label();
@@ -57,11 +57,17 @@ namespace Control_Pedidos.Views.Payments
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panelResumen = new System.Windows.Forms.Panel();
             this.panelAcciones = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.montoNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pedidosGrid)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panelResumen.SuspendLayout();
             this.panelAcciones.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // clienteLabel
@@ -82,7 +88,7 @@ namespace Control_Pedidos.Views.Payments
             this.clienteTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.clienteTextBox.Name = "clienteTextBox";
             this.clienteTextBox.ReadOnly = true;
-            this.clienteTextBox.Size = new System.Drawing.Size(463, 22);
+            this.clienteTextBox.Size = new System.Drawing.Size(536, 22);
             this.clienteTextBox.TabIndex = 1;
             this.clienteTextBox.TabStop = false;
             // 
@@ -109,7 +115,7 @@ namespace Control_Pedidos.Views.Payments
             // formaCobroLabel
             // 
             this.formaCobroLabel.AutoSize = true;
-            this.formaCobroLabel.Location = new System.Drawing.Point(335, 119);
+            this.formaCobroLabel.Location = new System.Drawing.Point(349, 72);
             this.formaCobroLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.formaCobroLabel.Name = "formaCobroLabel";
             this.formaCobroLabel.Size = new System.Drawing.Size(87, 16);
@@ -122,17 +128,17 @@ namespace Control_Pedidos.Views.Payments
             | System.Windows.Forms.AnchorStyles.Right)));
             this.formaCobroComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.formaCobroComboBox.FormattingEnabled = true;
-            this.formaCobroComboBox.Location = new System.Drawing.Point(446, 115);
+            this.formaCobroComboBox.Location = new System.Drawing.Point(464, 69);
             this.formaCobroComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.formaCobroComboBox.Name = "formaCobroComboBox";
-            this.formaCobroComboBox.Size = new System.Drawing.Size(165, 24);
+            this.formaCobroComboBox.Size = new System.Drawing.Size(200, 24);
             this.formaCobroComboBox.TabIndex = 5;
             this.formaCobroComboBox.SelectedIndexChanged += new System.EventHandler(this.formaCobroComboBox_SelectedIndexChanged);
             // 
             // montoLabel
             // 
             this.montoLabel.AutoSize = true;
-            this.montoLabel.Location = new System.Drawing.Point(18, 156);
+            this.montoLabel.Location = new System.Drawing.Point(18, 69);
             this.montoLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.montoLabel.Name = "montoLabel";
             this.montoLabel.Size = new System.Drawing.Size(89, 16);
@@ -147,7 +153,7 @@ namespace Control_Pedidos.Views.Payments
             0,
             0,
             131072});
-            this.montoNumericUpDown.Location = new System.Drawing.Point(149, 154);
+            this.montoNumericUpDown.Location = new System.Drawing.Point(149, 67);
             this.montoNumericUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.montoNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
@@ -162,7 +168,7 @@ namespace Control_Pedidos.Views.Payments
             // saldoRestanteTitleLabel
             // 
             this.saldoRestanteTitleLabel.AutoSize = true;
-            this.saldoRestanteTitleLabel.Location = new System.Drawing.Point(335, 156);
+            this.saldoRestanteTitleLabel.Location = new System.Drawing.Point(343, 121);
             this.saldoRestanteTitleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.saldoRestanteTitleLabel.Name = "saldoRestanteTitleLabel";
             this.saldoRestanteTitleLabel.Size = new System.Drawing.Size(97, 16);
@@ -173,12 +179,13 @@ namespace Control_Pedidos.Views.Payments
             // 
             this.saldoRestanteLabel.AutoSize = true;
             this.saldoRestanteLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.saldoRestanteLabel.Location = new System.Drawing.Point(453, 154);
+            this.saldoRestanteLabel.Location = new System.Drawing.Point(461, 119);
             this.saldoRestanteLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.saldoRestanteLabel.Name = "saldoRestanteLabel";
             this.saldoRestanteLabel.Size = new System.Drawing.Size(40, 20);
             this.saldoRestanteLabel.TabIndex = 9;
             this.saldoRestanteLabel.Text = "$0.0";
+            this.saldoRestanteLabel.Click += new System.EventHandler(this.saldoRestanteLabel_Click);
             // 
             // pedidosGrid
             // 
@@ -203,9 +210,10 @@ namespace Control_Pedidos.Views.Payments
             this.pedidosGrid.RowHeadersVisible = false;
             this.pedidosGrid.RowHeadersWidth = 51;
             this.pedidosGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.pedidosGrid.Size = new System.Drawing.Size(905, 245);
+            this.pedidosGrid.Size = new System.Drawing.Size(923, 232);
             this.pedidosGrid.TabIndex = 10;
             this.pedidosGrid.TabStop = false;
+            this.pedidosGrid.SelectionChanged += new System.EventHandler(this.pedidosGrid_SelectionChanged);
             // 
             // folioColumn
             // 
@@ -218,8 +226,8 @@ namespace Control_Pedidos.Views.Payments
             // fechaEntregaColumn
             // 
             this.fechaEntregaColumn.DataPropertyName = "FechaEntrega";
-            dataGridViewCellStyle1.Format = "dd/MM/yyyy";
-            this.fechaEntregaColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle21.Format = "dd/MM/yyyy";
+            this.fechaEntregaColumn.DefaultCellStyle = dataGridViewCellStyle21;
             this.fechaEntregaColumn.HeaderText = "Fecha entrega";
             this.fechaEntregaColumn.MinimumWidth = 6;
             this.fechaEntregaColumn.Name = "fechaEntregaColumn";
@@ -228,8 +236,8 @@ namespace Control_Pedidos.Views.Payments
             // totalColumn
             // 
             this.totalColumn.DataPropertyName = "Total";
-            dataGridViewCellStyle2.Format = "C2";
-            this.totalColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle22.Format = "C2";
+            this.totalColumn.DefaultCellStyle = dataGridViewCellStyle22;
             this.totalColumn.HeaderText = "Total";
             this.totalColumn.MinimumWidth = 6;
             this.totalColumn.Name = "totalColumn";
@@ -238,8 +246,8 @@ namespace Control_Pedidos.Views.Payments
             // abonadoColumn
             // 
             this.abonadoColumn.DataPropertyName = "Abonado";
-            dataGridViewCellStyle3.Format = "C2";
-            this.abonadoColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle23.Format = "C2";
+            this.abonadoColumn.DefaultCellStyle = dataGridViewCellStyle23;
             this.abonadoColumn.HeaderText = "Abonado";
             this.abonadoColumn.MinimumWidth = 6;
             this.abonadoColumn.Name = "abonadoColumn";
@@ -248,8 +256,8 @@ namespace Control_Pedidos.Views.Payments
             // saldoColumn
             // 
             this.saldoColumn.DataPropertyName = "Saldo";
-            dataGridViewCellStyle4.Format = "C2";
-            this.saldoColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle24.Format = "C2";
+            this.saldoColumn.DefaultCellStyle = dataGridViewCellStyle24;
             this.saldoColumn.HeaderText = "Saldo";
             this.saldoColumn.MinimumWidth = 6;
             this.saldoColumn.Name = "saldoColumn";
@@ -258,8 +266,8 @@ namespace Control_Pedidos.Views.Payments
             // montoAsignadoColumn
             // 
             this.montoAsignadoColumn.DataPropertyName = "MontoAsignado";
-            dataGridViewCellStyle5.Format = "C2";
-            this.montoAsignadoColumn.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle25.Format = "C2";
+            this.montoAsignadoColumn.DefaultCellStyle = dataGridViewCellStyle25;
             this.montoAsignadoColumn.HeaderText = "Monto asignado";
             this.montoAsignadoColumn.MinimumWidth = 6;
             this.montoAsignadoColumn.Name = "montoAsignadoColumn";
@@ -286,14 +294,14 @@ namespace Control_Pedidos.Views.Payments
             this.resumenTextBox.Name = "resumenTextBox";
             this.resumenTextBox.ReadOnly = true;
             this.resumenTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.resumenTextBox.Size = new System.Drawing.Size(884, 78);
+            this.resumenTextBox.Size = new System.Drawing.Size(902, 72);
             this.resumenTextBox.TabIndex = 12;
             this.resumenTextBox.TabStop = false;
             // 
             // cancelarButton
             // 
             this.cancelarButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.cancelarButton.Location = new System.Drawing.Point(546, 11);
+            this.cancelarButton.Location = new System.Drawing.Point(564, 11);
             this.cancelarButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelarButton.Name = "cancelarButton";
             this.cancelarButton.Size = new System.Drawing.Size(151, 37);
@@ -305,7 +313,7 @@ namespace Control_Pedidos.Views.Payments
             // guardarButton
             // 
             this.guardarButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.guardarButton.Location = new System.Drawing.Point(705, 11);
+            this.guardarButton.Location = new System.Drawing.Point(723, 11);
             this.guardarButton.Margin = new System.Windows.Forms.Padding(4);
             this.guardarButton.Name = "guardarButton";
             this.guardarButton.Size = new System.Drawing.Size(192, 37);
@@ -323,13 +331,13 @@ namespace Control_Pedidos.Views.Payments
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.pedidosGrid, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panelResumen, 0, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(16, 188);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(16, 248);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(913, 362);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(931, 343);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
             // panelResumen
@@ -337,10 +345,10 @@ namespace Control_Pedidos.Views.Payments
             this.panelResumen.Controls.Add(this.resumenLabel);
             this.panelResumen.Controls.Add(this.resumenTextBox);
             this.panelResumen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelResumen.Location = new System.Drawing.Point(4, 257);
+            this.panelResumen.Location = new System.Drawing.Point(4, 244);
             this.panelResumen.Margin = new System.Windows.Forms.Padding(4);
             this.panelResumen.Name = "panelResumen";
-            this.panelResumen.Size = new System.Drawing.Size(905, 101);
+            this.panelResumen.Size = new System.Drawing.Size(923, 95);
             this.panelResumen.TabIndex = 17;
             // 
             // panelAcciones
@@ -349,25 +357,79 @@ namespace Control_Pedidos.Views.Payments
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelAcciones.Controls.Add(this.cancelarButton);
             this.panelAcciones.Controls.Add(this.guardarButton);
-            this.panelAcciones.Location = new System.Drawing.Point(16, 558);
+            this.panelAcciones.Location = new System.Drawing.Point(16, 599);
             this.panelAcciones.Margin = new System.Windows.Forms.Padding(4);
             this.panelAcciones.Name = "panelAcciones";
-            this.panelAcciones.Size = new System.Drawing.Size(913, 59);
+            this.panelAcciones.Size = new System.Drawing.Size(931, 59);
             this.panelAcciones.TabIndex = 16;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.textBox2);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.montoNumericUpDown);
+            this.groupBox1.Controls.Add(this.montoLabel);
+            this.groupBox1.Controls.Add(this.formaCobroComboBox);
+            this.groupBox1.Controls.Add(this.formaCobroLabel);
+            this.groupBox1.Location = new System.Drawing.Point(21, 145);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(679, 100);
+            this.groupBox1.TabIndex = 17;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Detalle abono";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(18, 33);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(176, 20);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Pedido Seleccionado:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(186, 30);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(123, 22);
+            this.textBox1.TabIndex = 9;
+            this.textBox1.TabStop = false;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(464, 30);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(110, 22);
+            this.textBox2.TabIndex = 11;
+            this.textBox2.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(349, 33);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(115, 20);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Saldo pedido:";
             // 
             // RegisterAbonoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(945, 631);
+            this.ClientSize = new System.Drawing.Size(963, 672);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panelAcciones);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.saldoRestanteLabel);
             this.Controls.Add(this.saldoRestanteTitleLabel);
-            this.Controls.Add(this.montoNumericUpDown);
-            this.Controls.Add(this.montoLabel);
-            this.Controls.Add(this.formaCobroComboBox);
-            this.Controls.Add(this.formaCobroLabel);
             this.Controls.Add(this.saldoClienteTextBox);
             this.Controls.Add(this.saldoClienteLabel);
             this.Controls.Add(this.clienteTextBox);
@@ -384,6 +446,8 @@ namespace Control_Pedidos.Views.Payments
             this.panelResumen.ResumeLayout(false);
             this.panelResumen.PerformLayout();
             this.panelAcciones.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -415,5 +479,10 @@ namespace Control_Pedidos.Views.Payments
         private System.Windows.Forms.DataGridViewTextBoxColumn abonadoColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn saldoColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn montoAsignadoColumn;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
     }
 }

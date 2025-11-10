@@ -58,8 +58,8 @@ namespace Control_Pedidos.Printing
             float y = bounds.Top;
 
             y = DibujarEncabezado(graphics, bounds, y);
-            y = DibujarDatosPedido(graphics, bounds, y);
             y = DibujarDatosCliente(graphics, bounds, y);
+            y = DibujarDatosPedido(graphics, bounds, y);
 
             y += 10;
             y = DibujarEncabezadoTabla(graphics, bounds, y, out var columnas);
@@ -160,7 +160,7 @@ namespace Control_Pedidos.Printing
                 ? _pedido.FolioFormateado
                 : (!string.IsNullOrWhiteSpace(_pedido.Folio) ? _pedido.Folio : _pedido.Id.ToString());
             var folioRect = new RectangleF(bounds.Left, y, bounds.Width / 2f, _textoNegritasFont.GetHeight(graphics) + 4);
-            graphics.DrawString($"Folio: {folioTexto}", _textoNegritasFont, Brushes.Black, folioRect, new StringFormat { Alignment = StringAlignment.Near });
+            graphics.DrawString($"Folio Pedido: {folioTexto}", _textoNegritasFont, Brushes.Black, folioRect, new StringFormat { Alignment = StringAlignment.Near });
 
             if (_mostrarLeyendaReimpreso)
             {
@@ -181,20 +181,20 @@ namespace Control_Pedidos.Printing
             var formatLeft = new StringFormat { Alignment = StringAlignment.Near };
             var formatRight = new StringFormat { Alignment = StringAlignment.Near };
 
-            var rectLeft = new RectangleF(left, y, columnWidth, lineaAltura);
+            var rectLeft = new RectangleF(left, y+7, columnWidth, lineaAltura);
             graphics.DrawString($"Fecha creación: {_pedido.FechaCreacion:dd/MM/yyyy}", _textoRegularFont, Brushes.Black, rectLeft, formatLeft);
 
             var horaEntrega = _pedido.HoraEntrega.HasValue ? _pedido.HoraEntrega.Value.ToString(@"hh\:mm") : "--";
-            var rectRight = new RectangleF(left + columnWidth, y, columnWidth, lineaAltura);
-            graphics.DrawString($"Fecha y Hora entrega: {_pedido.FechaEntrega:dd/MM/yyyy} {horaEntrega}", _textoRegularFont, Brushes.Black, rectRight, formatRight);
+            var rectRight = new RectangleF(left + columnWidth, y+7, columnWidth, lineaAltura);
+            graphics.DrawString($"FECHA Y HORA ENTREGA: {_pedido.FechaEntrega:dd/MM/yyyy} {horaEntrega}", _textoNegritasFont, Brushes.Black, rectRight, formatRight);
             y += lineaAltura;
 
-            rectLeft = new RectangleF(left, y, columnWidth, lineaAltura);
+            rectLeft = new RectangleF(left, y + 7, columnWidth, lineaAltura);
             graphics.DrawString($"Lo atendió: {_pedido.Usuario.Nombre}", _textoRegularFont, Brushes.Black, rectLeft, formatLeft);
 
             if (_pedido.Evento != null && !string.IsNullOrWhiteSpace(_pedido.Evento.Nombre))
             {
-                rectRight = new RectangleF(left + columnWidth, y, columnWidth, lineaAltura);
+                rectRight = new RectangleF(left + columnWidth, y + 7, columnWidth, lineaAltura);
                 graphics.DrawString($"Evento: {_pedido.Evento.Nombre}", _textoRegularFont, Brushes.Black, rectRight, formatRight);
             }
             y += lineaAltura;
@@ -204,7 +204,7 @@ namespace Control_Pedidos.Printing
                 y += 4;
                 var notasTexto = $"Notas: {_pedido.Notas}";
                 var notasSize = graphics.MeasureString(notasTexto, _textoRegularFont, (int)width);
-                var notasRect = new RectangleF(left, y, width, notasSize.Height);
+                var notasRect = new RectangleF(left, y + 7, width, notasSize.Height);
                 var notasFormat = new StringFormat { Alignment = StringAlignment.Near };
                 graphics.DrawString(notasTexto, _textoRegularFont, Brushes.Black, notasRect, notasFormat);
                 y += notasSize.Height + 4;
@@ -282,37 +282,95 @@ namespace Control_Pedidos.Printing
                 return false;
             }
 
+            //while (_indiceDetalleActual < _pedido.Detalles.Count)
+            //{
+            //    var detalle = _pedido.Detalles[_indiceDetalleActual];
+            //    var descripcion = ConstruirDescripcionDetalle(detalle);
+
+            //    var descripcionSize = graphics.MeasureString(descripcion, _detalleTablaFont, (int)columnas.GetColumnWidth(1));
+            //    var filaAltura = Math.Max(descripcionSize.Height, _detalleTablaFont.GetHeight(graphics)) + 8;
+
+            //    if (y + filaAltura > bounds.Bottom - espacioReservado)
+            //    {
+            //        return true;
+            //    }
+
+            //    var cantidadRect = columnas.GetColumnRectangle(0, y, filaAltura);
+            //    graphics.DrawString(detalle.Cantidad.ToString("N2"), _detalleTablaFont, Brushes.Black, cantidadRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+
+            //    var descripcionRect = columnas.GetColumnRectangle(1, y, filaAltura);
+            //    var descripcionFormat = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center };
+            //    graphics.DrawString(descripcion, _detalleTablaFont, Brushes.Black, descripcionRect, descripcionFormat);
+
+            //    var precioRect = columnas.GetColumnRectangle(2, y, filaAltura);
+            //    graphics.DrawString(detalle.PrecioUnitario.ToString("C2"), _detalleTablaFont, Brushes.Black, precioRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+
+            //    var totalRect = columnas.GetColumnRectangle(3, y, filaAltura);
+            //    graphics.DrawString(detalle.Total.ToString("C2"), _detalleTablaFont, Brushes.Black, totalRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+
+            //    y += filaAltura;
+            //    graphics.DrawLine(Pens.LightGray, bounds.Left, y, bounds.Right, y);
+
+            //    _indiceDetalleActual++;
+            //}
             while (_indiceDetalleActual < _pedido.Detalles.Count)
             {
                 var detalle = _pedido.Detalles[_indiceDetalleActual];
-                var descripcion = ConstruirDescripcionDetalle(detalle);
 
-                var descripcionSize = graphics.MeasureString(descripcion, _detalleTablaFont, (int)columnas.GetColumnWidth(1));
+                // --- Construimos texto ---
+                var descripcionNormal = ConstruirDescripcionDetalle(detalle);
+                var descripcionRect = columnas.GetColumnRectangle(1, y, 0); // ancho base
+
+                // --- Calculamos altura ---
+                var descripcionSize = graphics.MeasureString(descripcionNormal, _detalleTablaFont, (int)columnas.GetColumnWidth(1));
                 var filaAltura = Math.Max(descripcionSize.Height, _detalleTablaFont.GetHeight(graphics)) + 8;
 
                 if (y + filaAltura > bounds.Bottom - espacioReservado)
-                {
                     return true;
+
+                // --- Columna Cantidad ---
+                var cantidadRect = columnas.GetColumnRectangle(0, y, filaAltura);
+                graphics.DrawString($"{detalle.Cantidad.ToString("N2")} {detalle.Articulo.UnidadMedida.ToString()}(s)", _detalleTablaFont, Brushes.Black, cantidadRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+
+                // --- Columna Descripción (separar título y componentes) ---
+                var descripcionY = y;
+                var fuenteNegrita = new Font(_detalleTablaFont, FontStyle.Bold);
+                var fuenteNormal = _detalleTablaFont;
+                var brush = Brushes.Black;
+
+                // 1️⃣ Nombre del artículo (en negritas)
+                graphics.DrawString(detalle.ArticuloNombre.ToUpper(), fuenteNegrita, brush, descripcionRect, new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Near });
+                descripcionY += fuenteNegrita.GetHeight(graphics);
+
+                // 2️⃣ Componentes (si aplica)
+                if (detalle.Articulo?.EsKit == true && detalle.Componentes != null && detalle.Componentes.Count > 0)
+                {
+                    var componentesTexto = new StringBuilder();
+                    componentesTexto.AppendLine("Componentes:");
+                    foreach (var componente in detalle.Componentes)
+                    {
+                        componentesTexto.AppendLine($"• {componente.NombreArticulo}");
+                    }
+
+                    var componenteRect = new RectangleF(descripcionRect.Left + 10, descripcionY, descripcionRect.Width - 10, filaAltura);
+                    graphics.DrawString(componentesTexto.ToString(), fuenteNormal, brush, componenteRect, new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Near });
                 }
 
-                var cantidadRect = columnas.GetColumnRectangle(0, y, filaAltura);
-                graphics.DrawString(detalle.Cantidad.ToString("N2"), _detalleTablaFont, Brushes.Black, cantidadRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
-
-                var descripcionRect = columnas.GetColumnRectangle(1, y, filaAltura);
-                var descripcionFormat = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center };
-                graphics.DrawString(descripcion, _detalleTablaFont, Brushes.Black, descripcionRect, descripcionFormat);
-
+                // --- Precio Unitario ---
                 var precioRect = columnas.GetColumnRectangle(2, y, filaAltura);
-                graphics.DrawString(detalle.PrecioUnitario.ToString("C2"), _detalleTablaFont, Brushes.Black, precioRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+                graphics.DrawString(detalle.PrecioUnitario.ToString("C2"), _detalleTablaFont, brush, precioRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
+                // --- Total ---
                 var totalRect = columnas.GetColumnRectangle(3, y, filaAltura);
-                graphics.DrawString(detalle.Total.ToString("C2"), _detalleTablaFont, Brushes.Black, totalRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+                graphics.DrawString(detalle.Total.ToString("C2"), _detalleTablaFont, brush, totalRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
+                // --- Línea divisoria y avanzar ---
                 y += filaAltura;
                 graphics.DrawLine(Pens.LightGray, bounds.Left, y, bounds.Right, y);
 
                 _indiceDetalleActual++;
             }
+
 
             return false;
         }
@@ -381,11 +439,11 @@ namespace Control_Pedidos.Printing
 
             if (detalle.Articulo?.EsKit != true || detalle.Componentes == null || detalle.Componentes.Count == 0)
             {
-                return detalle.ArticuloNombre;
+                return detalle.ArticuloNombre.ToUpper();
             }
 
             var builder = new StringBuilder();
-            builder.AppendLine(detalle.ArticuloNombre);
+            builder.AppendLine(detalle.ArticuloNombre.ToUpper());
             builder.AppendLine("Componentes:");
             foreach (var componente in detalle.Componentes)
             {

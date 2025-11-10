@@ -321,7 +321,8 @@ FOR UPDATE;", connection, transaction))
                                 d.total,
                                 a.nombre AS articulo_nombre,
                                 a.nombre_corto,
-                                a.tipo_articulo
+                                a.tipo_articulo,
+                                a.unidad_medida
                             FROM banquetes.pedidos_detalles d
                             INNER JOIN banquetes.articulos a ON a.articulo_id = d.articulo_id
                             WHERE d.pedido_id = @pedidoId
@@ -338,7 +339,8 @@ FOR UPDATE;", connection, transaction))
                                 Id = reader.GetInt32("articulo_id"),
                                 Nombre = reader.GetString("articulo_nombre"),
                                 NombreCorto = reader.IsDBNull(reader.GetOrdinal("nombre_corto")) ? string.Empty : reader.GetString("nombre_corto"),
-                                TipoArticulo = reader.IsDBNull(reader.GetOrdinal("tipo_articulo")) ? string.Empty : reader.GetString("tipo_articulo")
+                                TipoArticulo = reader.IsDBNull(reader.GetOrdinal("tipo_articulo")) ? string.Empty : reader.GetString("tipo_articulo"),
+                            UnidadMedida = reader.GetString("unidad_medida")
                             };
 
                             var detalle = new PedidoDetalle
