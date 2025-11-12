@@ -91,7 +91,8 @@ namespace Control_Pedidos.Printing
 
             y = DibujarTextoCentrado(g, bounds, y, _tituloFont, _cobro.Empresa?.Nombre);
             y = DibujarTextoCentrado(g, bounds, y, _textoFont, _cobro.Empresa?.Rfc);
-            y = DibujarTextoCentrado(g, bounds, y, _textoFont, $"Tel. {_cobro.Empresa?.Telefono}");
+            //y = DibujarTextoCentrado(g, bounds, y, _textoFont, $"Tel. {_cobro.Empresa?.Telefono}");
+            y = DibujarTextoCentrado(g, bounds, y, _textoFont, $"Tels.: 449-975-0551 / 449-145-1959");
 
             y += 4f;
             g.DrawString(new string('-', 40), _textoFont, Brushes.Black, bounds, new StringFormat { Alignment = StringAlignment.Center });
@@ -161,16 +162,23 @@ namespace Control_Pedidos.Printing
         {
             y = DibujarTextoResaltado(g, bounds, y, $"TOTAL ABONADO: ........ {_cobro.Monto:C2}");
 
+
             if (_cobro.SaldoDespues > 0)
             {
-            y = DibujarTexto(g, bounds, y, $"SALDO RESTANTE: ....... {_cobro.SaldoDespues:C2}", _textoFont);
+                y = DibujarTexto(g, bounds, y, $"SALDO RESTANTE: ....... {_cobro.SaldoDespues:C2}", _textoFont);
 
             }
 
-            if (_cobro.SaldoAnterior > 0)
-            {
-                y = DibujarTexto(g, bounds, y, $"SALDO ANTERIOR: ....... {_cobro.SaldoAnterior:C2}", _textoFont);
-            }
+            //if (_cobro.SaldoDespues > 0)
+            //{
+            //y = DibujarTexto(g, bounds, y, $"SALDO RESTANTE: ....... {_cobro.SaldoDespues:C2}", _textoFont);
+
+            //}
+
+            //if (_cobro.SaldoAnterior > 0)
+            //{
+            //    y = DibujarTexto(g, bounds, y, $"SALDO ANTERIOR: ....... {_cobro.SaldoAnterior:C2}", _textoFont);
+            //}
 
             y += 4f;
             g.DrawString(new string('-', 40), _textoFont, Brushes.Black, bounds, new StringFormat { Alignment = StringAlignment.Center });

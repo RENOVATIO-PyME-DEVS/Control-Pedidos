@@ -79,5 +79,16 @@ namespace Control_Pedidos.Models
             var dao = new ArticuloDao(connectionFactory);
             return dao.Listar(filtro);
         }
+
+        public static IList<Articulo> ListarSinProd(DatabaseConnectionFactory connectionFactory, string filtro)
+        {
+            if (connectionFactory == null)
+            {
+                throw new ArgumentNullException(nameof(connectionFactory));
+            }
+
+            var dao = new ArticuloDao(connectionFactory);
+            return dao.ListarSinP(filtro);
+        }
     }
 }

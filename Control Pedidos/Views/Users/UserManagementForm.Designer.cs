@@ -273,6 +273,7 @@ namespace Control_Pedidos.Views.Users
             this.Name = "UserManagementForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Gestión de usuarios";
+            this.Load += new System.EventHandler(this.UserManagementForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.usersGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

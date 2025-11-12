@@ -304,5 +304,12 @@ namespace Control_Pedidos.Views.Users
                 passwordTextBox.PasswordChar = '*';
             }
         }
+
+        private void UserManagementForm_Load(object sender, EventArgs e)
+        {
+            ClearForm();
+            ClearForm();
+
+        }
     }
 }

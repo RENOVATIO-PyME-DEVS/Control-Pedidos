@@ -39,12 +39,10 @@ namespace Control_Pedidos.Views.Orders
             this.assemblingOrdersLabel = new System.Windows.Forms.Label();
             this.deliveredOrdersLabel = new System.Windows.Forms.Label();
             this.todaysOrdersGrid = new System.Windows.Forms.DataGridView();
-            this.pedidoIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.folioColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clienteColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.horaEntregaColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.estatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Folio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estatusCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.actualizarEstatusColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.filtersPanel.SuspendLayout();
             this.summaryPanel.SuspendLayout();
@@ -61,19 +59,20 @@ namespace Control_Pedidos.Views.Orders
             this.filtersPanel.Controls.Add(this.clientFilterComboBox);
             this.filtersPanel.Controls.Add(this.statusFilterLabel);
             this.filtersPanel.Controls.Add(this.statusFilterComboBox);
-            this.filtersPanel.Location = new System.Drawing.Point(22, 24);
+            this.filtersPanel.Location = new System.Drawing.Point(29, 66);
+            this.filtersPanel.Margin = new System.Windows.Forms.Padding(4);
             this.filtersPanel.Name = "filtersPanel";
-            this.filtersPanel.Size = new System.Drawing.Size(0, 0);
-            this.filtersPanel.TabIndex = 0;
+            this.filtersPanel.Size = new System.Drawing.Size(803, 32);
+            this.filtersPanel.TabIndex = 3;
             this.filtersPanel.WrapContents = false;
             // 
             // clientFilterLabel
             // 
             this.clientFilterLabel.AutoSize = true;
-            this.clientFilterLabel.Location = new System.Drawing.Point(3, 6);
-            this.clientFilterLabel.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.clientFilterLabel.Location = new System.Drawing.Point(4, 7);
+            this.clientFilterLabel.Margin = new System.Windows.Forms.Padding(4, 7, 4, 0);
             this.clientFilterLabel.Name = "clientFilterLabel";
-            this.clientFilterLabel.Size = new System.Drawing.Size(90, 13);
+            this.clientFilterLabel.Size = new System.Drawing.Size(105, 16);
             this.clientFilterLabel.TabIndex = 0;
             this.clientFilterLabel.Text = "Filtrar por cliente";
             // 
@@ -81,19 +80,19 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.clientFilterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.clientFilterComboBox.FormattingEnabled = true;
-            this.clientFilterComboBox.Location = new System.Drawing.Point(99, 3);
+            this.clientFilterComboBox.Location = new System.Drawing.Point(117, 4);
+            this.clientFilterComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.clientFilterComboBox.Name = "clientFilterComboBox";
-            this.clientFilterComboBox.Size = new System.Drawing.Size(220, 21);
+            this.clientFilterComboBox.Size = new System.Drawing.Size(292, 24);
             this.clientFilterComboBox.TabIndex = 1;
-            this.clientFilterComboBox.SelectedIndexChanged += new System.EventHandler(this.clientFilterComboBox_SelectedIndexChanged);
             // 
             // statusFilterLabel
             // 
             this.statusFilterLabel.AutoSize = true;
-            this.statusFilterLabel.Location = new System.Drawing.Point(325, 6);
-            this.statusFilterLabel.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.statusFilterLabel.Location = new System.Drawing.Point(417, 7);
+            this.statusFilterLabel.Margin = new System.Windows.Forms.Padding(4, 7, 4, 0);
             this.statusFilterLabel.Name = "statusFilterLabel";
-            this.statusFilterLabel.Size = new System.Drawing.Size(88, 13);
+            this.statusFilterLabel.Size = new System.Drawing.Size(109, 16);
             this.statusFilterLabel.TabIndex = 2;
             this.statusFilterLabel.Text = "Filtrar por estatus";
             // 
@@ -101,11 +100,11 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.statusFilterComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.statusFilterComboBox.FormattingEnabled = true;
-            this.statusFilterComboBox.Location = new System.Drawing.Point(419, 3);
+            this.statusFilterComboBox.Location = new System.Drawing.Point(534, 4);
+            this.statusFilterComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.statusFilterComboBox.Name = "statusFilterComboBox";
-            this.statusFilterComboBox.Size = new System.Drawing.Size(200, 21);
+            this.statusFilterComboBox.Size = new System.Drawing.Size(265, 24);
             this.statusFilterComboBox.TabIndex = 3;
-            this.statusFilterComboBox.SelectedIndexChanged += new System.EventHandler(this.statusFilterComboBox_SelectedIndexChanged);
             // 
             // summaryPanel
             // 
@@ -117,50 +116,50 @@ namespace Control_Pedidos.Views.Orders
             this.summaryPanel.Controls.Add(this.waitingOrdersLabel);
             this.summaryPanel.Controls.Add(this.assemblingOrdersLabel);
             this.summaryPanel.Controls.Add(this.deliveredOrdersLabel);
-            this.summaryPanel.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
-            this.summaryPanel.Location = new System.Drawing.Point(22, 64);
+            this.summaryPanel.Location = new System.Drawing.Point(29, 115);
+            this.summaryPanel.Margin = new System.Windows.Forms.Padding(4);
             this.summaryPanel.Name = "summaryPanel";
-            this.summaryPanel.Size = new System.Drawing.Size(0, 0);
-            this.summaryPanel.TabIndex = 1;
+            this.summaryPanel.Size = new System.Drawing.Size(648, 23);
+            this.summaryPanel.TabIndex = 4;
             this.summaryPanel.WrapContents = false;
             // 
             // totalOrdersLabel
             // 
             this.totalOrdersLabel.AutoSize = true;
-            this.totalOrdersLabel.Location = new System.Drawing.Point(3, 6);
-            this.totalOrdersLabel.Margin = new System.Windows.Forms.Padding(3, 6, 18, 0);
+            this.totalOrdersLabel.Location = new System.Drawing.Point(4, 7);
+            this.totalOrdersLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
             this.totalOrdersLabel.Name = "totalOrdersLabel";
-            this.totalOrdersLabel.Size = new System.Drawing.Size(110, 13);
+            this.totalOrdersLabel.Size = new System.Drawing.Size(145, 16);
             this.totalOrdersLabel.TabIndex = 0;
             this.totalOrdersLabel.Text = "Pedidos totales del día";
             // 
             // waitingOrdersLabel
             // 
             this.waitingOrdersLabel.AutoSize = true;
-            this.waitingOrdersLabel.Location = new System.Drawing.Point(134, 6);
-            this.waitingOrdersLabel.Margin = new System.Windows.Forms.Padding(3, 6, 18, 0);
+            this.waitingOrdersLabel.Location = new System.Drawing.Point(177, 7);
+            this.waitingOrdersLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
             this.waitingOrdersLabel.Name = "waitingOrdersLabel";
-            this.waitingOrdersLabel.Size = new System.Drawing.Size(97, 13);
+            this.waitingOrdersLabel.Size = new System.Drawing.Size(122, 16);
             this.waitingOrdersLabel.TabIndex = 1;
             this.waitingOrdersLabel.Text = "Pedidos en espera";
             // 
             // assemblingOrdersLabel
             // 
             this.assemblingOrdersLabel.AutoSize = true;
-            this.assemblingOrdersLabel.Location = new System.Drawing.Point(255, 6);
-            this.assemblingOrdersLabel.Margin = new System.Windows.Forms.Padding(3, 6, 18, 0);
+            this.assemblingOrdersLabel.Location = new System.Drawing.Point(327, 7);
+            this.assemblingOrdersLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
             this.assemblingOrdersLabel.Name = "assemblingOrdersLabel";
-            this.assemblingOrdersLabel.Size = new System.Drawing.Size(110, 13);
+            this.assemblingOrdersLabel.Size = new System.Drawing.Size(139, 16);
             this.assemblingOrdersLabel.TabIndex = 2;
             this.assemblingOrdersLabel.Text = "Pedidos en ensamble";
             // 
             // deliveredOrdersLabel
             // 
             this.deliveredOrdersLabel.AutoSize = true;
-            this.deliveredOrdersLabel.Location = new System.Drawing.Point(386, 6);
-            this.deliveredOrdersLabel.Margin = new System.Windows.Forms.Padding(3, 6, 18, 0);
+            this.deliveredOrdersLabel.Location = new System.Drawing.Point(494, 7);
+            this.deliveredOrdersLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
             this.deliveredOrdersLabel.Name = "deliveredOrdersLabel";
-            this.deliveredOrdersLabel.Size = new System.Drawing.Size(101, 13);
+            this.deliveredOrdersLabel.Size = new System.Drawing.Size(130, 16);
             this.deliveredOrdersLabel.TabIndex = 3;
             this.deliveredOrdersLabel.Text = "Pedidos entregados";
             // 
@@ -172,92 +171,72 @@ namespace Control_Pedidos.Views.Orders
             this.todaysOrdersGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.todaysOrdersGrid.AutoGenerateColumns = false;
             this.todaysOrdersGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.todaysOrdersGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.todaysOrdersGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.pedidoIdColumn,
-            this.folioColumn,
-            this.clienteColumn,
-            this.horaEntregaColumn,
-            this.estatusColumn,
-            this.totalColumn,
+            this.Folio,
+            this.Cliente,
+            this.Total,
+            this.estatusCol,
             this.actualizarEstatusColumn});
-            this.todaysOrdersGrid.Location = new System.Drawing.Point(22, 112);
+            this.todaysOrdersGrid.Location = new System.Drawing.Point(29, 221);
+            this.todaysOrdersGrid.Margin = new System.Windows.Forms.Padding(4);
             this.todaysOrdersGrid.MultiSelect = false;
             this.todaysOrdersGrid.Name = "todaysOrdersGrid";
-            this.todaysOrdersGrid.ReadOnly = false;
             this.todaysOrdersGrid.RowHeadersVisible = false;
+            this.todaysOrdersGrid.RowHeadersWidth = 51;
             this.todaysOrdersGrid.RowTemplate.Height = 40;
             this.todaysOrdersGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.todaysOrdersGrid.Size = new System.Drawing.Size(741, 324);
-            this.todaysOrdersGrid.TabIndex = 2;
-            this.todaysOrdersGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.todaysOrdersGrid_CellContentClick);
-            this.todaysOrdersGrid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.todaysOrdersGrid_DataBindingComplete);
+            this.todaysOrdersGrid.Size = new System.Drawing.Size(988, 316);
+            this.todaysOrdersGrid.TabIndex = 5;
             // 
-            // pedidoIdColumn
+            // Folio
             // 
-            this.pedidoIdColumn.DataPropertyName = "PedidoId";
-            this.pedidoIdColumn.HeaderText = "PedidoId";
-            this.pedidoIdColumn.Name = "pedidoIdColumn";
-            this.pedidoIdColumn.ReadOnly = true;
-            this.pedidoIdColumn.Visible = false;
+            this.Folio.DataPropertyName = "Folio";
+            this.Folio.HeaderText = "Folio";
+            this.Folio.MinimumWidth = 6;
+            this.Folio.Name = "Folio";
             // 
-            // folioColumn
+            // Cliente
             // 
-            this.folioColumn.DataPropertyName = "Folio";
-            this.folioColumn.HeaderText = "Folio";
-            this.folioColumn.Name = "folioColumn";
-            this.folioColumn.ReadOnly = true;
+            this.Cliente.DataPropertyName = "Cliente";
+            this.Cliente.HeaderText = "Cliente";
+            this.Cliente.MinimumWidth = 6;
+            this.Cliente.Name = "Cliente";
             // 
-            // clienteColumn
+            // Total
             // 
-            this.clienteColumn.DataPropertyName = "Cliente";
-            this.clienteColumn.HeaderText = "Cliente";
-            this.clienteColumn.Name = "clienteColumn";
-            this.clienteColumn.ReadOnly = true;
+            this.Total.DataPropertyName = "Total";
+            this.Total.HeaderText = "Total";
+            this.Total.MinimumWidth = 6;
+            this.Total.Name = "Total";
             // 
-            // horaEntregaColumn
+            // estatusCol
             // 
-            this.horaEntregaColumn.DataPropertyName = "HoraEntrega";
-            this.horaEntregaColumn.HeaderText = "Hora de entrega";
-            this.horaEntregaColumn.Name = "horaEntregaColumn";
-            this.horaEntregaColumn.ReadOnly = true;
-            this.horaEntregaColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // estatusColumn
-            // 
-            this.estatusColumn.DataPropertyName = "Estatus";
-            this.estatusColumn.HeaderText = "Estatus";
-            this.estatusColumn.Name = "estatusColumn";
-            this.estatusColumn.ReadOnly = true;
-            this.estatusColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // totalColumn
-            // 
-            this.totalColumn.DataPropertyName = "Total";
-            this.totalColumn.HeaderText = "Total";
-            this.totalColumn.Name = "totalColumn";
-            this.totalColumn.ReadOnly = true;
-            this.totalColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.estatusCol.DataPropertyName = "Estatus";
+            this.estatusCol.HeaderText = "Estatus";
+            this.estatusCol.MinimumWidth = 6;
+            this.estatusCol.Name = "estatusCol";
             // 
             // actualizarEstatusColumn
             // 
             this.actualizarEstatusColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.actualizarEstatusColumn.HeaderText = "Actualizar estatus";
+            this.actualizarEstatusColumn.MinimumWidth = 6;
             this.actualizarEstatusColumn.Name = "actualizarEstatusColumn";
-            this.actualizarEstatusColumn.ReadOnly = false;
             this.actualizarEstatusColumn.Text = "Actualizar";
             this.actualizarEstatusColumn.UseColumnTextForButtonValue = true;
+            this.actualizarEstatusColumn.Width = 105;
             // 
             // OrderDeliveryDashboardForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(785, 460);
-            this.Controls.Add(this.todaysOrdersGrid);
-            this.Controls.Add(this.summaryPanel);
+            this.ClientSize = new System.Drawing.Size(1047, 566);
             this.Controls.Add(this.filtersPanel);
+            this.Controls.Add(this.summaryPanel);
+            this.Controls.Add(this.todaysOrdersGrid);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "OrderDeliveryDashboardForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pedidos del día";
@@ -274,7 +253,12 @@ namespace Control_Pedidos.Views.Orders
         }
 
         #endregion
-
+        private System.Windows.Forms.DataGridViewTextBoxColumn pedidoIdColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn folioColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clienteColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn horaEntregaColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn estatusColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn totalColumn;
         private System.Windows.Forms.FlowLayoutPanel filtersPanel;
         private System.Windows.Forms.Label clientFilterLabel;
         private System.Windows.Forms.ComboBox clientFilterComboBox;
@@ -286,12 +270,10 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.Label assemblingOrdersLabel;
         private System.Windows.Forms.Label deliveredOrdersLabel;
         private System.Windows.Forms.DataGridView todaysOrdersGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pedidoIdColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn folioColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clienteColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn horaEntregaColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn estatusColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn totalColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Folio;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cliente;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
+        private System.Windows.Forms.DataGridViewTextBoxColumn estatusCol;
         private System.Windows.Forms.DataGridViewButtonColumn actualizarEstatusColumn;
     }
 }

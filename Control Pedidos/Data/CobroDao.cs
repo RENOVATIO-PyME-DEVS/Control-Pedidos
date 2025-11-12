@@ -31,7 +31,7 @@ namespace Control_Pedidos.Data
         public decimal ObtenerSaldoCliente(int clienteId)
         {
             // Consulta que suma pedido por pedido la diferencia entre el total y los cobros ya aplicados.
-            const string query = @"SELECT IFNULL(SUM(f_totalPedido(p.pedido_id) - f_cobroPedido(p.pedido_id)), 0)
+            const string query = @"SELECT IFNULL(SUM(f_totalPedido(p.pedido_id) - f_cobroPedido(p.pedido_id)), 0) -  Sum(IFNULL(p.descuento, 0))
 FROM banquetes.pedidos p
 WHERE p.cliente_id = @clienteId
   AND p.estatus = 'N';";
@@ -58,7 +58,7 @@ WHERE p.cliente_id = @clienteId
     p.pedido_id,
     COALESCE(CAST(f_folio_pedido(p.pedido_id) AS CHAR), CAST(p.pedido_id AS CHAR)) AS folio,
     p.fecha_entrega,
-    IFNULL(f_totalPedido(p.pedido_id), 0) AS total,
+    IFNULL(f_totalPedido(p.pedido_id), 0)  - IFNULL(p.descuento, 0)  AS total,
     IFNULL(f_cobroPedido(p.pedido_id), 0) AS abonado
 FROM banquetes.pedidos p
 WHERE p.cliente_id = @clienteId
@@ -117,7 +117,7 @@ ORDER BY p.fecha_entrega ASC, p.pedido_id ASC;";
             p.pedido_id,
             COALESCE(CAST(f_folio_pedido(p.pedido_id) AS CHAR), CAST(p.pedido_id AS CHAR)) AS folio,
             p.fecha_entrega,
-            IFNULL(f_totalPedido(p.pedido_id), 0) AS total,
+            IFNULL(f_totalPedido(p.pedido_id), 0)  - IFNULL(p.descuento, 0) AS total,
             IFNULL(f_cobroPedido(p.pedido_id), 0) AS abonado
         FROM banquetes.pedidos p
         WHERE p.pedido_id = @pedidoId

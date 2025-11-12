@@ -107,7 +107,7 @@ namespace Control_Pedidos.Views.Payments
         /// <summary>
         /// Obtiene el saldo pendiente del cliente y la lista de pedidos abiertos.
         /// </summary>
-        private void LoadDatosCliente()
+        private void    LoadDatosCliente()
         {
             try
             {
@@ -301,6 +301,7 @@ namespace Control_Pedidos.Views.Payments
         /// </summary>
         private void guardarButton_Click(object sender, EventArgs e)
         {
+
             if (_pedidoSeleccionado == null)
             {
                 MessageBox.Show("Seleccione el pedido al que se aplicará el cobro.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -340,6 +341,21 @@ namespace Control_Pedidos.Views.Payments
                 return;
             }
 
+
+            var confirmar = MessageBox.Show(
+        "¿Desea registrar el cobro?",
+        "Confirmar registro",
+        MessageBoxButtons.YesNo,
+        MessageBoxIcon.Question);
+
+            if (confirmar != DialogResult.Yes)
+            {
+                // Si el usuario elige "No", no se hace nada
+                return;
+            }
+
+
+
             var detalles = new List<CobroDetalle>
             {
                 new CobroDetalle
@@ -365,7 +381,7 @@ namespace Control_Pedidos.Views.Payments
                 FechaCreacion = DateTime.Now,
                 Estatus = "N",
                 SaldoAnterior = _saldoCliente,
-                SaldoDespues = Math.Max(0, _saldoCliente - montoAbono),
+                SaldoDespues = Math.Max(0, _pedidoSeleccionado.Saldo - montoAbono), // saldo pedido despues del abono
                 Impreso = "N",
                 Detalles = detalles
             };

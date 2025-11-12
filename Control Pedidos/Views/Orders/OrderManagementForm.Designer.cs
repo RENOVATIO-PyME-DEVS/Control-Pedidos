@@ -75,6 +75,9 @@ namespace Control_Pedidos.Views.Orders
             this.userAndRolLabel = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.eliminarArticuloButton__ = new System.Windows.Forms.Button();
+            this.descuentoComboBox = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.precioNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.detallesGrid)).BeginInit();
@@ -390,6 +393,7 @@ namespace Control_Pedidos.Views.Orders
             // precioNumericUpDown
             // 
             this.precioNumericUpDown.DecimalPlaces = 2;
+            this.precioNumericUpDown.Enabled = false;
             this.precioNumericUpDown.Location = new System.Drawing.Point(763, 58);
             this.precioNumericUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.precioNumericUpDown.Maximum = new decimal(new int[] {
@@ -453,10 +457,10 @@ namespace Control_Pedidos.Views.Orders
             // 
             // eliminarArticuloButton
             // 
-            this.eliminarArticuloButton.Location = new System.Drawing.Point(38, 692);
+            this.eliminarArticuloButton.Location = new System.Drawing.Point(38, 703);
             this.eliminarArticuloButton.Margin = new System.Windows.Forms.Padding(4);
             this.eliminarArticuloButton.Name = "eliminarArticuloButton";
-            this.eliminarArticuloButton.Size = new System.Drawing.Size(177, 33);
+            this.eliminarArticuloButton.Size = new System.Drawing.Size(177, 47);
             this.eliminarArticuloButton.TabIndex = 36;
             this.eliminarArticuloButton.Text = "Eliminar artículo";
             this.eliminarArticuloButton.UseVisualStyleBackColor = true;
@@ -467,7 +471,7 @@ namespace Control_Pedidos.Views.Orders
             this.totalGeneralLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.totalGeneralLabel.AutoSize = true;
             this.totalGeneralLabel.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalGeneralLabel.Location = new System.Drawing.Point(44, 55);
+            this.totalGeneralLabel.Location = new System.Drawing.Point(44, 31);
             this.totalGeneralLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalGeneralLabel.Name = "totalGeneralLabel";
             this.totalGeneralLabel.Size = new System.Drawing.Size(148, 31);
@@ -479,7 +483,7 @@ namespace Control_Pedidos.Views.Orders
             this.totalGeneralValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.totalGeneralValueLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalGeneralValueLabel.Location = new System.Drawing.Point(210, 46);
+            this.totalGeneralValueLabel.Location = new System.Drawing.Point(210, 22);
             this.totalGeneralValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.totalGeneralValueLabel.Name = "totalGeneralValueLabel";
             this.totalGeneralValueLabel.Size = new System.Drawing.Size(254, 44);
@@ -492,7 +496,7 @@ namespace Control_Pedidos.Views.Orders
             this.discountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.discountLabel.AutoSize = true;
             this.discountLabel.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.discountLabel.Location = new System.Drawing.Point(101, 107);
+            this.discountLabel.Location = new System.Drawing.Point(101, 83);
             this.discountLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.discountLabel.Name = "discountLabel";
             this.discountLabel.Size = new System.Drawing.Size(91, 23);
@@ -505,7 +509,7 @@ namespace Control_Pedidos.Views.Orders
             | System.Windows.Forms.AnchorStyles.Right)));
             this.descuentoNumericUpDown.DecimalPlaces = 2;
             this.descuentoNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.descuentoNumericUpDown.Location = new System.Drawing.Point(237, 107);
+            this.descuentoNumericUpDown.Location = new System.Drawing.Point(237, 83);
             this.descuentoNumericUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.descuentoNumericUpDown.Maximum = new decimal(new int[] {
             1000000,
@@ -746,6 +750,8 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.descuentoComboBox);
             this.groupBox2.Controls.Add(this.totalGeneralLabel);
             this.groupBox2.Controls.Add(this.totalGeneralValueLabel);
             this.groupBox2.Controls.Add(this.discountLabel);
@@ -760,6 +766,38 @@ namespace Control_Pedidos.Views.Orders
             this.groupBox2.TabIndex = 51;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Resumen $";
+            // 
+            // eliminarArticuloButton__
+            // 
+            this.eliminarArticuloButton__.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.eliminarArticuloButton__.Location = new System.Drawing.Point(316, 652);
+            this.eliminarArticuloButton__.Margin = new System.Windows.Forms.Padding(4);
+            this.eliminarArticuloButton__.Name = "eliminarArticuloButton__";
+            this.eliminarArticuloButton__.Size = new System.Drawing.Size(147, 33);
+            this.eliminarArticuloButton__.TabIndex = 52;
+            this.eliminarArticuloButton__.Text = "Eliminar articulo";
+            this.eliminarArticuloButton__.UseVisualStyleBackColor = true;
+            this.eliminarArticuloButton__.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // descuentoComboBox
+            // 
+            this.descuentoComboBox.FormattingEnabled = true;
+            this.descuentoComboBox.Location = new System.Drawing.Point(237, 116);
+            this.descuentoComboBox.Name = "descuentoComboBox";
+            this.descuentoComboBox.Size = new System.Drawing.Size(121, 24);
+            this.descuentoComboBox.TabIndex = 45;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label1.Location = new System.Drawing.Point(101, 119);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(110, 23);
+            this.label1.TabIndex = 46;
+            this.label1.Text = "% Descuento";
             // 
             // OrderManagementForm
             // 
@@ -793,6 +831,7 @@ namespace Control_Pedidos.Views.Orders
             this.Controls.Add(this.clientNameTextBox);
             this.Controls.Add(this.clientNameLabel);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.eliminarArticuloButton__);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(1463, 733);
             this.Name = "OrderManagementForm";
@@ -875,5 +914,8 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.Label totalWithDiscountValueLabel;
         private System.Windows.Forms.Label discountNoteLabel;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button eliminarArticuloButton__;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox descuentoComboBox;
     }
 }

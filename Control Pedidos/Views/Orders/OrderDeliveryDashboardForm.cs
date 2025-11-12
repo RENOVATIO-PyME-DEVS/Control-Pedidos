@@ -248,7 +248,6 @@ namespace Control_Pedidos.Views.Orders
                 totalColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 totalColumn.DefaultCellStyle.Format = "C2";
             }
-
             if (todaysOrdersGrid.Columns["actualizarEstatusColumn"] is DataGridViewButtonColumn buttonColumn)
             {
                 buttonColumn.FlatStyle = FlatStyle.Flat;
@@ -427,7 +426,7 @@ namespace Control_Pedidos.Views.Orders
         {
             foreach (DataGridViewRow row in todaysOrdersGrid.Rows)
             {
-                var status = Convert.ToString(row.Cells["estatusColumn"].Value);
+                var status = Convert.ToString(row.Cells["estatusCol"].Value);
                 var color = GetStatusColor(status);
 
                 row.DefaultCellStyle.BackColor = color;
@@ -436,6 +435,7 @@ namespace Control_Pedidos.Views.Orders
                 row.DefaultCellStyle.SelectionForeColor = Color.White;
             }
         }
+
 
         private Color GetStatusColor(string status)
         {

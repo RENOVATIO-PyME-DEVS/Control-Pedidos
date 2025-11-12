@@ -89,8 +89,35 @@ namespace Control_Pedidos.Views.Orders
             UpdateDetalleTotal();
             UpdateTotals();
             UpdateControlsState();
-
+            ConfigComboDescuentos();
             FormClosing += OrderManagementForm_FormClosing;
+        }
+
+        private void ConfigComboDescuentos()
+        {
+            descuentoComboBox.Items.AddRange(new object[] { "5", "10", "100" });
+            descuentoComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            descuentoComboBox.SelectedIndexChanged += descuentoComboBox_SelectedIndexChanged;
+
+        }
+        private void descuentoComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (descuentoComboBox.SelectedItem == null)
+                return;
+
+            // Obtiene el valor seleccionado (por ejemplo "10") y lo convierte a decimal
+            if (decimal.TryParse(descuentoComboBox.SelectedItem.ToString(), out var porcentaje))
+            {
+                var total = _detalles.Sum(d => d.Total);
+                var descuento = total * (porcentaje / 100);
+
+                // Evita que se dispare el evento ValueChanged mientras actualizamos manualmente
+                _isUpdatingDiscountValue = true;
+                descuentoNumericUpDown.Value = Math.Min(descuento, descuentoNumericUpDown.Maximum);
+                _isUpdatingDiscountValue = false;
+
+                UpdateTotals();
+            }
         }
 
         private void ConfigureGrid()
@@ -203,10 +230,10 @@ namespace Control_Pedidos.Views.Orders
             }
 
             // Si hay más de un evento, seleccionar el siguiente a "Sin evento"
-            if (eventos.Count > 1)
-                eventComboBox.SelectedIndex = 1;
-            else
-                eventComboBox.SelectedIndex = 0;
+            //if (eventos.Count > 1)
+            //    eventComboBox.SelectedIndex = 1;
+            //else
+            //    eventComboBox.SelectedIndex = 0;
 
         }
 
@@ -215,7 +242,7 @@ namespace Control_Pedidos.Views.Orders
             _articulos.Clear();
             try
             {
-                _articulos.AddRange(Articulo.Listar(_connectionFactory, string.Empty));
+                _articulos.AddRange(Articulo.ListarSinProd(_connectionFactory, string.Empty));
             }
             catch (Exception ex)
             {
@@ -249,8 +276,11 @@ namespace Control_Pedidos.Views.Orders
             }
             else
             {
-                horaEntregaDateTimePicker.Checked = false;
-                horaEntregaDateTimePicker.Value = DateTime.Today;
+                //horaEntregaDateTimePicker.Checked = false;
+                horaEntregaDateTimePicker.Checked = true;
+                //horaEntregaDateTimePicker.Value =  DateTime.Today;
+                horaEntregaDateTimePicker.Value = DateTime.Today.AddHours(10);
+
             }
             UpdateFolioDisplay();
             statusTextBox.Text = ObtenerDescripcionEstatus(_pedido.Estatus);
@@ -334,7 +364,7 @@ namespace Control_Pedidos.Views.Orders
 
             articuloComboBox.Enabled = !_readOnlyMode;
             cantidadNumericUpDown.Enabled = !_readOnlyMode;
-            precioNumericUpDown.Enabled = !_readOnlyMode;
+           // precioNumericUpDown.Enabled = !_readOnlyMode;
             agregarArticuloButton.Enabled = !_readOnlyMode;
             eliminarArticuloButton.Enabled = !_readOnlyMode && _detalles.Count > 0;
             cerrarPedidoButton.Enabled = !_readOnlyMode && _pedido.Id > 0;
@@ -1007,6 +1037,38 @@ WHERE ak.articulo_id = @kitId;", connection))
         {
             groupBox2.Tag = "no_style";
             //discountNoteLabel.Tag = "no_style";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (_readOnlyMode)
+            {
+                return;
+            }
+
+            if (detallesGrid.CurrentRow == null)
+                return;
+
+            var detalle = detallesGrid.CurrentRow.DataBoundItem as PedidoDetalle;
+            if (detalle == null)
+                return;
+
+
+            if (MessageBox.Show("¿Desea eliminar el artículo seleccionado?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            if (!_pedidoDetalleDao.Eliminar(detalle.Id, out var message))
+            {
+                MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            _detalles.Remove(detalle);
+            _pedido.Detalles.Remove(detalle);
+            UpdateTotals();
+            UpdateControlsState();
         }
     }
 }
