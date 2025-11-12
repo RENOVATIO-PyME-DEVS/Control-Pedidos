@@ -58,13 +58,21 @@ namespace Control_Pedidos.Views.Payments
             cobrosGrid.AutoGenerateColumns = false;
             cobrosGrid.Columns.Clear();
 
+            //cobrosGrid.Columns.Add(new DataGridViewTextBoxColumn
+            //{
+            //    DataPropertyName = nameof(Cobro.CobroPedidoId),
+            //    HeaderText = "Folio",
+            //    Width = 70,
+            //    ReadOnly = true
+            //});
             cobrosGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = nameof(Cobro.CobroPedidoId),
-                HeaderText = "Folio",
-                Width = 70,
+                DataPropertyName = nameof(Cobro.FolioPedidos),
+                HeaderText = "Pedido(s)",
+                Width = 120,
                 ReadOnly = true
             });
+
 
             cobrosGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -95,6 +103,7 @@ namespace Control_Pedidos.Views.Payments
                 },
                 ReadOnly = true
             });
+
 
             cobrosGrid.Columns.Add(new DataGridViewTextBoxColumn
             {

@@ -1,15 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
 using Control_Pedidos.Printing;
 using Control_Pedidos.Views.Payments;
 using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
 
 namespace Control_Pedidos.Views.Orders
 {
@@ -29,6 +30,8 @@ namespace Control_Pedidos.Views.Orders
         private readonly PedidoPrintingService _printingService;
         private readonly BindingList<PedidoDetalle> _detalles = new BindingList<PedidoDetalle>();
         private readonly List<Articulo> _articulos = new List<Articulo>();
+        private List<Articulo> _articulosOriginales = new List<Articulo>();
+
         private readonly int _detallesGridTopBase;
         private readonly int _detallesGridHeightBase;
         private readonly int _kitComponentsBaseHeight;
@@ -42,6 +45,13 @@ namespace Control_Pedidos.Views.Orders
 
             noStyle();
             UIStyles.ApplyTheme(this);
+
+            //   Aquí coloca el comportamiento correcto del ComboBox
+            articuloComboBox.DropDownStyle = ComboBoxStyle.DropDown;
+            articuloComboBox.AutoCompleteMode = AutoCompleteMode.None;
+            articuloComboBox.AutoCompleteSource = AutoCompleteSource.None;
+            articuloComboBox.TextUpdate += articuloComboBox_TextUpdate;
+
 
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
             _cliente = cliente ?? throw new ArgumentNullException(nameof(cliente));
@@ -99,25 +109,6 @@ namespace Control_Pedidos.Views.Orders
             descuentoComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             descuentoComboBox.SelectedIndexChanged += descuentoComboBox_SelectedIndexChanged;
 
-        }
-        private void descuentoComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (descuentoComboBox.SelectedItem == null)
-                return;
-
-            // Obtiene el valor seleccionado (por ejemplo "10") y lo convierte a decimal
-            if (decimal.TryParse(descuentoComboBox.SelectedItem.ToString(), out var porcentaje))
-            {
-                var total = _detalles.Sum(d => d.Total);
-                var descuento = total * (porcentaje / 100);
-
-                // Evita que se dispare el evento ValueChanged mientras actualizamos manualmente
-                _isUpdatingDiscountValue = true;
-                descuentoNumericUpDown.Value = Math.Min(descuento, descuentoNumericUpDown.Maximum);
-                _isUpdatingDiscountValue = false;
-
-                UpdateTotals();
-            }
         }
 
         private void ConfigureGrid()
@@ -243,16 +234,20 @@ namespace Control_Pedidos.Views.Orders
             try
             {
                 _articulos.AddRange(Articulo.ListarSinProd(_connectionFactory, string.Empty));
+                _articulosOriginales = _articulos.ToList();   // 🔥 guardamos copia
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"No se pudieron cargar los artículos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            articuloComboBox.DropDownStyle = ComboBoxStyle.DropDown;
+            articuloComboBox.DataSource = _articulos.ToList();
 
             articuloComboBox.DisplayMember = nameof(Articulo.Nombre);
             articuloComboBox.ValueMember = nameof(Articulo.Id);
-            articuloComboBox.DataSource = _articulos.ToList();
-            articuloComboBox.SelectedIndex = _articulos.Count > 0 ? 0 : -1;
+            //articuloComboBox.DataSource = _articulos.ToList();
+
+                      articuloComboBox.SelectedIndex = _articulos.Count > 0 ? 0 : -1;
 
             if (_articulos.Count > 0)
             {
@@ -264,6 +259,36 @@ namespace Control_Pedidos.Views.Orders
                 RefreshKitComponents(null);
             }
         }
+
+        private void articuloComboBox_TextUpdate(object sender, EventArgs e)
+        {
+            string filtro = articuloComboBox.Text.Trim().ToLower();
+
+            // Filtrar artículos
+            var filtrados = _articulosOriginales
+                .Where(a => a.Nombre.ToLower().Contains(filtro) ||
+                            a.NombreCorto.ToLower().Contains(filtro))
+                .ToList();
+
+            // 🔥 QUITAR datasource ANTES DE ASIGNAR LISTA
+            articuloComboBox.DataSource = null;
+
+            // Asignar lista filtrada
+            articuloComboBox.Items.Clear();
+            foreach (var a in filtrados)
+                articuloComboBox.Items.Add(a);
+
+            articuloComboBox.DisplayMember = nameof(Articulo.Nombre);
+
+            articuloComboBox.DroppedDown = true;
+
+            // 🔥 Mantener texto del usuario sin sobrescribir
+            articuloComboBox.Text = filtro;
+
+            articuloComboBox.SelectionStart = filtro.Length;
+            articuloComboBox.SelectionLength = 0;
+        }
+
 
         private void BindPedidoData()
         {
@@ -407,6 +432,20 @@ namespace Control_Pedidos.Views.Orders
             LoadEventos();
         }
 
+        //private void articuloComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    if (articuloComboBox.SelectedItem is Articulo articulo)
+        //    {
+        //        precioNumericUpDown.Value = Math.Max(0, Convert.ToDecimal(articulo.Precio));
+        //        RefreshKitComponents(articulo);
+        //    }
+        //    else
+        //    {
+        //        RefreshKitComponents(null);
+        //    }
+
+        //    UpdateDetalleTotal();
+        //}
         private void articuloComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (articuloComboBox.SelectedItem is Articulo articulo)
@@ -421,6 +460,7 @@ namespace Control_Pedidos.Views.Orders
 
             UpdateDetalleTotal();
         }
+
 
         private void DetalleValueChanged(object sender, EventArgs e)
         {
@@ -443,8 +483,76 @@ namespace Control_Pedidos.Views.Orders
             UpdateTotals();
         }
 
+        private bool ConfirmarFechaYHoraEntrega()
+        {
+            var fecha = fechaEntregaDateTimePicker.Value.ToString("dd/MM/yyyy");
+            var hora = horaEntregaDateTimePicker.Value.ToString("HH:mm");
+
+            using (var form = new Form())
+            {
+                form.Text = "Confirmar Fecha y Hora de Entrega";
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.Size = new Size(520, 300);
+                form.FormBorderStyle = FormBorderStyle.FixedDialog;
+                form.MaximizeBox = false;
+                form.MinimizeBox = false;
+                form.BackColor = Color.White;
+
+                var label = new Label
+                {
+                    AutoSize = false,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
+                    Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                    Text = $"¿Son correctas la fecha y hora de entrega?\n\n" +
+                           $"📅 Fecha: {fecha}\n🕓 Hora: {hora}"
+                };
+                form.Controls.Add(label);
+
+                var panel = new FlowLayoutPanel
+                {
+                    Dock = DockStyle.Bottom,
+                    Height = 70,
+                    FlowDirection = FlowDirection.RightToLeft,
+                    Padding = new Padding(10)
+                };
+                var btnSi = new Button
+                {
+                    Text = "✔ Sí, continuar",
+                    DialogResult = DialogResult.Yes,
+                    Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                    BackColor = Color.FromArgb(0, 120, 215),
+                    ForeColor = Color.White,
+                    Width = 180,
+                    Height = 45
+                };
+                var btnNo = new Button
+                {
+                    Text = "✖ No, corregir",
+                    DialogResult = DialogResult.No,
+                    Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                    BackColor = Color.IndianRed,
+                    ForeColor = Color.White,
+                    Width = 180,
+                    Height = 45
+                };
+
+                panel.Controls.Add(btnSi);
+                panel.Controls.Add(btnNo);
+                form.Controls.Add(panel);
+
+                form.AcceptButton = btnSi;
+                form.CancelButton = btnNo;
+
+                return form.ShowDialog() == DialogResult.Yes;
+            }
+        }
+
         private void agregarArticuloButton_Click(object sender, EventArgs e)
         {
+            
+
+            
             if (_readOnlyMode)
             {
                 return;
@@ -462,6 +570,37 @@ namespace Control_Pedidos.Views.Orders
                 MessageBox.Show("La cantidad debe ser mayor que cero", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            if (_pedido.Id == 0)
+            {
+                if (!ConfirmarFechaYHoraEntrega())
+                {
+                    //MessageBox.Show("Corrija la fecha u hora antes de continuar.",
+                    //    "Corrección requerida", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+            }            //// 🕓 Validar fecha y hora antes de crear encabezado
+            //if (_pedido.Id == 0) // solo cuando aún no se ha creado el pedido
+            //{
+            //    var fecha = fechaEntregaDateTimePicker.Value.ToString("dd/MM/yyyy");
+            //    var hora = horaEntregaDateTimePicker.Value.ToString("HH:mm");
+
+            //    var confirm = MessageBox.Show(
+            //        $"🕓 **VERIFIQUE LA FECHA Y HORA DE ENTREGA** 🕓\n\n" +
+            //        $"Fecha de entrega: {fecha}\nHora de entrega: {hora}\n\n" +
+            //        $"¿Desea continuar con estos valores?",
+            //        "Confirmar Fecha y Hora",
+            //        MessageBoxButtons.YesNo,
+            //        MessageBoxIcon.Question,
+            //        MessageBoxDefaultButton.Button2);
+
+            //    if (confirm == DialogResult.No)
+            //    {
+            //        MessageBox.Show("Corrija la fecha u hora antes de continuar.", "Corrección requerida",
+            //            MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //        return;
+            //    }
+            //}
 
             if (!TryPreparePedido(out var headerMessage))
             {
@@ -1069,6 +1208,26 @@ WHERE ak.articulo_id = @kitId;", connection))
             _pedido.Detalles.Remove(detalle);
             UpdateTotals();
             UpdateControlsState();
+        }
+
+        private void descuentoComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (descuentoComboBox.SelectedItem == null)
+                return;
+
+            // Obtiene el valor seleccionado (por ejemplo "10") y lo convierte a decimal
+            if (decimal.TryParse(descuentoComboBox.SelectedItem.ToString(), out var porcentaje))
+            {
+                var total = _detalles.Sum(d => d.Total);
+                var descuento = total * (porcentaje / 100);
+
+                // Evita que se dispare el evento ValueChanged mientras actualizamos manualmente
+                _isUpdatingDiscountValue = true;
+                descuentoNumericUpDown.Value = Math.Min(descuento, descuentoNumericUpDown.Maximum);
+                _isUpdatingDiscountValue = false;
+
+                UpdateTotals();
+            }
         }
     }
 }
