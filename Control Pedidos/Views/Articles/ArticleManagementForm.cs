@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Control_Pedidos.Views.Articles
@@ -109,12 +110,30 @@ namespace Control_Pedidos.Views.Articles
             componentsGrid.DataSource = _componentsSource;
         }
 
-        private void LoadArticulos(string filtro = "")
+        //private void LoadArticulos(string filtro = "")
+        //{
+        //    try
+        //    {
+        //        _articulos.Clear();
+        //        foreach (var articulo in Articulo.Listar(_connectionFactory, filtro))
+        //        {
+        //            _articulos.Add(articulo);
+        //        }
+
+        //        countArticlesLabel.Text = $"Total articulos: {articlesGrid.Rows.Count}";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"No se pudieron cargar los artículos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
+        private async void LoadArticulos(string filtro = "")
         {
             try
             {
+                var articulos = await Task.Run(() => Articulo.Listar(_connectionFactory, filtro));
                 _articulos.Clear();
-                foreach (var articulo in Articulo.Listar(_connectionFactory, filtro))
+                foreach (var articulo in articulos)
                 {
                     _articulos.Add(articulo);
                 }

@@ -1,12 +1,13 @@
-using System;
-using System.ComponentModel;
-using System.Windows.Forms;
 using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
 using Control_Pedidos.Views.Orders;
 using Control_Pedidos.Views.Payments;
 using MySql.Data.MySqlClient;
+using System;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Control_Pedidos.Views.Clients
 {
@@ -120,12 +121,29 @@ namespace Control_Pedidos.Views.Clients
             clientsGrid.CellMouseDown += clientsGrid_CellMouseDown;
         }
 
-        private void LoadClientes(string filtro = "")
+        //private void LoadClientes(string filtro = "")
+        //{
+        //    try
+        //    {
+        //        _clientes.Clear();
+        //        foreach (var cliente in Cliente.Listar(_connectionFactory, filtro))
+        //        {
+        //            _clientes.Add(cliente);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"No se pudo obtener la lista de clientes: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
+        private async void LoadClientes(string filtro = "")
         {
             try
             {
+                var clientes = await Task.Run(() => Cliente.Listar(_connectionFactory, filtro));
+
                 _clientes.Clear();
-                foreach (var cliente in Cliente.Listar(_connectionFactory, filtro))
+                foreach (var cliente in clientes)
                 {
                     _clientes.Add(cliente);
                 }
@@ -135,6 +153,7 @@ namespace Control_Pedidos.Views.Clients
                 MessageBox.Show($"No se pudo obtener la lista de clientes: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void addButton_Click(object sender, EventArgs e)
         {
