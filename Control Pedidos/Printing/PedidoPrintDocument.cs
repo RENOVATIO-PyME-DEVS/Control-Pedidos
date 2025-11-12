@@ -422,8 +422,12 @@ namespace Control_Pedidos.Printing
                     componentesTexto.AppendLine("Guarniciones:");
                     foreach (var componente in detalle.Componentes)
                     {
-                        decimal cantidadresumen = componente.Cantidad * detalle.Cantidad;
-                        componentesTexto.AppendLine($"• {componente.NombreArticulo} {cantidadresumen.ToString("N")} {componente.Articulo.UnidadMedida}(s)");
+                        if (componente.Visible.Trim() == "S")
+                        {
+                            decimal cantidadresumen = componente.Cantidad * detalle.Cantidad;
+                            componentesTexto.AppendLine($"• {componente.NombreArticulo} {cantidadresumen.ToString("N")} {componente.Articulo.UnidadMedida}(s)");
+                        }
+
                     }
 
                     var componenteRect = new RectangleF(descripcionRect.Left + 10, descripcionY, descripcionRect.Width - 10, filaAltura);

@@ -44,6 +44,8 @@ namespace Control_Pedidos.Views.Orders
             this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.estatusCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.actualizarEstatusColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.searchTextBox = new System.Windows.Forms.TextBox();
+            this.searchLabel = new System.Windows.Forms.Label();
             this.filtersPanel.SuspendLayout();
             this.summaryPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.todaysOrdersGrid)).BeginInit();
@@ -228,11 +230,29 @@ namespace Control_Pedidos.Views.Orders
             this.actualizarEstatusColumn.UseColumnTextForButtonValue = true;
             this.actualizarEstatusColumn.Width = 105;
             // 
+            // searchTextBox
+            // 
+            this.searchTextBox.Location = new System.Drawing.Point(88, 192);
+            this.searchTextBox.Name = "searchTextBox";
+            this.searchTextBox.Size = new System.Drawing.Size(260, 22);
+            this.searchTextBox.TabIndex = 22;
+            // 
+            // searchLabel
+            // 
+            this.searchLabel.AutoSize = true;
+            this.searchLabel.Location = new System.Drawing.Point(27, 196);
+            this.searchLabel.Name = "searchLabel";
+            this.searchLabel.Size = new System.Drawing.Size(52, 16);
+            this.searchLabel.TabIndex = 21;
+            this.searchLabel.Text = "Buscar:";
+            // 
             // OrderDeliveryDashboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1047, 566);
+            this.Controls.Add(this.searchTextBox);
+            this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.filtersPanel);
             this.Controls.Add(this.summaryPanel);
             this.Controls.Add(this.todaysOrdersGrid);
@@ -275,5 +295,7 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.DataGridViewTextBoxColumn Total;
         private System.Windows.Forms.DataGridViewTextBoxColumn estatusCol;
         private System.Windows.Forms.DataGridViewButtonColumn actualizarEstatusColumn;
+        private System.Windows.Forms.TextBox searchTextBox;
+        private System.Windows.Forms.Label searchLabel;
     }
 }

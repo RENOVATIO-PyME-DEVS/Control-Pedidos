@@ -209,6 +209,7 @@ namespace Control_Pedidos.Views
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Control de pedidos";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.DashboardForm_Load);
             this.activeOrdersGroupBox.ResumeLayout(false);
             this.activeOrdersGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.activeOrdersGrid)).EndInit();

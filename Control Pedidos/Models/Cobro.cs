@@ -32,6 +32,8 @@ namespace Control_Pedidos.Models
         public Cliente Cliente { get; set; }
         public Empresa Empresa { get; set; }
         public decimal SaldoAnterior { get; set; }
+        public string FolioPedidos { get; set; }
+
         public decimal SaldoDespues { get; set; }
         private string _impreso = "N";
 

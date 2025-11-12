@@ -75,9 +75,9 @@ namespace Control_Pedidos.Views.Orders
             this.userAndRolLabel = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.eliminarArticuloButton__ = new System.Windows.Forms.Button();
-            this.descuentoComboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.descuentoComboBox = new System.Windows.Forms.ComboBox();
+            this.eliminarArticuloButton__ = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.cantidadNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.precioNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.detallesGrid)).BeginInit();
@@ -452,7 +452,7 @@ namespace Control_Pedidos.Views.Orders
             this.detallesGrid.ReadOnly = true;
             this.detallesGrid.RowHeadersWidth = 51;
             this.detallesGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.detallesGrid.Size = new System.Drawing.Size(1631, 300);
+            this.detallesGrid.Size = new System.Drawing.Size(1631, 301);
             this.detallesGrid.TabIndex = 35;
             // 
             // eliminarArticuloButton
@@ -579,7 +579,7 @@ namespace Control_Pedidos.Views.Orders
             // cerrarPedidoButton
             // 
             this.cerrarPedidoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cerrarPedidoButton.Location = new System.Drawing.Point(1304, 703);
+            this.cerrarPedidoButton.Location = new System.Drawing.Point(1304, 704);
             this.cerrarPedidoButton.Margin = new System.Windows.Forms.Padding(4);
             this.cerrarPedidoButton.Name = "cerrarPedidoButton";
             this.cerrarPedidoButton.Size = new System.Drawing.Size(177, 33);
@@ -591,7 +591,7 @@ namespace Control_Pedidos.Views.Orders
             // cancelarPedidoButton
             // 
             this.cancelarPedidoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelarPedidoButton.Location = new System.Drawing.Point(1489, 703);
+            this.cancelarPedidoButton.Location = new System.Drawing.Point(1489, 704);
             this.cancelarPedidoButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelarPedidoButton.Name = "cancelarPedidoButton";
             this.cancelarPedidoButton.Size = new System.Drawing.Size(177, 33);
@@ -603,7 +603,7 @@ namespace Control_Pedidos.Views.Orders
             // cerrarVentanaButton
             // 
             this.cerrarVentanaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cerrarVentanaButton.Location = new System.Drawing.Point(1072, 703);
+            this.cerrarVentanaButton.Location = new System.Drawing.Point(1072, 704);
             this.cerrarVentanaButton.Margin = new System.Windows.Forms.Padding(4);
             this.cerrarVentanaButton.Name = "cerrarVentanaButton";
             this.cerrarVentanaButton.Size = new System.Drawing.Size(147, 33);
@@ -767,26 +767,6 @@ namespace Control_Pedidos.Views.Orders
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Resumen $";
             // 
-            // eliminarArticuloButton__
-            // 
-            this.eliminarArticuloButton__.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.eliminarArticuloButton__.Location = new System.Drawing.Point(316, 652);
-            this.eliminarArticuloButton__.Margin = new System.Windows.Forms.Padding(4);
-            this.eliminarArticuloButton__.Name = "eliminarArticuloButton__";
-            this.eliminarArticuloButton__.Size = new System.Drawing.Size(147, 33);
-            this.eliminarArticuloButton__.TabIndex = 52;
-            this.eliminarArticuloButton__.Text = "Eliminar articulo";
-            this.eliminarArticuloButton__.UseVisualStyleBackColor = true;
-            this.eliminarArticuloButton__.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // descuentoComboBox
-            // 
-            this.descuentoComboBox.FormattingEnabled = true;
-            this.descuentoComboBox.Location = new System.Drawing.Point(237, 116);
-            this.descuentoComboBox.Name = "descuentoComboBox";
-            this.descuentoComboBox.Size = new System.Drawing.Size(121, 24);
-            this.descuentoComboBox.TabIndex = 45;
-            // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -799,11 +779,32 @@ namespace Control_Pedidos.Views.Orders
             this.label1.TabIndex = 46;
             this.label1.Text = "% Descuento";
             // 
+            // descuentoComboBox
+            // 
+            this.descuentoComboBox.FormattingEnabled = true;
+            this.descuentoComboBox.Location = new System.Drawing.Point(237, 116);
+            this.descuentoComboBox.Name = "descuentoComboBox";
+            this.descuentoComboBox.Size = new System.Drawing.Size(121, 24);
+            this.descuentoComboBox.TabIndex = 45;
+            this.descuentoComboBox.SelectedIndexChanged += new System.EventHandler(this.descuentoComboBox_SelectedIndexChanged);
+            // 
+            // eliminarArticuloButton__
+            // 
+            this.eliminarArticuloButton__.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.eliminarArticuloButton__.Location = new System.Drawing.Point(316, 653);
+            this.eliminarArticuloButton__.Margin = new System.Windows.Forms.Padding(4);
+            this.eliminarArticuloButton__.Name = "eliminarArticuloButton__";
+            this.eliminarArticuloButton__.Size = new System.Drawing.Size(147, 33);
+            this.eliminarArticuloButton__.TabIndex = 52;
+            this.eliminarArticuloButton__.Text = "Eliminar articulo";
+            this.eliminarArticuloButton__.UseVisualStyleBackColor = true;
+            this.eliminarArticuloButton__.Click += new System.EventHandler(this.button1_Click);
+            // 
             // OrderManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1693, 801);
+            this.ClientSize = new System.Drawing.Size(1693, 802);
             this.Controls.Add(this.cerrarVentanaButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.kitComponentsRichTextBox);

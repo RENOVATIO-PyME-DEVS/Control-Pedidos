@@ -370,7 +370,7 @@ FOR UPDATE;", connection, transaction))
                     if (kitArticuloIds.Count > 0)
                     {
                         var parameterNames = kitArticuloIds.Select((_, index) => $"@kitId{index}").ToList();
-                        var query = $@"SELECT kd.articulo_id AS kit_id, kd.articulo_compuesto_id, kd.cantidad, a.nombre, a.nombre_corto, a.unidad_medida
+                        var query = $@"SELECT kd.articulo_id AS kit_id, kd.articulo_compuesto_id, kd.visible, kd.cantidad, a.nombre, a.nombre_corto, a.unidad_medida
                                 FROM banquetes.articulos_kit kd
                                 INNER JOIN banquetes.articulos a ON a.articulo_id = kd.articulo_compuesto_id
                                 WHERE kd.articulo_id IN ({string.Join(",", parameterNames)});";
@@ -398,6 +398,7 @@ FOR UPDATE;", connection, transaction))
                                         KitId = kitId,
                                         ArticuloId = reader.GetInt32("articulo_compuesto_id"),
                                         Cantidad = reader.GetDecimal("cantidad"),
+                                        Visible = reader.GetString("visible"),
                                         Articulo = new Articulo
                                         {
                                             Id = reader.GetInt32("articulo_compuesto_id"),

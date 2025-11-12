@@ -1,5 +1,7 @@
 using Control_Pedidos.Models;
 using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -172,11 +174,18 @@ namespace Control_Pedidos.Data
         public IList<Articulo> Listar(string filtro)
         {
             var articulos = new List<Articulo>();
+//            const string query = @"SELECT articulo_id, nombre, nombre_corto, tipo_articulo, unidad_medida, unidad_control, contenido_control, precio, fecha_precio, usuario_precio_id, estatus, coalesce(personas, 0) personas
+//FROM banquetes.articulos
+//WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
             const string query = @"SELECT articulo_id, nombre, nombre_corto, tipo_articulo, unidad_medida, unidad_control, contenido_control, precio, fecha_precio, usuario_precio_id, estatus, coalesce(personas, 0) personas
 FROM banquetes.articulos
-WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
-
-
+WHERE  (
+                   @filtro = ''
+       OR nombre LIKE CONCAT('%', @filtro, '%')
+       OR nombre_corto LIKE CONCAT('%', @filtro, '%')
+  )
+order by nombre asc";
+          
             try
             {
                 using (var connection = _connectionFactory.Create())
@@ -225,11 +234,26 @@ WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
         public IList<Articulo> ListarSinP(string filtro)
         {
             var articulos = new List<Articulo>();
-            const string query = @"SELECT articulo_id, nombre, nombre_corto, tipo_articulo, unidad_medida, unidad_control, contenido_control, precio, fecha_precio, usuario_precio_id, estatus, coalesce(personas, 0) personas
+            const string query = @"SELECT articulo_id, concat(nombre_corto, ' - ', nombre) as nombre, nombre_corto, tipo_articulo, unidad_medida, unidad_control, contenido_control, precio, fecha_precio, usuario_precio_id, estatus, coalesce(personas, 0) personas
 FROM banquetes.articulos
-WHERE  tipo_articulo <> 'P'
-      AND (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
+WHERE tipo_articulo <> 'P'
+  AND (
+       @filtro = '' 
+       OR nombre LIKE CONCAT('%', @filtro, '%')
+       OR nombre_corto LIKE CONCAT('%', @filtro, '%')
+  )
+order by nombre asc";
+//            const string query = @"SELECT articulo_id, nombre, nombre_corto, tipo_articulo, unidad_medida, unidad_control, contenido_control, precio, fecha_precio, usuario_precio_id, estatus, coalesce(personas, 0) personas
+//FROM banquetes.articulos
+//WHERE tipo_articulo <> 'P'
+//  AND (
+//       @filtro = '' 
+//       OR nombre LIKE CONCAT('%', @filtro, '%')
+//       OR nombre_corto LIKE CONCAT('%', @filtro, '%')
+//  )
+//order by nombre asc";
 
+            
 
             try
             {
@@ -307,7 +331,7 @@ WHERE  tipo_articulo <> 'P'
 
             // Traemos todos los componentes de una sola vez para los kits listados.
             var ids = string.Join(",", kits.Select(k => k.Id));
-            var query = $@"SELECT kd.articulo_kit_id, kd.articulo_id, kd.articulo_compuesto_id, kd.cantidad, a.nombre, a.nombre_corto
+            var query = $@"SELECT kd.articulo_kit_id, kd.articulo_id, kd.articulo_compuesto_id, kd.visible, kd.cantidad, a.nombre, a.nombre_corto
                 FROM articulos_kit kd
                 INNER JOIN articulos a ON a.articulo_id = kd.articulo_compuesto_id
                 WHERE kd.articulo_id IN ({ids})";
@@ -333,6 +357,7 @@ WHERE  tipo_articulo <> 'P'
                             //ArticuloId = reader.GetInt32("articulo_id"),
                             ArticuloId = reader.GetInt32("articulo_compuesto_id"),
                             Cantidad = reader.GetDecimal("cantidad"),
+                            Visible = reader.GetString("visible"),
                             Articulo = new Articulo
                             {
                                 Id = reader.GetInt32("articulo_compuesto_id"),

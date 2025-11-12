@@ -1,7 +1,8 @@
-using System;
-using System.Collections.Generic;
 using Control_Pedidos.Models;
 using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Control_Pedidos.Data
 {
@@ -170,6 +171,7 @@ ORDER BY p.fecha_entrega ASC, p.pedido_id ASC;";
             // Consulta simple al catálogo de formas de cobro. Se devuelven los datos básicos que el formulario necesita.
             const string query = @"SELECT forma_cobro_id, nombre,IFNULL(tipo_cobro, '') AS descripcion, tipo
                                     FROM banquetes.formas_cobros
+                                    where tipo <> 'D'
                                    -- ORDER BY nombre;";
 
             var formas = new List<FormaCobro>();
@@ -354,13 +356,13 @@ WHERE cobro_pedido = @cobroId;";
     cp.forma_cobro_id,
     IFNULL(fc.nombre, '') AS forma_cobro,
     cp.monto,
-    cp.fecha,
+     CONVERT_TZ(cp.fecha_creacion, '+00:00', 'America/Mexico_City') as fecha,
     cp.estatus,
     IFNULL(cp.impreso, 'N') AS impreso
 FROM banquetes.cobros_pedidos cp
 LEFT JOIN banquetes.formas_cobros fc ON fc.forma_cobro_id = cp.forma_cobro_id
 WHERE cp.cliente_id = @clienteId
-ORDER BY cp.fecha DESC;";
+ORDER BY cp.fecha_creacion DESC;";
 
             var cobros = new List<Cobro>();
 
@@ -390,6 +392,17 @@ ORDER BY cp.fecha DESC;";
                         cobros.Add(cobro);
                     }
                 }
+                // 🔹 Ahora cargamos los detalles para cada cobro (folios)
+                foreach (var cobro in cobros)
+                {
+                    cobro.Detalles = ObtenerDetallesCobro(connection, cobro.Id).ToList();
+
+                    // Si tiene varios pedidos, concatenamos los folios
+                    if (cobro.Detalles.Any())
+                    {
+                        cobro.FolioPedidos = string.Join(", ", cobro.Detalles.Select(d => d.Folio));
+                    }
+                }
             }
 
             return cobros;
@@ -403,32 +416,32 @@ ORDER BY cp.fecha DESC;";
         public Cobro ObtenerCobroPorId(int cobroId)
         {
             const string cobroQuery = @"SELECT
-    cp.cobro_pedido,
-    IFNULL(cp.cobro_pedido, cp.cobro_pedido) AS cobro_pedido,
-    cp.usuario_id,
-    cp.empresa_id,
-    cp.cliente_id,
-    cp.forma_cobro_id,
-    cp.monto,
-    cp.fecha,
-    cp.fecha_creacion,
-    cp.estatus,
-    IFNULL(cp.impreso, 'N') AS impreso,
-    IFNULL(fc.nombre, '') AS forma_cobro,
-    c.cliente_id,
-    c.nombre AS cliente_nombre,
-    IFNULL(c.rfc, '') AS cliente_rfc,
-    IFNULL(c.correo, '') AS cliente_correo,
-    IFNULL(c.telefono, '') AS cliente_telefono,
-    e.empresa_id,
-    e.nombre AS empresa_nombre,
-    IFNULL(e.rfc, '') AS empresa_rfc,
-    IFNULL(e.telefono, '') AS empresa_telefono
-FROM banquetes.cobros_pedidos cp
-LEFT JOIN banquetes.formas_cobros fc ON fc.forma_cobro_id = cp.forma_cobro_id
-LEFT JOIN banquetes.clientes c ON c.cliente_id = cp.cliente_id
-LEFT JOIN banquetes.empresas e ON e.empresa_id = cp.empresa_id
-WHERE cp.cobro_pedido = @cobroId;";
+                cp.cobro_pedido,
+                IFNULL(cp.cobro_pedido, cp.cobro_pedido) AS cobro_pedido,
+                cp.usuario_id,
+                cp.empresa_id,
+                cp.cliente_id,
+                cp.forma_cobro_id,
+                cp.monto,
+                cp.fecha,
+                cp.fecha_creacion,
+                cp.estatus,
+                IFNULL(cp.impreso, 'N') AS impreso,
+                IFNULL(fc.nombre, '') AS forma_cobro,
+                c.cliente_id,
+                c.nombre AS cliente_nombre,
+                IFNULL(c.rfc, '') AS cliente_rfc,
+                IFNULL(c.correo, '') AS cliente_correo,
+                IFNULL(c.telefono, '') AS cliente_telefono,
+                e.empresa_id,
+                e.nombre AS empresa_nombre,
+                IFNULL(e.rfc, '') AS empresa_rfc,
+                IFNULL(e.telefono, '') AS empresa_telefono
+            FROM banquetes.cobros_pedidos cp
+            LEFT JOIN banquetes.formas_cobros fc ON fc.forma_cobro_id = cp.forma_cobro_id
+            LEFT JOIN banquetes.clientes c ON c.cliente_id = cp.cliente_id
+            LEFT JOIN banquetes.empresas e ON e.empresa_id = cp.empresa_id
+            WHERE cp.cobro_pedido = @cobroId;";
 
             using (var connection = _connectionFactory.Create())
             using (var command = new MySqlCommand(cobroQuery, connection))

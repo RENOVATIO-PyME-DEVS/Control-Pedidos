@@ -8,6 +8,8 @@ namespace Control_Pedidos.Models
         public int KitId { get; set; }
         public int ArticuloId { get; set; }
         public decimal Cantidad { get; set; }
+        public string Visible { get; set; } = "S";
+
         public Articulo Articulo { get; set; }
         public string NombreArticulo => Articulo?.Nombre ?? string.Empty;
     }

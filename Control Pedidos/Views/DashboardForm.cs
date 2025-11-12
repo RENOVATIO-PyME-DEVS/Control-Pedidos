@@ -43,10 +43,21 @@ namespace Control_Pedidos.Views
             companyLabel.Text = $"Empresa: {empresaNombre}";
 
             // Solo los administradores pueden ver la sección de catálogos.
-            var isAdmin = string.Equals(role, "Administrador", StringComparison.OrdinalIgnoreCase);
-            usersButton.Enabled = isAdmin;
-            clientsButton.Enabled = isAdmin;
-            articlesButton.Enabled = isAdmin;
+            var isAdmin = string.Equals(role, "Administrador", StringComparison.OrdinalIgnoreCase);            
+            if (isAdmin) {
+                usersButton.Enabled = isAdmin;
+                clientsButton.Enabled = isAdmin;
+                articlesButton.Enabled = isAdmin;
+            }
+
+            // Solo los administradores pueden ver la sección de catálogos.
+            var isCajero = string.Equals(role, "Cajero", StringComparison.OrdinalIgnoreCase);
+            if (isCajero)
+            {
+                usersButton.Enabled = !isCajero;
+                clientsButton.Enabled = isCajero;
+                articlesButton.Enabled = isCajero;
+            }
 
             LoadDashboardData();
         }
@@ -127,6 +138,11 @@ namespace Control_Pedidos.Views
             {
                 form.ShowDialog();
             }
+        }
+
+        private void DashboardForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
