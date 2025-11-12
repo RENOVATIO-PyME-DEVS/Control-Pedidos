@@ -507,6 +507,8 @@ namespace Control_Pedidos.Views.Articles
 
         private void ArticleManagementForm_Load(object sender, EventArgs e)
         {
+            ClearForm(); 
+            ClearForm();
         }
 
         private void CargarUnidadesComboBox(ComboBox comboBox, string columna)

@@ -383,5 +383,12 @@ namespace Control_Pedidos.Views.Events
                 empresaComboBox.SelectedValue = selectedEmpresaId.Value;
             }
         }
+
+        private void EventManagementForm_Load(object sender, EventArgs e)
+        {
+            ClearForm();
+            ClearForm();
+            agregarButton.Enabled = true;
+        }
     }
 }

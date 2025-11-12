@@ -52,7 +52,7 @@ namespace Control_Pedidos.Views.Events
             this.nombreLabel.AutoSize = true;
             this.nombreLabel.Location = new System.Drawing.Point(29, 85);
             this.nombreLabel.Name = "nombreLabel";
-            this.nombreLabel.Size = new System.Drawing.Size(153, 20);
+            this.nombreLabel.Size = new System.Drawing.Size(122, 16);
             this.nombreLabel.TabIndex = 0;
             this.nombreLabel.Text = "Nombre del evento";
             // 
@@ -230,6 +230,7 @@ namespace Control_Pedidos.Views.Events
             this.Name = "EventManagementForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Gestión de eventos";
+            this.Load += new System.EventHandler(this.EventManagementForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.siguienteFolioNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.eventosGrid)).EndInit();
             this.ResumeLayout(false);

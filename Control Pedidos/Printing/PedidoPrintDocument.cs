@@ -26,6 +26,9 @@ namespace Control_Pedidos.Printing
         private readonly Font _detalleTablaFont = new Font("Segoe UI", 9);
         private readonly Font _totalFont = new Font("Segoe UI", 11, FontStyle.Bold);
 
+        private bool _encabezadoDibujado;
+
+
         private int _indiceDetalleActual;
         private Image _logoEmpresa;
 
@@ -42,6 +45,8 @@ namespace Control_Pedidos.Printing
             DocumentName = string.IsNullOrWhiteSpace(pedido.FolioFormateado)
                 ? $"Pedido_{pedido.Id}"
                 : pedido.FolioFormateado;
+
+
         }
 
         protected override void OnBeginPrint(PrintEventArgs e)
@@ -61,10 +66,15 @@ namespace Control_Pedidos.Printing
             var bounds = e.MarginBounds;
             float y = bounds.Top;
 
-            y = DibujarEncabezado(graphics, bounds, y);
-            y = DibujarDatosCliente(graphics, bounds, y);
-            y = DibujarDatosPedido(graphics, bounds, y);
+            // 🔹 Solo en la primera página dibuja encabezado y datos del cliente
+            if (!_encabezadoDibujado)
+            {
+                y = DibujarEncabezado(graphics, bounds, y);
+                y = DibujarDatosCliente(graphics, bounds, y);
+                y = DibujarDatosPedido(graphics, bounds, y);
 
+                _encabezadoDibujado = true; // Marcar como ya dibujado
+            }
             y += 10;
             y = DibujarEncabezadoTabla(graphics, bounds, y, out var columnas);
 
@@ -121,7 +131,7 @@ namespace Control_Pedidos.Printing
             float textWidth = bounds.Right - textLeft;
             float currentY = top;
 
-            var empresaNombre = _pedido.Empresa?.Nombre ?? string.Empty;
+            var empresaNombre = "CENAS NAVIDEÑAS Y AÑO NUEVO \"MORA\"";// _pedido.Empresa?.Nombre ?? string.Empty;
             if (!string.IsNullOrWhiteSpace(empresaNombre))
             {
                 var rect = new RectangleF(textLeft, currentY, textWidth, _tituloEmpresaFont.GetHeight(graphics) + 2);
@@ -137,17 +147,19 @@ namespace Control_Pedidos.Printing
 
             if (!string.IsNullOrWhiteSpace(_pedido.Empresa?.Direccion))
             {
-                lines.Add(_pedido.Empresa.Direccion);
+                //lines.Add(_pedido.Empresa.Direccion);
+                lines.Add("AV. DE LA CONVENCION ESQUINA BEETHOVEN, COL. DEL TRABAJO, AGUASCALIENTES.");
             }
 
             if (!string.IsNullOrWhiteSpace(_pedido.Empresa?.Telefono))
             {
-                lines.Add($"Tel.: {_pedido.Empresa.Telefono}");
+                //lines.Add($"Tel.: {_pedido.Empresa.Telefono}");
+                lines.Add($"Tels.: 449-975-0551 / 449-145-1959");
             }
 
             if (!string.IsNullOrWhiteSpace(_pedido.Empresa?.Correo))
             {
-                lines.Add(_pedido.Empresa.Correo);
+                //lines.Add(_pedido.Empresa.Correo);
             }
 
             foreach (var line in lines)
@@ -166,6 +178,29 @@ namespace Control_Pedidos.Printing
             var folioRect = new RectangleF(bounds.Left, y, bounds.Width / 2f, _textoNegritasFont.GetHeight(graphics) + 4);
             graphics.DrawString($"Folio Pedido: {folioTexto}", _textoNegritasFont, Brushes.Black, folioRect, new StringFormat { Alignment = StringAlignment.Near });
 
+
+            //  Dibujar cpdigo de barras con el folio 3 of 9 Barcode
+            try
+            {
+                // Generar código de barras tipo Code128
+                using (var barcodeFont = new Font("3 of 9 Barcode", 25)) // Asegúrate de tener instalada la fuente “Free 3 of 9”
+                {
+                    var barcodeText = $"*{folioTexto}*"; // Formato requerido por la fuente Code 39
+                    var barcodeRect = new RectangleF(bounds.Right - 250, top + 10, 240, 50);
+                    graphics.DrawString(barcodeText, barcodeFont, Brushes.Black, barcodeRect, new StringFormat
+                    {
+                        Alignment = StringAlignment.Center,
+                        LineAlignment = StringAlignment.Near
+                    });
+
+                }
+            }
+            catch
+            {
+                // Si no está la fuente, no interrumpe la impresión
+            }
+
+            
             if (_mostrarLeyendaReimpreso)
             {
                 var reimpresoRect = new RectangleF(bounds.Left, y, bounds.Width, _textoNegritasFont.GetHeight(graphics) + 4);
@@ -203,16 +238,75 @@ namespace Control_Pedidos.Printing
             }
             y += lineaAltura;
 
+            //if (!string.IsNullOrWhiteSpace(_pedido.Notas))
+            //{
+            //    y += 4;
+            //    var notasTexto = $"Notas: {_pedido.Notas}";
+            //    var notasSize = graphics.MeasureString(notasTexto, _textoRegularFont, (int)width);
+            //    var notasRect = new RectangleF(left, y + 7, width, notasSize.Height);
+            //    var notasFormat = new StringFormat { Alignment = StringAlignment.Near };
+            //    graphics.DrawString(notasTexto, _textoRegularFont, Brushes.Black, notasRect, notasFormat);
+            //    y += notasSize.Height + 4;
+            //}
             if (!string.IsNullOrWhiteSpace(_pedido.Notas))
             {
-                y += 4;
+                y += 6;
                 var notasTexto = $"Notas: {_pedido.Notas}";
-                var notasSize = graphics.MeasureString(notasTexto, _textoRegularFont, (int)width);
-                var notasRect = new RectangleF(left, y + 7, width, notasSize.Height);
-                var notasFormat = new StringFormat { Alignment = StringAlignment.Near };
+                var notasSize = graphics.MeasureString(notasTexto, _textoRegularFont, (int)width - 10);
+
+                // 📦 Dibujar borde del recuadro
+                var padding = 6f;
+                var rectBox = new RectangleF(left, y + 4, width, notasSize.Height + (padding * 2));
+                graphics.DrawRectangle(Pens.Black, rectBox.Left, rectBox.Top, rectBox.Width, rectBox.Height);
+
+                // 📝 Dibujar texto dentro del recuadro con margen interno
+                var notasRect = new RectangleF(rectBox.Left + padding, rectBox.Top + padding, rectBox.Width - (padding * 2), rectBox.Height - (padding * 2));
+                var notasFormat = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Near };
                 graphics.DrawString(notasTexto, _textoRegularFont, Brushes.Black, notasRect, notasFormat);
-                y += notasSize.Height + 4;
+
+                y += rectBox.Height + 8;
             }
+
+
+
+            // --- Recomendaciones ---
+            // --- Recomendaciones ---
+            y += 20;
+
+            // 🔹 Fuentes en negritas
+            using (var fuenteTitulo = new Font(_textoNegritasFont.FontFamily, 11, FontStyle.Bold))
+            using (var fuenteTexto = new Font(_textoNegritasFont.FontFamily, 9, FontStyle.Bold))
+            {
+                // --- Título centrado ---
+                var titulo = "RECOMENDACIONES PARA EVITAR AGLOMERACIONES";
+                var rectTitulo = new RectangleF(bounds.Left, y, bounds.Width, fuenteTitulo.GetHeight(graphics) + 6);
+                var formatoCentro = new StringFormat
+                {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Near
+                };
+                graphics.DrawString(titulo, fuenteTitulo, Brushes.Black, rectTitulo, formatoCentro);
+                y += rectTitulo.Height + 4;
+
+                // --- Texto de recomendaciones ---
+                var recomendaciones = new StringBuilder();
+                recomendaciones.AppendLine("1. RECOGER SU PRODUCTO DENTRO DEL HORARIO Y DÍA MARCADO EN SU PEDIDO.");
+                recomendaciones.AppendLine("2. PARA RECOGER PRODUCTO ES POR LA CALLE BEETHOVEN EN PLANTA ALTA.");
+                recomendaciones.AppendLine("3. PRODUCTO NO RECOGIDO EN LA FECHA MARCADA Y EN EL HORARIO NO NOS HACEMOS RESPONSABLES Y");
+                recomendaciones.AppendLine("   NO SE DEVOLVERÁ SU ANTICIPO.");
+                recomendaciones.AppendLine("4. ¡¡¡TODOS LOS PRODUCTOS SE ENTREGAN A TEMPERATURA AMBIENTE!!!");
+
+                var rectTexto = new RectangleF(bounds.Left, y, bounds.Width, graphics.MeasureString(recomendaciones.ToString(), fuenteTexto, (int)bounds.Width).Height + 6);
+                var formatoIzquierda = new StringFormat
+                {
+                    Alignment = StringAlignment.Near,
+                    LineAlignment = StringAlignment.Near
+                };
+                graphics.DrawString(recomendaciones.ToString(), fuenteTexto, Brushes.Black, rectTexto, formatoIzquierda);
+                y += rectTexto.Height + 10;
+            }
+
+
 
             return y + 6;
         }
@@ -286,37 +380,6 @@ namespace Control_Pedidos.Printing
                 return false;
             }
 
-            //while (_indiceDetalleActual < _pedido.Detalles.Count)
-            //{
-            //    var detalle = _pedido.Detalles[_indiceDetalleActual];
-            //    var descripcion = ConstruirDescripcionDetalle(detalle);
-
-            //    var descripcionSize = graphics.MeasureString(descripcion, _detalleTablaFont, (int)columnas.GetColumnWidth(1));
-            //    var filaAltura = Math.Max(descripcionSize.Height, _detalleTablaFont.GetHeight(graphics)) + 8;
-
-            //    if (y + filaAltura > bounds.Bottom - espacioReservado)
-            //    {
-            //        return true;
-            //    }
-
-            //    var cantidadRect = columnas.GetColumnRectangle(0, y, filaAltura);
-            //    graphics.DrawString(detalle.Cantidad.ToString("N2"), _detalleTablaFont, Brushes.Black, cantidadRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
-
-            //    var descripcionRect = columnas.GetColumnRectangle(1, y, filaAltura);
-            //    var descripcionFormat = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center };
-            //    graphics.DrawString(descripcion, _detalleTablaFont, Brushes.Black, descripcionRect, descripcionFormat);
-
-            //    var precioRect = columnas.GetColumnRectangle(2, y, filaAltura);
-            //    graphics.DrawString(detalle.PrecioUnitario.ToString("C2"), _detalleTablaFont, Brushes.Black, precioRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
-
-            //    var totalRect = columnas.GetColumnRectangle(3, y, filaAltura);
-            //    graphics.DrawString(detalle.Total.ToString("C2"), _detalleTablaFont, Brushes.Black, totalRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
-
-            //    y += filaAltura;
-            //    graphics.DrawLine(Pens.LightGray, bounds.Left, y, bounds.Right, y);
-
-            //    _indiceDetalleActual++;
-            //}
             while (_indiceDetalleActual < _pedido.Detalles.Count)
             {
                 var detalle = _pedido.Detalles[_indiceDetalleActual];
@@ -334,7 +397,13 @@ namespace Control_Pedidos.Printing
 
                 // --- Columna Cantidad ---
                 var cantidadRect = columnas.GetColumnRectangle(0, y, filaAltura);
-                graphics.DrawString($"{detalle.Cantidad.ToString("N2")} {detalle.Articulo.UnidadMedida.ToString()}(s)", _detalleTablaFont, Brushes.Black, cantidadRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+                // graphics.DrawString($"{detalle.Cantidad.ToString("N2")} {detalle.Articulo.UnidadMedida.ToString()}(s)", _detalleTablaFont, Brushes.Black, cantidadRect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+                var formatoCantidad = new StringFormat
+                {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Near // 🔹 Alinea arriba, al nivel del título del artículo
+                };
+                graphics.DrawString($"{detalle.Cantidad:N2} {detalle.Articulo.UnidadMedida}(s)", _detalleTablaFont, Brushes.Black, cantidadRect, formatoCantidad);
 
                 // --- Columna Descripción (separar título y componentes) ---
                 var descripcionY = y;
@@ -350,10 +419,11 @@ namespace Control_Pedidos.Printing
                 if (detalle.Articulo?.EsKit == true && detalle.Componentes != null && detalle.Componentes.Count > 0)
                 {
                     var componentesTexto = new StringBuilder();
-                    componentesTexto.AppendLine("Componentes:");
+                    componentesTexto.AppendLine("Guarniciones:");
                     foreach (var componente in detalle.Componentes)
                     {
-                        componentesTexto.AppendLine($"• {componente.NombreArticulo} {componente.Cantidad.ToString("N")} {componente.Articulo.UnidadMedida}(s)");
+                        decimal cantidadresumen = componente.Cantidad * detalle.Cantidad;
+                        componentesTexto.AppendLine($"• {componente.NombreArticulo} {cantidadresumen.ToString("N")} {componente.Articulo.UnidadMedida}(s)");
                     }
 
                     var componenteRect = new RectangleF(descripcionRect.Left + 10, descripcionY, descripcionRect.Width - 10, filaAltura);
@@ -407,13 +477,13 @@ namespace Control_Pedidos.Printing
             y += _totalFont.GetHeight(graphics) + 6;
 
             var rectAnticipo = new RectangleF(columnaDerecha, y, ancho, _textoRegularFont.GetHeight(graphics) + 2);
-            graphics.DrawString($"Anticipo registrado: {anticipo:C2}", _textoRegularFont, Brushes.Black, rectAnticipo, format);
+            graphics.DrawString($"Anticipo: {anticipo:C2}", _textoRegularFont, Brushes.Black, rectAnticipo, format);
             y += _textoRegularFont.GetHeight(graphics) + 2;
 
 
-            var rectSaldo = new RectangleF(columnaDerecha, y, ancho, _textoRegularFont.GetHeight(graphics) + 2);
-            graphics.DrawString($"Saldo pendiente: {saldo:C2}", _textoRegularFont, Brushes.Black, rectSaldo, format);
-            y += _textoRegularFont.GetHeight(graphics) + 40;
+            var rectSaldo = new RectangleF(columnaDerecha, y, ancho, _totalFont.GetHeight(graphics) + 2);
+            graphics.DrawString($"Saldo pendiente: {saldo:C2}", _totalFont, Brushes.Black, rectSaldo, format);
+            y += _totalFont.GetHeight(graphics) + 40;
 
             if (!string.IsNullOrWhiteSpace(_pedido.FormaCobroUltima))
             {
@@ -421,7 +491,26 @@ namespace Control_Pedidos.Printing
                 graphics.DrawString($"Forma de pago: {_pedido.FormaCobroUltima}", _textoRegularFont, Brushes.Black, rectForma, format);
                 y += _textoRegularFont.GetHeight(graphics) + 2;
             }
-            return y;
+            // 🟢 Si el saldo es 0, dibujar marca de agua PAGADO
+            if (saldo == 0)
+            {
+                using (var fuenteAgua = new Font("Segoe UI", 90, FontStyle.Bold))
+                using (var pincelAgua = new SolidBrush(Color.FromArgb(40, 0, 128, 0))) // Verde translúcido
+                {
+                    string textoAgua = "PAGADO";
+                    var sizeAgua = graphics.MeasureString(textoAgua, fuenteAgua);
+
+                    float xAgua = bounds.Left + (bounds.Width - sizeAgua.Width) / 2;
+                    float yAgua = bounds.Top + (bounds.Height - sizeAgua.Height) / 2;
+
+                    graphics.TranslateTransform(xAgua + sizeAgua.Width / 2, yAgua + sizeAgua.Height / 2);
+                    graphics.RotateTransform(-30);
+                    graphics.DrawString(textoAgua, fuenteAgua, pincelAgua, -sizeAgua.Width / 2, -sizeAgua.Height / 2);
+                    graphics.ResetTransform();
+                }
+                }
+                
+                return y;
         }
 
         private void DibujarPie(Graphics graphics, Rectangle bounds, float y)
@@ -482,6 +571,27 @@ namespace Control_Pedidos.Printing
             var leyendaHeight = graphics.MeasureString("Antes de 72 horas del evento se podrá cancelar o cambiar la fecha del pedido. Pasado ese tiempo, no se aceptan cambios ni devoluciones.", _textoPequenoFont, 1000).Height + 30;
             return totalHeight + leyendaHeight;
         }
+
+        private void DibujarMarcaAguaPagado(Graphics graphics, Rectangle bounds)
+        {
+            using (var fuente = new Font("Segoe UI", 80, FontStyle.Bold))
+            using (var brush = new SolidBrush(Color.FromArgb(40, 0, 128, 0))) // Verde translúcido
+            {
+                var texto = "PAGADO";
+                var size = graphics.MeasureString(texto, fuente);
+
+                // Centrar el texto en la hoja
+                float x = bounds.Left + (bounds.Width - size.Width) / 2;
+                float y = bounds.Top + (bounds.Height - size.Height) / 2;
+
+                // Aplicar rotación (diagonal) para efecto de marca de agua
+                graphics.TranslateTransform(x + size.Width / 2, y + size.Height / 2);
+                graphics.RotateTransform(-30);
+                graphics.DrawString(texto, fuente, brush, -size.Width / 2, -size.Height / 2);
+                graphics.ResetTransform();
+            }
+        }
+
 
         private Image ObtenerLogoEmpresa()
         {

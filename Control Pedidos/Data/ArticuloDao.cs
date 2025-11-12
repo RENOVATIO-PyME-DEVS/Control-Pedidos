@@ -176,6 +176,61 @@ namespace Control_Pedidos.Data
 FROM banquetes.articulos
 WHERE (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
 
+
+            try
+            {
+                using (var connection = _connectionFactory.Create())
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    // El filtro es opcional: busca por nombre si viene algo.
+                    command.Parameters.AddWithValue("@filtro", filtro ?? string.Empty);
+                    connection.Open();
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var articulo = new Articulo
+                            {
+                                Id = reader.GetInt32("articulo_id"),
+                                Nombre = reader.GetString("nombre"),
+                                NombreCorto = reader.IsDBNull(reader.GetOrdinal("nombre_corto")) ? string.Empty : reader.GetString("nombre_corto"),
+                                TipoArticulo = reader.GetString("tipo_articulo"),
+                                UnidadMedida = reader.IsDBNull(reader.GetOrdinal("unidad_medida")) ? string.Empty : reader.GetString("unidad_medida"),
+                                UnidadControl = reader.IsDBNull(reader.GetOrdinal("unidad_control")) ? string.Empty : reader.GetString("unidad_control"),
+                                ContenidoControl = reader.IsDBNull(reader.GetOrdinal("contenido_control")) ? 0 : reader.GetDecimal("contenido_control"),
+                                Precio = reader.IsDBNull(reader.GetOrdinal("precio")) ? 0 : reader.GetDecimal("precio"),
+                                FechaPrecio = reader.IsDBNull(reader.GetOrdinal("fecha_precio")) ? DateTime.Today : reader.GetDateTime("fecha_precio"),
+                                UsuarioPrecioId = reader.IsDBNull(reader.GetOrdinal("usuario_precio_id")) ? (int?)null : reader.GetInt32("usuario_precio_id"),
+                                Estatus = reader.GetString("estatus"),
+                                Personas = reader.GetInt32("personas")
+                            };
+
+                            articulos.Add(articulo);
+                        }
+                    }
+                }
+
+                // Para los kits completamos la lista de componentes en una segunda consulta.
+                CargarComponentes(articulos.Where(a => a.EsKit).ToList());
+            }
+            catch (Exception ex)
+            {
+                throw new DataException("No se pudieron listar los artículos", ex);
+            }
+
+            return articulos;
+        }
+
+        public IList<Articulo> ListarSinP(string filtro)
+        {
+            var articulos = new List<Articulo>();
+            const string query = @"SELECT articulo_id, nombre, nombre_corto, tipo_articulo, unidad_medida, unidad_control, contenido_control, precio, fecha_precio, usuario_precio_id, estatus, coalesce(personas, 0) personas
+FROM banquetes.articulos
+WHERE  tipo_articulo <> 'P'
+      AND (@filtro = '' OR nombre LIKE CONCAT('%', @filtro, '%'))";
+
+
             try
             {
                 using (var connection = _connectionFactory.Create())

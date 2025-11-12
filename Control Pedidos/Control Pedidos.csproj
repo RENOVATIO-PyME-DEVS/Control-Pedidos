@@ -253,6 +253,9 @@
     <EmbeddedResource Include="Views\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Orders\OrderDeliveryDashboardForm.resx">
+      <DependentUpon>OrderDeliveryDashboardForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Orders\OrderManagementForm.resx">
       <DependentUpon>OrderManagementForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -288,6 +291,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LogoEmpresa.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -20,9 +20,10 @@ namespace Control_Pedidos.Controllers
         public DataTable GetTodayDeliveries(int? empresaId = null)
         {
             // Armamos la consulta que trae todos los pedidos a entregar hoy, con cliente y totales ya calculados.
-           var query = @"SELECT
+            var query = @"SELECT
                     p.pedido_id AS PedidoId,
-                    p.folio AS Folio,
+                    -- p.folio AS Folio,
+                    f_folio_pedido(p.pedido_id) AS Folio,
                     c.cliente_id AS ClienteId,
                     c.nombre AS Cliente,
                     IFNULL(DATE_FORMAT(p.hora_entrega, '%H:%i'), '') AS HoraEntrega,
