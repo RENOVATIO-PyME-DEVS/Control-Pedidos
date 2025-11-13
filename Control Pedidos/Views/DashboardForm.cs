@@ -8,6 +8,7 @@ using Control_Pedidos.Models;
 using Control_Pedidos.Views.Articles;
 using Control_Pedidos.Views.Clients;
 using Control_Pedidos.Views.Events;
+using Control_Pedidos.Views.Reports;
 using Control_Pedidos.Views.Users;
 
 namespace Control_Pedidos.Views
@@ -143,6 +144,14 @@ namespace Control_Pedidos.Views
         private void DashboardForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (var form = new ReportsForm(_connectionFactory))
+            {
+                form.ShowDialog();
+            }
         }
     }
 }
