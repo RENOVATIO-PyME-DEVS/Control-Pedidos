@@ -54,3 +54,6 @@ C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pe
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Settings.DatabaseSettingsForm.resources
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Orders.OrderDeliveryDashboardForm.resources
 C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control Pedidos.exe.config
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\obj\Debug\Control_Pedidos.Views.Reports.ReportsForm.resources
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\Newtonsoft.Json.dll
+C:\Users\guada\Music\VS2022\Control-Pedidos\Control Pedidos\bin\Debug\Newtonsoft.Json.xml
