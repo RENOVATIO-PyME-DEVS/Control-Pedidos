@@ -48,6 +48,7 @@ namespace Control_Pedidos.Views.Clients
             _clientsContextMenu.Items.Add("Agregar pedido", null, agregarPedidoMenuItem_Click);
             _clientsContextMenu.Items.Add("Registrar cobro", null, registrarCobroMenuItem_Click);
             _clientsContextMenu.Items.Add("Ver cobros", null, verCobrosMenuItem_Click);
+            _clientsContextMenu.Items.Add("Devolver pedido", null, devolverPedidoMenuItem_Click);
             clientsGrid.ContextMenuStrip = _clientsContextMenu;
 
             statusComboBox.DataSource = new[] { "Activo", "Inactivo" };
@@ -386,6 +387,23 @@ namespace Control_Pedidos.Views.Clients
                 if (clientsGrid.Rows[e.RowIndex].DataBoundItem is Cliente cliente)
                 {
                     _selectedClient = cliente;
+                }
+            }
+        }
+
+        private void devolverPedidoMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_selectedClient == null)
+            {
+                MessageBox.Show("Seleccione un cliente", "Devolver pedido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (var form = new DevolucionPedidoForm(_connectionFactory, _selectedClient, _usuarioActual, _empresaSeleccionada))
+            {
+                if (form.ShowDialog(this) == DialogResult.OK)
+                {
+                    LoadClientes(searchTextBox.Text.Trim());
                 }
             }
         }
