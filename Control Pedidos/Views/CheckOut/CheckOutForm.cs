@@ -315,7 +315,7 @@ namespace Control_Pedidos.Views.CheckOut
                     eventoId,
                     sinEvento,
                     filtro,
-                    includeProductos: true,
+                    incluirProductos: true,
                     ordenarPorFechaCheckIn: true);
 
                 _pedidos.Clear();
@@ -379,10 +379,11 @@ namespace Control_Pedidos.Views.CheckOut
 
         private void RegistrarCheckOutManual()
         {
-            if (_grid.CurrentRow?.DataBoundItem is not PedidoCheckInfo pedido)
+            if (!(_grid.CurrentRow?.DataBoundItem is PedidoCheckInfo pedido))
             {
                 return;
             }
+
 
             try
             {

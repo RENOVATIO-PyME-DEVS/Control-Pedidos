@@ -192,11 +192,21 @@
     <Compile Include="Views\Clients\ClientManagementForm.Designer.cs">
       <DependentUpon>ClientManagementForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\CheckIn\CheckInForm.cs" />
-    <Compile Include="Views\CheckIn\CheckInConfirmForm.cs" />
-    <Compile Include="Views\CheckIn\CheckInScannedForm.cs" />
-    <Compile Include="Views\CheckOut\CheckOutForm.cs" />
-    <Compile Include="Views\CheckOut\CheckOutDeliveredForm.cs" />
+    <Compile Include="Views\CheckIn\CheckInForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CheckIn\CheckInConfirmForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CheckIn\CheckInScannedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CheckOut\CheckOutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CheckOut\CheckOutDeliveredForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\Payments\CobrosClienteForm.cs">
       <SubType>Form</SubType>
     </Compile>

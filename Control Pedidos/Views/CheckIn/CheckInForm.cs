@@ -301,7 +301,7 @@ namespace Control_Pedidos.Views.CheckIn
                     eventoId,
                     sinEvento,
                     filtro,
-                    includeProductos: false,
+                    incluirProductos: false,
                     ordenarPorFechaCheckIn: false);
 
                 _pedidos.Clear();
@@ -425,10 +425,15 @@ namespace Control_Pedidos.Views.CheckIn
 
         private void RegistrarCheckInManual()
         {
-            if (_ordersGrid.CurrentRow?.DataBoundItem is not PedidoCheckInfo pedidoSeleccionado)
+            //if (_ordersGrid.CurrentRow?.DataBoundItem is not PedidoCheckInfo pedidoSeleccionado)
+            //{
+            //    return;
+            //}
+            if (!(_ordersGrid.CurrentRow?.DataBoundItem is PedidoCheckInfo pedidoSeleccionado))
             {
                 return;
             }
+
 
             try
             {

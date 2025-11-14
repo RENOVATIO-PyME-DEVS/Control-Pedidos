@@ -61,7 +61,7 @@ namespace Control_Pedidos.Views
             // refreshButton
             // 
             this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.refreshButton.Location = new System.Drawing.Point(1420, 97);
+            this.refreshButton.Location = new System.Drawing.Point(1632, 97);
             this.refreshButton.Margin = new System.Windows.Forms.Padding(4);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(183, 42);
@@ -126,7 +126,7 @@ namespace Control_Pedidos.Views
             this.activeOrdersGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.activeOrdersGroupBox.Name = "activeOrdersGroupBox";
             this.activeOrdersGroupBox.Padding = new System.Windows.Forms.Padding(4);
-            this.activeOrdersGroupBox.Size = new System.Drawing.Size(1563, 455);
+            this.activeOrdersGroupBox.Size = new System.Drawing.Size(1775, 455);
             this.activeOrdersGroupBox.TabIndex = 5;
             this.activeOrdersGroupBox.TabStop = false;
             this.activeOrdersGroupBox.Text = "Pedidos activos";
@@ -168,7 +168,7 @@ namespace Control_Pedidos.Views
             this.activeOrdersGrid.ReadOnly = true;
             this.activeOrdersGrid.RowHeadersWidth = 51;
             this.activeOrdersGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.activeOrdersGrid.Size = new System.Drawing.Size(1511, 355);
+            this.activeOrdersGrid.Size = new System.Drawing.Size(1723, 355);
             this.activeOrdersGrid.TabIndex = 0;
             // 
             // companyLabel
@@ -202,34 +202,34 @@ namespace Control_Pedidos.Views
             this.button1.Text = "Reportes";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            //
+            // 
             // btnCheckIn
-            //
+            // 
             this.btnCheckIn.Location = new System.Drawing.Point(1247, 170);
             this.btnCheckIn.Margin = new System.Windows.Forms.Padding(4);
             this.btnCheckIn.Name = "btnCheckIn";
             this.btnCheckIn.Size = new System.Drawing.Size(183, 42);
             this.btnCheckIn.TabIndex = 11;
-            this.btnCheckIn.Text = "CheckIN Pedidos";
+            this.btnCheckIn.Text = "CheckIn Pedidos";
             this.btnCheckIn.UseVisualStyleBackColor = true;
             this.btnCheckIn.Click += new System.EventHandler(this.btnCheckIn_Click);
-            //
+            // 
             // btnCheckOut
-            //
+            // 
             this.btnCheckOut.Location = new System.Drawing.Point(1438, 170);
             this.btnCheckOut.Margin = new System.Windows.Forms.Padding(4);
             this.btnCheckOut.Name = "btnCheckOut";
             this.btnCheckOut.Size = new System.Drawing.Size(183, 42);
             this.btnCheckOut.TabIndex = 12;
-            this.btnCheckOut.Text = "CheckOUT Pedidos";
+            this.btnCheckOut.Text = "CheckOut Pedidos";
             this.btnCheckOut.UseVisualStyleBackColor = true;
             this.btnCheckOut.Click += new System.EventHandler(this.btnCheckOut_Click);
-            //
+            // 
             // DashboardForm
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1628, 704);
+            this.ClientSize = new System.Drawing.Size(1840, 704);
             this.Controls.Add(this.btnCheckOut);
             this.Controls.Add(this.btnCheckIn);
             this.Controls.Add(this.button1);

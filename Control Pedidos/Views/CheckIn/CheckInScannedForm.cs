@@ -183,7 +183,7 @@ namespace Control_Pedidos.Views.CheckIn
                     _eventoId,
                     _sinEvento,
                     filtro,
-                    includeProductos: false,
+                    incluirProductos: false,
                     ordenarPorFechaCheckIn: true);
 
                 _pedidos.Clear();
