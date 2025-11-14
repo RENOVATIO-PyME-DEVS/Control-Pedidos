@@ -113,6 +113,7 @@
     <Compile Include="Data\DatabaseConnectionFactory.cs" />
     <Compile Include="Data\ArticuloDao.cs" />
     <Compile Include="Data\CobroDao.cs" />
+    <Compile Include="Data\CorteCajaDao.cs" />
     <Compile Include="Data\DevolucionDao.cs" />
     <Compile Include="Data\ClienteDao.cs" />
     <Compile Include="Data\EventoDao.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Helpers\ValidationHelper.cs" />
     <Compile Include="Models\Articulo.cs" />
     <Compile Include="Models\Cobro.cs" />
+    <Compile Include="Models\CorteCajaReporte.cs" />
     <Compile Include="Models\CobroDetalle.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\FormaCobro.cs" />
@@ -143,9 +145,14 @@
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Printing\CobroPrintingResult.cs" />
+    <Compile Include="Printing\CorteCajaPrintingResult.cs" />
     <Compile Include="Printing\CobroPrintingService.cs" />
+    <Compile Include="Printing\CorteCajaPrintingService.cs" />
     <Compile Include="Printing\DevolucionPrintingService.cs" />
     <Compile Include="Printing\CobroTicketPrintDocument.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Printing\CorteCajaPrintDocument.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Printing\DevolucionTicketPrintDocument.cs">
@@ -167,6 +174,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Views\CorteCaja\CorteCajaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CorteCaja\CorteCajaForm.Designer.cs">
+      <DependentUpon>CorteCajaForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\DashboardForm.cs">
       <SubType>Form</SubType>
@@ -318,6 +331,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SeleccionEmpresaForm.resx">
       <DependentUpon>SeleccionEmpresaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CorteCaja\CorteCajaForm.resx">
+      <DependentUpon>CorteCajaForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Settings\DatabaseSettingsForm.resx">
       <DependentUpon>DatabaseSettingsForm.cs</DependentUpon>

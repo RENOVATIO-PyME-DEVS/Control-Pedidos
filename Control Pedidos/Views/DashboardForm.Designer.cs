@@ -33,6 +33,7 @@ namespace Control_Pedidos.Views
             this.button1 = new System.Windows.Forms.Button();
             this.btnCheckIn = new System.Windows.Forms.Button();
             this.btnCheckOut = new System.Windows.Forms.Button();
+            this.btnCorteCaja = new System.Windows.Forms.Button();
             this.activeOrdersGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.activeOrdersGrid)).BeginInit();
             this.SuspendLayout();
@@ -215,7 +216,7 @@ namespace Control_Pedidos.Views
             this.btnCheckIn.Click += new System.EventHandler(this.btnCheckIn_Click);
             // 
             // btnCheckOut
-            // 
+            //
             this.btnCheckOut.Location = new System.Drawing.Point(1438, 170);
             this.btnCheckOut.Margin = new System.Windows.Forms.Padding(4);
             this.btnCheckOut.Name = "btnCheckOut";
@@ -224,12 +225,24 @@ namespace Control_Pedidos.Views
             this.btnCheckOut.Text = "CheckOut Pedidos";
             this.btnCheckOut.UseVisualStyleBackColor = true;
             this.btnCheckOut.Click += new System.EventHandler(this.btnCheckOut_Click);
+            //
+            // btnCorteCaja
+            //
+            this.btnCorteCaja.Location = new System.Drawing.Point(1629, 170);
+            this.btnCorteCaja.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCorteCaja.Name = "btnCorteCaja";
+            this.btnCorteCaja.Size = new System.Drawing.Size(183, 42);
+            this.btnCorteCaja.TabIndex = 13;
+            this.btnCorteCaja.Text = "Corte de Caja";
+            this.btnCorteCaja.UseVisualStyleBackColor = true;
+            this.btnCorteCaja.Click += new System.EventHandler(this.btnCorteCaja_Click);
             // 
             // DashboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1840, 704);
+            this.Controls.Add(this.btnCorteCaja);
             this.Controls.Add(this.btnCheckOut);
             this.Controls.Add(this.btnCheckIn);
             this.Controls.Add(this.button1);
@@ -275,5 +288,6 @@ namespace Control_Pedidos.Views
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnCheckIn;
         private System.Windows.Forms.Button btnCheckOut;
+        private System.Windows.Forms.Button btnCorteCaja;
     }
 }
