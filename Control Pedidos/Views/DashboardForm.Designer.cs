@@ -59,7 +59,7 @@ namespace Control_Pedidos.Views
             // refreshButton
             // 
             this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.refreshButton.Location = new System.Drawing.Point(1193, 97);
+            this.refreshButton.Location = new System.Drawing.Point(1420, 97);
             this.refreshButton.Margin = new System.Windows.Forms.Padding(4);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(183, 42);
@@ -124,7 +124,7 @@ namespace Control_Pedidos.Views
             this.activeOrdersGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.activeOrdersGroupBox.Name = "activeOrdersGroupBox";
             this.activeOrdersGroupBox.Padding = new System.Windows.Forms.Padding(4);
-            this.activeOrdersGroupBox.Size = new System.Drawing.Size(1336, 455);
+            this.activeOrdersGroupBox.Size = new System.Drawing.Size(1563, 455);
             this.activeOrdersGroupBox.TabIndex = 5;
             this.activeOrdersGroupBox.TabStop = false;
             this.activeOrdersGroupBox.Text = "Pedidos activos";
@@ -166,7 +166,7 @@ namespace Control_Pedidos.Views
             this.activeOrdersGrid.ReadOnly = true;
             this.activeOrdersGrid.RowHeadersWidth = 51;
             this.activeOrdersGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.activeOrdersGrid.Size = new System.Drawing.Size(1284, 355);
+            this.activeOrdersGrid.Size = new System.Drawing.Size(1511, 355);
             this.activeOrdersGrid.TabIndex = 0;
             // 
             // companyLabel
@@ -192,7 +192,7 @@ namespace Control_Pedidos.Views
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1043, 170);
+            this.button1.Location = new System.Drawing.Point(1056, 170);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(183, 42);
@@ -205,7 +205,7 @@ namespace Control_Pedidos.Views
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1401, 704);
+            this.ClientSize = new System.Drawing.Size(1628, 704);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.eventsButton);
             this.Controls.Add(this.companyLabel);

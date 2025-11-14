@@ -55,7 +55,9 @@ namespace Control_Pedidos.Views
             var isCajero = string.Equals(role, "Cajero", StringComparison.OrdinalIgnoreCase);
             if (isCajero)
             {
+                button1.Enabled = !isCajero; //reportes
                 usersButton.Enabled = !isCajero;
+                
                 clientsButton.Enabled = isCajero;
                 articlesButton.Enabled = isCajero;
             }

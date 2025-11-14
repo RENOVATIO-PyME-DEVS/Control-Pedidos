@@ -61,11 +61,12 @@ namespace Control_Pedidos.Views.Orders
             this.filtersPanel.Controls.Add(this.clientFilterComboBox);
             this.filtersPanel.Controls.Add(this.statusFilterLabel);
             this.filtersPanel.Controls.Add(this.statusFilterComboBox);
-            this.filtersPanel.Location = new System.Drawing.Point(29, 66);
+            this.filtersPanel.Location = new System.Drawing.Point(29, 35);
             this.filtersPanel.Margin = new System.Windows.Forms.Padding(4);
             this.filtersPanel.Name = "filtersPanel";
             this.filtersPanel.Size = new System.Drawing.Size(803, 32);
             this.filtersPanel.TabIndex = 3;
+            this.filtersPanel.Visible = false;
             this.filtersPanel.WrapContents = false;
             // 
             // clientFilterLabel
@@ -118,7 +119,7 @@ namespace Control_Pedidos.Views.Orders
             this.summaryPanel.Controls.Add(this.waitingOrdersLabel);
             this.summaryPanel.Controls.Add(this.assemblingOrdersLabel);
             this.summaryPanel.Controls.Add(this.deliveredOrdersLabel);
-            this.summaryPanel.Location = new System.Drawing.Point(29, 115);
+            this.summaryPanel.Location = new System.Drawing.Point(29, 84);
             this.summaryPanel.Margin = new System.Windows.Forms.Padding(4);
             this.summaryPanel.Name = "summaryPanel";
             this.summaryPanel.Size = new System.Drawing.Size(648, 23);
@@ -181,7 +182,7 @@ namespace Control_Pedidos.Views.Orders
             this.Total,
             this.estatusCol,
             this.actualizarEstatusColumn});
-            this.todaysOrdersGrid.Location = new System.Drawing.Point(29, 221);
+            this.todaysOrdersGrid.Location = new System.Drawing.Point(29, 178);
             this.todaysOrdersGrid.Margin = new System.Windows.Forms.Padding(4);
             this.todaysOrdersGrid.MultiSelect = false;
             this.todaysOrdersGrid.Name = "todaysOrdersGrid";
@@ -189,7 +190,7 @@ namespace Control_Pedidos.Views.Orders
             this.todaysOrdersGrid.RowHeadersWidth = 51;
             this.todaysOrdersGrid.RowTemplate.Height = 40;
             this.todaysOrdersGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.todaysOrdersGrid.Size = new System.Drawing.Size(988, 316);
+            this.todaysOrdersGrid.Size = new System.Drawing.Size(1253, 397);
             this.todaysOrdersGrid.TabIndex = 5;
             // 
             // Folio
@@ -232,7 +233,7 @@ namespace Control_Pedidos.Views.Orders
             // 
             // searchTextBox
             // 
-            this.searchTextBox.Location = new System.Drawing.Point(88, 192);
+            this.searchTextBox.Location = new System.Drawing.Point(88, 149);
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.Size = new System.Drawing.Size(260, 22);
             this.searchTextBox.TabIndex = 22;
@@ -240,7 +241,7 @@ namespace Control_Pedidos.Views.Orders
             // searchLabel
             // 
             this.searchLabel.AutoSize = true;
-            this.searchLabel.Location = new System.Drawing.Point(27, 196);
+            this.searchLabel.Location = new System.Drawing.Point(27, 153);
             this.searchLabel.Name = "searchLabel";
             this.searchLabel.Size = new System.Drawing.Size(52, 16);
             this.searchLabel.TabIndex = 21;
@@ -250,7 +251,7 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1047, 566);
+            this.ClientSize = new System.Drawing.Size(1312, 604);
             this.Controls.Add(this.searchTextBox);
             this.Controls.Add(this.searchLabel);
             this.Controls.Add(this.filtersPanel);

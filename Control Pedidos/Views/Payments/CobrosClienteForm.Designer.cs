@@ -34,6 +34,7 @@ namespace Control_Pedidos.Views.Payments
             this.reimprimirCobroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cerrarButton = new System.Windows.Forms.Button();
             this.clienteLabel = new System.Windows.Forms.Label();
+            this.cancelarCobroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.cobrosGrid)).BeginInit();
             this.cobrosContextMenu.SuspendLayout();
             this.SuspendLayout();
@@ -63,14 +64,15 @@ namespace Control_Pedidos.Views.Payments
             // 
             this.cobrosContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.cobrosContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reimprimirCobroToolStripMenuItem});
+            this.reimprimirCobroToolStripMenuItem,
+            this.cancelarCobroToolStripMenuItem});
             this.cobrosContextMenu.Name = "cobrosContextMenu";
-            this.cobrosContextMenu.Size = new System.Drawing.Size(196, 28);
+            this.cobrosContextMenu.Size = new System.Drawing.Size(211, 80);
             // 
             // reimprimirCobroToolStripMenuItem
             // 
             this.reimprimirCobroToolStripMenuItem.Name = "reimprimirCobroToolStripMenuItem";
-            this.reimprimirCobroToolStripMenuItem.Size = new System.Drawing.Size(195, 24);
+            this.reimprimirCobroToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.reimprimirCobroToolStripMenuItem.Text = "Reimprimir cobro";
             this.reimprimirCobroToolStripMenuItem.Click += new System.EventHandler(this.reimprimirCobroToolStripMenuItem_Click);
             // 
@@ -93,6 +95,13 @@ namespace Control_Pedidos.Views.Payments
             this.clienteLabel.Size = new System.Drawing.Size(48, 16);
             this.clienteLabel.TabIndex = 0;
             this.clienteLabel.Text = "Cliente";
+            // 
+            // cancelarCobroToolStripMenuItem
+            // 
+            this.cancelarCobroToolStripMenuItem.Name = "cancelarCobroToolStripMenuItem";
+            this.cancelarCobroToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.cancelarCobroToolStripMenuItem.Text = "Cancelar cobro";
+            this.cancelarCobroToolStripMenuItem.Click += new System.EventHandler(this.cancelarCobroToolStripMenuItem_Click);
             // 
             // CobrosClienteForm
             // 
@@ -121,5 +130,6 @@ namespace Control_Pedidos.Views.Payments
         private System.Windows.Forms.Label clienteLabel;
         private System.Windows.Forms.ContextMenuStrip cobrosContextMenu;
         private System.Windows.Forms.ToolStripMenuItem reimprimirCobroToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cancelarCobroToolStripMenuItem;
     }
 }

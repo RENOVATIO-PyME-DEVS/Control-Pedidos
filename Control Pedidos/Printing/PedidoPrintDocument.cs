@@ -31,6 +31,7 @@ namespace Control_Pedidos.Printing
 
         private int _indiceDetalleActual;
         private Image _logoEmpresa;
+        private int _numeroPagina;
 
         public PedidoPrintDocument(Pedido pedido, bool mostrarLeyendaReimpreso)
         {
@@ -53,6 +54,8 @@ namespace Control_Pedidos.Printing
         {
             base.OnBeginPrint(e);
             _indiceDetalleActual = 0;
+
+            _numeroPagina = 1;
         }
 
         protected override void OnPrintPage(PrintPageEventArgs e)
@@ -66,6 +69,12 @@ namespace Control_Pedidos.Printing
             var bounds = e.MarginBounds;
             float y = bounds.Top;
 
+
+            // --- 🔸 En páginas siguientes: solo mostrar folio ---
+            var folioTexto = !string.IsNullOrWhiteSpace(_pedido.FolioFormateado)
+                ? _pedido.FolioFormateado
+                : (!string.IsNullOrWhiteSpace(_pedido.Folio) ? _pedido.Folio : _pedido.Id.ToString());
+
             // 🔹 Solo en la primera página dibuja encabezado y datos del cliente
             if (!_encabezadoDibujado)
             {
@@ -75,22 +84,88 @@ namespace Control_Pedidos.Printing
 
                 _encabezadoDibujado = true; // Marcar como ya dibujado
             }
+            else
+            {
+             
+                var folioRect = new RectangleF(bounds.Left, bounds.Top - 30, bounds.Width, 20);
+                graphics.DrawString($"Folio Pedido: {folioTexto}", _textoNegritasFont, Brushes.Black, folioRect,
+                    new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Near });
+
+
+                //  Dibujar cpdigo de barras con el folio 3 of 9 Barcode
+                try
+                {
+                    // Generar código de barras tipo Code128
+                    using (var barcodeFont = new Font("3 of 9 Barcode", 25)) // Asegúrate de tener instalada la fuente “Free 3 of 9”
+                    {
+                        var barcodeText = $"*{folioTexto}*"; // Formato requerido por la fuente Code 39
+                        var barcodeRect = new RectangleF(bounds.Right - 250, bounds.Top -30, 240, 20);
+                        graphics.DrawString(barcodeText, barcodeFont, Brushes.Black, barcodeRect, new StringFormat
+                        {
+                            Alignment = StringAlignment.Center,
+                            LineAlignment = StringAlignment.Near
+                        });
+
+                    }
+                }
+                catch
+                {
+                    // Si no está la fuente, no interrumpe la impresión
+                }
+
+
+            }
+
+
             y += 10;
             y = DibujarEncabezadoTabla(graphics, bounds, y, out var columnas);
 
             var espacioReservado = CalcularEspacioTotalesYFooter(graphics);
             var hayMasPaginas = DibujarDetalles(graphics, bounds, columnas, ref y, espacioReservado);
 
+            //if (hayMasPaginas)
+            //{
+            //    e.HasMorePages = true;
+            //    return;
+            //}
+
+            //y = DibujarTotales(graphics, bounds, y);
+            //DibujarPie(graphics, bounds, y);
+
+            //e.HasMorePages = false;
+            if (!hayMasPaginas)
+            {
+                y = DibujarTotales(graphics, bounds, y);
+                DibujarPie(graphics, bounds, y);
+            }
+
+
+
+            // 🔹 Dibujar número de hoja SIEMPRE (incluida la primera)
+            var hojaTexto = $"Hoja {_numeroPagina} - Folio Pedido: {folioTexto}";
+            var hojaRect = new RectangleF(bounds.Left, e.PageBounds.Bottom - 50, bounds.Width, 20);
+
+            e.Graphics.DrawString(
+                hojaTexto,
+                _textoPequenoFont,
+                Brushes.Black,
+                hojaRect,
+                new StringFormat
+                {
+                    Alignment = StringAlignment.Center, // 🔸 centrado horizontal
+                    LineAlignment = StringAlignment.Near
+                });
+
+            // 🔹 Control de paginación
             if (hayMasPaginas)
             {
                 e.HasMorePages = true;
-                return;
+                _numeroPagina++; // ✅ aumenta el contador
             }
-
-            y = DibujarTotales(graphics, bounds, y);
-            DibujarPie(graphics, bounds, y);
-
-            e.HasMorePages = false;
+            else
+            {
+                e.HasMorePages = false;
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -221,22 +296,106 @@ namespace Control_Pedidos.Printing
             var formatRight = new StringFormat { Alignment = StringAlignment.Near };
 
             var rectLeft = new RectangleF(left, y+7, columnWidth, lineaAltura);
+
             graphics.DrawString($"Fecha creación: {_pedido.FechaCreacion:dd/MM/yyyy}", _textoRegularFont, Brushes.Black, rectLeft, formatLeft);
 
-            var horaEntrega = _pedido.HoraEntrega.HasValue ? _pedido.HoraEntrega.Value.ToString(@"hh\:mm") : "--";
-            var rectRight = new RectangleF(left + columnWidth, y+7, columnWidth, lineaAltura);
-            graphics.DrawString($"FECHA Y HORA ENTREGA: {_pedido.FechaEntrega:dd/MM/yyyy} {horaEntrega}", _textoNegritasFont, Brushes.Black, rectRight, formatRight);
-            y += lineaAltura;
+            //var horaEntrega = _pedido.HoraEntrega.HasValue ? _pedido.HoraEntrega.Value.ToString(@"hh\:mm") : "--";
+            //var rectRight = new RectangleF(left + columnWidth, y+7, columnWidth, lineaAltura);
+            //graphics.DrawString($"FECHA Y HORA ENTREGA: {_pedido.FechaEntrega:dd/MM/yyyy} {horaEntrega}", _textoNegritasFont, Brushes.Black, rectRight, formatRight);
+            //y += lineaAltura;
 
-            rectLeft = new RectangleF(left, y + 7, columnWidth, lineaAltura);
+            //rectLeft = new RectangleF(left, y + 7, columnWidth, lineaAltura);
+            //graphics.DrawString($"Lo atendió: {_pedido.Usuario.Nombre}", _textoRegularFont, Brushes.Black, rectLeft, formatLeft);
+
+            //if (_pedido.Evento != null && !string.IsNullOrWhiteSpace(_pedido.Evento.Nombre))
+            //{
+            //    rectRight = new RectangleF(left + columnWidth, y + 7, columnWidth, lineaAltura);
+            //    graphics.DrawString($"Evento: {_pedido.Evento.Nombre}", _textoRegularFont, Brushes.Black, rectRight, formatRight);
+            //}
+            //y += lineaAltura;
+
+
+
+
+            RectangleF rectRight;
+
+            // ---------------------------------------------
+            //  BLOQUE: RECUADRO FECHA / HORA ENTREGA / EVENTO
+            // ---------------------------------------------
+
+            //string horaEntrega = _pedido.HoraEntrega.HasValue
+            //    ? _pedido.HoraEntrega.Value.ToString(@"hh\:mm")
+            //    : "--";
+            string horaEntrega = _pedido.HoraEntrega.HasValue
+    ? DateTime.Today.Add(_pedido.HoraEntrega.Value).ToString("hh:mm tt")  // ← incluye AM / PM
+    : "--";
+
+
+            // texto principal
+            string linea1 = $"FECHA Y HORA ENTREGA: {_pedido.FechaEntrega:dd/MM/yyyy} {horaEntrega}";
+
+            // texto del evento (solo si existe)
+            string linea2 = _pedido.Evento != null && !string.IsNullOrWhiteSpace(_pedido.Evento.Nombre)
+                ? $"EVENTO: {_pedido.Evento.Nombre.ToUpper()}"
+                : "";
+
+            // medir ambas líneas para calcular tamaño del recuadro
+            var medida1 = graphics.MeasureString(linea1, _textoNegritasFont);
+            var medida2 = graphics.MeasureString(linea2, _textoNegritasFont);
+
+            float boxPadding = 6f;
+            float anchoRecuadro = Math.Max(medida1.Width, medida2.Width) + (boxPadding * 2);
+            float altoRecuadro = medida1.Height + (linea2 != "" ? medida2.Height : 0) + (boxPadding * 3);
+
+            // rectángulo
+            var rectEntrega = new RectangleF(
+                left + columnWidth,  // alineado a la derecha como siempre
+                y + 5,
+                anchoRecuadro,
+                altoRecuadro
+            );
+
+            // dibujar borde
+            graphics.DrawRectangle(Pens.Black, rectEntrega.X, rectEntrega.Y, rectEntrega.Width, rectEntrega.Height);
+
+            // ---------------------------------------------
+            //  IMPRIMIR TEXTO DENTRO DEL RECUADRO
+            // ---------------------------------------------
+            float textoY = rectEntrega.Y + boxPadding;
+
+            // Línea 1
+            graphics.DrawString(
+                linea1,
+                _textoNegritasFont,
+                Brushes.Black,
+                new RectangleF(rectEntrega.X + boxPadding, textoY, rectEntrega.Width, medida1.Height),
+                new StringFormat { Alignment = StringAlignment.Near }
+            );
+
+            textoY += medida1.Height + 2;
+
+            // Línea 2 (EVENTO)
+            if (linea2 != "")
+            {
+                graphics.DrawString(
+                    linea2,
+                    _textoNegritasFont,
+                    Brushes.Black,
+                    new RectangleF(rectEntrega.X + boxPadding, textoY, rectEntrega.Width, medida2.Height),
+                    new StringFormat { Alignment = StringAlignment.Near }
+                );
+                textoY += medida2.Height;
+            }
+
+            // avanzar Y después del recuadro
+            y += rectEntrega.Height + 10;
+
+
+
+
+            rectLeft = new RectangleF(left, y -15 , columnWidth, lineaAltura);
             graphics.DrawString($"Lo atendió: {_pedido.Usuario.Nombre}", _textoRegularFont, Brushes.Black, rectLeft, formatLeft);
 
-            if (_pedido.Evento != null && !string.IsNullOrWhiteSpace(_pedido.Evento.Nombre))
-            {
-                rectRight = new RectangleF(left + columnWidth, y + 7, columnWidth, lineaAltura);
-                graphics.DrawString($"Evento: {_pedido.Evento.Nombre}", _textoRegularFont, Brushes.Black, rectRight, formatRight);
-            }
-            y += lineaAltura;
 
             //if (!string.IsNullOrWhiteSpace(_pedido.Notas))
             //{
@@ -251,7 +410,7 @@ namespace Control_Pedidos.Printing
             if (!string.IsNullOrWhiteSpace(_pedido.Notas))
             {
                 y += 6;
-                var notasTexto = $"Notas: {_pedido.Notas}";
+                var notasTexto = $"Notas: {_pedido.Notas.ToUpper()}";
                 var notasSize = graphics.MeasureString(notasTexto, _textoRegularFont, (int)width - 10);
 
                 // 📦 Dibujar borde del recuadro
@@ -262,7 +421,7 @@ namespace Control_Pedidos.Printing
                 // 📝 Dibujar texto dentro del recuadro con margen interno
                 var notasRect = new RectangleF(rectBox.Left + padding, rectBox.Top + padding, rectBox.Width - (padding * 2), rectBox.Height - (padding * 2));
                 var notasFormat = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Near };
-                graphics.DrawString(notasTexto, _textoRegularFont, Brushes.Black, notasRect, notasFormat);
+                graphics.DrawString(notasTexto, _textoNegritasFont, Brushes.Black, notasRect, notasFormat);
 
                 y += rectBox.Height + 8;
             }

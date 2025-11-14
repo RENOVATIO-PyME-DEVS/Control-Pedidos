@@ -1,10 +1,11 @@
-using System;
-using System.ComponentModel;
-using System.Windows.Forms;
 using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
 using Control_Pedidos.Printing;
+using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Control_Pedidos.Views.Payments
 {
@@ -241,6 +242,124 @@ namespace Control_Pedidos.Views.Payments
             if (e.RowIndex >= 0)
             {
                 reimprimirCobroToolStripMenuItem_Click(sender, EventArgs.Empty);
+            }
+        }
+
+        private void cancelarCobroToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var cobro = ObtenerCobroSeleccionado();
+            if (cobro == null)
+            {
+                MessageBox.Show("Seleccione un cobro.", "Cobros", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (cobro.Estatus == "C")
+            {
+                MessageBox.Show("Este cobro ya está cancelado.", "Cobros", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 🔒 VALIDACIÓN: Solo permitir cobros del día de hoy
+            if (cobro.Fecha.Date != DateTime.Today)
+            {
+                MessageBox.Show(
+                    "Solo se pueden cancelar cobros del día de hoy.\n" +
+                    $"Este cobro es del {cobro.Fecha:dd/MM/yyyy}.",
+                    "Cancelación no permitida",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
+
+
+            // Confirmación personalizada
+            if (!ConfirmarCancelacionCobro(cobro))
+                return;
+
+            try
+            {
+                _cobroDao.ActualizarEstatusCobro(cobro.CobroPedidoId, "C");
+
+                cobro.Estatus = "C";
+                _bindingSource.ResetBindings(false);
+
+                MessageBox.Show("El cobro fue cancelado correctamente.", "Cobros",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"No se pudo cancelar el cobro: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool ConfirmarCancelacionCobro(Cobro cobro)
+        {
+            string monto = cobro.Monto.ToString("C2");
+
+            using (var form = new Form())
+            {
+                form.Text = "Confirmar Cancelación de Cobro";
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.Size = new Size(520, 300);
+                form.FormBorderStyle = FormBorderStyle.FixedDialog;
+                form.MaximizeBox = false;
+                form.MinimizeBox = false;
+                form.BackColor = Color.White;
+
+                var label = new Label
+                {
+                    AutoSize = false,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill,
+                    Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                    Text =
+                        "¿Desea cancelar el cobro seleccionado?\n\n" +
+                        $"💵 Monto: {monto}\n" +
+                        $"📄 Folios: {cobro.FolioPedidos}"
+                };
+                form.Controls.Add(label);
+
+                var panel = new FlowLayoutPanel
+                {
+                    Dock = DockStyle.Bottom,
+                    Height = 70,
+                    FlowDirection = FlowDirection.RightToLeft,
+                    Padding = new Padding(10)
+                };
+
+                var btnSi = new Button
+                {
+                    Text = "✔ Sí, cancelar",
+                    DialogResult = DialogResult.Yes,
+                    Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                    BackColor = Color.FromArgb(0, 120, 215),
+                    ForeColor = Color.White,
+                    Width = 180,
+                    Height = 45
+                };
+
+                var btnNo = new Button
+                {
+                    Text = "✖ No",
+                    DialogResult = DialogResult.No,
+                    Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                    BackColor = Color.IndianRed,
+                    ForeColor = Color.White,
+                    Width = 180,
+                    Height = 45
+                };
+
+                panel.Controls.Add(btnSi);
+                panel.Controls.Add(btnNo);
+                form.Controls.Add(panel);
+
+                form.AcceptButton = btnSi;
+                form.CancelButton = btnNo;
+
+                return form.ShowDialog() == DialogResult.Yes;
             }
         }
 
