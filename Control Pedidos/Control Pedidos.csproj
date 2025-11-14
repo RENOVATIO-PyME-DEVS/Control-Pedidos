@@ -117,6 +117,7 @@
     <Compile Include="Data\ClienteDao.cs" />
     <Compile Include="Data\EventoDao.cs" />
     <Compile Include="Data\PedidoDao.cs" />
+    <Compile Include="Data\PedidoCheckDao.cs" />
     <Compile Include="Data\PedidoDetalleDao.cs" />
     <Compile Include="Data\RolDao.cs" />
     <Compile Include="Data\UsuarioDao.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\Empresa.cs" />
     <Compile Include="Models\Pedido.cs" />
+    <Compile Include="Models\PedidoCheckInfo.cs" />
     <Compile Include="Models\PedidoSaldo.cs" />
     <Compile Include="Models\PedidoDetalle.cs" />
     <Compile Include="Models\CobroPedido.cs" />
@@ -190,6 +192,11 @@
     <Compile Include="Views\Clients\ClientManagementForm.Designer.cs">
       <DependentUpon>ClientManagementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\CheckIn\CheckInForm.cs" />
+    <Compile Include="Views\CheckIn\CheckInConfirmForm.cs" />
+    <Compile Include="Views\CheckIn\CheckInScannedForm.cs" />
+    <Compile Include="Views\CheckOut\CheckOutForm.cs" />
+    <Compile Include="Views\CheckOut\CheckOutDeliveredForm.cs" />
     <Compile Include="Views\Payments\CobrosClienteForm.cs">
       <SubType>Form</SubType>
     </Compile>
