@@ -39,6 +39,8 @@ namespace Control_Pedidos.Views.Orders
         private bool _readOnlyMode;
         private bool _isUpdatingDiscountValue;
 
+
+
         public OrderManagementForm(DatabaseConnectionFactory connectionFactory, Cliente cliente, Usuario usuario, Empresa empresa, IList<Empresa> empresasDisponibles = null, Pedido pedido = null)
         {
             InitializeComponent();
@@ -262,33 +264,59 @@ namespace Control_Pedidos.Views.Orders
 
         private void articuloComboBox_TextUpdate(object sender, EventArgs e)
         {
+            
             string filtro = articuloComboBox.Text.Trim().ToLower();
 
-            // Filtrar artículos
-            var filtrados = _articulosOriginales
-                .Where(a => a.Nombre.ToLower().Contains(filtro) ||
-                            a.NombreCorto.ToLower().Contains(filtro))
-                .ToList();
+                // Filtrar artículos
+                var filtrados = _articulosOriginales
+                    .Where(a => a.Nombre.ToLower().Contains(filtro) ||
+                                a.NombreCorto.ToLower().Contains(filtro))
+                    .ToList();
 
-            // 🔥 QUITAR datasource ANTES DE ASIGNAR LISTA
-            articuloComboBox.DataSource = null;
+                // 🔥 QUITAR datasource ANTES DE ASIGNAR LISTA
+                articuloComboBox.DataSource = null;
 
-            // Asignar lista filtrada
-            articuloComboBox.Items.Clear();
-            foreach (var a in filtrados)
-                articuloComboBox.Items.Add(a);
+                // Asignar lista filtrada
+                articuloComboBox.Items.Clear();
+                foreach (var a in filtrados)
+                    articuloComboBox.Items.Add(a);
 
-            articuloComboBox.DisplayMember = nameof(Articulo.Nombre);
+                articuloComboBox.DisplayMember = nameof(Articulo.Nombre);
 
-            articuloComboBox.DroppedDown = true;
+                articuloComboBox.DroppedDown = true;
 
-            // 🔥 Mantener texto del usuario sin sobrescribir
-            articuloComboBox.Text = filtro;
+                // 🔥 Mantener texto del usuario sin sobrescribir
+                articuloComboBox.Text = filtro;
 
-            articuloComboBox.SelectionStart = filtro.Length;
-            articuloComboBox.SelectionLength = 0;
+                articuloComboBox.SelectionStart = filtro.Length;
+                articuloComboBox.SelectionLength = 0;
+
+            try
+            {
+
+            // Si no hay coincidencias
+            if (articuloComboBox.Items.Count == 0)
+            {
+                articuloComboBox.DroppedDown = false;
+
+                // Limpia correctamente el ComboBox
+                articuloComboBox.SelectedIndex = -1;
+                articuloComboBox.Text = string.Empty;
+
+                return; // 🛑 DETIENE EL MÉTODO Y EVITA EL ERROR
+            }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+            // Garantizar selección válida
+            //articuloComboBox.SelectedIndex = 0;
+
         }
-
+      
 
         private void BindPedidoData()
         {
@@ -448,6 +476,7 @@ namespace Control_Pedidos.Views.Orders
         //}
         private void articuloComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             if (articuloComboBox.SelectedItem is Articulo articulo)
             {
                 precioNumericUpDown.Value = Math.Max(0, Convert.ToDecimal(articulo.Precio));
@@ -459,6 +488,7 @@ namespace Control_Pedidos.Views.Orders
             }
 
             UpdateDetalleTotal();
+            
         }
 
 

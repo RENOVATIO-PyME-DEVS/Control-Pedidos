@@ -418,6 +418,7 @@ namespace Control_Pedidos.Views.Clients
 
             using (var form = new OrderManagementForm(_connectionFactory, _selectedClient, _usuarioActual, _empresaSeleccionada))
             {
+
                 form.ShowDialog(this);
             }
         }

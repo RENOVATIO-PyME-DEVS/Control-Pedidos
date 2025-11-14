@@ -422,7 +422,7 @@ FOR UPDATE;", connection, transaction))
                 using (var cobrosCommand = new MySqlCommand(@"SELECT IFNULL(SUM(det.monto), 0)
 FROM banquetes.cobros_pedidos_det det
 INNER JOIN banquetes.cobros_pedidos cp ON cp.cobro_pedido = det.cobro_pedido_id
-WHERE det.pedido_id = @pedidoId;", connection))
+WHERE det.pedido_id = @pedidoId AND cp.estatus = 'N';", connection))
                 {
                     cobrosCommand.Parameters.AddWithValue("@pedidoId", pedidoId);
                     var resultado = cobrosCommand.ExecuteScalar();

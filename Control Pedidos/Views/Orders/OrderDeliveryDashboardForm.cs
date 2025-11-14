@@ -83,6 +83,9 @@ namespace Control_Pedidos.Views.Orders
             InitializeFilters();
             RefreshOrders();
             _refreshTimer.Start();
+
+            searchTextBox.TextChanged += searchTextBox_TextChanged;
+
         }
 
         private void OrderDeliveryDashboardForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -251,6 +254,8 @@ namespace Control_Pedidos.Views.Orders
             if (todaysOrdersGrid.Columns["actualizarEstatusColumn"] is DataGridViewButtonColumn buttonColumn)
             {
                 buttonColumn.FlatStyle = FlatStyle.Flat;
+
+                buttonColumn.Visible = false;
             }
 
             todaysOrdersGrid.ContextMenuStrip = _ordersContextMenu;
@@ -300,7 +305,7 @@ namespace Control_Pedidos.Views.Orders
             }
         }
 
-        private void ApplyFilters()
+        private void ApplyFiltersORIGINAL()
         {
             if (_allOrders == null)
             {
@@ -322,6 +327,61 @@ namespace Control_Pedidos.Views.Orders
             {
                 var sanitizedStatus = selectedStatus.Replace("'", "''");
                 filters.Add($"Estatus = '{sanitizedStatus}'");
+            }
+
+            view.RowFilter = string.Join(" AND ", filters);
+
+            todaysOrdersGrid.DataSource = view;
+            todaysOrdersGrid.ClearSelection();
+            ApplyRowStyles();
+        }
+
+        private void searchTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (_suppressFilterEvents) return;
+            ApplyFilters();
+        }
+
+        private void ApplyFilters()
+        {
+            if (_allOrders == null)
+            {
+                todaysOrdersGrid.DataSource = null;
+                return;
+            }
+
+            var view = new DataView(_allOrders);
+            var filters = new List<string>();
+
+            // -------------------------
+            // FILTRO POR CLIENTE
+            // -------------------------
+            var selectedClient = (clientFilterComboBox.SelectedItem as ClientFilterItem)?.Id;
+            if (selectedClient.HasValue)
+            {
+                filters.Add($"ClienteId = {selectedClient.Value}");
+            }
+
+            // -------------------------
+            // FILTRO POR ESTATUS
+            // -------------------------
+            var selectedStatus = GetSelectedStatus();
+            if (!string.IsNullOrEmpty(selectedStatus))
+            {
+                var sanitizedStatus = selectedStatus.Replace("'", "''");
+                filters.Add($"Estatus = '{sanitizedStatus}'");
+            }
+
+            // -------------------------
+            // FILTRO POR TEXTO (NOMBRE / FOLIO)
+            // -------------------------
+            string search = searchTextBox.Text.Trim().Replace("'", "''");
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                filters.Add(
+                    $"(Cliente LIKE '%{search}%' OR Folio LIKE '%{search}%')"
+                );
             }
 
             view.RowFilter = string.Join(" AND ", filters);

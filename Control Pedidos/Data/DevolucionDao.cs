@@ -37,16 +37,16 @@ namespace Control_Pedidos.Data
 
             // Consulta basada en las funciones auxiliares proporcionadas para obtener totales y cobros.
             const string query = @"SELECT
-    p.pedido_id,
-    COALESCE(CAST(f_folio_pedido(p.pedido_id) AS CHAR), CAST(p.pedido_id AS CHAR)) AS folio,
-    p.fecha,
-    IFNULL(f_totalPedido(p.pedido_id), 0) AS total,
-    IFNULL(f_cobroPedido(p.pedido_id), 0) AS abonado,
-    p.estatus
-FROM banquetes.pedidos p
-WHERE p.cliente_id = @clienteId
-  AND p.estatus = 'N'
-ORDER BY p.fecha DESC, p.pedido_id DESC;";
+                    p.pedido_id,
+                    COALESCE(CAST(f_folio_pedido(p.pedido_id) AS CHAR), CAST(p.pedido_id AS CHAR)) AS folio,
+                    p.fecha,
+                    IFNULL(f_totalPedido(p.pedido_id), 0) AS total,
+                    IFNULL(f_cobroPedido(p.pedido_id), 0) AS abonado,
+                    p.estatus
+                FROM banquetes.pedidos p
+                WHERE p.cliente_id = @clienteId
+                  AND p.estatus = 'N'
+                ORDER BY p.fecha DESC, p.pedido_id DESC;";
 
             using (var connection = _connectionFactory.Create())
             using (var command = new MySqlCommand(query, connection))
@@ -110,12 +110,12 @@ ORDER BY p.fecha DESC, p.pedido_id DESC;";
         public string ObtenerFormaCobroUltimoAbono(int pedidoId)
         {
             const string query = @"SELECT fc.nombre
-FROM banquetes.cobros_pedidos cp
-INNER JOIN banquetes.cobros_pedidos_det det ON det.cobro_pedido_id = cp.cobro_pedido
-LEFT JOIN banquetes.formas_cobros fc ON fc.forma_cobro_id = cp.forma_cobro_id
-WHERE det.pedido_id = @pedidoId
-ORDER BY cp.fecha_creacion DESC
-LIMIT 1;";
+            FROM banquetes.cobros_pedidos cp
+            INNER JOIN banquetes.cobros_pedidos_det det ON det.cobro_pedido_id = cp.cobro_pedido
+            LEFT JOIN banquetes.formas_cobros fc ON fc.forma_cobro_id = cp.forma_cobro_id
+            WHERE det.pedido_id = @pedidoId
+            ORDER BY cp.fecha_creacion DESC
+            LIMIT 1;";
 
             using (var connection = _connectionFactory.Create())
             using (var command = new MySqlCommand(query, connection))
@@ -137,9 +137,9 @@ LIMIT 1;";
         {
             var formas = new List<FormaCobro>();
             const string query = @"SELECT forma_cobro_id, nombre, IFNULL(tipo_cobro, '') AS descripcion, tipo
-FROM banquetes.formas_cobros
-WHERE tipo = 'D'
-ORDER BY nombre;";
+                FROM banquetes.formas_cobros
+                WHERE tipo = 'D'
+                ORDER BY nombre;";
 
             using (var connection = _connectionFactory.Create())
             using (var command = new MySqlCommand(query, connection))
@@ -185,9 +185,9 @@ ORDER BY nombre;";
                     {
                         // Bloquea el pedido para evitar que otro proceso lo modifique mientras se registra la devolución.
                         const string pedidoInfoQuery = @"SELECT cliente_id, empresa_id, estatus
-FROM banquetes.pedidos
-WHERE pedido_id = @pedidoId
-FOR UPDATE;";
+                        FROM banquetes.pedidos
+                        WHERE pedido_id = @pedidoId
+                        FOR UPDATE;";
 
                         int clienteId;
                         int empresaId;
@@ -251,9 +251,9 @@ FOR UPDATE;";
                             }
 
                             const string insertCobroSql = @"INSERT INTO banquetes.cobros_pedidos
-    (usuario_id, empresa_id, cliente_id, forma_cobro_id, monto, fecha, fecha_creacion, estatus, impreso)
-VALUES
-    (@usuarioId, @empresaId, @clienteId, @formaCobroId, @monto, NOW(), NOW(), 'N', 'N');";
+                            (usuario_id, empresa_id, cliente_id, forma_cobro_id, monto, fecha, fecha_creacion, estatus, impreso)
+                            VALUES
+                                (@usuarioId, @empresaId, @clienteId, @formaCobroId, @monto, NOW(), NOW(), 'N', 'N');";
 
                             using (var insertCobroCommand = new MySqlCommand(insertCobroSql, connection, transaction))
                             {
@@ -268,9 +268,9 @@ VALUES
                             }
 
                             const string insertDetalleSql = @"INSERT INTO banquetes.cobros_pedidos_det
-    (cobro_pedido_id, pedido_id, monto)
-VALUES
-    (@cobroId, @pedidoId, @monto);";
+                                (cobro_pedido_id, pedido_id, monto)
+                            VALUES
+                                (@cobroId, @pedidoId, @monto);";
 
                             using (var insertDetalleCommand = new MySqlCommand(insertDetalleSql, connection, transaction))
                             {
@@ -298,9 +298,13 @@ VALUES
                             };
                         }
 
+                        // Determina el estatus según si hubo o no cobros
+                        string nuevoEstatus = totalCobros > 0 ? "D" : "C";
+
                         // Actualiza el estatus del pedido a devuelto.
-                        using (var updatePedidoCommand = new MySqlCommand("UPDATE banquetes.pedidos SET estatus = 'D' WHERE pedido_id = @pedidoId;", connection, transaction))
+                        using (var updatePedidoCommand = new MySqlCommand("UPDATE banquetes.pedidos SET estatus = @estatus WHERE pedido_id = @pedidoId;", connection, transaction))
                         {
+                            updatePedidoCommand.Parameters.AddWithValue("@estatus", nuevoEstatus);
                             updatePedidoCommand.Parameters.AddWithValue("@pedidoId", pedidoId);
                             updatePedidoCommand.ExecuteNonQuery();
                         }

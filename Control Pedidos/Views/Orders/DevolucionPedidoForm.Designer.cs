@@ -57,9 +57,9 @@ namespace Control_Pedidos.Views.Orders
             // clienteLabel
             // 
             this.clienteLabel.AutoSize = true;
-            this.clienteLabel.Location = new System.Drawing.Point(12, 15);
+            this.clienteLabel.Location = new System.Drawing.Point(14, 69);
             this.clienteLabel.Name = "clienteLabel";
-            this.clienteLabel.Size = new System.Drawing.Size(51, 15);
+            this.clienteLabel.Size = new System.Drawing.Size(51, 16);
             this.clienteLabel.TabIndex = 0;
             this.clienteLabel.Text = "Cliente:";
             // 
@@ -67,10 +67,10 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.clienteTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.clienteTextBox.Location = new System.Drawing.Point(69, 12);
+            this.clienteTextBox.Location = new System.Drawing.Point(79, 66);
             this.clienteTextBox.Name = "clienteTextBox";
             this.clienteTextBox.ReadOnly = true;
-            this.clienteTextBox.Size = new System.Drawing.Size(739, 23);
+            this.clienteTextBox.Size = new System.Drawing.Size(696, 22);
             this.clienteTextBox.TabIndex = 1;
             // 
             // pedidosDataGridView
@@ -78,12 +78,13 @@ namespace Control_Pedidos.Views.Orders
             this.pedidosDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pedidosDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.pedidosDataGridView.Location = new System.Drawing.Point(12, 50);
+            this.pedidosDataGridView.Location = new System.Drawing.Point(14, 106);
             this.pedidosDataGridView.MultiSelect = false;
             this.pedidosDataGridView.Name = "pedidosDataGridView";
             this.pedidosDataGridView.RowHeadersVisible = false;
+            this.pedidosDataGridView.RowHeadersWidth = 51;
             this.pedidosDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.pedidosDataGridView.Size = new System.Drawing.Size(796, 180);
+            this.pedidosDataGridView.Size = new System.Drawing.Size(761, 192);
             this.pedidosDataGridView.TabIndex = 2;
             // 
             // detalleGroupBox
@@ -91,9 +92,9 @@ namespace Control_Pedidos.Views.Orders
             this.detalleGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.detalleGroupBox.Controls.Add(this.detallesDataGridView);
-            this.detalleGroupBox.Location = new System.Drawing.Point(12, 236);
+            this.detalleGroupBox.Location = new System.Drawing.Point(798, 69);
             this.detalleGroupBox.Name = "detalleGroupBox";
-            this.detalleGroupBox.Size = new System.Drawing.Size(796, 180);
+            this.detalleGroupBox.Size = new System.Drawing.Size(753, 229);
             this.detalleGroupBox.TabIndex = 3;
             this.detalleGroupBox.TabStop = false;
             this.detalleGroupBox.Text = "Detalle del pedido";
@@ -102,13 +103,14 @@ namespace Control_Pedidos.Views.Orders
             // 
             this.detallesDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.detallesDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.detallesDataGridView.Location = new System.Drawing.Point(3, 19);
+            this.detallesDataGridView.Location = new System.Drawing.Point(3, 18);
             this.detallesDataGridView.MultiSelect = false;
             this.detallesDataGridView.Name = "detallesDataGridView";
             this.detallesDataGridView.ReadOnly = true;
             this.detallesDataGridView.RowHeadersVisible = false;
+            this.detallesDataGridView.RowHeadersWidth = 51;
             this.detallesDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.detallesDataGridView.Size = new System.Drawing.Size(790, 158);
+            this.detallesDataGridView.Size = new System.Drawing.Size(747, 208);
             this.detallesDataGridView.TabIndex = 0;
             // 
             // resumenGroupBox
@@ -116,9 +118,9 @@ namespace Control_Pedidos.Views.Orders
             this.resumenGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.resumenGroupBox.Controls.Add(this.resumenTableLayoutPanel);
-            this.resumenGroupBox.Location = new System.Drawing.Point(12, 422);
+            this.resumenGroupBox.Location = new System.Drawing.Point(17, 316);
             this.resumenGroupBox.Name = "resumenGroupBox";
-            this.resumenGroupBox.Size = new System.Drawing.Size(796, 152);
+            this.resumenGroupBox.Size = new System.Drawing.Size(1537, 186);
             this.resumenGroupBox.TabIndex = 4;
             this.resumenGroupBox.TabStop = false;
             this.resumenGroupBox.Text = "Resumen";
@@ -139,15 +141,15 @@ namespace Control_Pedidos.Views.Orders
             this.resumenTableLayoutPanel.Controls.Add(this.formaCobroDevolucionLabel, 0, 4);
             this.resumenTableLayoutPanel.Controls.Add(this.formaCobroComboBox, 1, 4);
             this.resumenTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.resumenTableLayoutPanel.Location = new System.Drawing.Point(3, 19);
+            this.resumenTableLayoutPanel.Location = new System.Drawing.Point(3, 18);
             this.resumenTableLayoutPanel.Name = "resumenTableLayoutPanel";
             this.resumenTableLayoutPanel.RowCount = 5;
-            this.resumenTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.resumenTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.resumenTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.resumenTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.resumenTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.resumenTableLayoutPanel.Size = new System.Drawing.Size(790, 130);
+            this.resumenTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.resumenTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.resumenTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.resumenTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.resumenTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.resumenTableLayoutPanel.Size = new System.Drawing.Size(1531, 165);
             this.resumenTableLayoutPanel.TabIndex = 0;
             // 
             // totalPedidoLabel
@@ -156,7 +158,7 @@ namespace Control_Pedidos.Views.Orders
             this.totalPedidoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.totalPedidoLabel.Location = new System.Drawing.Point(3, 0);
             this.totalPedidoLabel.Name = "totalPedidoLabel";
-            this.totalPedidoLabel.Size = new System.Drawing.Size(270, 28);
+            this.totalPedidoLabel.Size = new System.Drawing.Size(529, 30);
             this.totalPedidoLabel.TabIndex = 0;
             this.totalPedidoLabel.Text = "Total del pedido:";
             this.totalPedidoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -164,19 +166,19 @@ namespace Control_Pedidos.Views.Orders
             // totalPedidoTextBox
             // 
             this.totalPedidoTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.totalPedidoTextBox.Location = new System.Drawing.Point(279, 3);
+            this.totalPedidoTextBox.Location = new System.Drawing.Point(538, 3);
             this.totalPedidoTextBox.Name = "totalPedidoTextBox";
             this.totalPedidoTextBox.ReadOnly = true;
-            this.totalPedidoTextBox.Size = new System.Drawing.Size(508, 23);
+            this.totalPedidoTextBox.Size = new System.Drawing.Size(990, 22);
             this.totalPedidoTextBox.TabIndex = 1;
             // 
             // totalCobrosLabel
             // 
             this.totalCobrosLabel.AutoSize = true;
             this.totalCobrosLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.totalCobrosLabel.Location = new System.Drawing.Point(3, 28);
+            this.totalCobrosLabel.Location = new System.Drawing.Point(3, 30);
             this.totalCobrosLabel.Name = "totalCobrosLabel";
-            this.totalCobrosLabel.Size = new System.Drawing.Size(270, 28);
+            this.totalCobrosLabel.Size = new System.Drawing.Size(529, 30);
             this.totalCobrosLabel.TabIndex = 2;
             this.totalCobrosLabel.Text = "Total cobros registrados:";
             this.totalCobrosLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -184,19 +186,19 @@ namespace Control_Pedidos.Views.Orders
             // totalCobrosTextBox
             // 
             this.totalCobrosTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.totalCobrosTextBox.Location = new System.Drawing.Point(279, 31);
+            this.totalCobrosTextBox.Location = new System.Drawing.Point(538, 33);
             this.totalCobrosTextBox.Name = "totalCobrosTextBox";
             this.totalCobrosTextBox.ReadOnly = true;
-            this.totalCobrosTextBox.Size = new System.Drawing.Size(508, 23);
+            this.totalCobrosTextBox.Size = new System.Drawing.Size(990, 22);
             this.totalCobrosTextBox.TabIndex = 3;
             // 
             // saldoLabel
             // 
             this.saldoLabel.AutoSize = true;
             this.saldoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.saldoLabel.Location = new System.Drawing.Point(3, 56);
+            this.saldoLabel.Location = new System.Drawing.Point(3, 60);
             this.saldoLabel.Name = "saldoLabel";
-            this.saldoLabel.Size = new System.Drawing.Size(270, 28);
+            this.saldoLabel.Size = new System.Drawing.Size(529, 30);
             this.saldoLabel.TabIndex = 4;
             this.saldoLabel.Text = "Saldo pendiente:";
             this.saldoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -204,19 +206,19 @@ namespace Control_Pedidos.Views.Orders
             // saldoTextBox
             // 
             this.saldoTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.saldoTextBox.Location = new System.Drawing.Point(279, 59);
+            this.saldoTextBox.Location = new System.Drawing.Point(538, 63);
             this.saldoTextBox.Name = "saldoTextBox";
             this.saldoTextBox.ReadOnly = true;
-            this.saldoTextBox.Size = new System.Drawing.Size(508, 23);
+            this.saldoTextBox.Size = new System.Drawing.Size(990, 22);
             this.saldoTextBox.TabIndex = 5;
             // 
             // formaCobroActualLabel
             // 
             this.formaCobroActualLabel.AutoSize = true;
             this.formaCobroActualLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.formaCobroActualLabel.Location = new System.Drawing.Point(3, 84);
+            this.formaCobroActualLabel.Location = new System.Drawing.Point(3, 90);
             this.formaCobroActualLabel.Name = "formaCobroActualLabel";
-            this.formaCobroActualLabel.Size = new System.Drawing.Size(270, 28);
+            this.formaCobroActualLabel.Size = new System.Drawing.Size(529, 30);
             this.formaCobroActualLabel.TabIndex = 6;
             this.formaCobroActualLabel.Text = "Última forma de cobro registrada:";
             this.formaCobroActualLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -224,19 +226,19 @@ namespace Control_Pedidos.Views.Orders
             // formaCobroActualTextBox
             // 
             this.formaCobroActualTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.formaCobroActualTextBox.Location = new System.Drawing.Point(279, 87);
+            this.formaCobroActualTextBox.Location = new System.Drawing.Point(538, 93);
             this.formaCobroActualTextBox.Name = "formaCobroActualTextBox";
             this.formaCobroActualTextBox.ReadOnly = true;
-            this.formaCobroActualTextBox.Size = new System.Drawing.Size(508, 23);
+            this.formaCobroActualTextBox.Size = new System.Drawing.Size(990, 22);
             this.formaCobroActualTextBox.TabIndex = 7;
             // 
             // formaCobroDevolucionLabel
             // 
             this.formaCobroDevolucionLabel.AutoSize = true;
             this.formaCobroDevolucionLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.formaCobroDevolucionLabel.Location = new System.Drawing.Point(3, 112);
+            this.formaCobroDevolucionLabel.Location = new System.Drawing.Point(3, 120);
             this.formaCobroDevolucionLabel.Name = "formaCobroDevolucionLabel";
-            this.formaCobroDevolucionLabel.Size = new System.Drawing.Size(270, 28);
+            this.formaCobroDevolucionLabel.Size = new System.Drawing.Size(529, 45);
             this.formaCobroDevolucionLabel.TabIndex = 8;
             this.formaCobroDevolucionLabel.Text = "Forma de cobro devolución:";
             this.formaCobroDevolucionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -246,17 +248,17 @@ namespace Control_Pedidos.Views.Orders
             this.formaCobroComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.formaCobroComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.formaCobroComboBox.FormattingEnabled = true;
-            this.formaCobroComboBox.Location = new System.Drawing.Point(279, 115);
+            this.formaCobroComboBox.Location = new System.Drawing.Point(538, 123);
             this.formaCobroComboBox.Name = "formaCobroComboBox";
-            this.formaCobroComboBox.Size = new System.Drawing.Size(508, 23);
+            this.formaCobroComboBox.Size = new System.Drawing.Size(990, 24);
             this.formaCobroComboBox.TabIndex = 9;
             // 
             // devolverButton
             // 
             this.devolverButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.devolverButton.Location = new System.Drawing.Point(542, 586);
+            this.devolverButton.Location = new System.Drawing.Point(1245, 537);
             this.devolverButton.Name = "devolverButton";
-            this.devolverButton.Size = new System.Drawing.Size(130, 30);
+            this.devolverButton.Size = new System.Drawing.Size(149, 32);
             this.devolverButton.TabIndex = 5;
             this.devolverButton.Text = "Devolver pedido";
             this.devolverButton.UseVisualStyleBackColor = true;
@@ -265,9 +267,9 @@ namespace Control_Pedidos.Views.Orders
             // cancelarButton
             // 
             this.cancelarButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelarButton.Location = new System.Drawing.Point(678, 586);
+            this.cancelarButton.Location = new System.Drawing.Point(1401, 537);
             this.cancelarButton.Name = "cancelarButton";
-            this.cancelarButton.Size = new System.Drawing.Size(130, 30);
+            this.cancelarButton.Size = new System.Drawing.Size(149, 32);
             this.cancelarButton.TabIndex = 6;
             this.cancelarButton.Text = "Cerrar";
             this.cancelarButton.UseVisualStyleBackColor = true;
@@ -275,9 +277,9 @@ namespace Control_Pedidos.Views.Orders
             // 
             // DevolucionPedidoForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(820, 628);
+            this.ClientSize = new System.Drawing.Size(1564, 637);
             this.Controls.Add(this.cancelarButton);
             this.Controls.Add(this.devolverButton);
             this.Controls.Add(this.resumenGroupBox);

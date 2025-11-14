@@ -563,5 +563,22 @@ WHERE det.cobro_pedido_id = @cobroId;";
                 return Math.Max(0m, saldo);
             }
         }
+
+        public void ActualizarEstatusCobro(int cobroId, string nuevoEstatus)
+        {
+            const string query = @"UPDATE cobros_pedidos SET estatus = @estatus WHERE cobro_pedido= @id;";
+
+            using (var connection = _connectionFactory.Create())
+            using (var command = new MySqlCommand(query, connection))
+            {
+                connection.Open();
+                command.Parameters.AddWithValue("@estatus", nuevoEstatus);
+                command.Parameters.AddWithValue("@id", cobroId);
+                command.ExecuteNonQuery();
+            }
+
+        }
+
+
     }
 }
