@@ -10,6 +10,7 @@ using Control_Pedidos.Views.CheckIn;
 using Control_Pedidos.Views.CheckOut;
 using Control_Pedidos.Views.Clients;
 using Control_Pedidos.Views.Events;
+using Control_Pedidos.Views.CorteCaja;
 using Control_Pedidos.Views.Reports;
 using Control_Pedidos.Views.Users;
 
@@ -153,6 +154,20 @@ namespace Control_Pedidos.Views
         private void button1_Click(object sender, EventArgs e)
         {
             using (var form = new ReportsForm(_connectionFactory))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void btnCorteCaja_Click(object sender, EventArgs e)
+        {
+            var esAdministrador = string.Equals(_role, "Administrador", StringComparison.OrdinalIgnoreCase);
+            if (!int.TryParse(_userId, out var usuarioId))
+            {
+                usuarioId = 0;
+            }
+
+            using (var form = new CorteCajaForm(_connectionFactory, esAdministrador, _empresaId, _empresaNombre, usuarioId, _user))
             {
                 form.ShowDialog();
             }
