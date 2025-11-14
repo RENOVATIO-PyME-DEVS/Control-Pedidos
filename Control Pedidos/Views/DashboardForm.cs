@@ -6,6 +6,8 @@ using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
 using Control_Pedidos.Views.Articles;
+using Control_Pedidos.Views.CheckIn;
+using Control_Pedidos.Views.CheckOut;
 using Control_Pedidos.Views.Clients;
 using Control_Pedidos.Views.Events;
 using Control_Pedidos.Views.Reports;
@@ -153,6 +155,24 @@ namespace Control_Pedidos.Views
             using (var form = new ReportsForm(_connectionFactory))
             {
                 form.ShowDialog();
+            }
+        }
+
+        private void btnCheckIn_Click(object sender, EventArgs e)
+        {
+            // Abrimos el módulo de CheckIN dentro de un using para asegurar la liberación correcta de recursos.
+            using (var form = new CheckInForm(_connectionFactory, _empresaId))
+            {
+                form.ShowDialog(this);
+            }
+        }
+
+        private void btnCheckOut_Click(object sender, EventArgs e)
+        {
+            // Abrimos el módulo de CheckOUT para liberar pedidos con CheckIN registrado previamente.
+            using (var form = new CheckOutForm(_connectionFactory, _empresaId))
+            {
+                form.ShowDialog(this);
             }
         }
     }

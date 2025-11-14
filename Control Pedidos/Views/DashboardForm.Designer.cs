@@ -31,6 +31,8 @@ namespace Control_Pedidos.Views
             this.companyLabel = new System.Windows.Forms.Label();
             this.eventsButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.btnCheckIn = new System.Windows.Forms.Button();
+            this.btnCheckOut = new System.Windows.Forms.Button();
             this.activeOrdersGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.activeOrdersGrid)).BeginInit();
             this.SuspendLayout();
@@ -200,12 +202,36 @@ namespace Control_Pedidos.Views
             this.button1.Text = "Reportes";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
+            //
+            // btnCheckIn
+            //
+            this.btnCheckIn.Location = new System.Drawing.Point(1247, 170);
+            this.btnCheckIn.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCheckIn.Name = "btnCheckIn";
+            this.btnCheckIn.Size = new System.Drawing.Size(183, 42);
+            this.btnCheckIn.TabIndex = 11;
+            this.btnCheckIn.Text = "CheckIN Pedidos";
+            this.btnCheckIn.UseVisualStyleBackColor = true;
+            this.btnCheckIn.Click += new System.EventHandler(this.btnCheckIn_Click);
+            //
+            // btnCheckOut
+            //
+            this.btnCheckOut.Location = new System.Drawing.Point(1438, 170);
+            this.btnCheckOut.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCheckOut.Name = "btnCheckOut";
+            this.btnCheckOut.Size = new System.Drawing.Size(183, 42);
+            this.btnCheckOut.TabIndex = 12;
+            this.btnCheckOut.Text = "CheckOUT Pedidos";
+            this.btnCheckOut.UseVisualStyleBackColor = true;
+            this.btnCheckOut.Click += new System.EventHandler(this.btnCheckOut_Click);
+            //
             // DashboardForm
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1628, 704);
+            this.Controls.Add(this.btnCheckOut);
+            this.Controls.Add(this.btnCheckIn);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.eventsButton);
             this.Controls.Add(this.companyLabel);
@@ -247,5 +273,7 @@ namespace Control_Pedidos.Views
         private System.Windows.Forms.Label companyLabel;
         private System.Windows.Forms.Button eventsButton;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnCheckIn;
+        private System.Windows.Forms.Button btnCheckOut;
     }
 }
