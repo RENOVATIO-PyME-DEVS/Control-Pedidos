@@ -155,5 +155,51 @@ WHERE evento_id = @eventoId;", connection))
                 return false;
             }
         }
+
+        public IList<Evento> ObtenerEventosActivosPorEmpresa(int empresaId)
+        {
+            var eventos = new List<Evento>();
+            const string query = @"SELECT e.evento_id,
+                                           e.empresa_id,
+                                           e.nombre,
+                                           e.fecha_evento,
+                                           em.nombre AS empresa_nombre
+                                      FROM banquetes.eventos e
+                                      INNER JOIN banquetes.empresas em ON em.empresa_id = e.empresa_id
+                                     WHERE e.empresa_id = @empresaId
+                                       AND DATE(e.fecha_evento) >= CURDATE()
+                                     ORDER BY e.fecha_evento, e.nombre;";
+
+            try
+            {
+                using (var connection = _connectionFactory.Create())
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@empresaId", empresaId);
+                    connection.Open();
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            eventos.Add(new Evento
+                            {
+                                Id = reader.GetInt32("evento_id"),
+                                EmpresaId = reader.GetInt32("empresa_id"),
+                                EmpresaNombre = reader.IsDBNull(reader.GetOrdinal("empresa_nombre")) ? string.Empty : reader.GetString("empresa_nombre"),
+                                Nombre = reader.IsDBNull(reader.GetOrdinal("nombre")) ? string.Empty : reader.GetString("nombre"),
+                                FechaEvento = reader.GetDateTime("fecha_evento")
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new DataException("No se pudieron obtener los eventos activos de la empresa.", ex);
+            }
+
+            return eventos;
+        }
     }
 }
