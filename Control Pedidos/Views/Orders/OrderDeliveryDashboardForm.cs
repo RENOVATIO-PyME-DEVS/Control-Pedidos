@@ -452,6 +452,7 @@ namespace Control_Pedidos.Views.Orders
             var arrived = 0;
             var assembling = 0;
             var delivered = 0;
+            var pend = 0;
 
             if (data != null)
             {
@@ -460,26 +461,30 @@ namespace Control_Pedidos.Views.Orders
                     var status = Convert.ToString(row["Estatus"]);
                     switch (status)
                     {
-                        case "En espera del cliente":
+                        case "N":
                             waiting++;
                             break;
-                        case "Cliente llegó":
+                        case "CI":
                             arrived++;
                             break;
-                        case "En ensamble":
+                        case "D":
                             assembling++;
                             break;
-                        case "Entregado":
+                        case "P":
+                            pend++;
+                            break;
+                        case "CO":
                             delivered++;
                             break;
                     }
                 }
             }
 
-            totalOrdersLabel.Text = $"Pedidos totales del día: {total}";
-            waitingOrdersLabel.Text = $"Pedidos en espera: {waiting}";
-            assemblingOrdersLabel.Text = $"Pedidos en ensamble: {assembling}";
+            totalOrdersLabel.Text = $"Pedidos totales: {total}";
+            waitingOrdersLabel.Text = $"Pedidos en espera de entrega: {waiting}";
+            assemblingOrdersLabel.Text = $"Pedidos Devueltos: {assembling}";
             deliveredOrdersLabel.Text = $"Pedidos entregados: {delivered}";
+            pedidosPendientesLabel.Text = $"Pedidos pendientes:{pend}";
         }
 
         private void ApplyRowStyles()

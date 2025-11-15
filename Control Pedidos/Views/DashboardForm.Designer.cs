@@ -31,6 +31,9 @@ namespace Control_Pedidos.Views
             this.companyLabel = new System.Windows.Forms.Label();
             this.eventsButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.btnCheckIn = new System.Windows.Forms.Button();
+            this.btnCheckOut = new System.Windows.Forms.Button();
+            this.btnCorteCaja = new System.Windows.Forms.Button();
             this.activeOrdersGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.activeOrdersGrid)).BeginInit();
             this.SuspendLayout();
@@ -59,7 +62,7 @@ namespace Control_Pedidos.Views
             // refreshButton
             // 
             this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.refreshButton.Location = new System.Drawing.Point(1420, 97);
+            this.refreshButton.Location = new System.Drawing.Point(1632, 97);
             this.refreshButton.Margin = new System.Windows.Forms.Padding(4);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(183, 42);
@@ -92,7 +95,7 @@ namespace Control_Pedidos.Views
             // 
             // clientsButton
             // 
-            this.clientsButton.Location = new System.Drawing.Point(445, 170);
+            this.clientsButton.Location = new System.Drawing.Point(432, 170);
             this.clientsButton.Margin = new System.Windows.Forms.Padding(4);
             this.clientsButton.Name = "clientsButton";
             this.clientsButton.Size = new System.Drawing.Size(183, 42);
@@ -103,7 +106,7 @@ namespace Control_Pedidos.Views
             // 
             // articlesButton
             // 
-            this.articlesButton.Location = new System.Drawing.Point(649, 170);
+            this.articlesButton.Location = new System.Drawing.Point(623, 170);
             this.articlesButton.Margin = new System.Windows.Forms.Padding(4);
             this.articlesButton.Name = "articlesButton";
             this.articlesButton.Size = new System.Drawing.Size(183, 42);
@@ -124,7 +127,7 @@ namespace Control_Pedidos.Views
             this.activeOrdersGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.activeOrdersGroupBox.Name = "activeOrdersGroupBox";
             this.activeOrdersGroupBox.Padding = new System.Windows.Forms.Padding(4);
-            this.activeOrdersGroupBox.Size = new System.Drawing.Size(1563, 455);
+            this.activeOrdersGroupBox.Size = new System.Drawing.Size(1775, 455);
             this.activeOrdersGroupBox.TabIndex = 5;
             this.activeOrdersGroupBox.TabStop = false;
             this.activeOrdersGroupBox.Text = "Pedidos activos";
@@ -166,7 +169,7 @@ namespace Control_Pedidos.Views
             this.activeOrdersGrid.ReadOnly = true;
             this.activeOrdersGrid.RowHeadersWidth = 51;
             this.activeOrdersGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.activeOrdersGrid.Size = new System.Drawing.Size(1511, 355);
+            this.activeOrdersGrid.Size = new System.Drawing.Size(1723, 355);
             this.activeOrdersGrid.TabIndex = 0;
             // 
             // companyLabel
@@ -181,7 +184,7 @@ namespace Control_Pedidos.Views
             // 
             // eventsButton
             // 
-            this.eventsButton.Location = new System.Drawing.Point(852, 170);
+            this.eventsButton.Location = new System.Drawing.Point(814, 170);
             this.eventsButton.Margin = new System.Windows.Forms.Padding(4);
             this.eventsButton.Name = "eventsButton";
             this.eventsButton.Size = new System.Drawing.Size(183, 42);
@@ -192,7 +195,7 @@ namespace Control_Pedidos.Views
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1056, 170);
+            this.button1.Location = new System.Drawing.Point(1005, 170);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(183, 42);
@@ -201,11 +204,47 @@ namespace Control_Pedidos.Views
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // btnCheckIn
+            // 
+            this.btnCheckIn.Location = new System.Drawing.Point(1387, 170);
+            this.btnCheckIn.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCheckIn.Name = "btnCheckIn";
+            this.btnCheckIn.Size = new System.Drawing.Size(183, 42);
+            this.btnCheckIn.TabIndex = 11;
+            this.btnCheckIn.Text = "CheckIn Pedidos";
+            this.btnCheckIn.UseVisualStyleBackColor = true;
+            this.btnCheckIn.Click += new System.EventHandler(this.btnCheckIn_Click);
+            // 
+            // btnCheckOut
+            // 
+            this.btnCheckOut.Location = new System.Drawing.Point(1578, 170);
+            this.btnCheckOut.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCheckOut.Name = "btnCheckOut";
+            this.btnCheckOut.Size = new System.Drawing.Size(183, 42);
+            this.btnCheckOut.TabIndex = 12;
+            this.btnCheckOut.Text = "CheckOut Pedidos";
+            this.btnCheckOut.UseVisualStyleBackColor = true;
+            this.btnCheckOut.Click += new System.EventHandler(this.btnCheckOut_Click);
+            // 
+            // btnCorteCaja
+            // 
+            this.btnCorteCaja.Location = new System.Drawing.Point(1196, 170);
+            this.btnCorteCaja.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCorteCaja.Name = "btnCorteCaja";
+            this.btnCorteCaja.Size = new System.Drawing.Size(183, 42);
+            this.btnCorteCaja.TabIndex = 13;
+            this.btnCorteCaja.Text = "Corte de Caja";
+            this.btnCorteCaja.UseVisualStyleBackColor = true;
+            this.btnCorteCaja.Click += new System.EventHandler(this.btnCorteCaja_Click);
+            // 
             // DashboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1628, 704);
+            this.ClientSize = new System.Drawing.Size(1840, 704);
+            this.Controls.Add(this.btnCorteCaja);
+            this.Controls.Add(this.btnCheckOut);
+            this.Controls.Add(this.btnCheckIn);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.eventsButton);
             this.Controls.Add(this.companyLabel);
@@ -247,5 +286,8 @@ namespace Control_Pedidos.Views
         private System.Windows.Forms.Label companyLabel;
         private System.Windows.Forms.Button eventsButton;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnCheckIn;
+        private System.Windows.Forms.Button btnCheckOut;
+        private System.Windows.Forms.Button btnCorteCaja;
     }
 }

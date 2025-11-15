@@ -46,6 +46,7 @@ namespace Control_Pedidos.Views.Orders
             this.actualizarEstatusColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.searchLabel = new System.Windows.Forms.Label();
+            this.pedidosPendientesLabel = new System.Windows.Forms.Label();
             this.filtersPanel.SuspendLayout();
             this.summaryPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.todaysOrdersGrid)).BeginInit();
@@ -119,10 +120,11 @@ namespace Control_Pedidos.Views.Orders
             this.summaryPanel.Controls.Add(this.waitingOrdersLabel);
             this.summaryPanel.Controls.Add(this.assemblingOrdersLabel);
             this.summaryPanel.Controls.Add(this.deliveredOrdersLabel);
-            this.summaryPanel.Location = new System.Drawing.Point(29, 84);
+            this.summaryPanel.Controls.Add(this.pedidosPendientesLabel);
+            this.summaryPanel.Location = new System.Drawing.Point(30, 88);
             this.summaryPanel.Margin = new System.Windows.Forms.Padding(4);
             this.summaryPanel.Name = "summaryPanel";
-            this.summaryPanel.Size = new System.Drawing.Size(648, 23);
+            this.summaryPanel.Size = new System.Drawing.Size(991, 29);
             this.summaryPanel.TabIndex = 4;
             this.summaryPanel.WrapContents = false;
             // 
@@ -132,34 +134,34 @@ namespace Control_Pedidos.Views.Orders
             this.totalOrdersLabel.Location = new System.Drawing.Point(4, 7);
             this.totalOrdersLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
             this.totalOrdersLabel.Name = "totalOrdersLabel";
-            this.totalOrdersLabel.Size = new System.Drawing.Size(145, 16);
+            this.totalOrdersLabel.Size = new System.Drawing.Size(101, 16);
             this.totalOrdersLabel.TabIndex = 0;
-            this.totalOrdersLabel.Text = "Pedidos totales del día";
+            this.totalOrdersLabel.Text = "Pedidos totales";
             // 
             // waitingOrdersLabel
             // 
             this.waitingOrdersLabel.AutoSize = true;
-            this.waitingOrdersLabel.Location = new System.Drawing.Point(177, 7);
+            this.waitingOrdersLabel.Location = new System.Drawing.Point(133, 7);
             this.waitingOrdersLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
             this.waitingOrdersLabel.Name = "waitingOrdersLabel";
-            this.waitingOrdersLabel.Size = new System.Drawing.Size(122, 16);
+            this.waitingOrdersLabel.Size = new System.Drawing.Size(172, 16);
             this.waitingOrdersLabel.TabIndex = 1;
-            this.waitingOrdersLabel.Text = "Pedidos en espera";
+            this.waitingOrdersLabel.Text = "Pedidos espera de entrega";
             // 
             // assemblingOrdersLabel
             // 
             this.assemblingOrdersLabel.AutoSize = true;
-            this.assemblingOrdersLabel.Location = new System.Drawing.Point(327, 7);
+            this.assemblingOrdersLabel.Location = new System.Drawing.Point(333, 7);
             this.assemblingOrdersLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
             this.assemblingOrdersLabel.Name = "assemblingOrdersLabel";
-            this.assemblingOrdersLabel.Size = new System.Drawing.Size(139, 16);
+            this.assemblingOrdersLabel.Size = new System.Drawing.Size(122, 16);
             this.assemblingOrdersLabel.TabIndex = 2;
-            this.assemblingOrdersLabel.Text = "Pedidos en ensamble";
+            this.assemblingOrdersLabel.Text = "Pedidos Devueltos";
             // 
             // deliveredOrdersLabel
             // 
             this.deliveredOrdersLabel.AutoSize = true;
-            this.deliveredOrdersLabel.Location = new System.Drawing.Point(494, 7);
+            this.deliveredOrdersLabel.Location = new System.Drawing.Point(483, 7);
             this.deliveredOrdersLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
             this.deliveredOrdersLabel.Name = "deliveredOrdersLabel";
             this.deliveredOrdersLabel.Size = new System.Drawing.Size(130, 16);
@@ -247,6 +249,16 @@ namespace Control_Pedidos.Views.Orders
             this.searchLabel.TabIndex = 21;
             this.searchLabel.Text = "Buscar:";
             // 
+            // pedidosPendientesLabel
+            // 
+            this.pedidosPendientesLabel.AutoSize = true;
+            this.pedidosPendientesLabel.Location = new System.Drawing.Point(641, 7);
+            this.pedidosPendientesLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
+            this.pedidosPendientesLabel.Name = "pedidosPendientesLabel";
+            this.pedidosPendientesLabel.Size = new System.Drawing.Size(128, 16);
+            this.pedidosPendientesLabel.TabIndex = 4;
+            this.pedidosPendientesLabel.Text = "Pedidos pendientes";
+            // 
             // OrderDeliveryDashboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -298,5 +310,6 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.DataGridViewButtonColumn actualizarEstatusColumn;
         private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.Label searchLabel;
+        private System.Windows.Forms.Label pedidosPendientesLabel;
     }
 }

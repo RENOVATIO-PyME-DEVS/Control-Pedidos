@@ -6,8 +6,11 @@ using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
 using Control_Pedidos.Models;
 using Control_Pedidos.Views.Articles;
+using Control_Pedidos.Views.CheckIn;
+using Control_Pedidos.Views.CheckOut;
 using Control_Pedidos.Views.Clients;
 using Control_Pedidos.Views.Events;
+using Control_Pedidos.Views.CorteCaja;
 using Control_Pedidos.Views.Reports;
 using Control_Pedidos.Views.Users;
 
@@ -43,6 +46,12 @@ namespace Control_Pedidos.Views
             roleLabel.Text = $"Rol: {role}";
             companyLabel.Text = $"Empresa: {empresaNombre}";
 
+            //btnCheckIn.Enabled = false;
+            //btnCheckOut.Enabled = false;
+            //btnCheckIn.Visible = false;
+            //btnCheckOut.Visible = false;
+
+
             // Solo los administradores pueden ver la sección de catálogos.
             var isAdmin = string.Equals(role, "Administrador", StringComparison.OrdinalIgnoreCase);            
             if (isAdmin) {
@@ -57,7 +66,9 @@ namespace Control_Pedidos.Views
             {
                 button1.Enabled = !isCajero; //reportes
                 usersButton.Enabled = !isCajero;
-                
+                btnCheckIn.Enabled = !isCajero;
+                btnCheckOut.Enabled = !isCajero;
+
                 clientsButton.Enabled = isCajero;
                 articlesButton.Enabled = isCajero;
             }
@@ -153,6 +164,38 @@ namespace Control_Pedidos.Views
             using (var form = new ReportsForm(_connectionFactory))
             {
                 form.ShowDialog();
+            }
+        }
+
+        private void btnCorteCaja_Click(object sender, EventArgs e)
+        {
+            var esAdministrador = string.Equals(_role, "Administrador", StringComparison.OrdinalIgnoreCase);
+            if (!int.TryParse(_userId, out var usuarioId))
+            {
+                usuarioId = 0;
+            }
+
+            using (var form = new CorteCajaForm(_connectionFactory, esAdministrador, _empresaId, _empresaNombre, usuarioId, _user))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void btnCheckIn_Click(object sender, EventArgs e)
+        {
+            // Abrimos el módulo de CheckIN dentro de un using para asegurar la liberación correcta de recursos.
+            using (var form = new CheckInForm(_connectionFactory, _empresaId))
+            {
+                form.ShowDialog(this);
+            }
+        }
+
+        private void btnCheckOut_Click(object sender, EventArgs e)
+        {
+            // Abrimos el módulo de CheckOUT para liberar pedidos con CheckIN registrado previamente.
+            using (var form = new CheckOutForm(_connectionFactory, _empresaId))
+            {
+                form.ShowDialog(this);
             }
         }
     }

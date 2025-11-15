@@ -40,7 +40,7 @@ namespace Control_Pedidos.Data
                     p.pedido_id,
                     COALESCE(CAST(f_folio_pedido(p.pedido_id) AS CHAR), CAST(p.pedido_id AS CHAR)) AS folio,
                     p.fecha,
-                    IFNULL(f_totalPedido(p.pedido_id), 0) AS total,
+                    IFNULL(f_totalPedido(p.pedido_id), 0) -  IFNULL(p.descuento, 0) AS total,
                     IFNULL(f_cobroPedido(p.pedido_id), 0) AS abonado,
                     p.estatus
                 FROM banquetes.pedidos p
