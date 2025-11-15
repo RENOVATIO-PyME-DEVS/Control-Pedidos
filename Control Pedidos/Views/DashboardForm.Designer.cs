@@ -31,8 +31,8 @@ namespace Control_Pedidos.Views
             this.companyLabel = new System.Windows.Forms.Label();
             this.eventsButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.btnCheckIn = new System.Windows.Forms.Button();
-            this.btnCheckOut = new System.Windows.Forms.Button();
+            this.btnCheckInPedidos = new System.Windows.Forms.Button();
+            this.btnCheckOutPedidos = new System.Windows.Forms.Button();
             this.btnCorteCaja = new System.Windows.Forms.Button();
             this.activeOrdersGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.activeOrdersGrid)).BeginInit();
@@ -204,27 +204,27 @@ namespace Control_Pedidos.Views
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // btnCheckIn
+            // btnCheckInPedidos
             // 
-            this.btnCheckIn.Location = new System.Drawing.Point(1387, 170);
-            this.btnCheckIn.Margin = new System.Windows.Forms.Padding(4);
-            this.btnCheckIn.Name = "btnCheckIn";
-            this.btnCheckIn.Size = new System.Drawing.Size(183, 42);
-            this.btnCheckIn.TabIndex = 11;
-            this.btnCheckIn.Text = "CheckIn Pedidos";
-            this.btnCheckIn.UseVisualStyleBackColor = true;
-            this.btnCheckIn.Click += new System.EventHandler(this.btnCheckIn_Click);
+            this.btnCheckInPedidos.Location = new System.Drawing.Point(1387, 170);
+            this.btnCheckInPedidos.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCheckInPedidos.Name = "btnCheckInPedidos";
+            this.btnCheckInPedidos.Size = new System.Drawing.Size(183, 42);
+            this.btnCheckInPedidos.TabIndex = 11;
+            this.btnCheckInPedidos.Text = "CheckIn Pedidos";
+            this.btnCheckInPedidos.UseVisualStyleBackColor = true;
+            this.btnCheckInPedidos.Click += new System.EventHandler(this.btnCheckInPedidos_Click);
             // 
-            // btnCheckOut
+            // btnCheckOutPedidos
             // 
-            this.btnCheckOut.Location = new System.Drawing.Point(1578, 170);
-            this.btnCheckOut.Margin = new System.Windows.Forms.Padding(4);
-            this.btnCheckOut.Name = "btnCheckOut";
-            this.btnCheckOut.Size = new System.Drawing.Size(183, 42);
-            this.btnCheckOut.TabIndex = 12;
-            this.btnCheckOut.Text = "CheckOut Pedidos";
-            this.btnCheckOut.UseVisualStyleBackColor = true;
-            this.btnCheckOut.Click += new System.EventHandler(this.btnCheckOut_Click);
+            this.btnCheckOutPedidos.Location = new System.Drawing.Point(1578, 170);
+            this.btnCheckOutPedidos.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCheckOutPedidos.Name = "btnCheckOutPedidos";
+            this.btnCheckOutPedidos.Size = new System.Drawing.Size(183, 42);
+            this.btnCheckOutPedidos.TabIndex = 12;
+            this.btnCheckOutPedidos.Text = "CheckOut Pedidos";
+            this.btnCheckOutPedidos.UseVisualStyleBackColor = true;
+            this.btnCheckOutPedidos.Click += new System.EventHandler(this.btnCheckOutPedidos_Click);
             // 
             // btnCorteCaja
             // 
@@ -243,8 +243,8 @@ namespace Control_Pedidos.Views
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1840, 704);
             this.Controls.Add(this.btnCorteCaja);
-            this.Controls.Add(this.btnCheckOut);
-            this.Controls.Add(this.btnCheckIn);
+            this.Controls.Add(this.btnCheckOutPedidos);
+            this.Controls.Add(this.btnCheckInPedidos);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.eventsButton);
             this.Controls.Add(this.companyLabel);
@@ -286,8 +286,8 @@ namespace Control_Pedidos.Views
         private System.Windows.Forms.Label companyLabel;
         private System.Windows.Forms.Button eventsButton;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button btnCheckIn;
-        private System.Windows.Forms.Button btnCheckOut;
+        private System.Windows.Forms.Button btnCheckInPedidos;
+        private System.Windows.Forms.Button btnCheckOutPedidos;
         private System.Windows.Forms.Button btnCorteCaja;
     }
 }

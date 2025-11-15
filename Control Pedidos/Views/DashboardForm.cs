@@ -46,10 +46,10 @@ namespace Control_Pedidos.Views
             roleLabel.Text = $"Rol: {role}";
             companyLabel.Text = $"Empresa: {empresaNombre}";
 
-            //btnCheckIn.Enabled = false;
-            //btnCheckOut.Enabled = false;
-            //btnCheckIn.Visible = false;
-            //btnCheckOut.Visible = false;
+            //btnCheckInPedidos.Enabled = false;
+            //btnCheckOutPedidos.Enabled = false;
+            //btnCheckInPedidos.Visible = false;
+            //btnCheckOutPedidos.Visible = false;
 
 
             // Solo los administradores pueden ver la sección de catálogos.
@@ -66,8 +66,8 @@ namespace Control_Pedidos.Views
             {
                 button1.Enabled = !isCajero; //reportes
                 usersButton.Enabled = !isCajero;
-                btnCheckIn.Enabled = !isCajero;
-                btnCheckOut.Enabled = !isCajero;
+                btnCheckInPedidos.Enabled = !isCajero;
+                btnCheckOutPedidos.Enabled = !isCajero;
 
                 clientsButton.Enabled = isCajero;
                 articlesButton.Enabled = isCajero;
@@ -181,19 +181,19 @@ namespace Control_Pedidos.Views
             }
         }
 
-        private void btnCheckIn_Click(object sender, EventArgs e)
+        private void btnCheckInPedidos_Click(object sender, EventArgs e)
         {
             // Abrimos el módulo de CheckIN dentro de un using para asegurar la liberación correcta de recursos.
-            using (var form = new CheckInForm(_connectionFactory, _empresaId))
+            using (var form = new CheckInPedidosForm(_connectionFactory, _empresaId))
             {
                 form.ShowDialog(this);
             }
         }
 
-        private void btnCheckOut_Click(object sender, EventArgs e)
+        private void btnCheckOutPedidos_Click(object sender, EventArgs e)
         {
             // Abrimos el módulo de CheckOUT para liberar pedidos con CheckIN registrado previamente.
-            using (var form = new CheckOutForm(_connectionFactory, _empresaId))
+            using (var form = new CheckOutPedidosForm(_connectionFactory, _empresaId))
             {
                 form.ShowDialog(this);
             }
