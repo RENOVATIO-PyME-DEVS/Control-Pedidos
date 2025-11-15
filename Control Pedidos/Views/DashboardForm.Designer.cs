@@ -17,6 +17,13 @@ namespace Control_Pedidos.Views
 
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.welcomeLabel = new System.Windows.Forms.Label();
             this.roleLabel = new System.Windows.Forms.Label();
             this.refreshButton = new System.Windows.Forms.Button();
@@ -36,10 +43,22 @@ namespace Control_Pedidos.Views
             this.btnCorteCaja = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.panelForecastContainer = new System.Windows.Forms.Panel();
+            this.chartForecast = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.forecastHeaderPanel = new System.Windows.Forms.Panel();
+            this.btnExportarForecast = new System.Windows.Forms.Button();
+            this.toggleOrientacionForecast = new System.Windows.Forms.CheckBox();
+            this.comboEventosForecast = new System.Windows.Forms.ComboBox();
+            this.labelEventoForecast = new System.Windows.Forms.Label();
+            this.lblForecastTitle = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.activeOrdersGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.activeOrdersGrid)).BeginInit();
             this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.panelForecastContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartForecast)).BeginInit();
+            this.forecastHeaderPanel.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -256,10 +275,10 @@ namespace Control_Pedidos.Views
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1791, 427);
             this.tabControl1.TabIndex = 14;
-            this.tabControl1.Visible = false;
-            // 
+            //
             // tabPage1
-            // 
+            //
+            this.tabPage1.Controls.Add(this.panelForecastContainer);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -267,9 +286,182 @@ namespace Control_Pedidos.Views
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Forecast";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
+            //
+            // panelForecastContainer
+            //
+            this.panelForecastContainer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(247)))), ((int)(((byte)(252)))));
+            this.panelForecastContainer.Controls.Add(this.chartForecast);
+            this.panelForecastContainer.Controls.Add(this.forecastHeaderPanel);
+            this.panelForecastContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelForecastContainer.Location = new System.Drawing.Point(3, 3);
+            this.panelForecastContainer.Name = "panelForecastContainer";
+            this.panelForecastContainer.Padding = new System.Windows.Forms.Padding(20);
+            this.panelForecastContainer.Size = new System.Drawing.Size(1777, 392);
+            this.panelForecastContainer.TabIndex = 0;
+            //
+            // chartForecast
+            //
+            this.chartForecast.BackColor = System.Drawing.Color.White;
+            chartArea1.AxisX.Interval = 1D;
+            chartArea1.AxisX.IsMarginVisible = false;
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 9F);
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
+            chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisX.Title = "Artículo";
+            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 9F);
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
+            chartArea1.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisY.Title = "Cantidad";
+            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
+            chartArea1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(255)))));
+            chartArea1.Name = "ForecastArea";
+            this.chartForecast.ChartAreas.Add(chartArea1);
+            this.chartForecast.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Alignment = System.Drawing.StringAlignment.Near;
+            legend1.BackColor = System.Drawing.Color.Transparent;
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            legend1.IsTextAutoFit = false;
+            legend1.Name = "Legend1";
+            legend1.Title = "Leyenda";
+            legend1.TitleFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.chartForecast.Legends.Add(legend1);
+            this.chartForecast.Location = new System.Drawing.Point(20, 100);
+            this.chartForecast.Name = "chartForecast";
+            this.chartForecast.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
+            series1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series1.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(255)))));
+            series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
+            series1.ChartArea = "ForecastArea";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+            series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            series1.Legend = "Legend1";
+            series1.Name = "Stock";
+            series1.YValuesPerPoint = 2;
+            series2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series2.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(201)))), ((int)(((byte)(136)))));
+            series2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(135)))), ((int)(((byte)(84)))));
+            series2.ChartArea = "ForecastArea";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+            series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
+            series2.Legend = "Legend1";
+            series2.Name = "Vendido";
+            series3.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series3.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(214)))), ((int)(((byte)(102)))));
+            series3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(7)))));
+            series3.ChartArea = "ForecastArea";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+            series3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(7)))));
+            series3.IsVisibleInLegend = false;
+            series3.Name = "Diferencia";
+            series4.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series4.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(117)))), ((int)(((byte)(117)))));
+            series4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
+            series4.ChartArea = "ForecastArea";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+            series4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
+            series4.Legend = "Legend1";
+            series4.Name = "Sobrevendido";
+            series5.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+            series5.BorderWidth = 3;
+            series5.ChartArea = "ForecastArea";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            series5.Legend = "Legend1";
+            series5.Name = "Promedio";
+            series5.YValuesPerPoint = 2;
+            this.chartForecast.Series.Add(series1);
+            this.chartForecast.Series.Add(series2);
+            this.chartForecast.Series.Add(series3);
+            this.chartForecast.Series.Add(series4);
+            this.chartForecast.Series.Add(series5);
+            this.chartForecast.Size = new System.Drawing.Size(1737, 272);
+            this.chartForecast.TabIndex = 1;
+            this.chartForecast.Text = "chart1";
+            //
+            // forecastHeaderPanel
+            //
+            this.forecastHeaderPanel.BackColor = System.Drawing.Color.White;
+            this.forecastHeaderPanel.Controls.Add(this.btnExportarForecast);
+            this.forecastHeaderPanel.Controls.Add(this.toggleOrientacionForecast);
+            this.forecastHeaderPanel.Controls.Add(this.comboEventosForecast);
+            this.forecastHeaderPanel.Controls.Add(this.labelEventoForecast);
+            this.forecastHeaderPanel.Controls.Add(this.lblForecastTitle);
+            this.forecastHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.forecastHeaderPanel.Location = new System.Drawing.Point(20, 20);
+            this.forecastHeaderPanel.Name = "forecastHeaderPanel";
+            this.forecastHeaderPanel.Padding = new System.Windows.Forms.Padding(15);
+            this.forecastHeaderPanel.Size = new System.Drawing.Size(1737, 80);
+            this.forecastHeaderPanel.TabIndex = 0;
+            //
+            // btnExportarForecast
+            //
+            this.btnExportarForecast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExportarForecast.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.btnExportarForecast.FlatAppearance.BorderSize = 0;
+            this.btnExportarForecast.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportarForecast.ForeColor = System.Drawing.Color.White;
+            this.btnExportarForecast.Location = new System.Drawing.Point(1424, 21);
+            this.btnExportarForecast.Name = "btnExportarForecast";
+            this.btnExportarForecast.Size = new System.Drawing.Size(184, 38);
+            this.btnExportarForecast.TabIndex = 4;
+            this.btnExportarForecast.Text = "Exportar gráfico";
+            this.btnExportarForecast.UseVisualStyleBackColor = false;
+            this.btnExportarForecast.Click += new System.EventHandler(this.btnExportarForecast_Click);
+            //
+            // toggleOrientacionForecast
+            //
+            this.toggleOrientacionForecast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.toggleOrientacionForecast.Appearance = System.Windows.Forms.Appearance.Button;
+            this.toggleOrientacionForecast.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(58)))), ((int)(((byte)(64)))));
+            this.toggleOrientacionForecast.FlatAppearance.BorderSize = 0;
+            this.toggleOrientacionForecast.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.toggleOrientacionForecast.ForeColor = System.Drawing.Color.White;
+            this.toggleOrientacionForecast.Location = new System.Drawing.Point(1226, 21);
+            this.toggleOrientacionForecast.Name = "toggleOrientacionForecast";
+            this.toggleOrientacionForecast.Size = new System.Drawing.Size(182, 38);
+            this.toggleOrientacionForecast.TabIndex = 3;
+            this.toggleOrientacionForecast.Text = "Barras verticales";
+            this.toggleOrientacionForecast.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toggleOrientacionForecast.UseVisualStyleBackColor = false;
+            this.toggleOrientacionForecast.CheckedChanged += new System.EventHandler(this.toggleOrientacionForecast_CheckedChanged);
+            //
+            // comboEventosForecast
+            //
+            this.comboEventosForecast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboEventosForecast.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboEventosForecast.FormattingEnabled = true;
+            this.comboEventosForecast.Location = new System.Drawing.Point(924, 28);
+            this.comboEventosForecast.Name = "comboEventosForecast";
+            this.comboEventosForecast.Size = new System.Drawing.Size(284, 24);
+            this.comboEventosForecast.TabIndex = 2;
+            this.comboEventosForecast.SelectedIndexChanged += new System.EventHandler(this.comboEventosForecast_SelectedIndexChanged);
+            //
+            // labelEventoForecast
+            //
+            this.labelEventoForecast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelEventoForecast.AutoSize = true;
+            this.labelEventoForecast.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.labelEventoForecast.Location = new System.Drawing.Point(859, 31);
+            this.labelEventoForecast.Name = "labelEventoForecast";
+            this.labelEventoForecast.Size = new System.Drawing.Size(58, 20);
+            this.labelEventoForecast.TabIndex = 1;
+            this.labelEventoForecast.Text = "Evento";
+            //
+            // lblForecastTitle
+            //
+            this.lblForecastTitle.AutoSize = true;
+            this.lblForecastTitle.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.lblForecastTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(45)))), ((int)(((byte)(68)))));
+            this.lblForecastTitle.Location = new System.Drawing.Point(18, 24);
+            this.lblForecastTitle.Name = "lblForecastTitle";
+            this.lblForecastTitle.Size = new System.Drawing.Size(341, 32);
+            this.lblForecastTitle.TabIndex = 0;
+            this.lblForecastTitle.Text = "Avance de Forecast — Evento";
+            //
             // tabPage2
-            // 
+            //
             this.tabPage2.Controls.Add(this.activeOrdersGroupBox);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
@@ -278,7 +470,7 @@ namespace Control_Pedidos.Views
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Historia pedidos";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
+            //
             // DashboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -308,6 +500,11 @@ namespace Control_Pedidos.Views
             this.activeOrdersGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.activeOrdersGrid)).EndInit();
             this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.panelForecastContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chartForecast)).EndInit();
+            this.forecastHeaderPanel.ResumeLayout(false);
+            this.forecastHeaderPanel.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -336,5 +533,13 @@ namespace Control_Pedidos.Views
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Panel panelForecastContainer;
+        private System.Windows.Forms.Panel forecastHeaderPanel;
+        private System.Windows.Forms.Label lblForecastTitle;
+        private System.Windows.Forms.ComboBox comboEventosForecast;
+        private System.Windows.Forms.Label labelEventoForecast;
+        private System.Windows.Forms.CheckBox toggleOrientacionForecast;
+        private System.Windows.Forms.Button btnExportarForecast;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartForecast;
     }
 }
