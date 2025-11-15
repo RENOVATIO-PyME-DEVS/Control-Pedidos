@@ -95,7 +95,7 @@ namespace Control_Pedidos.Views
             // 
             // clientsButton
             // 
-            this.clientsButton.Location = new System.Drawing.Point(445, 170);
+            this.clientsButton.Location = new System.Drawing.Point(432, 170);
             this.clientsButton.Margin = new System.Windows.Forms.Padding(4);
             this.clientsButton.Name = "clientsButton";
             this.clientsButton.Size = new System.Drawing.Size(183, 42);
@@ -106,7 +106,7 @@ namespace Control_Pedidos.Views
             // 
             // articlesButton
             // 
-            this.articlesButton.Location = new System.Drawing.Point(649, 170);
+            this.articlesButton.Location = new System.Drawing.Point(623, 170);
             this.articlesButton.Margin = new System.Windows.Forms.Padding(4);
             this.articlesButton.Name = "articlesButton";
             this.articlesButton.Size = new System.Drawing.Size(183, 42);
@@ -184,7 +184,7 @@ namespace Control_Pedidos.Views
             // 
             // eventsButton
             // 
-            this.eventsButton.Location = new System.Drawing.Point(852, 170);
+            this.eventsButton.Location = new System.Drawing.Point(814, 170);
             this.eventsButton.Margin = new System.Windows.Forms.Padding(4);
             this.eventsButton.Name = "eventsButton";
             this.eventsButton.Size = new System.Drawing.Size(183, 42);
@@ -195,7 +195,7 @@ namespace Control_Pedidos.Views
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1056, 170);
+            this.button1.Location = new System.Drawing.Point(1005, 170);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(183, 42);
@@ -206,7 +206,7 @@ namespace Control_Pedidos.Views
             // 
             // btnCheckIn
             // 
-            this.btnCheckIn.Location = new System.Drawing.Point(1247, 170);
+            this.btnCheckIn.Location = new System.Drawing.Point(1387, 170);
             this.btnCheckIn.Margin = new System.Windows.Forms.Padding(4);
             this.btnCheckIn.Name = "btnCheckIn";
             this.btnCheckIn.Size = new System.Drawing.Size(183, 42);
@@ -216,8 +216,8 @@ namespace Control_Pedidos.Views
             this.btnCheckIn.Click += new System.EventHandler(this.btnCheckIn_Click);
             // 
             // btnCheckOut
-            //
-            this.btnCheckOut.Location = new System.Drawing.Point(1438, 170);
+            // 
+            this.btnCheckOut.Location = new System.Drawing.Point(1578, 170);
             this.btnCheckOut.Margin = new System.Windows.Forms.Padding(4);
             this.btnCheckOut.Name = "btnCheckOut";
             this.btnCheckOut.Size = new System.Drawing.Size(183, 42);
@@ -225,10 +225,10 @@ namespace Control_Pedidos.Views
             this.btnCheckOut.Text = "CheckOut Pedidos";
             this.btnCheckOut.UseVisualStyleBackColor = true;
             this.btnCheckOut.Click += new System.EventHandler(this.btnCheckOut_Click);
-            //
+            // 
             // btnCorteCaja
-            //
-            this.btnCorteCaja.Location = new System.Drawing.Point(1629, 170);
+            // 
+            this.btnCorteCaja.Location = new System.Drawing.Point(1196, 170);
             this.btnCorteCaja.Margin = new System.Windows.Forms.Padding(4);
             this.btnCorteCaja.Name = "btnCorteCaja";
             this.btnCorteCaja.Size = new System.Drawing.Size(183, 42);

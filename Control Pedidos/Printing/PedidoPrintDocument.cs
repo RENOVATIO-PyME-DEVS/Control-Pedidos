@@ -661,6 +661,9 @@ namespace Control_Pedidos.Printing
                 using (var pincelAgua = new SolidBrush(Color.FromArgb(40, 0, 128, 0))) // Verde translúcido
                 {
                     string textoAgua = "PAGADO";
+
+                    if (_pedido.Estatus.Trim() == "D")
+                        textoAgua = "DEVUELTO";
                     var sizeAgua = graphics.MeasureString(textoAgua, fuenteAgua);
 
                     float xAgua = bounds.Left + (bounds.Width - sizeAgua.Width) / 2;
@@ -671,7 +674,7 @@ namespace Control_Pedidos.Printing
                     graphics.DrawString(textoAgua, fuenteAgua, pincelAgua, -sizeAgua.Width / 2, -sizeAgua.Height / 2);
                     graphics.ResetTransform();
                 }
-                }
+            }
                 
                 return y;
         }

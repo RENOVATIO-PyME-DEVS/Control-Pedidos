@@ -36,7 +36,7 @@ namespace Control_Pedidos.Controllers
                     FROM pedidos_detalles
                     GROUP BY pedido_id
                 ) det ON det.pedido_id = p.pedido_id
-                  wHERE p.estatus = 'N'  -- DATE(p.fecha_entrega) = CURDATE()
+                  wHERE p.estatus <> 'C'  -- DATE(p.fecha_entrega) = CURDATE()
                 ";
 
             if (empresaId.HasValue)

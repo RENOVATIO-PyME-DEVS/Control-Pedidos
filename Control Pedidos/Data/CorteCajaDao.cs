@@ -37,7 +37,7 @@ namespace Control_Pedidos.Data
             var tabla = new DataTable("CorteCaja");
 
             using (var connection = _connectionFactory.Create())
-            using (var command = new MySqlCommand("SP_CorteCaja", connection))
+            using (var command = new MySqlCommand("reporte_cortecaja", connection))
             using (var adapter = new MySqlDataAdapter(command))
             {
                 // Indicamos que vamos a ejecutar un procedimiento almacenado para que el proveedor configure
@@ -45,9 +45,9 @@ namespace Control_Pedidos.Data
                 command.CommandType = CommandType.StoredProcedure;
 
                 // Parámetros esperados por el SP. Se envía la fecha sin componente de hora para coincidir con la lógica del corte.
-                command.Parameters.AddWithValue("@empresa_id", empresaId);
-                command.Parameters.AddWithValue("@usuario_id", usuarioId);
-                command.Parameters.AddWithValue("@fecha", fecha.Date);
+                command.Parameters.AddWithValue("@empresaidd", empresaId);
+                command.Parameters.AddWithValue("@usuarioidd", usuarioId);
+                command.Parameters.AddWithValue("@fechad", fecha.Date);
 
                 connection.Open();
 

@@ -46,6 +46,12 @@ namespace Control_Pedidos.Views
             roleLabel.Text = $"Rol: {role}";
             companyLabel.Text = $"Empresa: {empresaNombre}";
 
+            //btnCheckIn.Enabled = false;
+            //btnCheckOut.Enabled = false;
+            //btnCheckIn.Visible = false;
+            //btnCheckOut.Visible = false;
+
+
             // Solo los administradores pueden ver la sección de catálogos.
             var isAdmin = string.Equals(role, "Administrador", StringComparison.OrdinalIgnoreCase);            
             if (isAdmin) {
@@ -60,7 +66,9 @@ namespace Control_Pedidos.Views
             {
                 button1.Enabled = !isCajero; //reportes
                 usersButton.Enabled = !isCajero;
-                
+                btnCheckIn.Enabled = !isCajero;
+                btnCheckOut.Enabled = !isCajero;
+
                 clientsButton.Enabled = isCajero;
                 articlesButton.Enabled = isCajero;
             }

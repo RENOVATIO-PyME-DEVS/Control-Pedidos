@@ -211,6 +211,8 @@ namespace Control_Pedidos.Printing
                 var x = bounds.Left;
                 for (int i = 0; i < tabla.Columns.Count; i++)
                 {
+                    if (tabla.Columns[i].ColumnName == "Tabla") continue; // Oculta esta columna
+
                     var width = _columnWidths[i];
                     var cellRect = new RectangleF(x, y, width, headerHeight);
                     g.FillRectangle(headerBrush, cellRect);
@@ -226,7 +228,7 @@ namespace Control_Pedidos.Printing
 
                     var textoRect = new RectangleF(cellRect.Left + TablaPadding / 2f, cellRect.Top, cellRect.Width - TablaPadding, cellRect.Height);
                     g.DrawString(headerText, _tablaHeaderFont, Brushes.Black, textoRect, formato);
-                    x += width;
+                    x += (int)width;
                 }
             }
 
@@ -246,15 +248,33 @@ namespace Control_Pedidos.Printing
                     var x = bounds.Left;
                     for (int col = 0; col < tabla.Columns.Count; col++)
                     {
+                        if (tabla.Columns[col].ColumnName == "Tabla") continue;
+
                         var width = _columnWidths[col];
                         var cellRect = new RectangleF(x, y, width, rowHeight);
                         g.DrawRectangle(pen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
 
-                        var texto = Convert.ToString(row[col]);
-                        if (texto == null)
+                        //var texto = Convert.ToString(row[col]);
+                        //if (texto == null)
+                        //{
+                        //    texto = string.Empty;
+                        //}
+                        object rawValue = row[col];
+                        string texto;
+
+                        if (rawValue == null || rawValue == DBNull.Value)
                         {
                             texto = string.Empty;
                         }
+                        else if (tabla.Columns[col].DataType == typeof(DateTime))
+                        {
+                            texto = ((DateTime)rawValue).ToString("dd/MM/yyyy"); // solo fecha
+                        }
+                        else
+                        {
+                            texto = Convert.ToString(rawValue);
+                        }
+
 
                         var formato = new StringFormat
                         {
@@ -275,7 +295,7 @@ namespace Control_Pedidos.Printing
                         var textoRect = new RectangleF(cellRect.Left + TablaPadding / 2f, cellRect.Top, cellRect.Width - TablaPadding, cellRect.Height);
                         g.DrawString(texto, _tablaFont, Brushes.Black, textoRect, formato);
 
-                        x += width;
+                        x += (int)width;
                     }
 
                     y += rowHeight;
@@ -312,6 +332,70 @@ namespace Control_Pedidos.Printing
         }
 
         private float[] CalcularAnchosColumnas(Graphics g, float availableWidth)
+        {
+            var tabla = _reporte.Movimientos;
+            if (tabla == null)
+            {
+                return Array.Empty<float>();
+            }
+
+            var widths = new float[tabla.Columns.Count];
+            var previewRows = Math.Min(50, tabla.Rows.Count);
+
+            for (int i = 0; i < tabla.Columns.Count; i++)
+            {
+                if (tabla.Columns[i].ColumnName == "Tabla") continue;
+
+                var headerText = FormatearEncabezado(tabla.Columns[i].ColumnName);
+                var maxWidth = g.MeasureString(headerText, _tablaHeaderFont).Width + TablaPadding;
+
+                for (int rowIndex = 0; rowIndex < previewRows; rowIndex++)
+                {
+                    var texto = Convert.ToString(tabla.Rows[rowIndex][i]) ?? string.Empty;
+                    var width = g.MeasureString(texto, _tablaFont).Width + TablaPadding;
+                    if (width > maxWidth)
+                    {
+                        maxWidth = width;
+                    }
+                }
+
+                // Aumentar manualmente ancho para columnas específicas
+                if (tabla.Columns[i].ColumnName.Equals("Formacobro", StringComparison.OrdinalIgnoreCase))
+                    maxWidth += 40f;
+
+                if (tabla.Columns[i].ColumnName.Equals("Folio", StringComparison.OrdinalIgnoreCase))
+                    maxWidth += 30f;
+
+                widths[i] = Math.Max(80f, maxWidth);
+            }
+
+            var total = widths.Sum();
+            if (total <= availableWidth)
+            {
+                return widths;
+            }
+
+            var factor = availableWidth / total;
+            for (int i = 0; i < widths.Length; i++)
+            {
+                widths[i] = Math.Max(60f, widths[i] * factor);
+            }
+
+            var nuevoTotal = widths.Sum();
+            if (nuevoTotal > availableWidth)
+            {
+                var ajuste = availableWidth / nuevoTotal;
+                for (int i = 0; i < widths.Length; i++)
+                {
+                    widths[i] *= ajuste;
+                }
+            }
+
+            return widths;
+        }
+
+
+        private float[] CalcularAnchosColumnasOrg(Graphics g, float availableWidth)
         {
             var tabla = _reporte.Movimientos;
             if (tabla == null)

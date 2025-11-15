@@ -112,7 +112,7 @@ namespace Control_Pedidos.Data
             }
 
             query += ordenarPorFechaCheckIn
-                ? " ORDER BY p.fecha_checkin ASC, c.nombre ASC"
+                ? " ORDER BY p.fecha_checkind ASC, c.nombre ASC"
                 : " ORDER BY p.fecha_entrega ASC, c.nombre ASC";
 
             try
@@ -407,7 +407,7 @@ namespace Control_Pedidos.Data
                                 p.estatus,
                                 p.evento_id,
                                 IFNULL(e.nombre, '') AS evento_nombre,
-                                p.fecha_checkin,
+                               p.fecha_checkind,
                                 IFNULL(f_totalPedido(p.pedido_id), 0) - IFNULL(p.descuento, 0) AS total,
                                 IFNULL(f_cobroPedido(p.pedido_id), 0) AS abonado,
                                 (IFNULL(f_totalPedido(p.pedido_id), 0) - IFNULL(p.descuento, 0)) - IFNULL(f_cobroPedido(p.pedido_id), 0) AS saldo_pendiente";
@@ -451,7 +451,7 @@ namespace Control_Pedidos.Data
                 Total = reader.GetDecimal("total"),
                 Abonado = reader.GetDecimal("abonado"),
                 SaldoPendiente = reader.GetDecimal("saldo_pendiente"),
-                FechaCheckIn = reader.IsDBNull(reader.GetOrdinal("fecha_checkin")) ? (DateTime?)null : reader.GetDateTime("fecha_checkin"),
+                FechaCheckIn = reader.IsDBNull(reader.GetOrdinal("fecha_checkind")) ? (DateTime?)null : reader.GetDateTime("fecha_checkind"),
                 EventoId = reader.IsDBNull(reader.GetOrdinal("evento_id")) ? (int?)null : reader.GetInt32("evento_id"),
                 FolioNumerico = reader.IsDBNull(reader.GetOrdinal("folio")) ? (int?)null : reader.GetInt32("folio")
             };

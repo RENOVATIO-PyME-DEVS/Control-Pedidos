@@ -289,6 +289,9 @@ namespace Control_Pedidos.Views.CorteCaja
                 _resultadoActual = tabla;
                 resultDataGridView.DataSource = tabla;
 
+                resultDataGridView.Columns["Tabla"].Visible = false;
+
+
                 if (tabla == null || tabla.Rows.Count == 0)
                 {
                     imprimirButton.Enabled = false;

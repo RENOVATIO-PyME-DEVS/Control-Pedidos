@@ -64,7 +64,7 @@ namespace Control_Pedidos.Views.CorteCaja
             this.filtersTableLayoutPanel.Controls.Add(this.fechaDateTimePicker, 5, 0);
             this.filtersTableLayoutPanel.Controls.Add(this.consultarButton, 7, 0);
             this.filtersTableLayoutPanel.Controls.Add(this.imprimirButton, 8, 0);
-            this.filtersTableLayoutPanel.Location = new System.Drawing.Point(12, 12);
+            this.filtersTableLayoutPanel.Location = new System.Drawing.Point(12, 97);
             this.filtersTableLayoutPanel.Name = "filtersTableLayoutPanel";
             this.filtersTableLayoutPanel.RowCount = 1;
             this.filtersTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
@@ -77,7 +77,7 @@ namespace Control_Pedidos.Views.CorteCaja
             this.empresaLabel.AutoSize = true;
             this.empresaLabel.Location = new System.Drawing.Point(3, 12);
             this.empresaLabel.Name = "empresaLabel";
-            this.empresaLabel.Size = new System.Drawing.Size(63, 16);
+            this.empresaLabel.Size = new System.Drawing.Size(62, 16);
             this.empresaLabel.TabIndex = 0;
             this.empresaLabel.Text = "Empresa";
             // 
@@ -86,18 +86,18 @@ namespace Control_Pedidos.Views.CorteCaja
             this.empresaComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.empresaComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.empresaComboBox.FormattingEnabled = true;
-            this.empresaComboBox.Location = new System.Drawing.Point(72, 8);
+            this.empresaComboBox.Location = new System.Drawing.Point(71, 8);
             this.empresaComboBox.Name = "empresaComboBox";
-            this.empresaComboBox.Size = new System.Drawing.Size(282, 24);
+            this.empresaComboBox.Size = new System.Drawing.Size(207, 24);
             this.empresaComboBox.TabIndex = 1;
             // 
             // usuarioLabel
             // 
             this.usuarioLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.usuarioLabel.AutoSize = true;
-            this.usuarioLabel.Location = new System.Drawing.Point(360, 12);
+            this.usuarioLabel.Location = new System.Drawing.Point(284, 12);
             this.usuarioLabel.Name = "usuarioLabel";
-            this.usuarioLabel.Size = new System.Drawing.Size(53, 16);
+            this.usuarioLabel.Size = new System.Drawing.Size(54, 16);
             this.usuarioLabel.TabIndex = 2;
             this.usuarioLabel.Text = "Usuario";
             // 
@@ -106,18 +106,18 @@ namespace Control_Pedidos.Views.CorteCaja
             this.usuarioComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.usuarioComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.usuarioComboBox.FormattingEnabled = true;
-            this.usuarioComboBox.Location = new System.Drawing.Point(419, 8);
+            this.usuarioComboBox.Location = new System.Drawing.Point(344, 8);
             this.usuarioComboBox.Name = "usuarioComboBox";
-            this.usuarioComboBox.Size = new System.Drawing.Size(239, 24);
+            this.usuarioComboBox.Size = new System.Drawing.Size(172, 24);
             this.usuarioComboBox.TabIndex = 3;
             // 
             // fechaLabel
             // 
             this.fechaLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.fechaLabel.AutoSize = true;
-            this.fechaLabel.Location = new System.Drawing.Point(664, 12);
+            this.fechaLabel.Location = new System.Drawing.Point(522, 12);
             this.fechaLabel.Name = "fechaLabel";
-            this.fechaLabel.Size = new System.Drawing.Size(43, 16);
+            this.fechaLabel.Size = new System.Drawing.Size(45, 16);
             this.fechaLabel.TabIndex = 4;
             this.fechaLabel.Text = "Fecha";
             // 
@@ -125,16 +125,16 @@ namespace Control_Pedidos.Views.CorteCaja
             // 
             this.fechaDateTimePicker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.fechaDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.fechaDateTimePicker.Location = new System.Drawing.Point(713, 8);
+            this.fechaDateTimePicker.Location = new System.Drawing.Point(573, 9);
             this.fechaDateTimePicker.Name = "fechaDateTimePicker";
-            this.fechaDateTimePicker.Size = new System.Drawing.Size(139, 22);
+            this.fechaDateTimePicker.Size = new System.Drawing.Size(100, 22);
             this.fechaDateTimePicker.TabIndex = 5;
             // 
             // consultarButton
             // 
             this.consultarButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.consultarButton.Location = new System.Drawing.Point(750, 4);
             this.consultarButton.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
-            this.consultarButton.Location = new System.Drawing.Point(852, 4);
             this.consultarButton.Name = "consultarButton";
             this.consultarButton.Size = new System.Drawing.Size(120, 32);
             this.consultarButton.TabIndex = 6;
@@ -146,7 +146,7 @@ namespace Control_Pedidos.Views.CorteCaja
             // 
             this.imprimirButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.imprimirButton.Enabled = false;
-            this.imprimirButton.Location = new System.Drawing.Point(883, 4);
+            this.imprimirButton.Location = new System.Drawing.Point(884, 4);
             this.imprimirButton.Margin = new System.Windows.Forms.Padding(6, 3, 0, 3);
             this.imprimirButton.Name = "imprimirButton";
             this.imprimirButton.Size = new System.Drawing.Size(116, 32);
@@ -165,14 +165,14 @@ namespace Control_Pedidos.Views.CorteCaja
             this.resultDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.resultDataGridView.BackgroundColor = System.Drawing.Color.White;
             this.resultDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.resultDataGridView.Location = new System.Drawing.Point(12, 70);
+            this.resultDataGridView.Location = new System.Drawing.Point(12, 143);
             this.resultDataGridView.MultiSelect = false;
             this.resultDataGridView.Name = "resultDataGridView";
             this.resultDataGridView.ReadOnly = true;
             this.resultDataGridView.RowHeadersVisible = false;
             this.resultDataGridView.RowHeadersWidth = 51;
             this.resultDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.resultDataGridView.Size = new System.Drawing.Size(1000, 478);
+            this.resultDataGridView.Size = new System.Drawing.Size(1000, 405);
             this.resultDataGridView.TabIndex = 1;
             this.resultDataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.resultDataGridView_DataBindingComplete);
             // 
