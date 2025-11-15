@@ -1,9 +1,10 @@
+using Control_Pedidos.Data;
+using Control_Pedidos.Helpers;
+using Control_Pedidos.Models;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Control_Pedidos.Data;
-using Control_Pedidos.Models;
 
 namespace Control_Pedidos.Views.CheckOut
 {
@@ -30,6 +31,10 @@ namespace Control_Pedidos.Views.CheckOut
             _empresaId = empresaId;
 
             InitializeComponent();
+
+            //UIStyles.ApplyTheme(this);
+
+
             PrepararInterfaz();
             ConfigurarTimer();
         }
@@ -71,6 +76,13 @@ namespace Control_Pedidos.Views.CheckOut
             {
                 DataPropertyName = nameof(PedidoCheckInfo.ClienteNombre),
                 HeaderText = "Cliente",
+                Width = 260
+            });
+
+            dgvPedidos.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = nameof(PedidoCheckInfo.Notas),
+                HeaderText = "Notas",
                 Width = 260
             });
 
@@ -282,7 +294,7 @@ namespace Control_Pedidos.Views.CheckOut
 
             try
             {
-                var pedido = _pedidoCheckDao.ObtenerPedidoPorCodigo(_empresaId, codigo, "CI");
+                var pedido = _pedidoCheckDao.ObtenerPedidoPorCodigo(_empresaId, "X", codigo, "CI");
                 if (pedido == null)
                 {
                     MessageBox.Show("No se encontró un pedido con CheckIN usando ese folio.", "CheckOUT", MessageBoxButtons.OK, MessageBoxIcon.Information);

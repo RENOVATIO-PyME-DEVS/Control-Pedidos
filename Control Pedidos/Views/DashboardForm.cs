@@ -81,7 +81,7 @@ namespace Control_Pedidos.Views
             try
             {
                 // Falta integrar métricas reales, por ahora dejamos una tabla vacía para evitar romper la UI.
-                var table = new DataTable(); // _orderController.GetOrderTable(_empresaId);
+                var table = _orderController.GetOrderTable(_empresaId);
                 activeOrdersGrid.DataSource = table;
                 activeOrdersCountLabel.Text = table.Rows.Count.ToString();
             }

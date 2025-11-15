@@ -311,6 +311,21 @@
     <EmbeddedResource Include="Views\Articles\ArticleManagementForm.resx">
       <DependentUpon>ArticleManagementForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\CheckIn\CheckInConfirmDialog.resx">
+      <DependentUpon>CheckInConfirmDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CheckIn\CheckInPedidosEscaneadosForm.resx">
+      <DependentUpon>CheckInPedidosEscaneadosForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CheckIn\CheckInPedidosForm.resx">
+      <DependentUpon>CheckInPedidosForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CheckOut\CheckOutPedidosEntregadosForm.resx">
+      <DependentUpon>CheckOutPedidosEntregadosForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CheckOut\CheckOutPedidosForm.resx">
+      <DependentUpon>CheckOutPedidosForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Clients\ClientManagementForm.resx">
       <DependentUpon>ClientManagementForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -92,7 +92,7 @@ namespace Control_Pedidos.Controllers
                     p.pedido_id AS Id,
                     p.folio AS Folio,
                     c.nombre AS Cliente,
-                    e.nombre AS Empresa,
+                    -- e.nombre AS Empresa,
                     u.nombre AS Usuario,
                     p.estatus AS Estatus,
                     p.fecha AS Fecha,
@@ -101,20 +101,21 @@ namespace Control_Pedidos.Controllers
                     p.requiere_factura AS RequiereFactura,
                     p.notas AS Notas,
                     IFNULL(det.TotalPedido, 0) AS Total,
+                    IFNULL(p.descuento, 0) AS Descuento,
                     IFNULL(det.TotalPedido, 0) - IFNULL(cob.Cobrado, 0) AS SaldoPendiente
                 FROM pedidos p
                 INNER JOIN clientes c ON p.cliente_id = c.cliente_id
                 INNER JOIN empresas e ON p.empresa_id = e.empresa_id
                 INNER JOIN usuarios u ON p.usuario_id = u.usuario_id
                 LEFT JOIN (
-                    SELECT pedido_id, SUM(total) AS TotalPedido
+                    SELECT pedido_id, SUM(total)  AS TotalPedido
                     FROM pedidos_detalles
                     GROUP BY pedido_id
                 ) det ON det.pedido_id = p.pedido_id
                 LEFT JOIN (
                     SELECT p.pedido_id, SUM(cp.monto) AS Cobrado
                     FROM cobros_pedidos cp
-                    left join cobros_pedidos_det p on p.cobro_pedido_id = cp.cobro_pedido_id
+                    left join cobros_pedidos_det p on p.cobro_pedido_id = cp.cobro_pedido
                     GROUP BY p.pedido_id
                 ) cob ON cob.pedido_id = p.pedido_id";
 

@@ -79,7 +79,7 @@
             this.panel1.Controls.Add(this.label6);
             this.panel1.Location = new System.Drawing.Point(34, 26);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1887, 617);
+            this.panel1.Size = new System.Drawing.Size(1878, 617);
             this.panel1.TabIndex = 10;
             // 
             // label8
@@ -98,7 +98,7 @@
             // 
             this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(1639, 294);
+            this.button6.Location = new System.Drawing.Point(1630, 294);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(234, 56);
             this.button6.TabIndex = 12;
@@ -110,7 +110,7 @@
             // 
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.button5.Location = new System.Drawing.Point(1520, 564);
+            this.button5.Location = new System.Drawing.Point(1511, 564);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(31, 29);
             this.button5.TabIndex = 11;
@@ -122,7 +122,7 @@
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.button4.Location = new System.Drawing.Point(1557, 564);
+            this.button4.Location = new System.Drawing.Point(1548, 564);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(63, 29);
             this.button4.TabIndex = 10;
@@ -148,7 +148,7 @@
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.textBox2.Location = new System.Drawing.Point(225, 565);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(1292, 24);
+            this.textBox2.Size = new System.Drawing.Size(1283, 24);
             this.textBox2.TabIndex = 8;
             // 
             // dataGridView2
@@ -163,7 +163,7 @@
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(1861, 147);
+            this.dataGridView2.Size = new System.Drawing.Size(1852, 147);
             this.dataGridView2.TabIndex = 1;
             // 
             // groupBox1
@@ -356,7 +356,7 @@
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(1639, 553);
+            this.button3.Location = new System.Drawing.Point(1630, 553);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(234, 36);
             this.button3.TabIndex = 3;
@@ -379,7 +379,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1933, 697);
+            this.ClientSize = new System.Drawing.Size(1924, 697);
             this.Controls.Add(this.panel1);
             this.Name = "ReportsForm";
             this.Text = "ReportsForm";

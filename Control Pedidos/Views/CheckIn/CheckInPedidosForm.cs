@@ -1,11 +1,12 @@
+using Control_Pedidos.Data;
+using Control_Pedidos.Helpers;
+using Control_Pedidos.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Control_Pedidos.Data;
-using Control_Pedidos.Models;
 
 namespace Control_Pedidos.Views.CheckIn
 {
@@ -30,6 +31,8 @@ namespace Control_Pedidos.Views.CheckIn
             _empresaId = empresaId;
 
             InitializeComponent();
+            //UIStyles.ApplyTheme(this);
+
             PrepararInterfaz();
         }
 
@@ -125,8 +128,32 @@ namespace Control_Pedidos.Views.CheckIn
         {
             CargarEventos();
             EnfocarEscaneo();
+
+            InicializarGrids();
         }
 
+        private void InicializarGrids()
+        {
+            /*We remove the first column in datagridview*/
+            this.dgvPedidos.RowHeadersVisible = false;
+
+            /*We set the columns to take the entire length of the datagridview*/
+            this.dgvPedidos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            /*We remove the last row of the datagridview*/
+            this.dgvPedidos.AllowUserToAddRows = false;
+
+            /*Read onluy*/
+            this.dgvPedidos.ReadOnly = true;
+
+            /*We selected all row*/
+            this.dgvPedidos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            /*We enabled copy*/
+            this.dgvPedidos.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+
+
+        }
         /// <summary>
         /// Obtiene la lista de eventos disponibles, agrega la opción "Sin evento" y selecciona el evento del día cuando existe.
         /// </summary>
@@ -322,7 +349,7 @@ namespace Control_Pedidos.Views.CheckIn
             try
             {
                 var eventoId = ObtenerEventoSeleccionado(out var sinEvento);
-                var pedido = _pedidoCheckDao.ObtenerPedidoPorCodigo(_empresaId, codigo, "N");
+                var pedido = _pedidoCheckDao.ObtenerPedidoPorCodigo(_empresaId, "X", codigo, "N");
                 if (pedido == null)
                 {
                     MessageBox.Show("No se encontró un pedido pendiente con ese folio.", "CheckIN", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -38,6 +38,7 @@ namespace Control_Pedidos.Views.Orders
             this.waitingOrdersLabel = new System.Windows.Forms.Label();
             this.assemblingOrdersLabel = new System.Windows.Forms.Label();
             this.deliveredOrdersLabel = new System.Windows.Forms.Label();
+            this.pedidosPendientesLabel = new System.Windows.Forms.Label();
             this.todaysOrdersGrid = new System.Windows.Forms.DataGridView();
             this.Folio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,7 +47,7 @@ namespace Control_Pedidos.Views.Orders
             this.actualizarEstatusColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.searchLabel = new System.Windows.Forms.Label();
-            this.pedidosPendientesLabel = new System.Windows.Forms.Label();
+            this.pedidosEnProduccionLabel = new System.Windows.Forms.Label();
             this.filtersPanel.SuspendLayout();
             this.summaryPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.todaysOrdersGrid)).BeginInit();
@@ -117,14 +118,15 @@ namespace Control_Pedidos.Views.Orders
             this.summaryPanel.AutoSize = true;
             this.summaryPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.summaryPanel.Controls.Add(this.totalOrdersLabel);
-            this.summaryPanel.Controls.Add(this.waitingOrdersLabel);
             this.summaryPanel.Controls.Add(this.assemblingOrdersLabel);
-            this.summaryPanel.Controls.Add(this.deliveredOrdersLabel);
             this.summaryPanel.Controls.Add(this.pedidosPendientesLabel);
+            this.summaryPanel.Controls.Add(this.waitingOrdersLabel);
+            this.summaryPanel.Controls.Add(this.pedidosEnProduccionLabel);
+            this.summaryPanel.Controls.Add(this.deliveredOrdersLabel);
             this.summaryPanel.Location = new System.Drawing.Point(30, 88);
             this.summaryPanel.Margin = new System.Windows.Forms.Padding(4);
             this.summaryPanel.Name = "summaryPanel";
-            this.summaryPanel.Size = new System.Drawing.Size(991, 29);
+            this.summaryPanel.Size = new System.Drawing.Size(967, 23);
             this.summaryPanel.TabIndex = 4;
             this.summaryPanel.WrapContents = false;
             // 
@@ -141,7 +143,7 @@ namespace Control_Pedidos.Views.Orders
             // waitingOrdersLabel
             // 
             this.waitingOrdersLabel.AutoSize = true;
-            this.waitingOrdersLabel.Location = new System.Drawing.Point(133, 7);
+            this.waitingOrdersLabel.Location = new System.Drawing.Point(439, 7);
             this.waitingOrdersLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
             this.waitingOrdersLabel.Name = "waitingOrdersLabel";
             this.waitingOrdersLabel.Size = new System.Drawing.Size(172, 16);
@@ -151,7 +153,7 @@ namespace Control_Pedidos.Views.Orders
             // assemblingOrdersLabel
             // 
             this.assemblingOrdersLabel.AutoSize = true;
-            this.assemblingOrdersLabel.Location = new System.Drawing.Point(333, 7);
+            this.assemblingOrdersLabel.Location = new System.Drawing.Point(133, 7);
             this.assemblingOrdersLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
             this.assemblingOrdersLabel.Name = "assemblingOrdersLabel";
             this.assemblingOrdersLabel.Size = new System.Drawing.Size(122, 16);
@@ -161,12 +163,22 @@ namespace Control_Pedidos.Views.Orders
             // deliveredOrdersLabel
             // 
             this.deliveredOrdersLabel.AutoSize = true;
-            this.deliveredOrdersLabel.Location = new System.Drawing.Point(483, 7);
+            this.deliveredOrdersLabel.Location = new System.Drawing.Point(813, 7);
             this.deliveredOrdersLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
             this.deliveredOrdersLabel.Name = "deliveredOrdersLabel";
             this.deliveredOrdersLabel.Size = new System.Drawing.Size(130, 16);
             this.deliveredOrdersLabel.TabIndex = 3;
             this.deliveredOrdersLabel.Text = "Pedidos entregados";
+            // 
+            // pedidosPendientesLabel
+            // 
+            this.pedidosPendientesLabel.AutoSize = true;
+            this.pedidosPendientesLabel.Location = new System.Drawing.Point(283, 7);
+            this.pedidosPendientesLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
+            this.pedidosPendientesLabel.Name = "pedidosPendientesLabel";
+            this.pedidosPendientesLabel.Size = new System.Drawing.Size(128, 16);
+            this.pedidosPendientesLabel.TabIndex = 4;
+            this.pedidosPendientesLabel.Text = "Pedidos pendientes";
             // 
             // todaysOrdersGrid
             // 
@@ -249,15 +261,15 @@ namespace Control_Pedidos.Views.Orders
             this.searchLabel.TabIndex = 21;
             this.searchLabel.Text = "Buscar:";
             // 
-            // pedidosPendientesLabel
+            // pedidosEnProduccionLabel
             // 
-            this.pedidosPendientesLabel.AutoSize = true;
-            this.pedidosPendientesLabel.Location = new System.Drawing.Point(641, 7);
-            this.pedidosPendientesLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
-            this.pedidosPendientesLabel.Name = "pedidosPendientesLabel";
-            this.pedidosPendientesLabel.Size = new System.Drawing.Size(128, 16);
-            this.pedidosPendientesLabel.TabIndex = 4;
-            this.pedidosPendientesLabel.Text = "Pedidos pendientes";
+            this.pedidosEnProduccionLabel.AutoSize = true;
+            this.pedidosEnProduccionLabel.Location = new System.Drawing.Point(639, 7);
+            this.pedidosEnProduccionLabel.Margin = new System.Windows.Forms.Padding(4, 7, 24, 0);
+            this.pedidosEnProduccionLabel.Name = "pedidosEnProduccionLabel";
+            this.pedidosEnProduccionLabel.Size = new System.Drawing.Size(146, 16);
+            this.pedidosEnProduccionLabel.TabIndex = 5;
+            this.pedidosEnProduccionLabel.Text = "Pedidos en produccion";
             // 
             // OrderDeliveryDashboardForm
             // 
@@ -311,5 +323,6 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.Label searchLabel;
         private System.Windows.Forms.Label pedidosPendientesLabel;
+        private System.Windows.Forms.Label pedidosEnProduccionLabel;
     }
 }

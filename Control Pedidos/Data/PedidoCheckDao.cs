@@ -154,29 +154,46 @@ namespace Control_Pedidos.Data
         /// <summary>
         /// Busca un pedido a partir del código escaneado (folio numérico o formateado).
         /// </summary>
-        public PedidoCheckInfo ObtenerPedidoPorCodigo(int empresaId, string codigo, string estatusEsperado)
+        /// <summary>
+        /// Busca un pedido por su código, validando empresa y estatus esperado (opcional).
+        /// </summary>
+        /// <param name="empresaId">ID de la empresa que solicita el pedido.</param>
+        /// <param name="codigo">Código proporcionado por el usuario (folio, ID, o código formateado).</param>
+        /// <param name="estatusEsperado">Estatus del pedido que se desea validar (opcional).</param>
+        /// <returns>Instancia de PedidoCheckInfo si se encuentra el pedido; de lo contrario, null.</returns>
+        public PedidoCheckInfo ObtenerPedidoPorCodigo(int empresaId, string codigoIdPedido, string folio, string estatusEsperado)
         {
-            if (string.IsNullOrWhiteSpace(codigo))
+            // Si el código está vacío o solo contiene espacios, se retorna null.
+            if (string.IsNullOrWhiteSpace(codigoIdPedido))
             {
                 return null;
             }
 
+            // Se construye la consulta base (sin filtro de estatus todavía).
             var consulta = BuildBaseSelect(false) +
                 " WHERE p.empresa_id = @empresaId";
 
+            // Si se especifica un estatus esperado, se agrega a la consulta.
             if (!string.IsNullOrWhiteSpace(estatusEsperado))
             {
                 consulta += " AND p.estatus = @estatus";
             }
 
+            // Se agrega condición para buscar por diferentes formas del código:
+            // - por folio exacto
+            // - por pedido_id
+            // - por resultado de función formateadora f_folio_pedido o por formato LPAD
             consulta += @" AND (
-                                (@folioNumero IS NOT NULL AND p.folio = @folioNumero)
-                                OR (@folioNumero IS NOT NULL AND p.pedido_id = @folioNumero)
-                                OR UPPER(COALESCE(CAST(f_folio_pedido(p.pedido_id) AS CHAR), LPAD(IFNULL(p.folio, p.pedido_id), 5, '0'))) = @folioFormateado
-                             )
-                             LIMIT 1;";
+                        (@folioNumero IS NOT NULL AND p.folio = @folioNumero)
+                        OR (@folioNumero IS NOT NULL AND p.pedido_id = @folioNumero)
+                        OR f_folio_pedido(p.pedido_id)= @folioFormateado
+                     )
+                     LIMIT 1;";
 
-            var codigoNormalizado = codigo.Trim().ToUpperInvariant();
+            // Se normaliza el código recibido (se eliminan espacios y se pone en mayúsculas).
+            var codigoNormalizado = codigoIdPedido.Trim().ToUpperInvariant();
+
+            // Se intenta extraer un número del código para usar como folio o ID.
             int parsedFolio;
             int? folioNumero = null;
             if (int.TryParse(RemoveNonNumeric(codigoNormalizado), out parsedFolio))
@@ -186,25 +203,34 @@ namespace Control_Pedidos.Data
 
             try
             {
+                // Se abre la conexión a base de datos y se prepara el comando.
                 using (var connection = _connectionFactory.Create())
                 using (var command = new MySqlCommand(consulta, connection))
                 {
+                    // Parámetro obligatorio: empresa.
                     command.Parameters.AddWithValue("@empresaId", empresaId);
+
+                    // Parámetro opcional: estatus.
                     if (!string.IsNullOrWhiteSpace(estatusEsperado))
                     {
                         command.Parameters.AddWithValue("@estatus", estatusEsperado);
                     }
 
+                    // Se agrega el parámetro de folio numérico (puede ser null).
                     var folioParameter = new MySqlParameter("@folioNumero", MySqlDbType.Int32)
                     {
                         Value = folioNumero.HasValue ? (object)folioNumero.Value : DBNull.Value
                     };
                     command.Parameters.Add(folioParameter);
-                    command.Parameters.AddWithValue("@folioFormateado", codigoNormalizado);
 
+                    // Parámetro del código formateado para comparación textual.
+                    command.Parameters.AddWithValue("@folioFormateado", folio);
+
+                    // Se abre conexión y se ejecuta lector.
                     connection.Open();
                     using (var reader = command.ExecuteReader())
                     {
+                        // Si hay resultado, se mapea a objeto y se retorna.
                         if (reader.Read())
                         {
                             return MapPedido(reader, false);
@@ -214,9 +240,11 @@ namespace Control_Pedidos.Data
             }
             catch (Exception ex)
             {
+                // Se lanza una excepción de datos personalizada si ocurre algún error.
                 throw new DataException("No fue posible buscar el pedido por el código proporcionado", ex);
             }
 
+            // Si no se encontró ningún pedido, se retorna null.
             return null;
         }
 
@@ -273,7 +301,7 @@ namespace Control_Pedidos.Data
         {
             const string update = @"UPDATE banquetes.pedidos
                                       SET estatus = 'CI',
-                                          fecha_checkin = CONVERT_TZ(NOW(), '+00:00', '-06:00')
+                                          fecha_checkind = CONVERT_TZ(NOW(), '+00:00', '-06:00')
                                     WHERE pedido_id = @pedidoId;";
 
             try
@@ -331,6 +359,7 @@ namespace Control_Pedidos.Data
         {
             const string update = @"UPDATE banquetes.pedidos
                                       SET estatus = 'CO'
+                                       fecha_checkoutd = CONVERT_TZ(NOW(), '+00:00', '-06:00')
                                     WHERE pedido_id = @pedidoId;";
 
             try
@@ -405,6 +434,7 @@ namespace Control_Pedidos.Data
                                 p.fecha_entrega,
                                 p.hora_entrega,
                                 p.estatus,
+                               IFNULL(p.notas,'') AS NOTAS,
                                 p.evento_id,
                                 IFNULL(e.nombre, '') AS evento_nombre,
                                p.fecha_checkind,
@@ -447,6 +477,7 @@ namespace Control_Pedidos.Data
                 ClienteNombre = reader.GetString("cliente_nombre"),
                 FechaEntrega = reader.GetDateTime("fecha_entrega"),
                 Estatus = reader.GetString("estatus"),
+                Notas = reader.GetString("notas"),
                 EventoNombre = reader.IsDBNull(reader.GetOrdinal("evento_nombre")) ? string.Empty : reader.GetString("evento_nombre"),
                 Total = reader.GetDecimal("total"),
                 Abonado = reader.GetDecimal("abonado"),

@@ -40,10 +40,10 @@ namespace Control_Pedidos.Views.CheckIn
             this.btnPedidosEscaneados = new System.Windows.Forms.Button();
             this.lblEscanear = new System.Windows.Forms.Label();
             this.txtCodigoBarras = new System.Windows.Forms.TextBox();
+            this.btnRefrescar = new System.Windows.Forms.Button();
             this.dgvPedidos = new System.Windows.Forms.DataGridView();
             this.cmsPedidos = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.registrarCheckInMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnRefrescar = new System.Windows.Forms.Button();
             this.mainTableLayoutPanel.SuspendLayout();
             this.filtersPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidos)).BeginInit();
@@ -58,23 +58,23 @@ namespace Control_Pedidos.Views.CheckIn
             this.mainTableLayoutPanel.Controls.Add(this.dgvPedidos, 0, 1);
             this.mainTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.mainTableLayoutPanel.Margin = new System.Windows.Forms.Padding(4);
+            this.mainTableLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.mainTableLayoutPanel.Name = "mainTableLayoutPanel";
             this.mainTableLayoutPanel.RowCount = 2;
-            this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mainTableLayoutPanel.Size = new System.Drawing.Size(1184, 761);
+            this.mainTableLayoutPanel.Size = new System.Drawing.Size(1378, 609);
             this.mainTableLayoutPanel.TabIndex = 0;
             // 
             // filtersPanel
             // 
             this.filtersPanel.AutoSize = true;
             this.filtersPanel.ColumnCount = 6;
-            this.filtersPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));
-            this.filtersPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 280F));
-            this.filtersPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));
-            this.filtersPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 260F));
-            this.filtersPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.AutoSize));
+            this.filtersPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.filtersPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 372F));
+            this.filtersPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.filtersPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 212F));
+            this.filtersPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.filtersPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.filtersPanel.Controls.Add(this.lblEvento, 0, 0);
             this.filtersPanel.Controls.Add(this.cmbEventos, 1, 0);
@@ -85,23 +85,23 @@ namespace Control_Pedidos.Views.CheckIn
             this.filtersPanel.Controls.Add(this.txtCodigoBarras, 1, 1);
             this.filtersPanel.Controls.Add(this.btnRefrescar, 4, 0);
             this.filtersPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.filtersPanel.Location = new System.Drawing.Point(4, 4);
-            this.filtersPanel.Margin = new System.Windows.Forms.Padding(4);
+            this.filtersPanel.Location = new System.Drawing.Point(4, 3);
+            this.filtersPanel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.filtersPanel.Name = "filtersPanel";
             this.filtersPanel.RowCount = 2;
-            this.filtersPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
-            this.filtersPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.AutoSize));
-            this.filtersPanel.Size = new System.Drawing.Size(1176, 122);
+            this.filtersPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.filtersPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.filtersPanel.Size = new System.Drawing.Size(1370, 79);
             this.filtersPanel.TabIndex = 0;
             // 
             // lblEvento
             // 
             this.lblEvento.AutoSize = true;
             this.lblEvento.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblEvento.Location = new System.Drawing.Point(4, 0);
-            this.lblEvento.Margin = new System.Windows.Forms.Padding(4, 8, 8, 0);
+            this.lblEvento.Location = new System.Drawing.Point(4, 6);
+            this.lblEvento.Margin = new System.Windows.Forms.Padding(4, 6, 8, 0);
             this.lblEvento.Name = "lblEvento";
-            this.lblEvento.Size = new System.Drawing.Size(63, 23);
+            this.lblEvento.Size = new System.Drawing.Size(64, 23);
             this.lblEvento.TabIndex = 0;
             this.lblEvento.Text = "Evento";
             // 
@@ -112,10 +112,10 @@ namespace Control_Pedidos.Views.CheckIn
             this.cmbEventos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbEventos.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.cmbEventos.FormattingEnabled = true;
-            this.cmbEventos.Location = new System.Drawing.Point(79, 4);
-            this.cmbEventos.Margin = new System.Windows.Forms.Padding(4, 4, 16, 4);
+            this.cmbEventos.Location = new System.Drawing.Point(260, 3);
+            this.cmbEventos.Margin = new System.Windows.Forms.Padding(4, 3, 16, 3);
             this.cmbEventos.Name = "cmbEventos";
-            this.cmbEventos.Size = new System.Drawing.Size(260, 31);
+            this.cmbEventos.Size = new System.Drawing.Size(352, 31);
             this.cmbEventos.TabIndex = 1;
             this.cmbEventos.SelectedIndexChanged += new System.EventHandler(this.cmbEventos_SelectedIndexChanged);
             // 
@@ -123,10 +123,10 @@ namespace Control_Pedidos.Views.CheckIn
             // 
             this.lblBuscar.AutoSize = true;
             this.lblBuscar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblBuscar.Location = new System.Drawing.Point(355, 0);
-            this.lblBuscar.Margin = new System.Windows.Forms.Padding(0, 8, 8, 0);
+            this.lblBuscar.Location = new System.Drawing.Point(628, 6);
+            this.lblBuscar.Margin = new System.Windows.Forms.Padding(0, 6, 8, 0);
             this.lblBuscar.Name = "lblBuscar";
-            this.lblBuscar.Size = new System.Drawing.Size(64, 23);
+            this.lblBuscar.Size = new System.Drawing.Size(62, 23);
             this.lblBuscar.TabIndex = 2;
             this.lblBuscar.Text = "Buscar";
             // 
@@ -134,11 +134,10 @@ namespace Control_Pedidos.Views.CheckIn
             // 
             this.txtBuscar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtBuscar.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtBuscar.Location = new System.Drawing.Point(430, 4);
-            this.txtBuscar.Margin = new System.Windows.Forms.Padding(3, 4, 12, 4);
+            this.txtBuscar.Location = new System.Drawing.Point(701, 3);
+            this.txtBuscar.Margin = new System.Windows.Forms.Padding(3, 3, 12, 3);
             this.txtBuscar.Name = "txtBuscar";
-            this.txtBuscar.PlaceholderText = "Cliente o folio";
-            this.txtBuscar.Size = new System.Drawing.Size(244, 30);
+            this.txtBuscar.Size = new System.Drawing.Size(197, 30);
             this.txtBuscar.TabIndex = 3;
             this.txtBuscar.TextChanged += new System.EventHandler(this.txtBuscar_TextChanged);
             // 
@@ -147,10 +146,10 @@ namespace Control_Pedidos.Views.CheckIn
             this.btnPedidosEscaneados.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.btnPedidosEscaneados.AutoSize = true;
             this.btnPedidosEscaneados.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnPedidosEscaneados.Location = new System.Drawing.Point(849, 6);
-            this.btnPedidosEscaneados.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPedidosEscaneados.Location = new System.Drawing.Point(1085, 3);
+            this.btnPedidosEscaneados.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnPedidosEscaneados.Name = "btnPedidosEscaneados";
-            this.btnPedidosEscaneados.Size = new System.Drawing.Size(196, 33);
+            this.btnPedidosEscaneados.Size = new System.Drawing.Size(172, 33);
             this.btnPedidosEscaneados.TabIndex = 5;
             this.btnPedidosEscaneados.Text = "Pedidos Escaneados";
             this.btnPedidosEscaneados.UseVisualStyleBackColor = true;
@@ -160,10 +159,10 @@ namespace Control_Pedidos.Views.CheckIn
             // 
             this.lblEscanear.AutoSize = true;
             this.lblEscanear.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.lblEscanear.Location = new System.Drawing.Point(4, 69);
-            this.lblEscanear.Margin = new System.Windows.Forms.Padding(4, 12, 8, 4);
+            this.lblEscanear.Location = new System.Drawing.Point(4, 49);
+            this.lblEscanear.Margin = new System.Windows.Forms.Padding(4, 10, 8, 3);
             this.lblEscanear.Name = "lblEscanear";
-            this.lblEscanear.Size = new System.Drawing.Size(237, 25);
+            this.lblEscanear.Size = new System.Drawing.Size(244, 25);
             this.lblEscanear.TabIndex = 6;
             this.lblEscanear.Text = "Escanear código de barras";
             // 
@@ -172,12 +171,26 @@ namespace Control_Pedidos.Views.CheckIn
             this.filtersPanel.SetColumnSpan(this.txtCodigoBarras, 5);
             this.txtCodigoBarras.Dock = System.Windows.Forms.DockStyle.Left;
             this.txtCodigoBarras.Font = new System.Drawing.Font("Consolas", 12F);
-            this.txtCodigoBarras.Location = new System.Drawing.Point(79, 100);
-            this.txtCodigoBarras.Margin = new System.Windows.Forms.Padding(4, 4, 4, 8);
+            this.txtCodigoBarras.Location = new System.Drawing.Point(260, 42);
+            this.txtCodigoBarras.Margin = new System.Windows.Forms.Padding(4, 3, 4, 6);
             this.txtCodigoBarras.Name = "txtCodigoBarras";
             this.txtCodigoBarras.Size = new System.Drawing.Size(320, 31);
             this.txtCodigoBarras.TabIndex = 7;
             this.txtCodigoBarras.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCodigoBarras_KeyDown);
+            // 
+            // btnRefrescar
+            // 
+            this.btnRefrescar.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnRefrescar.AutoSize = true;
+            this.btnRefrescar.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnRefrescar.Location = new System.Drawing.Point(914, 3);
+            this.btnRefrescar.Margin = new System.Windows.Forms.Padding(4, 3, 16, 3);
+            this.btnRefrescar.Name = "btnRefrescar";
+            this.btnRefrescar.Size = new System.Drawing.Size(151, 33);
+            this.btnRefrescar.TabIndex = 4;
+            this.btnRefrescar.Text = "Refrescar lista";
+            this.btnRefrescar.UseVisualStyleBackColor = true;
+            this.btnRefrescar.Click += new System.EventHandler(this.btnRefrescar_Click);
             // 
             // dgvPedidos
             // 
@@ -187,15 +200,16 @@ namespace Control_Pedidos.Views.CheckIn
             this.dgvPedidos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPedidos.ContextMenuStrip = this.cmsPedidos;
             this.dgvPedidos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPedidos.Location = new System.Drawing.Point(4, 134);
-            this.dgvPedidos.Margin = new System.Windows.Forms.Padding(4);
+            this.dgvPedidos.Location = new System.Drawing.Point(4, 88);
+            this.dgvPedidos.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dgvPedidos.MultiSelect = false;
             this.dgvPedidos.Name = "dgvPedidos";
             this.dgvPedidos.ReadOnly = true;
             this.dgvPedidos.RowHeadersVisible = false;
+            this.dgvPedidos.RowHeadersWidth = 51;
             this.dgvPedidos.RowTemplate.Height = 29;
             this.dgvPedidos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPedidos.Size = new System.Drawing.Size(1176, 623);
+            this.dgvPedidos.Size = new System.Drawing.Size(1370, 518);
             this.dgvPedidos.TabIndex = 1;
             this.dgvPedidos.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvPedidos_CellMouseDown);
             // 
@@ -205,38 +219,26 @@ namespace Control_Pedidos.Views.CheckIn
             this.cmsPedidos.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.registrarCheckInMenuItem});
             this.cmsPedidos.Name = "cmsPedidos";
-            this.cmsPedidos.Size = new System.Drawing.Size(215, 28);
+            this.cmsPedidos.Size = new System.Drawing.Size(196, 28);
             // 
             // registrarCheckInMenuItem
             // 
             this.registrarCheckInMenuItem.Name = "registrarCheckInMenuItem";
-            this.registrarCheckInMenuItem.Size = new System.Drawing.Size(214, 24);
+            this.registrarCheckInMenuItem.Size = new System.Drawing.Size(195, 24);
             this.registrarCheckInMenuItem.Text = "Registrar CheckIN";
             this.registrarCheckInMenuItem.Click += new System.EventHandler(this.registrarCheckInMenuItem_Click);
             // 
-            // btnRefrescar
-            // 
-            this.btnRefrescar.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.btnRefrescar.AutoSize = true;
-            this.btnRefrescar.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnRefrescar.Location = new System.Drawing.Point(690, 6);
-            this.btnRefrescar.Margin = new System.Windows.Forms.Padding(4, 4, 16, 4);
-            this.btnRefrescar.Name = "btnRefrescar";
-            this.btnRefrescar.Size = new System.Drawing.Size(151, 33);
-            this.btnRefrescar.TabIndex = 4;
-            this.btnRefrescar.Text = "Refrescar lista";
-            this.btnRefrescar.UseVisualStyleBackColor = true;
-            this.btnRefrescar.Click += new System.EventHandler(this.btnRefrescar_Click);
-            // 
             // CheckInPedidosForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 761);
+            this.ClientSize = new System.Drawing.Size(1378, 609);
             this.Controls.Add(this.mainTableLayoutPanel);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "CheckInPedidosForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CheckIN de pedidos";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.CheckInPedidosForm_Load);
             this.mainTableLayoutPanel.ResumeLayout(false);
             this.mainTableLayoutPanel.PerformLayout();
@@ -245,6 +247,7 @@ namespace Control_Pedidos.Views.CheckIn
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidos)).EndInit();
             this.cmsPedidos.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
 
         #endregion

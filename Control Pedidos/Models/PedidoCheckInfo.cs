@@ -28,6 +28,11 @@ namespace Control_Pedidos.Models
         public string ClienteNombre { get; set; } = string.Empty;
 
         /// <summary>
+        /// Notas del pedido.
+        /// </summary>
+        public string Notas { get; set; } = string.Empty;
+
+        /// <summary>
         /// Fecha programada para la entrega del pedido.
         /// </summary>
         public DateTime FechaEntrega { get; set; }
