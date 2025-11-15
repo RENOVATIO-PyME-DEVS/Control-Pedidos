@@ -485,6 +485,7 @@ namespace Control_Pedidos.Views.Orders
             assemblingOrdersLabel.Text = $"Pedidos Devueltos: {assembling}";
             deliveredOrdersLabel.Text = $"Pedidos entregados: {delivered}";
             pedidosPendientesLabel.Text = $"Pedidos pendientes:{pend}";
+            pedidosEnProduccionLabel.Text = $"Pedidos en produccion:{arrived}";
         }
 
         private void ApplyRowStyles()
