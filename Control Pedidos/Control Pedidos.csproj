@@ -205,20 +205,35 @@
     <Compile Include="Views\Clients\ClientManagementForm.Designer.cs">
       <DependentUpon>ClientManagementForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\CheckIn\CheckInForm.cs">
+    <Compile Include="Views\CheckIn\CheckInPedidosForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\CheckIn\CheckInConfirmForm.cs">
+    <Compile Include="Views\CheckIn\CheckInPedidosForm.Designer.cs">
+      <DependentUpon>CheckInPedidosForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CheckIn\CheckInConfirmDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\CheckIn\CheckInScannedForm.cs">
+    <Compile Include="Views\CheckIn\CheckInConfirmDialog.Designer.cs">
+      <DependentUpon>CheckInConfirmDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CheckIn\CheckInPedidosEscaneadosForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\CheckOut\CheckOutForm.cs">
+    <Compile Include="Views\CheckIn\CheckInPedidosEscaneadosForm.Designer.cs">
+      <DependentUpon>CheckInPedidosEscaneadosForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CheckOut\CheckOutPedidosForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\CheckOut\CheckOutDeliveredForm.cs">
+    <Compile Include="Views\CheckOut\CheckOutPedidosForm.Designer.cs">
+      <DependentUpon>CheckOutPedidosForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CheckOut\CheckOutPedidosEntregadosForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CheckOut\CheckOutPedidosEntregadosForm.Designer.cs">
+      <DependentUpon>CheckOutPedidosEntregadosForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Payments\CobrosClienteForm.cs">
       <SubType>Form</SubType>
