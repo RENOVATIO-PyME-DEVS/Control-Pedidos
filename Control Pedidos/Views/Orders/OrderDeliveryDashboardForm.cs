@@ -31,6 +31,7 @@ namespace Control_Pedidos.Views.Orders
         private readonly ContextMenuStrip _statusMenu;
         private readonly ContextMenuStrip _ordersContextMenu;
         private readonly ToolStripMenuItem _reprintMenuItem;
+        private readonly ToolStripMenuItem _viewOrderMenuItem;
         private readonly PedidoDao _pedidoDao;
         private readonly PedidoPrintingService _printingService;
 
@@ -63,9 +64,21 @@ namespace Control_Pedidos.Views.Orders
 
             _ordersContextMenu = new ContextMenuStrip();
             _ordersContextMenu.Opening += OrdersContextMenu_Opening;
+
+            _viewOrderMenuItem = new ToolStripMenuItem("Ver pedido")
+            {
+                Name = "verPedidoToolStripMenuItem"
+            };
+            _viewOrderMenuItem.Click += (s, e) => AbrirVistaPreviaPedido();
+
             _reprintMenuItem = new ToolStripMenuItem("Reimprimir pedido");
             _reprintMenuItem.Click += ReprintMenuItem_Click;
-            _ordersContextMenu.Items.Add(_reprintMenuItem);
+
+            _ordersContextMenu.Items.AddRange(new ToolStripItem[]
+            {
+                _viewOrderMenuItem,
+                _reprintMenuItem
+            });
 
             _pedidoDao = new PedidoDao(_connectionFactory);
             _printingService = new PedidoPrintingService();
@@ -138,6 +151,43 @@ namespace Control_Pedidos.Views.Orders
 
             _selectedOrderId = rowView.Row.Field<int>("PedidoId");
             _reprintMenuItem.Enabled = _selectedOrderId.HasValue;
+            _viewOrderMenuItem.Enabled = _selectedOrderId.HasValue;
+        }
+
+        private void AbrirVistaPreviaPedido()
+        {
+            if (todaysOrdersGrid.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione un pedido para visualizar.", "Vista previa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var selectedRow = todaysOrdersGrid.SelectedRows[0];
+            int pedidoId = 0;
+
+            if (selectedRow?.DataBoundItem is DataRowView rowView)
+            {
+                pedidoId = rowView.Row.Field<int>("PedidoId");
+            }
+            else
+            {
+                var cell = selectedRow.Cells.Cast<DataGridViewCell>().FirstOrDefault(c => string.Equals(c.OwningColumn?.Name, "PedidoId", StringComparison.OrdinalIgnoreCase) || string.Equals(c.OwningColumn?.Name, "pedido_id", StringComparison.OrdinalIgnoreCase));
+                if (cell != null && cell.Value != null)
+                {
+                    int.TryParse(Convert.ToString(cell.Value), out pedidoId);
+                }
+            }
+
+            if (pedidoId <= 0)
+            {
+                MessageBox.Show("No se pudo determinar el identificador del pedido seleccionado.", "Vista previa", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (var formPreview = new PedidoPreviewForm(pedidoId, _connectionFactory))
+            {
+                formPreview.ShowDialog(this);
+            }
         }
 
         private void ReprintMenuItem_Click(object sender, EventArgs e)
