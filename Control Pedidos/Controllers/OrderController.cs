@@ -28,15 +28,21 @@ namespace Control_Pedidos.Controllers
                     c.nombre AS Cliente,
                     IFNULL(DATE_FORMAT(p.hora_entrega, '%H:%i'), '') AS HoraEntrega,
                     p.estatus AS Estatus,
-                    IFNULL(det.TotalPedido, 0) AS Total
+                    CASE
+    					WHEN p.estatus = 'P' THEN 'En proceso de Captura'
+                        WHEN p.estatus = 'N' THEN 'Normal'
+                        WHEN p.estatus = 'C' THEN 'Cancelado'
+                        WHEN p.estatus = 'D' THEN 'Devuelto'
+                        WHEN p.estatus = 'CI' THEN 'En produccion'
+                        WHEN p.estatus = 'CO' THEN 'Entregado'
+                    END as Estatus_nombre,
+                    IFNULL(f_totalPedido(p.pedido_id), 0) - IFNULL(p.descuento, 0) AS Total,
+                (IFNULL(f_totalPedido(p.pedido_id), 0) - IFNULL(p.descuento, 0)) - IFNULL(f_cobroPedido(p.pedido_id), 0) saldo
                 FROM pedidos p
                 INNER JOIN clientes c ON p.cliente_id = c.cliente_id
-                LEFT JOIN (
-                    SELECT pedido_id, SUM(total) AS TotalPedido
-                    FROM pedidos_detalles
-                    GROUP BY pedido_id
-                ) det ON det.pedido_id = p.pedido_id
-                  wHERE p.estatus <> 'C'  -- DATE(p.fecha_entrega) = CURDATE()
+               
+                  wHERE p.estatus <> 'X'
+                    AND p.fecha_entrega >= now()- interval 3 day
                 ";
 
             if (empresaId.HasValue)
@@ -45,7 +51,7 @@ namespace Control_Pedidos.Controllers
                 query += "\n                AND p.empresa_id = @empresaId";
             }
 
-            query += "\n                ORDER BY p.hora_entrega IS NULL, p.hora_entrega, c.nombre";
+            query += "\n                ORDER BY saldo desc -- p.hora_entrega IS NULL, p.hora_entrega, c.nombre";
 
             using (var connection = _connectionFactory.Create())
             using (var command = new MySqlCommand(query, connection))

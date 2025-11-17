@@ -484,7 +484,7 @@ namespace Control_Pedidos.Views.Reports
                 try
                 {
                     Directory.CreateDirectory(textBox2.Text.Trim());
-                    string ruot = $"{textBox2.Text.Trim()}\\ - ({srtParamPipes(variablesprocedimiento)}).xlsx";
+                    string ruot = $"{textBox2.Text.Trim()}\\{procedimiento} - ({srtParamPipes(variablesprocedimiento)}).xlsx";
 
                     label8.Text = $"Path completo:{ruot}";
                     //if (tabla_a_excel(dt, ruot, $"{comboBox1.Text}"))
