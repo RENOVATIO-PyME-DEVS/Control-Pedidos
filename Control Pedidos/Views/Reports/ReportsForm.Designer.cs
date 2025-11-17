@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
@@ -79,7 +80,7 @@
             this.panel1.Controls.Add(this.label6);
             this.panel1.Location = new System.Drawing.Point(34, 26);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1878, 617);
+            this.panel1.Size = new System.Drawing.Size(1996, 617);
             this.panel1.TabIndex = 10;
             // 
             // label8
@@ -98,9 +99,9 @@
             // 
             this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(1630, 294);
+            this.button6.Location = new System.Drawing.Point(1829, 294);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(234, 56);
+            this.button6.Size = new System.Drawing.Size(153, 56);
             this.button6.TabIndex = 12;
             this.button6.Text = "Copiar Valores";
             this.button6.UseVisualStyleBackColor = true;
@@ -110,7 +111,7 @@
             // 
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.button5.Location = new System.Drawing.Point(1511, 564);
+            this.button5.Location = new System.Drawing.Point(1629, 564);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(31, 29);
             this.button5.TabIndex = 11;
@@ -122,7 +123,7 @@
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.button4.Location = new System.Drawing.Point(1548, 564);
+            this.button4.Location = new System.Drawing.Point(1666, 564);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(63, 29);
             this.button4.TabIndex = 10;
@@ -148,7 +149,7 @@
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.textBox2.Location = new System.Drawing.Point(225, 565);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(1283, 24);
+            this.textBox2.Size = new System.Drawing.Size(1401, 24);
             this.textBox2.TabIndex = 8;
             // 
             // dataGridView2
@@ -163,7 +164,7 @@
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(1852, 147);
+            this.dataGridView2.Size = new System.Drawing.Size(1970, 147);
             this.dataGridView2.TabIndex = 1;
             // 
             // groupBox1
@@ -182,7 +183,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(12, 11);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1576, 344);
+            this.groupBox1.Size = new System.Drawing.Size(1811, 344);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros de Busqueda";
@@ -195,7 +196,7 @@
             this.progressBar1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.progressBar1.Location = new System.Drawing.Point(6, 321);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(1564, 17);
+            this.progressBar1.Size = new System.Drawing.Size(1799, 17);
             this.progressBar1.TabIndex = 6;
             // 
             // groupBox4
@@ -208,7 +209,7 @@
             this.groupBox4.Font = new System.Drawing.Font("Sora", 9F);
             this.groupBox4.Location = new System.Drawing.Point(6, 26);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(1564, 289);
+            this.groupBox4.Size = new System.Drawing.Size(1799, 289);
             this.groupBox4.TabIndex = 15;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Reportes";
@@ -220,8 +221,10 @@
             this.dataGridView3.Location = new System.Drawing.Point(15, 33);
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.RowHeadersWidth = 51;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F);
+            this.dataGridView3.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView3.RowTemplate.Height = 24;
-            this.dataGridView3.Size = new System.Drawing.Size(931, 237);
+            this.dataGridView3.Size = new System.Drawing.Size(1199, 237);
             this.dataGridView3.TabIndex = 13;
             this.dataGridView3.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellClick);
             // 
@@ -233,9 +236,9 @@
             this.groupBox3.Controls.Add(this.button7);
             this.groupBox3.Controls.Add(this.panel2);
             this.groupBox3.Font = new System.Drawing.Font("Sora", 9F);
-            this.groupBox3.Location = new System.Drawing.Point(952, 13);
+            this.groupBox3.Location = new System.Drawing.Point(1220, 13);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(606, 269);
+            this.groupBox3.Size = new System.Drawing.Size(573, 269);
             this.groupBox3.TabIndex = 14;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Parametros";
@@ -248,7 +251,7 @@
             this.button7.Font = new System.Drawing.Font("Sora SemiBold", 10F, System.Drawing.FontStyle.Bold);
             this.button7.Location = new System.Drawing.Point(6, 223);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(594, 38);
+            this.button7.Size = new System.Drawing.Size(561, 38);
             this.button7.TabIndex = 5;
             this.button7.Text = "Generar Reporte";
             this.button7.UseVisualStyleBackColor = true;
@@ -261,7 +264,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Location = new System.Drawing.Point(6, 25);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(594, 192);
+            this.panel2.Size = new System.Drawing.Size(561, 192);
             this.panel2.TabIndex = 0;
             // 
             // label4
@@ -356,7 +359,7 @@
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(1630, 553);
+            this.button3.Location = new System.Drawing.Point(1748, 553);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(234, 36);
             this.button3.TabIndex = 3;
@@ -379,7 +382,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1924, 697);
+            this.ClientSize = new System.Drawing.Size(2042, 697);
             this.Controls.Add(this.panel1);
             this.Name = "ReportsForm";
             this.Text = "ReportsForm";
