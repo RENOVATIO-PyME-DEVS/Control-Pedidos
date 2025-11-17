@@ -131,7 +131,9 @@ namespace Control_Pedidos.Views.Orders
             addressValueLabel.Text = string.IsNullOrWhiteSpace(_pedidoDetalle.ClienteDomicilio) ? "Sin domicilio registrado" : _pedidoDetalle.ClienteDomicilio;
 
             var fechaEntrega = _pedidoDetalle.FechaEntrega.ToString("dd 'de' MMMM yyyy");
-            var horaEntrega = _pedidoDetalle.HoraEntrega.HasValue ? _pedidoDetalle.HoraEntrega.Value.ToString("hh\:mm") : "Sin hora";
+            //var horaEntrega = _pedidoDetalle.HoraEntrega.HasValue ? _pedidoDetalle.HoraEntrega.Value.ToString("hh:mm") : "Sin hora";
+            var horaEntrega = _pedidoDetalle.HoraEntrega.HasValue ? DateTime.Today.Add(_pedidoDetalle.HoraEntrega.Value).ToString("HH:mm") : "Sin hora";
+
             deliveryValueLabel.Text = $"{fechaEntrega} - {horaEntrega}";
             fechaCapturaValueLabel.Text = _pedidoDetalle.FechaPedido.ToString("dd 'de' MMMM yyyy HH:mm");
             eventValueLabel.Text = string.IsNullOrWhiteSpace(_pedidoDetalle.EventoNombre) ? "Sin evento" : _pedidoDetalle.EventoNombre;
@@ -274,7 +276,7 @@ namespace Control_Pedidos.Views.Orders
                 FolioFormateado = pedido.FolioFormateado,
                 ClienteNombre = pedido.Cliente?.Nombre ?? string.Empty,
                 ClienteTelefono = pedido.Cliente?.Telefono ?? string.Empty,
-                ClienteDomicilio = pedido.Cliente?.Domicilio ?? string.Empty,
+                ClienteDomicilio = pedido.Cliente?.Direccion ?? string.Empty,
                 FechaPedido = pedido.Fecha,
                 FechaEntrega = pedido.FechaEntrega,
                 HoraEntrega = pedido.HoraEntrega,
