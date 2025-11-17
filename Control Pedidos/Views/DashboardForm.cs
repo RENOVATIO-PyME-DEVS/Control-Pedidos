@@ -217,6 +217,46 @@ namespace Control_Pedidos.Views
             }
         }
 
+        //private async Task LoadEventosForecastAsync()
+        //{
+        //    try
+        //    {
+        //        var eventos = await Task.Run(() => _eventoDao.ObtenerEventosActivosPorEmpresa(_empresaId));
+
+        //        comboEventosForecast.SelectedIndexChanged -= comboEventosForecast_SelectedIndexChanged;
+        //        comboEventosForecast.DataSource = null;
+        //        _eventosForecast.Clear();
+        //        _eventosForecast.AddRange(eventos);
+
+        //        if (_eventosForecast.Count > 0)
+        //        {
+        //            comboEventosForecast.DisplayMember = nameof(Evento.Nombre);
+        //            comboEventosForecast.ValueMember = nameof(Evento.Id);
+        //            comboEventosForecast.DataSource = new List<Evento>(_eventosForecast);
+
+
+
+        //        }
+
+        //        int todayIndex = _eventosForecast.FindIndex(e => e.FechaEvento.Date == DateTime.Today);
+        //        comboEventosForecast.SelectedIndex = todayIndex;
+        //        comboEventosForecast.SelectedIndexChanged += comboEventosForecast_SelectedIndexChanged;
+
+        //        if (todayIndex >= 0)
+        //        {
+        //            await LoadForecastDataAsync(_eventosForecast[todayIndex]);
+        //        }
+        //        else
+        //        {
+        //            ClearForecastChart();
+        //            UpdateForecastTitle(null, false);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"No se pudieron cargar los eventos para el forecast: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
         private async Task LoadEventosForecastAsync()
         {
             try
@@ -233,18 +273,21 @@ namespace Control_Pedidos.Views
                     comboEventosForecast.DisplayMember = nameof(Evento.Nombre);
                     comboEventosForecast.ValueMember = nameof(Evento.Id);
                     comboEventosForecast.DataSource = new List<Evento>(_eventosForecast);
-                }
 
-                int todayIndex = _eventosForecast.FindIndex(e => e.FechaEvento.Date == DateTime.Today);
-                comboEventosForecast.SelectedIndex = todayIndex;
-                comboEventosForecast.SelectedIndexChanged += comboEventosForecast_SelectedIndexChanged;
+                    // Intentamos encontrar el evento de hoy
+                    int todayIndex = _eventosForecast.FindIndex(e => e.FechaEvento.Date == DateTime.Today);
 
-                if (todayIndex >= 0)
-                {
-                    await LoadForecastDataAsync(_eventosForecast[todayIndex]);
+                    // Si no hay evento hoy, seleccionamos el primero
+                    comboEventosForecast.SelectedIndex = todayIndex >= 0 ? todayIndex : 0;
+
+                    comboEventosForecast.SelectedIndexChanged += comboEventosForecast_SelectedIndexChanged;
+
+                    var eventoSeleccionado = _eventosForecast[comboEventosForecast.SelectedIndex];
+                    await LoadForecastDataAsync(eventoSeleccionado);
                 }
                 else
                 {
+                    comboEventosForecast.SelectedIndexChanged += comboEventosForecast_SelectedIndexChanged;
                     ClearForecastChart();
                     UpdateForecastTitle(null, false);
                 }
@@ -254,6 +297,7 @@ namespace Control_Pedidos.Views
                 MessageBox.Show($"No se pudieron cargar los eventos para el forecast: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private async Task LoadForecastDataAsync(Evento evento)
         {
@@ -283,6 +327,17 @@ namespace Control_Pedidos.Views
             }
 
             var chartArea = chartForecast.ChartAreas[0];
+
+
+            //// Aplicar escala logarítmica al eje Y si hay diferencias muy grandes
+            //chartArea.AxisY.IsLogarithmic = true;
+            //chartArea.AxisY.MinorTickMark.Enabled = true;
+            //chartArea.AxisY.MinorGrid.Enabled = true;
+            //chartArea.AxisY.MinorGrid.LineColor = Color.LightGray;
+            //chartArea.AxisY.MinorGrid.LineDashStyle = ChartDashStyle.Dot;
+
+
+
             chartArea.AxisX.Interval = 1;
             chartArea.AxisX.LabelStyle.Angle = -25;
             chartArea.AxisX.LabelStyle.ForeColor = Color.FromArgb(70, 84, 102);
@@ -311,6 +366,13 @@ namespace Control_Pedidos.Views
                 chartForecast.Legends[0].ForeColor = Color.FromArgb(45, 60, 82);
             }
 
+
+            chartForecast.Series["Stock"].LegendText = "Stock (Meta por vender)";
+            chartForecast.Series["Vendido"].LegendText = "Cantidad vendida";
+            chartForecast.Series["Sobrevendido"].LegendText = "Sobrevendido";
+            chartForecast.Series["Diferencia"].LegendText = "Disponible restante";
+            chartForecast.Series["Promedio"].LegendText = "Promedio vendido";
+
             foreach (var seriesName in new[] { "Stock", "Vendido", "Diferencia", "Sobrevendido" })
             {
                 var series = chartForecast.Series[seriesName];
@@ -330,6 +392,59 @@ namespace Control_Pedidos.Views
         }
 
         private void ApplyChartOrientation()
+        {
+            if (chartForecast.ChartAreas.Count == 0)
+                return;
+
+            var chartArea = chartForecast.ChartAreas[0];
+
+            // Elegir tipo de gráfico:
+            SeriesChartType chartType;
+
+            bool esLinea = _isHorizontalForecastView ;
+
+
+            if (toggleOrientacionForecast.Checked)
+            {
+                chartType = SeriesChartType.Line; // Cambiar a líneas si está activado
+            }
+            else
+            {
+                chartType = _isHorizontalForecastView ? SeriesChartType.Bar : SeriesChartType.Column;
+            }
+
+            foreach (var seriesName in new[] { "Stock", "Vendido", "Diferencia", "Sobrevendido", "Promedio" })
+            {
+                if (chartForecast.Series.IndexOf(seriesName) < 0)
+                    continue;
+
+
+
+                chartForecast.Series[seriesName].ChartType = chartType;
+
+
+                var serie = chartForecast.Series[seriesName];
+                // Si es línea y la serie es "Diferencia", la ocultamos
+                if (esLinea && seriesName.Trim() == "Diferencia")
+                {
+                    serie.Enabled = false;
+                }
+                else
+                {
+                    serie.Enabled = true;
+                }
+            }
+
+            // Ajustes de ejes dependiendo del tipo de gráfico
+            chartArea.AxisX.MajorGrid.Enabled = _isHorizontalForecastView && !toggleOrientacionForecast.Checked;
+            chartArea.AxisY.MajorGrid.Enabled = !_isHorizontalForecastView || toggleOrientacionForecast.Checked;
+            chartArea.AxisX.Title = (_isHorizontalForecastView && !toggleOrientacionForecast.Checked) ? "Cantidad" : "Artículo";
+            chartArea.AxisY.Title = (_isHorizontalForecastView && !toggleOrientacionForecast.Checked) ? "Artículo" : "Cantidad";
+            chartArea.AxisX.LabelStyle.Angle = (_isHorizontalForecastView || toggleOrientacionForecast.Checked) ? 0 : -25;
+            chartArea.AxisX.Interval = 1;
+        }
+
+        private void ApplyChartOrientationa()
         {
             if (chartForecast.ChartAreas.Count == 0)
             {
@@ -359,6 +474,7 @@ namespace Control_Pedidos.Views
 
         private async Task RenderForecastChartAsync(DataTable data, Evento evento)
         {
+
             var registros = new List<ForecastRegistro>();
 
             if (data != null)
@@ -378,7 +494,35 @@ namespace Control_Pedidos.Views
                         Vendido = vendido
                     });
                 }
+
+                // FILTRA SOLO LOS 10 MÁS VENDIDOS
+                registros = registros
+                    .OrderByDescending(r => r.Stock)
+                    .Take(10)
+                    .ToList();
             }
+
+
+            //var registros = new List<ForecastRegistro>();
+
+            //if (data != null)
+            //{
+            //    foreach (DataRow row in data.Rows)
+            //    {
+            //        var nombreCorto = row.Table.Columns.Contains("nombre_corto") ? row["nombre_corto"].ToString() : string.Empty;
+            //        var articulo = row.Table.Columns.Contains("Articulo") ? row["Articulo"].ToString() : string.Empty;
+            //        var stock = ConvertToDecimal(row["CantidadStock"]);
+            //        var vendido = ConvertToDecimal(row["CantidadVendidaPedidos"]);
+
+            //        registros.Add(new ForecastRegistro
+            //        {
+            //            Nombre = string.IsNullOrWhiteSpace(nombreCorto) ? articulo : nombreCorto,
+            //            Articulo = articulo,
+            //            Stock = stock,
+            //            Vendido = vendido
+            //        });
+            //    }
+            //}
 
             var stockSeries = chartForecast.Series["Stock"];
             var vendidoSeries = chartForecast.Series["Vendido"];
@@ -464,7 +608,7 @@ namespace Control_Pedidos.Views
                 descriptor = $"{eventoNombre} (sin datos)";
             }
 
-            lblForecastTitle.Text = $"Avance de Forecast — Evento: {descriptor}";
+            lblForecastTitle.Text = $"Avance de Forecast (TOP 10) — Evento: {descriptor}";
         }
 
         private void ClearForecastChart()
@@ -546,6 +690,11 @@ namespace Control_Pedidos.Views
             public decimal Vendido { get; set; }
             public decimal Diferencia => Stock - Vendido;
             public decimal Sobrevendido => Vendido > Stock ? Vendido - Stock : 0m;
+        }
+
+        private void chartForecast_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
