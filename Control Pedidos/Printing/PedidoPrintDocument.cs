@@ -450,7 +450,7 @@ namespace Control_Pedidos.Printing
                 // --- Texto de recomendaciones ---
                 var recomendaciones = new StringBuilder();
                 recomendaciones.AppendLine("1. RECOGER SU PRODUCTO DENTRO DEL HORARIO Y DÍA MARCADO EN SU PEDIDO.");
-                recomendaciones.AppendLine("2. PARA RECOGER PRODUCTO ES POR LA CALLE BEETHOVEN EN PLANTA ALTA.");
+                recomendaciones.AppendLine("2. PARA RECOGER PRODUCTO ES POR LA CALLE C.57 #305 EN PLANTA ALTA.");
                 recomendaciones.AppendLine("3. PRODUCTO NO RECOGIDO EN LA FECHA MARCADA Y EN EL HORARIO NO NOS HACEMOS RESPONSABLES Y");
                 recomendaciones.AppendLine("   NO SE DEVOLVERÁ SU ANTICIPO.");
                 recomendaciones.AppendLine("4. ¡¡¡TODOS LOS PRODUCTOS SE ENTREGAN A TEMPERATURA AMBIENTE!!!");

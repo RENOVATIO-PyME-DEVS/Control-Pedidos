@@ -415,15 +415,17 @@ FOR UPDATE;", connection, transaction))
 
                 pedido.Detalles = detalles;
                 pedido.Subtotal = detalles.Sum(d => d.Total);
-                pedido.Total = Math.Max(0m, pedido.Subtotal - pedido.Descuento);
+                //pedido.Total = Math.Max(0m, pedido.Subtotal - pedido.Descuento);
+                pedido.Total = Math.Max(0m, pedido.Subtotal);
 
                 // Se calcula el total de cobros registrados para el pedido.
                 decimal totalAbonado = 0m;
-                using (var cobrosCommand = new MySqlCommand(@"SELECT IFNULL(SUM(det.monto), 0)
-FROM banquetes.cobros_pedidos_det det
-INNER JOIN banquetes.cobros_pedidos cp ON cp.cobro_pedido = det.cobro_pedido_id
-INNER JOIN banquetes.formas_cobros fc ON fc.forma_cobro_id = cp.forma_cobro_id AND fc.tipo = 'C'
-WHERE det.pedido_id = @pedidoId AND cp.estatus = 'N';", connection))
+//                using (var cobrosCommand = new MySqlCommand(@"SELECT IFNULL(SUM(det.monto), 0)
+//FROM banquetes.cobros_pedidos_det det
+//INNER JOIN banquetes.cobros_pedidos cp ON cp.cobro_pedido = det.cobro_pedido_id
+//INNER JOIN banquetes.formas_cobros fc ON fc.forma_cobro_id = cp.forma_cobro_id AND fc.tipo = 'C'
+//WHERE det.pedido_id = @pedidoId AND cp.estatus = 'N';", connection))
+                using (var cobrosCommand = new MySqlCommand(@"SELECT f_cobroPedido( @pedidoId);", connection))
                 {
                     cobrosCommand.Parameters.AddWithValue("@pedidoId", pedidoId);
                     var resultado = cobrosCommand.ExecuteScalar();
@@ -451,7 +453,7 @@ LIMIT 1;", connection))
                     }
                 }
 
-                pedido.MontoAbonado = totalAbonado;
+                pedido.MontoAbonado = totalAbonado ;
                 pedido.FormaCobroUltima = formaCobro;
                 pedido.SaldoPendiente = Math.Max(0m, pedido.Total - totalAbonado);
 
