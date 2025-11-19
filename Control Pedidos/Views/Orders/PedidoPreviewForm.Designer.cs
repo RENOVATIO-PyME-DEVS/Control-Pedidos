@@ -58,9 +58,8 @@ namespace Control_Pedidos.Views.Orders
             this.totalTitleLabel = new System.Windows.Forms.Label();
             this.totalValueLabel = new System.Windows.Forms.Label();
             this.abonosTitleLabel = new System.Windows.Forms.Label();
-            this.abonosValueLabel = new System.Windows.Forms.Label();
             this.descuentoTitleLabel = new System.Windows.Forms.Label();
-            this.descuentoValueLabel = new System.Windows.Forms.Label();
+            this.abonosValueLabel = new System.Windows.Forms.Label();
             this.saldoTitleLabel = new System.Windows.Forms.Label();
             this.saldoValueLabel = new System.Windows.Forms.Label();
             this.articlesLabel = new System.Windows.Forms.Label();
@@ -80,6 +79,7 @@ namespace Control_Pedidos.Views.Orders
             this.buttonsPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.closeButton = new System.Windows.Forms.Button();
             this.reprintButton = new System.Windows.Forms.Button();
+            this.descuentoValueLabel = new System.Windows.Forms.Label();
             this.watermarkPanel.SuspendLayout();
             this.contentPanel.SuspendLayout();
             this.mainLayout.SuspendLayout();
@@ -446,12 +446,12 @@ namespace Control_Pedidos.Views.Orders
             this.totalsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.totalsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.totalsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.totalsTable.Controls.Add(this.descuentoValueLabel, 1, 1);
             this.totalsTable.Controls.Add(this.totalTitleLabel, 0, 0);
             this.totalsTable.Controls.Add(this.totalValueLabel, 0, 1);
             this.totalsTable.Controls.Add(this.abonosTitleLabel, 1, 0);
-            this.totalsTable.Controls.Add(this.abonosValueLabel, 1, 1);
             this.totalsTable.Controls.Add(this.descuentoTitleLabel, 2, 0);
-            this.totalsTable.Controls.Add(this.descuentoValueLabel, 2, 1);
+            this.totalsTable.Controls.Add(this.abonosValueLabel, 2, 1);
             this.totalsTable.Controls.Add(this.saldoTitleLabel, 3, 0);
             this.totalsTable.Controls.Add(this.saldoValueLabel, 3, 1);
             this.totalsTable.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -461,6 +461,7 @@ namespace Control_Pedidos.Views.Orders
             this.totalsTable.RowCount = 2;
             this.totalsTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.totalsTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.totalsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.totalsTable.Size = new System.Drawing.Size(1380, 87);
             this.totalsTable.TabIndex = 3;
             // 
@@ -498,21 +499,8 @@ namespace Control_Pedidos.Views.Orders
             this.abonosTitleLabel.Name = "abonosTitleLabel";
             this.abonosTitleLabel.Size = new System.Drawing.Size(337, 20);
             this.abonosTitleLabel.TabIndex = 2;
-            this.abonosTitleLabel.Text = "Abonos";
+            this.abonosTitleLabel.Text = "Descuento";
             this.abonosTitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // abonosValueLabel
-            // 
-            this.abonosValueLabel.AutoSize = true;
-            this.abonosValueLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.abonosValueLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.abonosValueLabel.Location = new System.Drawing.Point(348, 23);
-            this.abonosValueLabel.Margin = new System.Windows.Forms.Padding(3, 1, 3, 6);
-            this.abonosValueLabel.Name = "abonosValueLabel";
-            this.abonosValueLabel.Size = new System.Drawing.Size(337, 57);
-            this.abonosValueLabel.TabIndex = 3;
-            this.abonosValueLabel.Text = "$0.00";
-            this.abonosValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // descuentoTitleLabel
             // 
@@ -523,21 +511,21 @@ namespace Control_Pedidos.Views.Orders
             this.descuentoTitleLabel.Name = "descuentoTitleLabel";
             this.descuentoTitleLabel.Size = new System.Drawing.Size(337, 20);
             this.descuentoTitleLabel.TabIndex = 4;
-            this.descuentoTitleLabel.Text = "Descuento";
+            this.descuentoTitleLabel.Text = "Abonos";
             this.descuentoTitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // descuentoValueLabel
+            // abonosValueLabel
             // 
-            this.descuentoValueLabel.AutoSize = true;
-            this.descuentoValueLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.descuentoValueLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.descuentoValueLabel.Location = new System.Drawing.Point(692, 23);
-            this.descuentoValueLabel.Margin = new System.Windows.Forms.Padding(3, 1, 3, 6);
-            this.descuentoValueLabel.Name = "descuentoValueLabel";
-            this.descuentoValueLabel.Size = new System.Drawing.Size(337, 57);
-            this.descuentoValueLabel.TabIndex = 5;
-            this.descuentoValueLabel.Text = "$0.00";
-            this.descuentoValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.abonosValueLabel.AutoSize = true;
+            this.abonosValueLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.abonosValueLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.abonosValueLabel.Location = new System.Drawing.Point(692, 23);
+            this.abonosValueLabel.Margin = new System.Windows.Forms.Padding(3, 1, 3, 6);
+            this.abonosValueLabel.Name = "abonosValueLabel";
+            this.abonosValueLabel.Size = new System.Drawing.Size(337, 57);
+            this.abonosValueLabel.TabIndex = 5;
+            this.abonosValueLabel.Text = "$0.00";
+            this.abonosValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // saldoTitleLabel
             // 
@@ -755,6 +743,19 @@ namespace Control_Pedidos.Views.Orders
             this.reprintButton.UseVisualStyleBackColor = false;
             this.reprintButton.Click += new System.EventHandler(this.reprintButton_Click);
             // 
+            // descuentoValueLabel
+            // 
+            this.descuentoValueLabel.AutoSize = true;
+            this.descuentoValueLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.descuentoValueLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.descuentoValueLabel.Location = new System.Drawing.Point(348, 23);
+            this.descuentoValueLabel.Margin = new System.Windows.Forms.Padding(3, 1, 3, 6);
+            this.descuentoValueLabel.Name = "descuentoValueLabel";
+            this.descuentoValueLabel.Size = new System.Drawing.Size(337, 57);
+            this.descuentoValueLabel.TabIndex = 8;
+            this.descuentoValueLabel.Text = "$0.00";
+            this.descuentoValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // PedidoPreviewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -823,9 +824,8 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.Label totalTitleLabel;
         private System.Windows.Forms.Label totalValueLabel;
         private System.Windows.Forms.Label abonosTitleLabel;
-        private System.Windows.Forms.Label abonosValueLabel;
         private System.Windows.Forms.Label descuentoTitleLabel;
-        private System.Windows.Forms.Label descuentoValueLabel;
+        private System.Windows.Forms.Label abonosValueLabel;
         private System.Windows.Forms.Label saldoTitleLabel;
         private System.Windows.Forms.Label saldoValueLabel;
         private System.Windows.Forms.Label articlesLabel;
@@ -845,5 +845,6 @@ namespace Control_Pedidos.Views.Orders
         private System.Windows.Forms.DataGridViewTextBoxColumn componentNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn componentQuantityColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn componentUnitColumn;
+        private System.Windows.Forms.Label descuentoValueLabel;
     }
 }

@@ -143,7 +143,8 @@ namespace Control_Pedidos.Views.Orders
             totalValueLabel.Text = _pedidoDetalle.Total.ToString("C2");
             abonosValueLabel.Text = _pedidoDetalle.TotalCobrado.ToString("C2");
             descuentoValueLabel.Text = _pedidoDetalle.Descuento.ToString("C2");
-            saldoValueLabel.Text = _pedidoDetalle.SaldoPendiente.ToString("C2");
+            decimal saldo = _pedidoDetalle.SaldoPendiente - _pedidoDetalle.Descuento;
+            saldoValueLabel.Text = saldo.ToString("C2");
 
             articlesGrid.DataSource = _pedidoDetalle.Articulos;
             if (_pedidoDetalle.Articulos.Count > 0)

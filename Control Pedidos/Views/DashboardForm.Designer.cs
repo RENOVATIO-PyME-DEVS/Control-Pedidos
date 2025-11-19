@@ -17,13 +17,13 @@ namespace Control_Pedidos.Views
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.welcomeLabel = new System.Windows.Forms.Label();
             this.roleLabel = new System.Windows.Forms.Label();
             this.refreshButton = new System.Windows.Forms.Button();
@@ -108,7 +108,7 @@ namespace Control_Pedidos.Views
             // 
             // usersButton
             // 
-            this.usersButton.Location = new System.Drawing.Point(213, 178);
+            this.usersButton.Location = new System.Drawing.Point(815, 178);
             this.usersButton.Margin = new System.Windows.Forms.Padding(4);
             this.usersButton.Name = "usersButton";
             this.usersButton.Size = new System.Drawing.Size(147, 63);
@@ -119,7 +119,7 @@ namespace Control_Pedidos.Views
             // 
             // clientsButton
             // 
-            this.clientsButton.Location = new System.Drawing.Point(380, 178);
+            this.clientsButton.Location = new System.Drawing.Point(192, 178);
             this.clientsButton.Margin = new System.Windows.Forms.Padding(4);
             this.clientsButton.Name = "clientsButton";
             this.clientsButton.Size = new System.Drawing.Size(150, 63);
@@ -130,7 +130,7 @@ namespace Control_Pedidos.Views
             // 
             // articlesButton
             // 
-            this.articlesButton.Location = new System.Drawing.Point(552, 178);
+            this.articlesButton.Location = new System.Drawing.Point(350, 178);
             this.articlesButton.Margin = new System.Windows.Forms.Padding(4);
             this.articlesButton.Name = "articlesButton";
             this.articlesButton.Size = new System.Drawing.Size(147, 63);
@@ -209,7 +209,7 @@ namespace Control_Pedidos.Views
             // 
             // eventsButton
             // 
-            this.eventsButton.Location = new System.Drawing.Point(723, 178);
+            this.eventsButton.Location = new System.Drawing.Point(505, 178);
             this.eventsButton.Margin = new System.Windows.Forms.Padding(4);
             this.eventsButton.Name = "eventsButton";
             this.eventsButton.Size = new System.Drawing.Size(147, 63);
@@ -220,7 +220,7 @@ namespace Control_Pedidos.Views
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(891, 178);
+            this.button1.Location = new System.Drawing.Point(970, 178);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(147, 63);
@@ -231,29 +231,31 @@ namespace Control_Pedidos.Views
             // 
             // btnCheckInPedidos
             // 
-            this.btnCheckInPedidos.Location = new System.Drawing.Point(1236, 178);
+            this.btnCheckInPedidos.Location = new System.Drawing.Point(1125, 178);
             this.btnCheckInPedidos.Margin = new System.Windows.Forms.Padding(4);
             this.btnCheckInPedidos.Name = "btnCheckInPedidos";
             this.btnCheckInPedidos.Size = new System.Drawing.Size(147, 63);
             this.btnCheckInPedidos.TabIndex = 11;
             this.btnCheckInPedidos.Text = "CheckIn Pedidos";
             this.btnCheckInPedidos.UseVisualStyleBackColor = true;
+            this.btnCheckInPedidos.Visible = false;
             this.btnCheckInPedidos.Click += new System.EventHandler(this.btnCheckInPedidos_Click);
             // 
             // btnCheckOutPedidos
             // 
-            this.btnCheckOutPedidos.Location = new System.Drawing.Point(1406, 178);
+            this.btnCheckOutPedidos.Location = new System.Drawing.Point(1280, 178);
             this.btnCheckOutPedidos.Margin = new System.Windows.Forms.Padding(4);
             this.btnCheckOutPedidos.Name = "btnCheckOutPedidos";
             this.btnCheckOutPedidos.Size = new System.Drawing.Size(147, 63);
             this.btnCheckOutPedidos.TabIndex = 12;
             this.btnCheckOutPedidos.Text = "CheckOut Pedidos";
             this.btnCheckOutPedidos.UseVisualStyleBackColor = true;
+            this.btnCheckOutPedidos.Visible = false;
             this.btnCheckOutPedidos.Click += new System.EventHandler(this.btnCheckOutPedidos_Click);
             // 
             // btnCorteCaja
             // 
-            this.btnCorteCaja.Location = new System.Drawing.Point(1062, 178);
+            this.btnCorteCaja.Location = new System.Drawing.Point(660, 178);
             this.btnCorteCaja.Margin = new System.Windows.Forms.Padding(4);
             this.btnCorteCaja.Name = "btnCorteCaja";
             this.btnCorteCaja.Size = new System.Drawing.Size(147, 63);
@@ -300,76 +302,76 @@ namespace Control_Pedidos.Views
             // 
             // chartForecast
             // 
-            chartArea2.AxisX.Interval = 1D;
-            chartArea2.AxisX.IsMarginVisible = false;
-            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 9F);
-            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
-            chartArea2.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea2.AxisX.Title = "Artículo";
-            chartArea2.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
-            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 9F);
-            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
-            chartArea2.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            chartArea2.AxisY.Title = "Cantidad";
-            chartArea2.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
-            chartArea2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(255)))));
-            chartArea2.Name = "ForecastArea";
-            this.chartForecast.ChartAreas.Add(chartArea2);
+            chartArea1.AxisX.Interval = 1D;
+            chartArea1.AxisX.IsMarginVisible = false;
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 9F);
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
+            chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisX.Title = "Artículo";
+            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 9F);
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(230)))), ((int)(((byte)(235)))));
+            chartArea1.AxisY.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisY.Title = "Cantidad";
+            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
+            chartArea1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(255)))));
+            chartArea1.Name = "ForecastArea";
+            this.chartForecast.ChartAreas.Add(chartArea1);
             this.chartForecast.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.BackColor = System.Drawing.Color.Transparent;
-            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            legend2.IsTextAutoFit = false;
-            legend2.Name = "Legend1";
-            legend2.Title = "Leyenda";
-            legend2.TitleFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.chartForecast.Legends.Add(legend2);
+            legend1.BackColor = System.Drawing.Color.Transparent;
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            legend1.IsTextAutoFit = false;
+            legend1.Name = "Legend1";
+            legend1.Title = "Leyenda";
+            legend1.TitleFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.chartForecast.Legends.Add(legend1);
             this.chartForecast.Location = new System.Drawing.Point(20, 100);
             this.chartForecast.Name = "chartForecast";
             this.chartForecast.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
-            series6.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            series6.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(255)))));
-            series6.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
-            series6.ChartArea = "ForecastArea";
-            series6.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
-            series6.Legend = "Legend1";
-            series6.Name = "Stock";
-            series6.YValuesPerPoint = 2;
-            series7.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            series7.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(201)))), ((int)(((byte)(136)))));
-            series7.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(135)))), ((int)(((byte)(84)))));
-            series7.ChartArea = "ForecastArea";
-            series7.Color = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
-            series7.Legend = "Legend1";
-            series7.Name = "Vendido";
-            series8.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            series8.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(214)))), ((int)(((byte)(102)))));
-            series8.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(7)))));
-            series8.ChartArea = "ForecastArea";
-            series8.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(7)))));
-            series8.IsVisibleInLegend = false;
-            series8.Legend = "Legend1";
-            series8.Name = "Diferencia";
-            series9.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            series9.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(117)))), ((int)(((byte)(117)))));
-            series9.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
-            series9.ChartArea = "ForecastArea";
-            series9.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
-            series9.Legend = "Legend1";
-            series9.Name = "Sobrevendido";
-            series10.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-            series10.BorderWidth = 3;
-            series10.ChartArea = "ForecastArea";
-            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series10.Color = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            series10.Legend = "Legend1";
-            series10.Name = "Promedio";
-            series10.YValuesPerPoint = 2;
-            this.chartForecast.Series.Add(series6);
-            this.chartForecast.Series.Add(series7);
-            this.chartForecast.Series.Add(series8);
-            this.chartForecast.Series.Add(series9);
-            this.chartForecast.Series.Add(series10);
+            series1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series1.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(255)))));
+            series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
+            series1.ChartArea = "ForecastArea";
+            series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            series1.Legend = "Legend1";
+            series1.Name = "Stock";
+            series1.YValuesPerPoint = 2;
+            series2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series2.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(201)))), ((int)(((byte)(136)))));
+            series2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(135)))), ((int)(((byte)(84)))));
+            series2.ChartArea = "ForecastArea";
+            series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
+            series2.Legend = "Legend1";
+            series2.Name = "Vendido";
+            series3.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series3.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(214)))), ((int)(((byte)(102)))));
+            series3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(7)))));
+            series3.ChartArea = "ForecastArea";
+            series3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(7)))));
+            series3.IsVisibleInLegend = false;
+            series3.Legend = "Legend1";
+            series3.Name = "Diferencia";
+            series4.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series4.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(117)))), ((int)(((byte)(117)))));
+            series4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
+            series4.ChartArea = "ForecastArea";
+            series4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
+            series4.Legend = "Legend1";
+            series4.Name = "Sobrevendido";
+            series5.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+            series5.BorderWidth = 3;
+            series5.ChartArea = "ForecastArea";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            series5.Legend = "Legend1";
+            series5.Name = "Promedio";
+            series5.YValuesPerPoint = 2;
+            this.chartForecast.Series.Add(series1);
+            this.chartForecast.Series.Add(series2);
+            this.chartForecast.Series.Add(series3);
+            this.chartForecast.Series.Add(series4);
+            this.chartForecast.Series.Add(series5);
             this.chartForecast.Size = new System.Drawing.Size(1737, 272);
             this.chartForecast.TabIndex = 1;
             this.chartForecast.Text = "chart1";
