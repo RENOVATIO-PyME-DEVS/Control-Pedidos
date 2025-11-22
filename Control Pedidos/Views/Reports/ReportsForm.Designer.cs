@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.btnImprimir = new System.Windows.Forms.Button();
+            this.lblParametros = new System.Windows.Forms.Label();
+            this.lblNombreReporte = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
@@ -65,9 +68,12 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.lblParametros);
+            this.panel1.Controls.Add(this.lblNombreReporte);
+            this.panel1.Controls.Add(this.btnImprimir);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.button6);
             this.panel1.Controls.Add(this.button5);
@@ -82,9 +88,41 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1996, 617);
             this.panel1.TabIndex = 10;
-            // 
+            //
+            // btnImprimir
+            //
+            this.btnImprimir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnImprimir.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImprimir.Location = new System.Drawing.Point(1588, 553);
+            this.btnImprimir.Name = "btnImprimir";
+            this.btnImprimir.Size = new System.Drawing.Size(154, 36);
+            this.btnImprimir.TabIndex = 14;
+            this.btnImprimir.Text = "Imprimir";
+            this.btnImprimir.UseVisualStyleBackColor = true;
+            this.btnImprimir.Click += new System.EventHandler(this.btnImprimir_Click);
+            //
+            // lblNombreReporte
+            //
+            this.lblNombreReporte.AutoSize = true;
+            this.lblNombreReporte.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNombreReporte.Location = new System.Drawing.Point(12, 360);
+            this.lblNombreReporte.Name = "lblNombreReporte";
+            this.lblNombreReporte.Size = new System.Drawing.Size(173, 28);
+            this.lblNombreReporte.TabIndex = 15;
+            this.lblNombreReporte.Text = "Reporte: (N/D)";
+            //
+            // lblParametros
+            //
+            this.lblParametros.AutoSize = true;
+            this.lblParametros.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblParametros.Location = new System.Drawing.Point(14, 388);
+            this.lblParametros.Name = "lblParametros";
+            this.lblParametros.Size = new System.Drawing.Size(153, 20);
+            this.lblParametros.TabIndex = 16;
+            this.lblParametros.Text = "Parámetros: (N/D)";
+            //
             // label8
-            // 
+            //
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -160,11 +198,11 @@
             this.dataGridView2.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(12, 366);
+            this.dataGridView2.Location = new System.Drawing.Point(12, 410);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(1970, 147);
+            this.dataGridView2.Size = new System.Drawing.Size(1970, 137);
             this.dataGridView2.TabIndex = 1;
             // 
             // groupBox1
@@ -428,5 +466,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnImprimir;
+        private System.Windows.Forms.Label lblParametros;
+        private System.Windows.Forms.Label lblNombreReporte;
     }
 }

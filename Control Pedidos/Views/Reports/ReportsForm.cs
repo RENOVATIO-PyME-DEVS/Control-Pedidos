@@ -1,5 +1,7 @@
 ﻿using Control_Pedidos.Data;
 using Control_Pedidos.Helpers;
+using Control_Pedidos.Models;
+using Control_Pedidos.Printing;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System;
@@ -33,6 +35,10 @@ namespace Control_Pedidos.Views.Reports
         string _rfcSeleccionado;
         string procedimiento;
         string variablesprocedimiento;
+
+        // Empresa seleccionada para impresión y logo corporativo
+        private Empresa empresaSeleccionada = new Empresa();
+        private Image logoEmpresa;
 
         public ReportsForm(DatabaseConnectionFactory connectionFactory)
         {
@@ -150,6 +156,13 @@ namespace Control_Pedidos.Views.Reports
             var row = dataGridView3.Rows[e.RowIndex];
             string json = Convert.ToString(row.Cells["arreglo_campos"].Value);
             procedimiento = Convert.ToString(row.Cells["nombre_sp"].Value);
+            _storedProcedure = procedimiento;
+
+            // Actualiza el nombre del reporte seleccionado para la impresión
+            var nombreReporte = Convert.ToString(row.Cells["nombre"].Value);
+            lblNombreReporte.Text = string.IsNullOrWhiteSpace(nombreReporte)
+                ? "Reporte: Sin seleccionar"
+                : $"Reporte: {nombreReporte}";
             //RfcSeleccionado = Convert.ToString(row.Cells["nombre"].Value);
 
             if (string.IsNullOrWhiteSpace(json))
@@ -321,6 +334,7 @@ namespace Control_Pedidos.Views.Reports
 
 
             variablesprocedimiento = "";
+            var parametrosLegibles = new StringBuilder();
             foreach (Control control in panel2.Controls)/*quitar todos los objetos del panel*/
             {
                 if (control is TextBox || control is DateTimePicker || control is ComboBox)
@@ -333,6 +347,12 @@ namespace Control_Pedidos.Views.Reports
                         return;
                     }
                     string valor = "";
+
+                    string nombreParametro = control.Name;
+                    if (control.Tag is Variable variableInfo && !string.IsNullOrWhiteSpace(variableInfo.Nombre))
+                    {
+                        nombreParametro = variableInfo.Nombre;
+                    }
 
                     if (control is DateTimePicker dtp)
                     {
@@ -351,8 +371,14 @@ namespace Control_Pedidos.Views.Reports
 
                     //variablesprocedimiento = variablesprocedimiento + "'" + (control is DateTimePicker dtp ? dtp.Value.ToString("yyyy-MM-dd") : control.Text.ToString()) + "',";
                     variablesprocedimiento += $"'{valor}',";
+                    parametrosLegibles.Append($"{nombreParametro} = {valor}, ");
                 }
             }
+
+            _parametros = parametrosLegibles.ToString().Trim().TrimEnd(',');
+            lblParametros.Text = string.IsNullOrWhiteSpace(_parametros)
+                ? "Parámetros: Sin especificar"
+                : $"Parámetros: {_parametros}";
 
             reporte.Clear();
             reporte.Columns.Clear();
@@ -387,6 +413,13 @@ namespace Control_Pedidos.Views.Reports
 
 
                 this.label6.Text = $"Total de registros encontrados: {dataGridView2.Rows.Count.ToString()}";
+
+                // Actualiza contexto de impresión con empresa y logo
+                empresaSeleccionada = ObtenerEmpresaSeleccionada(comboBox1.Text);
+                if (logoEmpresa == null)
+                {
+                    logoEmpresa = BuscarLogoEmpresa(empresaSeleccionada?.Id ?? 0);
+                }
             }
             catch (Exception ex)
             {
@@ -446,6 +479,119 @@ namespace Control_Pedidos.Views.Reports
             s = Regex.Replace(s, @"[^a-z0-9_]", "");
             if (char.IsDigit(s[0])) s = "_" + s;
             return s;
+        }
+
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            // Validación básica: se requiere información cargada en el grid
+            if (dataGridView2.Rows.Count == 0)
+            {
+                MessageBox.Show("No hay datos para imprimir.", "Impresión de reporte", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Refresca datos de empresa y logo antes de mandar a imprimir
+            empresaSeleccionada = ObtenerEmpresaSeleccionada(comboBox1.Text);
+            if (logoEmpresa == null)
+            {
+                logoEmpresa = BuscarLogoEmpresa(empresaSeleccionada?.Id ?? 0);
+            }
+
+            // Construye el documento de impresión con el nuevo ReportPrintDocument
+            var printDoc = new ReportPrintDocument(
+                dataGridView2,
+                empresaSeleccionada ?? new Empresa(),
+                lblNombreReporte.Text,
+                lblParametros.Text,
+                logoEmpresa);
+
+            // Vista previa a pantalla completa para confirmar el formato
+            var preview = new PrintPreviewDialog
+            {
+                Document = printDoc,
+                WindowState = FormWindowState.Maximized
+            };
+            preview.ShowDialog();
+        }
+
+        private Empresa ObtenerEmpresaSeleccionada(string rfc)
+        {
+            if (empresaSeleccionada != null && !string.IsNullOrWhiteSpace(empresaSeleccionada.Rfc))
+            {
+                return empresaSeleccionada;
+            }
+
+            if (string.IsNullOrWhiteSpace(rfc))
+            {
+                return empresaSeleccionada ?? new Empresa();
+            }
+
+            const string query = "SELECT empresa_id, nombre, IFNULL(rfc, '') AS rfc, IFNULL(domicilio, '') AS domicilio, IFNULL(telefono, '') AS telefono FROM banquetes.empresas WHERE rfc = @rfc LIMIT 1";
+            try
+            {
+                using (var conn = _connectionFactory.Create())
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@rfc", rfc);
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            empresaSeleccionada = new Empresa
+                            {
+                                Id = reader.GetInt32("empresa_id"),
+                                Nombre = reader.GetString("nombre"),
+                                Rfc = reader.GetString("rfc"),
+                                Direccion = reader.GetString("domicilio"),
+                                Telefono = reader.GetString("telefono")
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"No se pudo obtener la empresa para imprimir: {ex.Message}", "Impresión", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            return empresaSeleccionada ?? new Empresa();
+        }
+
+        private Image BuscarLogoEmpresa(int empresaId)
+        {
+            if (logoEmpresa != null || empresaId <= 0)
+            {
+                return logoEmpresa;
+            }
+
+            var posibles = new[]
+            {
+                $"logo_{empresaId}.png",
+                $"logo_{empresaId}.jpg",
+                $"empresa_{empresaId}.png",
+                $"empresa_{empresaId}.jpg"
+            };
+
+            string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources");
+            foreach (var nombreArchivo in posibles)
+            {
+                string ruta = Path.Combine(basePath, nombreArchivo);
+                if (File.Exists(ruta))
+                {
+                    try
+                    {
+                        return Image.FromFile(ruta);
+                    }
+                    catch
+                    {
+                        // Si el archivo no se puede leer, continúa con el siguiente
+                    }
+                }
+            }
+
+            return logoEmpresa;
         }
 
         private void button5_Click(object sender, EventArgs e)
